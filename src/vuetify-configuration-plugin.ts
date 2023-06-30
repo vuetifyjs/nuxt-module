@@ -7,8 +7,8 @@ interface PromiseResult {
   expression: string
 }
 
-const VUETIFY_CONFIGURATION_PLUGIN = 'virtual:vuetify-configuration'
-const RESOLVED_VUETIFY_CONFIGURATION_PLUGIN = `\0${VUETIFY_CONFIGURATION_PLUGIN}`
+const VIRTUAL_VUETIFY_CONFIGURATION = 'virtual:vuetify-configuration'
+const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
 
 export function vuetifyConfigurationPlugin(
   isDev: boolean,
@@ -53,14 +53,14 @@ export function vuetifyConfigurationPlugin(
   })
 
   return <Plugin>{
-    name: 'vuetify-nuxt-configuration',
+    name: 'vuetify:configuration:nuxt',
     enforce: 'pre',
     resolveId(id) {
-      if (id === VUETIFY_CONFIGURATION_PLUGIN)
-        return RESOLVED_VUETIFY_CONFIGURATION_PLUGIN
+      if (id === VIRTUAL_VUETIFY_CONFIGURATION)
+        return RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION
     },
     async load(id) {
-      if (id === RESOLVED_VUETIFY_CONFIGURATION_PLUGIN) {
+      if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
         const [
           directivesResult,
           labsComponentsResult,
