@@ -4,7 +4,11 @@ export type BooleanOrArrayString = boolean | string[]
 
 export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives'>> {
   /**
-   * Include labs components?
+   * Include the lab components?
+   *
+   * You can include all lab components configuring `labComponents: true`.
+   *
+   * You can provide an array with the names of the lab components to include.
    *
    * @see https://vuetifyjs.com/en/labs/introduction/
    *
@@ -12,11 +16,11 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
    */
   labComponents?: BooleanOrArrayString
   /**
-   * Include directives?
+   * Include the directives?
    *
    * You can include all directives configuring `directives: true`.
    *
-   * Ypu can provide an array with the directive names to be included.
+   * You can provide an array with the names of the directives to include.
    *
    * @default false
    */
