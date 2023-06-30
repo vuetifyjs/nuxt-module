@@ -16,6 +16,8 @@ export default defineNuxtConfig({
       styles: { configFile: '/settings.scss' },
     },
     vuetifyOptions: {
+      directives: true,
+      labComponents: ['VDataTable'],
       blueprint: md3,
       icons: {
         defaultSet: undefined,

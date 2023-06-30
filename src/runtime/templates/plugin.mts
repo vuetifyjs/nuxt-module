@@ -1,15 +1,11 @@
 import { createVuetify } from 'vuetify'
-
-// import * as directives from 'vuetify/directives'
+import { vuetifyConfiguration } from 'virtual:vuetify-configuration'
 import { defineNuxtPlugin } from '#app'
 
 const isDev = process.env.NODE_ENV === 'development'
-const options = JSON.parse('<%= JSON.stringify(options) %>')
-
-// options.directives = directives
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const vuetify = createVuetify(options)
+  const vuetify = createVuetify(vuetifyConfiguration())
   nuxtApp.vueApp.use(vuetify)
 
   if (!process.server && isDev) {
