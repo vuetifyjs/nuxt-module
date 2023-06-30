@@ -5,31 +5,17 @@ import {
   extendWebpackConfig,
   useLogger,
 } from '@nuxt/kit'
-import type { VuetifyOptions } from 'vuetify'
 import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
-
-import { resolveVuetifyBase } from '@vuetify/loader-shared'
-import importMap from 'vuetify/dist/json/importMap.json' assert { type: 'json' }
-
-// import vuetify from 'vite-plugin-vuetify'
+import vuetify from 'vite-plugin-vuetify'
 import packageJson from '../package.json' assert { type: 'json' }
 import { stylesPlugin } from './styles-plugin'
+import type { ModuleOptions, VOptions } from './types'
+
+export * from './types'
 
 const CONFIG_KEY = 'vuetify'
 const logger = useLogger(`nuxt:${CONFIG_KEY}`)
-
-export type TVuetifyOptions = Partial<VuetifyOptions> & { ssr: boolean }
-
-export interface ModuleOptions {
-  moduleOptions: {
-    writePlugin?: boolean
-    styles?: true | 'none' | 'expose' | 'sass' | {
-      configFile: string
-    }
-  }
-  vuetifyOptions?: VuetifyOptions
-}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -42,6 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     moduleOptions: {
       writePlugin: true,
+      styles: true,
     },
   },
   setup(options, nuxt) {
@@ -51,7 +38,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
-    const vuetifyAppOptions = <TVuetifyOptions>defu(vuetifyOptions, {
+    const vuetifyAppOptions = <VOptions>defu(vuetifyOptions, {
       ssr: isSSR,
     })
 
@@ -59,7 +46,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
-    const { styles } = moduleOptions
+    const { styles, writePlugin } = moduleOptions
 
     nuxt.options.build.transpile.push(CONFIG_KEY)
     nuxt.options.css ??= []
@@ -76,24 +63,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
 
-    const vuetifyBase = resolveVuetifyBase()
-
-    nuxt.hook('components:extend', (c) => {
-      // console.log(c)
-      Object.entries(importMap.components).forEach(([component, { from }]) => {
-        c.push({
-          pascalName: component,
-          kebabName: kebabCase(component),
-          export: component,
-          filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
-          shortPath: `components/${from}`,
-          chunkName: kebabCase(component),
-          prefetch: false,
-          preload: false,
-          global: false,
-          mode: 'all',
-        })
-      })
+    nuxt.hook('prepare:types', ({ references }) => {
+      references.push({ types: 'vuetify/components' })
     })
 
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
@@ -107,13 +78,14 @@ export default defineNuxtModule<ModuleOptions>({
         ...(Array.isArray(viteInlineConfig.ssr.noExternal) ? viteInlineConfig.ssr.noExternal : []),
         CONFIG_KEY,
       ]
-
+      const autoImportPlugin = vuetify({ styles, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
+      viteInlineConfig.plugins.push(autoImportPlugin)
       viteInlineConfig.plugins.push(stylesPlugin({ styles }, logger))
     })
 
     addPluginTemplate({
       src: resolver.resolve(runtimeDir, 'templates/plugin.mts'),
-      write: nuxt.options.dev || moduleOptions.writePlugin,
+      write: nuxt.options.dev || writePlugin,
       options: vuetifyAppOptions,
     })
   },
@@ -127,11 +99,4 @@ function checkVuetifyPlugins(config: ViteConfig) {
   plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
   if (plugin)
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
-}
-
-function kebabCase(value: string) {
-  return value
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
-    .replace(/[\s_]+/g, '-')
-    .toLowerCase()
 }

@@ -13,13 +13,13 @@ export default defineNuxtConfig({
   modules: ['../src/module'],
   vuetify: {
     moduleOptions: {
-      autoImport: true,
       styles: { configFile: '/settings.scss' },
     },
     vuetifyOptions: {
       blueprint: md3,
       icons: {
         defaultSet: undefined,
+        sets: undefined,
       },
       theme: {
         defaultTheme: 'light',
