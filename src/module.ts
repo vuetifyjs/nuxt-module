@@ -9,7 +9,7 @@ import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
 import vuetify from 'vite-plugin-vuetify'
 import type { VuetifyOptions } from 'vuetify'
-import packageJson from '../package.json' assert { type: 'json' }
+import { version } from '../package.json'
 import { stylesPlugin } from './styles-plugin'
 import type { ModuleOptions } from './types'
 import { vuetifyConfigurationPlugin } from './vuetify-configuration-plugin'
@@ -24,7 +24,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'vuetify-nuxt-module',
     configKey: 'vuetify',
     compatibility: { nuxt: '^3.0.0' },
-    version: packageJson.version,
+    version,
   },
   // Default configuration options of the Nuxt module
   defaults: {
