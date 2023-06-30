@@ -11,6 +11,7 @@ const VUETIFY_CONFIGURATION_PLUGIN = 'virtual:vuetify-configuration'
 const RESOLVED_VUETIFY_CONFIGURATION_PLUGIN = `\0${VUETIFY_CONFIGURATION_PLUGIN}`
 
 export function vuetifyConfigurationPlugin(
+  isDev: boolean,
   directives: BooleanOrArrayString,
   labComponents: BooleanOrArrayString,
   vuetifyAppOptions: VuetifyOptions,
@@ -27,7 +28,7 @@ export function vuetifyConfigurationPlugin(
     }
     else {
       resolve({
-        imports: `import { ${directives.join(',')} } from 'vuetify/directives'`,
+        imports: `${directives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n')}`,
         expression: `options.directives = {${directives.join(',')}}`,
       })
     }
@@ -39,13 +40,13 @@ export function vuetifyConfigurationPlugin(
 
     if (typeof labComponents === 'boolean') {
       resolve({
-        imports: 'import * as components from \'vuetify/labs/components\'',
-        expression: 'options.components = components',
+        imports: 'import * as labsComponents from \'vuetify/labs/components\'',
+        expression: 'options.components = labsComponents',
       })
     }
     else {
       resolve({
-        imports: `import { ${labComponents.join(',')} } from 'vuetify/labs/components'`,
+        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
         expression: `options.components = {${labComponents.join(',')}}`,
       })
     }
@@ -60,13 +61,18 @@ export function vuetifyConfigurationPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VUETIFY_CONFIGURATION_PLUGIN) {
-        const [directivesResult, labsComponentsResult] = await Promise.all([
+        const [
+          directivesResult,
+          labsComponentsResult,
+        ] = await Promise.all([
           directivesPromise,
           labsComponentsPromise,
         ])
 
         return `${directivesResult.imports}
 ${labsComponentsResult.imports}
+
+export const isDev = ${isDev}
 export function vuetifyConfiguration() {
   const options = ${JSON.stringify(vuetifyAppOptions)}
   ${directivesResult.expression}

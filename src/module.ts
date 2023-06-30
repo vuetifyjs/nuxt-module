@@ -42,11 +42,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { moduleOptions, vuetifyOptions } = options
 
-    const { directives = false, labComponents = false } = vuetifyOptions ?? {}
+    const {
+      directives = false,
+      labComponents = false,
+      ...vOptions
+    } = vuetifyOptions ?? {}
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
-    const vuetifyAppOptions = <VuetifyOptions>defu(vuetifyOptions, {
+    const vuetifyAppOptions = <VuetifyOptions>defu(vOptions, {
       ssr: isSSR,
     })
 
@@ -90,7 +94,12 @@ export default defineNuxtModule<ModuleOptions>({
       const autoImportPlugin = vuetify({ styles, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
       viteInlineConfig.plugins.push(autoImportPlugin)
       viteInlineConfig.plugins.push(stylesPlugin({ styles }, logger))
-      viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(directives, labComponents, vuetifyAppOptions))
+      viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
+        nuxt.options.dev,
+        directives,
+        labComponents,
+        vuetifyAppOptions,
+      ))
     })
 
     addPluginTemplate({
