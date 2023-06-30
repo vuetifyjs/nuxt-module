@@ -1,0 +1,67 @@
+{
+  "name": "vuetify-nuxt-module",
+  "version": "1.0.0",
+  "packageManager": "pnpm@8.6.5",
+  "description": "Zero-Config Vuetify Nuxt Module",
+  "homepage": "https://github.com/userquin/vuetify-nuxt-module#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/userquin/vuetify-nuxt-module.git"
+  },
+  "bugs": "https://github.com/userquin/vuetify-nuxt-module/issues",
+  "keywords": [
+    "nuxt",
+    "vuetify",
+    "nuxt-module"
+  ],
+  "author": "userquin <userquin@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "prepublishOnly": "npm run prepack",
+    "release": "bumpp && npm publish",
+    "lint": "eslint .",
+    "lint:fix": "nr lint --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.6.1",
+    "defu": "^6.1.2",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vuetify": "^3.3.6"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.6",
+    "@antfu/ni": "^0.21.4",
+    "@nuxt/devtools": "^0.6.6",
+    "@nuxt/module-builder": "^0.4.0",
+    "@nuxt/schema": "^3.6.1",
+    "@nuxt/test-utils": "^3.6.1",
+    "@parcel/watcher": "^2.1.0",
+    "@types/node": "^18",
+    "bumpp": "^9.1.1",
+    "eslint": "^8.43.0",
+    "nuxt": "^3.6.1",
+    "sass": "^1.63.6",
+    "typescript": "^5.1.6",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.4"
+  }
+}
