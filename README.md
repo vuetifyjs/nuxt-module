@@ -1,97 +1,92 @@
+<p align='center'>
+<img src='./hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
+Zero-config Nuxt module for Vuetify
+</p>
+
+<p align='center'>
+<a href='https://www.npmjs.com/package/vuetify-nuxt-module' target="__blank">
+<img src='https://img.shields.io/npm/v/vuetify-nuxt-module?color=33A6B8&label=' alt="NPM version">
+</a>
+<a href="https://www.npmjs.com/package/vuetify-nuxt-module" target="__blank">
+    <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/vuetify-nuxt-module?color=476582&label=">
+</a>
 <!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
+<a href="https://vite-pwa-org.netlify.app/frameworks/nuxt" target="__blank">
+    <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides">
+</a>
 -->
+<br>
+<a href="https://github.com/userquin/vuetify-nuxt-module" target="__blank">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/userquin/vuetify-nuxt-module?style=social">
+</a>
+</p>
 
-# My Module
+<br>
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
+## 🚀 Features
 
-My new Nuxt module for doing amazing things.
+- 📖 [**Documentation & guides**](README.md#-features) (WIP)
+- 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
+- 🔩 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
+- ⚡ **Fully tree shakable**: by default, only the needed Vuetify components are imported
+- 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
+- ✨ **Configurable styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
+- 💥 **SSR**: automatic SSR detection and configuration
+- 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+## 📦 Install
 
-## Features
-
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
-
-## Quick Setup
-
-1. Add `my-module` dependency to your project
+> Requires Vite 3.2.0+, will not work with Webpack
 
 ```bash
-# Using pnpm
-pnpm add -D my-module
+npm i vuetify-nuxt-module -D 
 
-# Using yarn
-yarn add --dev my-module
+# yarn 
+yarn add vuetify-nuxt-module -D
 
-# Using npm
-npm install --save-dev my-module
+# pnpm 
+pnpm add vuetify-nuxt-module -D
 ```
 
-2. Add `my-module` to the `modules` section of `nuxt.config.ts`
+## 🦄 Usage
 
-```js
+> `vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
+
+Add `vuetify-nuxt-module` module to `nuxt.config.ts` and configure it:
+
+```ts
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
   modules: [
-    'my-module'
-  ]
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    moduleOptions: {
+      /* module specific options */
+    },
+    vuetifyOptions: {
+      /* vuetify options */
+    }
+  }
 })
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+<!--
+Read the [📖 documentation](https://vite-pwa-org.netlify.app/frameworks/nuxt) for a complete guide on how to configure and use
+this plugin.
+-->
 
-## Development
+## 👀 Full config
 
-```bash
-# Install dependencies
-npm install
+**WIP**
+<!--
+Check out the type declaration [src/types.ts](./src/types.ts) and the following links for more details.
 
-# Generate type stubs
-npm run dev:prepare
-
-# Develop with the playground
-npm run dev
-
-# Build the playground
-npm run dev:build
-
-# Run ESLint
-npm run lint
-
-# Run Vitest
-npm run test
-npm run test:watch
-
-# Release new version
-npm run release
-```
-
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/my-module
-
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/my-module
-
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=18181B&colorB=28CF8D
-[license-href]: https://npmjs.com/package/my-module
-
-[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
-[nuxt-href]: https://nuxt.com
+- [Web app manifests](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+- [Workbox](https://developers.google.com/web/tools/workbox)
+-->
 
 ## 📄 License
 
