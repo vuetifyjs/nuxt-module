@@ -105,6 +105,8 @@ export default defineNuxtModule<ModuleOptions>({
     addPluginTemplate({
       src: resolver.resolve(runtimeDir, 'templates/plugin.mts'),
       write: nuxt.options.dev || writePlugin,
+    }, {
+      append: true,
     })
   },
 })
