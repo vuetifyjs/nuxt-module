@@ -2,13 +2,10 @@ import type { Plugin } from 'vite'
 import type { VuetifyOptions } from 'vuetify'
 import type { BooleanOrArrayString } from './types'
 
-interface PromiseResult {
+interface ImportsResult {
   imports: string
   expression: string
 }
-
-const VIRTUAL_VUETIFY_CONFIGURATION = 'virtual:vuetify-configuration'
-const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
 
 export function vuetifyConfigurationPlugin(
   isDev: boolean,
@@ -16,41 +13,8 @@ export function vuetifyConfigurationPlugin(
   labComponents: BooleanOrArrayString,
   vuetifyAppOptions: VuetifyOptions,
 ) {
-  const directivesPromise = new Promise<PromiseResult>((resolve) => {
-    if (!directives)
-      return resolve({ imports: '', expression: '' })
-
-    if (typeof directives === 'boolean') {
-      resolve({
-        imports: 'import * as directives from \'vuetify/directives\'',
-        expression: 'options.directives = directives',
-      })
-    }
-    else {
-      resolve({
-        imports: `${directives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n')}`,
-        expression: `options.directives = {${directives.join(',')}}`,
-      })
-    }
-  })
-
-  const labsComponentsPromise = new Promise<PromiseResult>((resolve) => {
-    if (!labComponents)
-      return resolve({ imports: '', expression: '' })
-
-    if (typeof labComponents === 'boolean') {
-      resolve({
-        imports: 'import * as labsComponents from \'vuetify/labs/components\'',
-        expression: 'options.components = labsComponents',
-      })
-    }
-    else {
-      resolve({
-        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
-        expression: `options.components = {${labComponents.join(',')}}`,
-      })
-    }
-  })
+  const VIRTUAL_VUETIFY_CONFIGURATION = 'virtual:vuetify-configuration'
+  const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
 
   return <Plugin>{
     name: 'vuetify:configuration:nuxt',
@@ -61,13 +25,8 @@ export function vuetifyConfigurationPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
-        const [
-          directivesResult,
-          labsComponentsResult,
-        ] = await Promise.all([
-          directivesPromise,
-          labsComponentsPromise,
-        ])
+        const directivesResult = buildDirectives()
+        const labsComponentsResult = builLabsComponents()
 
         return `${directivesResult.imports}
 ${labsComponentsResult.imports}
@@ -82,5 +41,41 @@ export function vuetifyConfiguration() {
 `
       }
     },
+  }
+
+  function builLabsComponents() {
+    if (!labComponents)
+      return <ImportsResult>{ imports: '', expression: '' }
+
+    if (typeof labComponents === 'boolean') {
+      return <ImportsResult>{
+        imports: 'import * as labsComponents from \'vuetify/labs/components\'',
+        expression: 'options.components = labsComponents',
+      }
+    }
+    else {
+      return <ImportsResult>{
+        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
+        expression: `options.components = {${labComponents.join(',')}}`,
+      }
+    }
+  }
+
+  function buildDirectives() {
+    if (!labComponents)
+      return <ImportsResult>{ imports: '', expression: '' }
+
+    if (typeof labComponents === 'boolean') {
+      return <ImportsResult>{
+        imports: 'import * as labsComponents from \'vuetify/labs/components\'',
+        expression: 'options.components = labsComponents',
+      }
+    }
+    else {
+      return <ImportsResult>{
+        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
+        expression: `options.components = {${labComponents.join(',')}}`,
+      }
+    }
   }
 }
