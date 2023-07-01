@@ -36,3 +36,9 @@ export interface ModuleOptions {
   }
   vuetifyOptions?: VOptions
 }
+
+declare module '#app' {
+  interface RuntimeNuxtHooks {
+    'vuetify:configuration': (vuetifyOptions: VuetifyOptions) => void
+  }
+}
