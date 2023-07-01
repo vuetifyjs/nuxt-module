@@ -1,8 +1,11 @@
 {
   "name": "vuetify-nuxt-module",
+  "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@8.6.5",
-  "description": "Zero-Config Vuetify Nuxt Module",
+  "description": "Zero-Config Nuxt Module for Vuetify ",
+  "author": "userquin <userquin@gmail.com>",
+  "license": "MIT",
   "homepage": "https://github.com/userquin/vuetify-nuxt-module#readme",
   "repository": {
     "type": "git",
@@ -11,17 +14,16 @@
   "bugs": "https://github.com/userquin/vuetify-nuxt-module/issues",
   "keywords": [
     "nuxt",
+    "nuxt 3",
     "vuetify",
+    "vuetify 3",
     "nuxt-module"
   ],
-  "author": "userquin <userquin@gmail.com>",
-  "license": "MIT",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "require": "./dist/module.cjs",
+      "import": "./dist/module.mjs"
     },
     "./configuration": {
       "types": "./configuration.d.ts"
