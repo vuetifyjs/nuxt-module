@@ -77,7 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: 'vuetify-nuxt-module/configuration' })
-      references.push({ types: 'vuetify/components' })
+      references.push({ types: 'vuetify' })
     })
 
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
@@ -105,8 +105,6 @@ export default defineNuxtModule<ModuleOptions>({
     addPluginTemplate({
       src: resolver.resolve(runtimeDir, 'templates/plugin.mts'),
       write: nuxt.options.dev || writePlugin,
-    }, {
-      append: true,
     })
   },
 })

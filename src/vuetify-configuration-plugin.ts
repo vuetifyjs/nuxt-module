@@ -14,7 +14,10 @@ export function vuetifyConfigurationPlugin(
   vuetifyAppOptions: VuetifyOptions,
 ) {
   const VIRTUAL_VUETIFY_CONFIGURATION = 'virtual:vuetify-configuration'
-  const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
+  // TODO: ask Daniel Roe, I guess it is some internal nuxt module that shouldn't intercept this
+  // Nuxt DevTools doesn't shows the virtual when using Vite's default but it does when removing virtual: prefix
+  // const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
+  const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `/@nuxt-vuetify-configuration/${VIRTUAL_VUETIFY_CONFIGURATION.slice('virtual:'.length)}`
 
   return <Plugin>{
     name: 'vuetify:configuration:nuxt',
@@ -26,16 +29,16 @@ export function vuetifyConfigurationPlugin(
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
         const directivesResult = buildDirectives()
-        const labsComponentsResult = buildLabsComponents()
+        const labComponentsResult = buildLabComponents()
 
         return `${directivesResult.imports}
-${labsComponentsResult.imports}
+${labComponentsResult.imports}
 
 export const isDev = ${isDev}
 export function vuetifyConfiguration() {
   const options = ${JSON.stringify(vuetifyAppOptions)}
   ${directivesResult.expression}
-  ${labsComponentsResult.expression}
+  ${labComponentsResult.expression}
   return options
 }
 `
@@ -61,7 +64,7 @@ export function vuetifyConfiguration() {
     }
   }
 
-  function buildLabsComponents() {
+  function buildLabComponents() {
     if (!labComponents)
       return <ImportsResult>{ imports: '', expression: '' }
 

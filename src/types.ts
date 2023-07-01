@@ -39,6 +39,6 @@ export interface ModuleOptions {
 
 declare module '#app' {
   interface RuntimeNuxtHooks {
-    'vuetify:configuration': (vuetifyOptions: VuetifyOptions) => void
+    'vuetify:configuration': (isDev: boolean, vuetifyOptions: VuetifyOptions) => Promise<void> | void
   }
 }
