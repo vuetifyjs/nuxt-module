@@ -26,7 +26,7 @@ export function vuetifyConfigurationPlugin(
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
         const directivesResult = buildDirectives()
-        const labsComponentsResult = builLabsComponents()
+        const labsComponentsResult = buildLabsComponents()
 
         return `${directivesResult.imports}
 ${labsComponentsResult.imports}
@@ -43,25 +43,25 @@ export function vuetifyConfiguration() {
     },
   }
 
-  function builLabsComponents() {
-    if (!labComponents)
+  function buildDirectives() {
+    if (!directives)
       return <ImportsResult>{ imports: '', expression: '' }
 
-    if (typeof labComponents === 'boolean') {
+    if (typeof directives === 'boolean') {
       return <ImportsResult>{
-        imports: 'import * as labsComponents from \'vuetify/labs/components\'',
-        expression: 'options.components = labsComponents',
+        imports: 'import * as directives from \'vuetify/directives\'',
+        expression: 'options.directives = directives',
       }
     }
     else {
       return <ImportsResult>{
-        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
-        expression: `options.components = {${labComponents.join(',')}}`,
+        imports: `${directives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n')}`,
+        expression: `options.directives = {${directives.join(',')}}`,
       }
     }
   }
 
-  function buildDirectives() {
+  function buildLabsComponents() {
     if (!labComponents)
       return <ImportsResult>{ imports: '', expression: '' }
 
