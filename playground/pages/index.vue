@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { useLocale } from 'vuetify'
 
-const lProviderRef = ref()
-
-function localT(key: string) {
-  return lProviderRef.value?.$vuetify?.locale?.t(key)
-}
-
 const value = reactive<{
   name1?: string
   name2?: string
@@ -16,7 +10,7 @@ const value = reactive<{
   name2: undefined,
   name3: undefined,
 })
-const { locales, t, availableLocales } = useI18n()
+const { locales, t } = useI18n()
 const { current } = useLocale()
 watch(current, () => {
   console.log('current', t('xxx', { locale: current.value }))
@@ -48,8 +42,8 @@ watch(current, () => {
       outlined
     />
     <v-btn>{{ t('xxx') }}</v-btn>
-    <v-locale-provider ref="lProviderRef" locale="es-ES">
-      <v-btn>{{ localT('xxx') }}</v-btn>
+    <v-locale-provider locale="es-ES">
+      <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
     </v-locale-provider>
   </div>
 </template>
