@@ -18,10 +18,10 @@ const { current } = useLocale()
   <div>
     <div>Vuetify current: {{ current }}</div>
     <div>I18N current: {{ $i18n.locale }}</div>
-    <div>t without locale: {{ t('favoutire') }}</div>
-    <div>t with I18N locale: {{ t('favoutire', $i18n.locale) }}</div>
-    <div>t with Vuetify current locale: {{ t('favoutire', current) }}</div>
-    <div>$t {{ $t('favoutire') }}</div>
+    <div>t without locale: {{ t('favourite') }}</div>
+    <div>t with I18N locale: {{ t('favourite', $i18n.locale) }}</div>
+    <div>t with Vuetify current locale: {{ t('favourite', current) }}</div>
+    <div>$t {{ $t('favourite') }}</div>
     <v-select
       v-model="current"
       :items="locales"
@@ -31,11 +31,11 @@ const { current } = useLocale()
     />
     <VTextField
       v-model="value.name1"
-      :label="t('favoutire')"
+      :label="t('favourite')"
       hint="name 1"
       persistent-hint
       outlined
     />
-    <VBtn>ja</VBtn>
+    <VBtn>{{ t('favourite') }}</VBtn>
   </div>
 </template>
