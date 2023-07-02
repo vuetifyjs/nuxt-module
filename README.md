@@ -37,7 +37,7 @@ Zero-config Nuxt module for Vuetify
 
 ## 📦 Install
 
-> Requires Vite 3.2.0+, will not work with Webpack
+> Requires Vite, will not work with Webpack
 
 ```bash
 npm i vuetify-nuxt-module -D 
