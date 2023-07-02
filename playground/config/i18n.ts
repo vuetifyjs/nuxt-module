@@ -1,13 +1,6 @@
-import type { DateTimeFormats, NumberFormats, PluralizationRule } from '@intlify/core-base'
 import type { LocaleObject } from '#i18n'
 
-interface LocaleObjectData extends LocaleObject {
-  numberFormats?: NumberFormats
-  dateTimeFormats?: DateTimeFormats
-  pluralRule?: PluralizationRule
-}
-
-const countryLocaleVariants: Record<string, LocaleObjectData[]> = {
+const countryLocaleVariants: Record<string, LocaleObject[]> = {
   en: [
     // en.json contains en-US translations
     { code: 'en-US', name: 'English (US)' },
@@ -39,7 +32,7 @@ const countryLocaleVariants: Record<string, LocaleObjectData[]> = {
   ],
 }
 
-const locales: LocaleObjectData[] = [
+const locales: LocaleObject[] = [
   {
     code: 'en',
     file: 'en.json',
@@ -57,7 +50,7 @@ function buildLocales() {
     const locales = countryLocaleVariants[data.code]
     if (locales) {
       locales.forEach((l) => {
-        const entry: LocaleObjectData = {
+        const entry: LocaleObject = {
           ...data,
           code: l.code,
           name: l.name,
@@ -71,7 +64,7 @@ function buildLocales() {
       acc.push(data)
     }
     return acc
-  }, <LocaleObjectData[]>[])
+  }, <LocaleObject[]>[])
 
   return useLocales.sort((a, b) => a.code.localeCompare(b.code))
 }

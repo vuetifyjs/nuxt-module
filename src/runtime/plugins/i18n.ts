@@ -20,9 +20,7 @@ export function createAdapter(nuxtApp: NuxtApp) {
   const fallback = i18n.fallbackLocale
   const messages = i18n.messages
 
-  watch(() => current, (l) => {
-    i18n.setLocale(l).then(() => (nuxtApp.$vuetify.locale.current.value = l))
-  })
+  watch(() => current, l => (nuxtApp.$vuetify.locale.current.value = l))
 
   watch(() => nuxtApp.$vuetify?.locale?.current.value, l => i18n.setLocale(l))
 
@@ -184,7 +182,7 @@ function createProvideFunction(data: {
 
     const { current: vLocale } = useLocale()
 
-    watch(current, l => i18n.setLocale(l).then(() => vLocale.value = l))
+    watch(current, l => vLocale.value = l)
 
     watch(vLocale, l => i18n.setLocale(l))
 
@@ -193,6 +191,7 @@ function createProvideFunction(data: {
       current,
       fallback,
       messages,
+      // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
       provide: createProvideFunction({ current, fallback, messages }),
