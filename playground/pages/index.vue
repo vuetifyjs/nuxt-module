@@ -16,14 +16,14 @@ const { current } = useLocale()
 
 <template>
   <div>
-    <div>Vuetify current: {{ current }}</div>
-    <div>I18N current: {{ $i18n.locale }}</div>
-    <div>$vuetify current: {{ $vuetify.locale.current }}</div>
-    <div>t without locale: {{ t('favourite') }}</div>
-    <div>t with I18N locale: {{ t('favourite', { locale: $i18n.locale }) }}</div>
-    <div>t with Vuetify current locale: {{ t('favourite', { locale: current }) }}</div>
-    <div>$t {{ $t('favourite') }}</div>
-    <div>$vuetify.locale.t {{ $vuetify.locale.t('favourite') }}</div>
+    <div>Vuetify useLocale(): {{ current }}</div>
+    <div>$i18n current: {{ $i18n.locale }}</div>
+    <div>$vuetify.locale.current: {{ $vuetify.locale.current }}</div>
+    <div>t without locale: {{ t('xxx') }}</div>
+    <div>t with I18N locale: {{ t('xxx', { locale: $i18n.locale }) }}</div>
+    <div>t with Vuetify current locale: {{ t('xxx', { locale: current }) }}</div>
+    <div>$t {{ $t('xxx') }}</div>
+    <div>$vuetify.locale.t {{ $vuetify.locale.t('xxx') }}</div>
     <v-select
       v-model="current"
       :items="locales"
@@ -33,11 +33,11 @@ const { current } = useLocale()
     />
     <VTextField
       v-model="value.name1"
-      :label="t('favourite')"
+      :label="t('xxx')"
       hint="name 1"
       persistent-hint
       outlined
     />
-    <VBtn>{{ t('favourite') }}</VBtn>
+    <VBtn>{{ t('xxx') }}</VBtn>
   </div>
 </template>

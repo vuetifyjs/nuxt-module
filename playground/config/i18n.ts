@@ -1,3 +1,4 @@
+import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module'
 import type { LocaleObject } from '#i18n'
 
 const countryLocaleVariants: Record<string, LocaleObject[]> = {
@@ -69,4 +70,16 @@ function buildLocales() {
   return useLocales.sort((a, b) => a.code.localeCompare(b.code))
 }
 
-export const availableLocales = buildLocales()
+const availableLocales = buildLocales()
+
+export const i18n: NuxtI18nOptions = {
+  locales: availableLocales,
+  lazy: true,
+  strategy: 'no_prefix',
+  detectBrowserLanguage: false,
+  langDir: 'locales',
+  defaultLocale: 'en-US',
+  customRoutes: undefined,
+  dynamicRouteParams: false,
+  // debug: true,
+}

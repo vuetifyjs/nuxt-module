@@ -2,7 +2,7 @@ import type { VuetifyOptions } from 'vuetify'
 
 export type BooleanOrArrayString = boolean | string[]
 
-export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives'>> {
+export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives' | 'locale' | 'date'>> {
   /**
    * Include the lab components?
    *
