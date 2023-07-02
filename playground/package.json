@@ -7,6 +7,9 @@
     "build": "nuxi build",
     "generate": "nuxi generate"
   },
+  "dependencies": {
+    "@nuxtjs/i18n": "^8.0.0-beta.12"
+  },
   "devDependencies": {
     "nuxt": "latest",
     "sass": "^1.63.6"

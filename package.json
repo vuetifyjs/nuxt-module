@@ -36,16 +36,19 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build",
+    "build": "pnpm dev:prepare && nuxt-module-build",
     "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
+    "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "prepublishOnly": "npm run prepack",
-    "release": "bumpp && npm publish",
+    "dev:prepare:multiple-json": "nuxt-module-build --stub && MULTIPLE_LANG_FILES=true nuxi prepare playground",
+    "dev:build": "nuxi build playground",
+    "dev:build:multiple-json": "MULTIPLE_LANG_FILES=true nuxi build playground",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp && npm publish"
   },
   "peerDependencies": {
     "@nuxt/kit": "^3.5.3",
@@ -65,6 +68,7 @@
     "@nuxt/module-builder": "^0.4.0",
     "@nuxt/schema": "^3.6.1",
     "@nuxt/test-utils": "^3.6.1",
+    "@nuxtjs/i18n": "^8.0.0-beta.12",
     "@parcel/watcher": "^2.1.0",
     "@types/node": "^18",
     "bumpp": "^9.1.1",
@@ -90,5 +94,10 @@
       "vite-plugin-vuetify",
       "vuetify"
     ]
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@nuxtjs/i18n@8.0.0-beta.12": "patches/@nuxtjs__i18n@8.0.0-beta.12.patch"
+    }
   }
 }

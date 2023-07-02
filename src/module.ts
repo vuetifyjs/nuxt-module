@@ -1,8 +1,8 @@
 import {
-  addPluginTemplate,
+  addPlugin,
   createResolver,
   defineNuxtModule,
-  extendWebpackConfig,
+  extendWebpackConfig, hasNuxtModule,
   useLogger,
 } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
@@ -27,16 +27,15 @@ export default defineNuxtModule<ModuleOptions>({
     version,
   },
   // Default configuration options of the Nuxt module
-  defaults: {
+  defaults: () => ({
     vuetifyOptions: {
       labComponents: false,
       directives: false,
     },
     moduleOptions: {
-      writePlugin: true,
       styles: true,
     },
-  },
+  }),
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
@@ -58,7 +57,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
-    const { styles = true, writePlugin = nuxt.options.dev } = moduleOptions ?? {}
+    const { styles = true } = moduleOptions ?? {}
 
     nuxt.options.build.transpile.push(CONFIG_KEY)
     nuxt.options.css ??= []
@@ -102,10 +101,15 @@ export default defineNuxtModule<ModuleOptions>({
       ))
     })
 
-    addPluginTemplate({
-      src: resolver.resolve(runtimeDir, 'templates/plugin.mts'),
-      write: nuxt.options.dev || writePlugin,
+    addPlugin({
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
     })
+
+    if (hasNuxtModule('@nuxtjs/i18n', nuxt)) {
+      addPlugin({
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.mts'),
+      })
+    }
   },
 })
 

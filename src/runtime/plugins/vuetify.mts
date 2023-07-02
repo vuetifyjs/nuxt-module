@@ -12,7 +12,7 @@ export default defineNuxtPlugin({
 
     await nuxtApp.hooks.callHook('vuetify:configuration', isDev, options)
 
-    const vuetify = createVuetify(vuetifyConfiguration())
+    const vuetify = createVuetify(options)
 
     nuxtApp.vueApp.use(vuetify)
 
