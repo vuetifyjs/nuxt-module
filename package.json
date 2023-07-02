@@ -37,8 +37,10 @@
   ],
   "scripts": {
     "build": "pnpm dev:prepare && nuxt-module-build",
+    "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
+    "dev:prepare:multiple-json": "nuxt-module-build --stub && MULTIPLE_LANG_FILES=true nuxi prepare playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",

@@ -10,8 +10,11 @@ const value = reactive<{
   name2: undefined,
   name3: undefined,
 })
-const { locales, t } = useI18n()
+const { locales, t, availableLocales } = useI18n()
 const { current } = useLocale()
+watch(current, () => {
+  console.log('current', t('xxx', { locale: current.value }))
+})
 </script>
 
 <template>

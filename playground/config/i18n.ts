@@ -1,5 +1,6 @@
-import type { NuxtI18nOptions } from '@nuxtjs/i18n/dist/module'
 import type { LocaleObject } from '#i18n'
+
+const multipleJson = process.env.MULTIPLE_LANG_FILES === 'true'
 
 const countryLocaleVariants: Record<string, LocaleObject[]> = {
   en: [
@@ -51,35 +52,38 @@ function buildLocales() {
     const locales = countryLocaleVariants[data.code]
     if (locales) {
       locales.forEach((l) => {
-        const entry: LocaleObject = {
-          ...data,
-          code: l.code,
-          name: l.name,
-          files: [data.file!, `${l.code}.json`],
+        let entry: LocaleObject
+        if (multipleJson) {
+          entry = {
+            ...data,
+            code: l.code,
+            name: l.name,
+            files: [data.file!, `${l.code}.json`],
+          }
+          delete entry.file
         }
-        delete entry.file
+        else {
+          entry = {
+            ...data,
+            code: l.code,
+            name: l.name,
+            file: `${l.code}.json`,
+          }
+        }
+
         acc.push(entry)
       })
     }
     else {
       acc.push(data)
     }
+
     return acc
   }, <LocaleObject[]>[])
 
   return useLocales.sort((a, b) => a.code.localeCompare(b.code))
 }
 
-const availableLocales = buildLocales()
+export const availableLocales = buildLocales()
 
-export const i18n: NuxtI18nOptions = {
-  locales: availableLocales,
-  lazy: true,
-  strategy: 'no_prefix',
-  detectBrowserLanguage: false,
-  langDir: 'locales',
-  defaultLocale: 'en-US',
-  customRoutes: undefined,
-  dynamicRouteParams: false,
-  // debug: true,
-}
+export const langDir = multipleJson ? 'locales/multiple' : 'locales/single'
