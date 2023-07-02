@@ -1,4 +1,5 @@
 import { md3 } from 'vuetify/blueprints'
+import { availableLocales } from './config/i18n'
 
 export default defineNuxtConfig({
   ssr: true,
@@ -10,7 +11,21 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: ['../src/module'],
+  imports: {
+    autoImport: true,
+    injectAtEnd: true,
+  },
+  modules: ['@nuxtjs/i18n', '../src/module'],
+  i18n: {
+    locales: availableLocales,
+    lazy: true,
+    strategy: 'no_prefix',
+    detectBrowserLanguage: false,
+    langDir: 'locales',
+    defaultLocale: 'en-US',
+    // debug: true,
+    vueI18n: './config/i18n.config.mts',
+  },
   vuetify: {
     moduleOptions: {
       styles: { configFile: '/settings.scss' },

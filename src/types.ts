@@ -29,7 +29,6 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
 
 export interface ModuleOptions {
   moduleOptions?: {
-    writePlugin?: boolean
     styles?: true | 'none' | 'expose' | 'sass' | {
       configFile: string
     }
