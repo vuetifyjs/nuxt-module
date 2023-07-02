@@ -74,7 +74,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## I18n support
+## 🌍 I18n support
 
 > Requires latest [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module: `8.0.0.beta.12`.
 
