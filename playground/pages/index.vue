@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useLocale } from 'vuetify'
 
+const lProviderRef = ref()
+
+function localT(key: string) {
+  return lProviderRef.value?.$vuetify?.locale?.t(key)
+}
+
 const value = reactive<{
   name1?: string
   name2?: string
@@ -34,13 +40,16 @@ watch(current, () => {
       item-value="code"
       outlined
     />
-    <VTextField
+    <v-text-field
       v-model="value.name1"
       :label="t('xxx')"
       hint="name 1"
       persistent-hint
       outlined
     />
-    <VBtn>{{ t('xxx') }}</VBtn>
+    <v-btn>{{ t('xxx') }}</v-btn>
+    <v-locale-provider ref="lProviderRef" locale="es-ES">
+      <v-btn>{{ localT('xxx') }}</v-btn>
+    </v-locale-provider>
   </div>
 </template>

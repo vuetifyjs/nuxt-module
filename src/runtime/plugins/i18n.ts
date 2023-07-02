@@ -9,7 +9,6 @@ import {
   toRaw,
   watch,
 } from 'vue'
-import { useLocale } from 'vuetify'
 import type { LocaleInstance, LocaleMessages, LocaleOptions } from 'vuetify'
 import type { NuxtApp } from '#app'
 import { useI18n } from '#imports'
@@ -161,12 +160,14 @@ function useProvided<T>(props: any, prop: string, provided: Ref<T>) {
   return internal as Ref<T>
 }
 
+// todo: add formatNumber, formatCurrency, formatDateTime, formatDate, formatTime...
 function createProvideFunction(data: {
   current: Ref<string>
   fallback: Ref<string>
   messages: Ref<LocaleMessages>
 }) {
   return (props: LocaleOptions) => {
+    // todo: simplify this, we don't need to proxy anything, the messages are there
     const current = useProvided(props, 'locale', data.current)
     const fallback = useProvided(props, 'fallback', data.fallback)
     const messages = useProvided(props, 'messages', data.messages)
@@ -180,17 +181,14 @@ function createProvideFunction(data: {
       inheritLocale: false,
     })
 
-    const { current: vLocale } = useLocale()
-
-    watch(current, l => vLocale.value = l)
-
-    watch(vLocale, l => i18n.setLocale(l))
+    watch(current, l => i18n.locale.value = l)
 
     return {
       name: 'nuxt-vue-i18n',
       current,
       fallback,
       messages,
+      // todo: fix this, we should check the options
       // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
