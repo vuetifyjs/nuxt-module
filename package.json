@@ -37,11 +37,12 @@
   ],
   "scripts": {
     "build": "pnpm dev:prepare && nuxt-module-build",
-    "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:prepare:multiple-json": "nuxt-module-build --stub && MULTIPLE_LANG_FILES=true nuxi prepare playground",
+    "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare:multiple-json": "nuxt-module-build --stub && MULTIPLE_LANG_FILES=true nuxi prepare playground",
+    "dev:build": "nuxi build playground",
+    "dev:build:multiple-json": "MULTIPLE_LANG_FILES=true nuxi build playground",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "test": "vitest run",
@@ -93,5 +94,10 @@
       "vite-plugin-vuetify",
       "vuetify"
     ]
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@nuxtjs/i18n@8.0.0-beta.12": "patches/@nuxtjs__i18n@8.0.0-beta.12.patch"
+    }
   }
 }

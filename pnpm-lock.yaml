@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@nuxtjs/i18n@8.0.0-beta.12':
+    hash: ng27jsec7jd3so65euqqdccllq
+    path: patches/@nuxtjs__i18n@8.0.0-beta.12.patch
+
 dependencies:
   '@nuxt/kit':
     specifier: ^3.6.1
@@ -39,7 +44,7 @@ devDependencies:
     version: 3.6.1(rollup@3.25.3)(vitest@0.31.4)(vue@3.3.4)
   '@nuxtjs/i18n':
     specifier: ^8.0.0-beta.12
-    version: 8.0.0-beta.12(rollup@3.25.3)(vue@3.3.4)
+    version: 8.0.0-beta.12(patch_hash=ng27jsec7jd3so65euqqdccllq)(rollup@3.25.3)(vue@3.3.4)
   '@parcel/watcher':
     specifier: ^2.1.0
     version: 2.1.0
@@ -1523,7 +1528,7 @@ packages:
       - vue-tsc
     dev: true
 
-  /@nuxtjs/i18n@8.0.0-beta.12(rollup@3.25.3)(vue@3.3.4):
+  /@nuxtjs/i18n@8.0.0-beta.12(patch_hash=ng27jsec7jd3so65euqqdccllq)(rollup@3.25.3)(vue@3.3.4):
     resolution: {integrity: sha512-f149HXPyk4RJZul3ThWo4YVN7WmL3scge8UZx08cxAiKjhoCIoHySKxX05CwAu0v7sfYxeYeP+qCeQyGaBErpQ==}
     engines: {node: ^14.16.0 || >=16.11.0}
     dependencies:
@@ -1567,6 +1572,7 @@ packages:
       - vue-i18n-bridge
       - vue-router
     dev: true
+    patched: true
 
   /@parcel/watcher@2.1.0:
     resolution: {integrity: sha512-8s8yYjd19pDSsBpbkOHnT6Z2+UJSuLQx61pCFM0s5wSRvKCEMDjd/cHY3/GI1szHIWbpXpsJdg3V6ISGGx9xDw==}
