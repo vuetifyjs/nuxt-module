@@ -33,6 +33,7 @@ Zero-config Nuxt module for Vuetify
 - ✨ **Configurable styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
 - 🌍 **I18n ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
+- 📆 **Date components**: install and configure one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters, and you're ready to use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/)
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
@@ -74,6 +75,12 @@ export default defineNuxtConfig({
 })
 ```
 
+<!--
+Read the [📖 documentation](https://vite-pwa-org.netlify.app/frameworks/nuxt) for a complete guide on how to configure and use
+this plugin.
+-->
+
+
 ## 🌍 I18n support
 
 > Requires latest [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module: `8.0.0.beta.12`.
@@ -86,10 +93,29 @@ You can check the playground folder, you can run it using single or multiple jso
 - for single file per locale: run from root folder `pnpm install && nr dev:prepare && nr dev`
 - for multiple files per locale: run from root folder `pnpm install && nr dev:prepare:multiple-json && nr dev:multiple-json`
 
-<!--
-Read the [📖 documentation](https://vite-pwa-org.netlify.app/frameworks/nuxt) for a complete guide on how to configure and use
-this plugin.
--->
+## 📆 Date components support
+
+Install and configure one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects).
+
+To use Vu
+```ts
+vuetifyOptions: {
+  date: {
+    adapter: 'vuetify' // 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+  }  
+}
+```
+
+If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, ignoring the `locale` entry configured.
+
+If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom`.
+Add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options.
+You can import the `virtual:vuetify-date-configuration` module, you will have access to the configuration:
+```ts
+import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
+```
+
+Check out [`vuetify-date.mts](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
 
 ## 👀 Full config
 
