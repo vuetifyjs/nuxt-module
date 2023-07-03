@@ -96,7 +96,7 @@ You can check the playground folder, you can run it using single or multiple jso
 ## 📆 Date components support
 
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
-- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
+- (optional): install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - configure the date entry in your Vuetify configuration:
   ```ts
   vuetifyOptions: {
@@ -106,7 +106,7 @@ To use Vuetify components [that require date functionality](https://vuetifyjs.co
   }
   ```
 
-If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, ignoring the `locale` entry configured.
+If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, beware, the configured `locale` entry will be ignored.
 
 If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, and then:
 - add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options
