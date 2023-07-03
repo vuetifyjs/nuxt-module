@@ -2,6 +2,8 @@ import type { VuetifyOptions } from 'vuetify'
 
 export type BooleanOrArrayString = boolean | string[]
 
+export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+
 /**
  * Date configuration.
  */
@@ -18,7 +20,7 @@ export interface DateOptions {
    *
    * @default 'vuetify'
    */
-  adapter?: 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+  adapter?: DateAdapter
   /**
    * Formats.
    */

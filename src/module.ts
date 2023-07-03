@@ -11,9 +11,10 @@ import vuetify from 'vite-plugin-vuetify'
 import type { VuetifyOptions } from 'vuetify'
 import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
-import { stylesPlugin } from './styles-plugin'
-import type { ModuleOptions } from './types'
-import { vuetifyConfigurationPlugin } from './vuetify-configuration-plugin'
+import { stylesPlugin } from './vite/styles-plugin'
+import type { DateAdapter, ModuleOptions } from './types'
+import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
+import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
 
 export * from './types'
 
@@ -54,13 +55,44 @@ export default defineNuxtModule<ModuleOptions>({
       ssr: isSSR,
     })
 
-    const runtimeDir = resolver.resolve('./runtime')
-    nuxt.options.build.transpile.push(runtimeDir)
-    nuxt.options.build.transpile.push(CONFIG_KEY)
-
     const { styles = true } = moduleOptions ?? {}
 
+    const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
+
+    let dateAdapter: DateAdapter | undefined
+
+    const dateOptions = vuetifyOptions?.date
+
+    if (dateOptions) {
+      const adapter = dateOptions.adapter
+      const date = detectDate()
+      if (!adapter && date.length > 1)
+        throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d[0]}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
+
+      if (adapter) {
+        if (adapter === 'vuetify' || adapter === 'custom') {
+          dateAdapter = adapter
+        }
+        else {
+          if (date.find(d => d[0] === adapter) === undefined)
+            logger.warn(`Ignoring Vuetify Date configuration, date adapter "@date-io/${adapter}" not installed!`)
+          else
+            dateAdapter = adapter
+        }
+      }
+      else if (date.length === 0) {
+        dateAdapter = 'vuetify'
+      }
+      else {
+        dateAdapter = date[0][0]
+      }
+    }
+
+    const runtimeDir = resolver.resolve('./runtime')
+    nuxt.options.build.transpile.push(runtimeDir)
+
     nuxt.options.build.transpile.push(CONFIG_KEY)
+
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
       nuxt.options.css.unshift('vuetify/styles/main.sass')
@@ -70,7 +102,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.unshift(styles.configFile)
 
     extendWebpackConfig(() => {
-      throw new Error('Webpack is not supported yet: vuetify-nuxt-module module can only be used with Vite!')
+      throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
     })
 
     nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
@@ -79,10 +111,6 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify-nuxt-module/configuration' })
       references.push({ types: 'vuetify' })
     })
-
-    const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
-
-    const date = detectDate(vuetifyOptions)
 
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
       viteInlineConfig.plugins = viteInlineConfig.plugins || []
@@ -104,6 +132,14 @@ export default defineNuxtModule<ModuleOptions>({
         labComponents,
         vuetifyAppOptions,
       ))
+      if (dateAdapter) {
+        viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(
+          nuxt.options.dev,
+          i18n,
+          dateAdapter,
+          dateOptions!,
+        ))
+      }
     })
 
     addPlugin({
@@ -116,7 +152,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (date) {
+    if (dateAdapter) {
       addPlugin({
         src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.mts'),
       })
@@ -134,10 +170,7 @@ function checkVuetifyPlugins(config: ViteConfig) {
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
 }
 
-function detectDate(vuetifyOptions?: ModuleOptions['vuetifyOptions']) {
-  if (!vuetifyOptions?.date)
-    return false
-
+function detectDate() {
   return [
     'date-fns',
     'moment',
@@ -147,5 +180,6 @@ function detectDate(vuetifyOptions?: ModuleOptions['vuetifyOptions']) {
     'date-fns-jalali',
     'jalaali',
     'hijri',
-  ].map(m => [m, isPackageExists(`@date-io/${m}`)])
+  ].map<[name: DateAdapter, exists: boolean]>(m => [m as DateAdapter, isPackageExists(`@date-io/${m}`)])
+    .filter(([, exists]) => exists)
 }

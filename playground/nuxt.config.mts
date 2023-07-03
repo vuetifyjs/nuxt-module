@@ -36,16 +36,18 @@ export default defineNuxtConfig({
       directives: true,
       labComponents: ['VDataTable'],
       blueprint: md3,
-      icons: {
-        defaultSet: undefined,
-        sets: undefined,
-      },
       theme: {
         defaultTheme: 'light',
+      },
+      date: {
+        adapter: 'vuetify',
       },
     },
   },
   vite: {
+    define: {
+      'process.env.DEBUG': false,
+    },
     build: {
       target: 'esnext',
     },
@@ -54,6 +56,11 @@ export default defineNuxtConfig({
         propsDestructure: true,
       },
     },
+    /* resolve: {
+      alias: {
+        'vuetify/labs/date/adapters/vuetify':
+      },
+    }, */
   },
   nitro: {
     esbuild: {

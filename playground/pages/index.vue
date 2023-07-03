@@ -45,5 +45,10 @@ watch(current, () => {
     <v-locale-provider locale="es-ES">
       <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
     </v-locale-provider>
+    <br>
+    <v-date-picker />
+    <v-locale-provider locale="es-ES">
+      <v-date-picker />
+    </v-locale-provider>
   </div>
 </template>

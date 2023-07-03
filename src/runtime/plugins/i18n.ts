@@ -10,6 +10,7 @@ import {
   watch,
 } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions } from 'vuetify'
+import { toKebabCase } from '../../utils'
 import type { NuxtApp } from '#app'
 import { useI18n } from '#imports'
 
@@ -42,22 +43,6 @@ function getCurrentInstance(name: string, message?: string) {
 
   return vm
 }
-
-function toKebabCase(str = '') {
-  if (toKebabCase.cache.has(str))
-    return toKebabCase.cache.get(str)!
-
-  const kebab = str
-    .replace(/[^a-z]/gi, '-')
-    .replace(/\B([A-Z])/g, '-$1')
-    .toLowerCase()
-
-  toKebabCase.cache.set(str, kebab)
-
-  return kebab
-}
-
-toKebabCase.cache = new Map<string, string>()
 
 function useToggleScope(source: WatchSource<boolean>, fn: (reset: () => void) => void) {
   let scope: EffectScope | undefined
