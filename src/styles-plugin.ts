@@ -149,7 +149,7 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
           configFile = path.join(config.root || process.cwd(), options.styles.configFile)
       }
     },
-    async resolveId(source, importer, { custom }) {
+    async resolveId(source, importer, { custom, ssr }) {
       if (
         source === 'vuetify/styles' || (
           importer
@@ -194,11 +194,11 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
 
           tempFiles.set(file, contents)
 
-          return `/@plugin-vuetify/lib/${file}`
+          return ssr
+            ? `/@plugin-vuetify/lib/${file}`
+            : `/@fs/plugin-vuetify/lib/${file}`
         }
       }
-
-      return null
     },
     async transform(code, id) {
       if (
@@ -224,6 +224,11 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
 
       if (id.startsWith('/@plugin-vuetify/lib/')) {
         const file = /^\/@plugin-vuetify\/lib\/(.*?)(\?.*)?$/.exec(id)![1]
+        return tempFiles.get(file)
+      }
+
+      if (id.startsWith('/@fs/plugin-vuetify/lib/')) {
+        const file = /^\/@fs\/plugin-vuetify\/lib\/(.*?)(\?.*)?$/.exec(id)![1]
         return tempFiles.get(file)
       }
     },
