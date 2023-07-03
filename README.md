@@ -28,12 +28,12 @@ Zero-config Nuxt module for Vuetify
 - 📖 [**Documentation & guides**](README.md#-features) (WIP)
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
 - 🔩 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
-- ⚡ **Fully tree shakable**: by default, only the needed Vuetify components are imported
+- ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
-- ✨ **Configurable styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
+- ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
-- 🌍 **I18n ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
-- 📆 **Date components**: install and configure one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters, and you're ready to use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/)
+- 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
+- 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
@@ -95,27 +95,27 @@ You can check the playground folder, you can run it using single or multiple jso
 
 ## 📆 Date components support
 
-Install and configure one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects).
-
-To use Vu
-```ts
-vuetifyOptions: {
-  date: {
-    adapter: 'vuetify' // 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
-  }  
-}
-```
+To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
+- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
+- configure the date entry in your Vuetify configuration:
+  ```ts
+  vuetifyOptions: {
+    date: {
+      adapter: 'vuetify' // 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+    }  
+  }
+  ```
 
 If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, ignoring the `locale` entry configured.
 
-If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom`.
-Add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options.
-You can import the `virtual:vuetify-date-configuration` module, you will have access to the configuration:
-```ts
-import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
-```
+If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, then:
+- add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options.
+- you can import the `virtual:vuetify-date-configuration` module, you will have access to the configuration:
+  ```ts
+  import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
+  ```
 
-Check out [`vuetify-date.mts](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
+Check out [vuetify-date.mts](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
 
 ## 👀 Full config
 
