@@ -1,14 +1,14 @@
 import { utimes } from 'node:fs/promises'
 import type { Plugin, ViteDevServer } from 'vite'
 import { cacheDir, normalizePath, resolveVuetifyBase, writeStyles } from '@vuetify/loader-shared'
-import * as path from 'upath'
+import { isAbsolute, join, relative as relativePath } from 'pathe'
 import type { Options } from '@vuetify/loader-shared'
 import { normalizePath as normalizeVitePath } from 'vite'
 import type { PluginContext } from 'rollup'
 
 function isSubdir(root: string, test: string) {
-  const relative = path.relative(root, test)
-  return relative && !relative.startsWith('..') && !path.isAbsolute(relative)
+  const relative = relativePath(root, test)
+  return relative && !relative.startsWith('..') && !isAbsolute(relative)
 }
 
 const styleImportRegexp = /(@use |meta\.load-css\()['"](vuetify(?:\/lib)?(?:\/styles(?:\/main(?:\.sass)?)?)?)['"]/
@@ -143,10 +143,10 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
     },
     configResolved(config) {
       if (typeof options.styles === 'object') {
-        if (path.isAbsolute(options.styles.configFile))
+        if (isAbsolute(options.styles.configFile))
           configFile = options.styles.configFile
         else
-          configFile = path.join(config.root || process.cwd(), options.styles.configFile)
+          configFile = join(config.root || process.cwd(), options.styles.configFile)
       }
     },
     async resolveId(source, importer, { custom, ssr }) {
@@ -154,7 +154,7 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
         source === 'vuetify/styles' || (
           importer
           && source.endsWith('.css')
-          && isSubdir(vuetifyBase, path.isAbsolute(source) ? source : importer)
+          && isSubdir(vuetifyBase, isAbsolute(source) ? source : importer)
         )
       ) {
         if (options.styles === 'none') {
@@ -189,7 +189,7 @@ export function stylesPlugin(options: Options, logger: ReturnType<typeof import(
             return null
 
           const target = resolution.id.replace(/\.css$/, '.sass')
-          const file = path.relative(path.join(vuetifyBase, 'lib'), target)
+          const file = relativePath(join(vuetifyBase, 'lib'), target)
           const contents = `@use "${normalizePath(configFile)}"\n@use "${normalizePath(target)}"`
 
           tempFiles.set(file, contents)
