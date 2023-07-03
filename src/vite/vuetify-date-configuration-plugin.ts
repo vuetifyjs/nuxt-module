@@ -19,12 +19,11 @@ export function vuetifyDateConfigurationPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION) {
-        // vuetify/labs/date/adapters/vuetify
         const imports = dateAdapter === 'vuetify'
           ? 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
           : dateAdapter === 'custom'
             ? ''
-            : `import { ${pascalize(dateAdapter)}: Adapter } from '@date-io/${dateAdapter}'`
+            : `import ${pascalize(dateAdapter)} as Adapter from '@date-io/${dateAdapter}'`
 
         return `${imports}
 export const isDev = ${isDev}
