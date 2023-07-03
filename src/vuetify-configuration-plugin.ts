@@ -65,7 +65,8 @@ export function vuetifyConfiguration() {
   }
 
   function buildLabComponents() {
-    if (!labComponents)
+    const dateOptions = vuetifyAppOptions.date
+    if (!labComponents && !dateOptions)
       return <ImportsResult>{ imports: '', expression: '' }
 
     if (typeof labComponents === 'boolean') {
@@ -75,9 +76,10 @@ export function vuetifyConfiguration() {
       }
     }
     else {
+      const components = [...new Set<string>(dateOptions ? ['VDatePicker', ...labComponents] : labComponents)]
       return <ImportsResult>{
-        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
-        expression: `options.components = {${labComponents.join(',')}}`,
+        imports: `${components.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
+        expression: `options.components = {${components.join(',')}}`,
       }
     }
   }

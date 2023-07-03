@@ -86,6 +86,7 @@
       "node:fs",
       "consola",
       "esbuild",
+      "local-pkg",
       "pathe",
       "rollup",
       "upath",

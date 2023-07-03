@@ -9,6 +9,7 @@ import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
 import vuetify from 'vite-plugin-vuetify'
 import type { VuetifyOptions } from 'vuetify'
+import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
 import { stylesPlugin } from './styles-plugin'
 import type { ModuleOptions } from './types'
@@ -79,6 +80,10 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify' })
     })
 
+    const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
+
+    const date = detectDate(vuetifyOptions)
+
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
       viteInlineConfig.plugins = viteInlineConfig.plugins || []
       checkVuetifyPlugins(viteInlineConfig)
@@ -105,9 +110,15 @@ export default defineNuxtModule<ModuleOptions>({
       src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
     })
 
-    if (hasNuxtModule('@nuxtjs/i18n', nuxt)) {
+    if (i18n) {
       addPlugin({
         src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.mts'),
+      })
+    }
+
+    if (date) {
+      addPlugin({
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.mts'),
       })
     }
   },
@@ -121,4 +132,20 @@ function checkVuetifyPlugins(config: ViteConfig) {
   plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
   if (plugin)
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
+}
+
+function detectDate(vuetifyOptions?: ModuleOptions['vuetifyOptions']) {
+  if (!vuetifyOptions?.date)
+    return false
+
+  return [
+    'date-fns',
+    'moment',
+    'luxon',
+    'dayjs',
+    'js-joda',
+    'date-fns-jalali',
+    'jalaali',
+    'hijri',
+  ].map(m => [m, isPackageExists(`@date-io/${m}`)])
 }
