@@ -90,7 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
         ...(Array.isArray(viteInlineConfig.ssr.noExternal) ? viteInlineConfig.ssr.noExternal : []),
         CONFIG_KEY,
       ]
-      const autoImportPlugin = vuetify({ styles, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
+      const autoImportPlugin = vuetify({ styles: true, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
       viteInlineConfig.plugins.push(autoImportPlugin)
       viteInlineConfig.plugins.push(stylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
