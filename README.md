@@ -87,7 +87,7 @@ this plugin.
 
 There is a [bug](https://github.com/nuxt-modules/i18n/pull/2193) in the current version that prevents `@nuxtjs/i18n` module to work properly when using `lazy` i18n files.
 
-If you're using `lazy` i18n files per locale, apply [this patch](./patches/@nuxtjs__i18n@8.0.0-beta.12.patch) to your project: check how to apply it when using `pnpm` in the root `package.json` file in this repo: [./package.json#L25-L26](./package.json#L97-L101).
+If you're using `lazy` i18n files per locale, apply [this patch](./patches/@nuxtjs__i18n@8.0.0-beta.12.patch) to your project: check how to apply it when using `pnpm` in the root `package.json` file in this repo: [package.json](./package.json#L97-L101).
 
 You can check the playground folder, you can run it using single or multiple json files per locale:
 - for single file per locale: run from root folder `pnpm install && nr dev:prepare && nr dev`
@@ -96,7 +96,7 @@ You can check the playground folder, you can run it using single or multiple jso
 ## 📆 Date components support
 
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
-- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
+- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - configure the date entry in your Vuetify configuration:
   ```ts
   vuetifyOptions: {
@@ -108,14 +108,14 @@ To use Vuetify components [that require date functionality](https://vuetifyjs.co
 
 If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, ignoring the `locale` entry configured.
 
-If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, then:
-- add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options.
+If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, and then:
+- add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options
 - you can import the `virtual:vuetify-date-configuration` module, you will have access to the configuration:
   ```ts
   import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
   ```
 
-Check out [vuetify-date.mts](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
+Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
 
 ## 👀 Full config
 
