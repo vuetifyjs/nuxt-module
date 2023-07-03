@@ -1,5 +1,5 @@
 <p align='center'>
-<img src='./hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
+<img src='https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
 Zero-config Nuxt module for Vuetify
 </p>
 
