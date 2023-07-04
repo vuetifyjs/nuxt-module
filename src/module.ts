@@ -84,7 +84,6 @@ export default defineNuxtModule<ModuleOptions>({
         dateAdapter = 'vuetify'
       }
       else {
-        console.log(date)
         dateAdapter = date[0][0]
       }
     }
