@@ -1,6 +1,5 @@
 import type { Plugin } from 'vite'
 import type { DateAdapter, DateOptions } from '../types'
-import { pascalize } from '../utils'
 import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION, VIRTUAL_VUETIFY_DATE_CONFIGURATION } from './constants'
 
 export function vuetifyDateConfigurationPlugin(
@@ -23,7 +22,7 @@ export function vuetifyDateConfigurationPlugin(
           ? 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
           : dateAdapter === 'custom'
             ? ''
-            : `import ${pascalize(dateAdapter)} as Adapter from '@date-io/${dateAdapter}'`
+            : `import Adapter from '@date-io/${dateAdapter}'`
 
         return `${imports}
 export const isDev = ${isDev}
@@ -41,10 +40,11 @@ export function dateConfiguration() {
 }
 
 function buildAdapter(dateAdapter: DateAdapter) {
+  if (dateAdapter === 'custom')
+    return ''
+
   if (dateAdapter === 'vuetify')
     return 'options.adapter = VuetifyDateAdapter'
-  else if (dateAdapter === 'custom')
-    return ''
-  else
-    return 'options.adapter = (locale) => new Adapter({ locale })'
+
+  return 'options.adapter = Adapter'
 }

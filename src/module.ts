@@ -84,13 +84,13 @@ export default defineNuxtModule<ModuleOptions>({
         dateAdapter = 'vuetify'
       }
       else {
+        console.log(date)
         dateAdapter = date[0][0]
       }
     }
 
     const runtimeDir = resolver.resolve('./runtime')
     nuxt.options.build.transpile.push(runtimeDir)
-
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
     nuxt.options.css ??= []

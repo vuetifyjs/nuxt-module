@@ -30,6 +30,9 @@ devDependencies:
   '@antfu/ni':
     specifier: ^0.21.4
     version: 0.21.4
+  '@date-io/luxon':
+    specifier: ^2.16.1
+    version: 2.16.1(luxon@3.3.0)
   '@nuxt/devtools':
     specifier: ^0.6.6
     version: 0.6.6(nuxt@3.6.1)(rollup@3.25.3)(vite@4.3.9)
@@ -57,6 +60,9 @@ devDependencies:
   eslint:
     specifier: ^8.43.0
     version: 8.43.0
+  luxon:
+    specifier: ^3.3.0
+    version: 3.3.0
   nuxt:
     specifier: ^3.6.1
     version: 3.6.1(@parcel/watcher@2.1.0)(@types/node@18.0.0)(eslint@8.43.0)(rollup@3.25.3)(sass@1.63.6)(typescript@5.1.6)
@@ -485,6 +491,22 @@ packages:
     resolution: {integrity: sha512-9CB/MKf/wdvbfkUdfrj+OkEwZ5b7rws0eogJ4293h+7b6KX5toPwym+VQKmILafNB9YiehqY0DlNrDcDhdWHSQ==}
     dependencies:
       mime: 3.0.0
+    dev: true
+
+  /@date-io/core@2.16.0:
+    resolution: {integrity: sha512-DYmSzkr+jToahwWrsiRA2/pzMEtz9Bq1euJwoOuYwuwIYXnZFtHajY2E6a1VNVDc9jP8YUXK1BvnZH9mmT19Zg==}
+    dev: true
+
+  /@date-io/luxon@2.16.1(luxon@3.3.0):
+    resolution: {integrity: sha512-aeYp5K9PSHV28946pC+9UKUi/xMMYoaGelrpDibZSgHu2VWHXrr7zWLEr+pMPThSs5vt8Ei365PO+84pCm37WQ==}
+    peerDependencies:
+      luxon: ^1.21.3 || ^2.x || ^3.x
+    peerDependenciesMeta:
+      luxon:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.16.0
+      luxon: 3.3.0
     dev: true
 
   /@esbuild-kit/cjs-loader@2.4.2:
@@ -1003,8 +1025,8 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared@9.3.0-beta.20:
-    resolution: {integrity: sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==}
+  /@intlify/shared@9.3.0-beta.21:
+    resolution: {integrity: sha512-VcE3XKBlQXHKRKAGP7YB/7n0TFH4EibJSGJ+t4rZuC8gTL6r/eqYM1fsw3JJFe70wamqx1oEmd2Hu/pnPlsfiQ==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -5544,6 +5566,11 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
+  /luxon@3.3.0:
+    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+    engines: {node: '>=12'}
+    dev: true
+
   /magic-string-ast@0.1.2:
     resolution: {integrity: sha512-P53AZrzq7hclCU6HWj88xNZHmP15DKjMmK/vBytO1qnpYP3ul4IEZlyCE0aU3JRnmgWmZPmoTKj4Bls7v0pMyA==}
     engines: {node: '>=14.19.0'}
@@ -8626,7 +8653,7 @@ packages:
       vue-router:
         optional: true
     dependencies:
-      '@intlify/shared': 9.3.0-beta.20
+      '@intlify/shared': 9.3.0-beta.21
       '@intlify/vue-i18n-bridge': 0.8.0(vue-i18n@9.3.0-beta.17)
       '@intlify/vue-router-bridge': 0.8.0(vue@3.3.4)
       ufo: 1.1.2

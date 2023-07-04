@@ -40,6 +40,7 @@ export default defineNuxtConfig({
         defaultTheme: 'light',
       },
       date: {
+        // adapter: 'luxon',
         adapter: 'vuetify',
       },
     },
@@ -56,11 +57,6 @@ export default defineNuxtConfig({
         propsDestructure: true,
       },
     },
-    /* resolve: {
-      alias: {
-        'vuetify/labs/date/adapters/vuetify':
-      },
-    }, */
   },
   nitro: {
     esbuild: {
