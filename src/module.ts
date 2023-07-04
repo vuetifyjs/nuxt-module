@@ -9,10 +9,12 @@ import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
 import vuetify from 'vite-plugin-vuetify'
 import type { VuetifyOptions } from 'vuetify'
+import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
-import { stylesPlugin } from './styles-plugin'
-import type { ModuleOptions } from './types'
-import { vuetifyConfigurationPlugin } from './vuetify-configuration-plugin'
+import { stylesPlugin } from './vite/styles-plugin'
+import type { DateAdapter, ModuleOptions } from './types'
+import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
+import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
 
 export * from './types'
 
@@ -53,13 +55,43 @@ export default defineNuxtModule<ModuleOptions>({
       ssr: isSSR,
     })
 
+    const { styles = true } = moduleOptions ?? {}
+
+    const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
+
+    let dateAdapter: DateAdapter | undefined
+
+    const dateOptions = vuetifyOptions?.date
+
+    if (dateOptions) {
+      const adapter = dateOptions.adapter
+      const date = detectDate()
+      if (!adapter && date.length > 1)
+        throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d[0]}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
+
+      if (adapter) {
+        if (adapter === 'vuetify' || adapter === 'custom') {
+          dateAdapter = adapter
+        }
+        else {
+          if (date.find(d => d[0] === adapter) === undefined)
+            logger.warn(`Ignoring Vuetify Date configuration, date adapter "@date-io/${adapter}" not installed!`)
+          else
+            dateAdapter = adapter
+        }
+      }
+      else if (date.length === 0) {
+        dateAdapter = 'vuetify'
+      }
+      else {
+        dateAdapter = date[0]
+      }
+    }
+
     const runtimeDir = resolver.resolve('./runtime')
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
-    const { styles = true } = moduleOptions ?? {}
-
-    nuxt.options.build.transpile.push(CONFIG_KEY)
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
       nuxt.options.css.unshift('vuetify/styles/main.sass')
@@ -69,7 +101,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.unshift(styles.configFile)
 
     extendWebpackConfig(() => {
-      throw new Error('Webpack is not supported yet: vuetify-nuxt-module module can only be used with Vite!')
+      throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
     })
 
     nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
@@ -99,15 +131,29 @@ export default defineNuxtModule<ModuleOptions>({
         labComponents,
         vuetifyAppOptions,
       ))
+      if (dateAdapter) {
+        viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(
+          nuxt.options.dev,
+          i18n,
+          dateAdapter,
+          dateOptions!,
+        ))
+      }
     })
 
     addPlugin({
       src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
     })
 
-    if (hasNuxtModule('@nuxtjs/i18n', nuxt)) {
+    if (i18n) {
       addPlugin({
         src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.mts'),
+      })
+    }
+
+    if (dateAdapter) {
+      addPlugin({
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.mts'),
       })
     }
   },
@@ -121,4 +167,27 @@ function checkVuetifyPlugins(config: ViteConfig) {
   plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
   if (plugin)
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
+}
+
+function detectDate() {
+  const result: DateAdapter[] = []
+  // todo: remove this once fixed on Vuetify side
+  if (true)
+    return result
+
+  ;[
+    'date-fns',
+    'moment',
+    'luxon',
+    'dayjs',
+    'js-joda',
+    'date-fns-jalali',
+    'jalaali',
+    'hijri',
+  ].forEach((adapter) => {
+    if (isPackageExists(`@date-io/${adapter}`))
+      result.push(adapter as DateAdapter)
+  })
+
+  return result
 }

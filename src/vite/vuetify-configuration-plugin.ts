@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite'
 import type { VuetifyOptions } from 'vuetify'
-import type { BooleanOrArrayString } from './types'
+import type { BooleanOrArrayString } from '../types'
+import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
   imports: string
@@ -13,12 +14,12 @@ export function vuetifyConfigurationPlugin(
   labComponents: BooleanOrArrayString,
   vuetifyAppOptions: VuetifyOptions,
 ) {
-  const VIRTUAL_VUETIFY_CONFIGURATION = 'virtual:vuetify-configuration'
-  // TODO: ask Daniel Roe, I guess it is some internal nuxt module that shouldn't intercept this
-  // Nuxt DevTools doesn't shows the virtual when using Vite's default but it does when removing virtual: prefix
-  // const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `\0${VIRTUAL_VUETIFY_CONFIGURATION}`
-  const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `/@nuxt-vuetify-configuration/${VIRTUAL_VUETIFY_CONFIGURATION.slice('virtual:'.length)}`
-
+  const {
+    directives: _directives,
+    date: _date,
+    locale: _locale,
+    ...newVuetifyOptions
+  } = vuetifyAppOptions
   return <Plugin>{
     name: 'vuetify:configuration:nuxt',
     enforce: 'pre',
@@ -36,7 +37,7 @@ ${labComponentsResult.imports}
 
 export const isDev = ${isDev}
 export function vuetifyConfiguration() {
-  const options = ${JSON.stringify(vuetifyAppOptions)}
+  const options = ${JSON.stringify(newVuetifyOptions)}
   ${directivesResult.expression}
   ${labComponentsResult.expression}
   return options
@@ -65,7 +66,8 @@ export function vuetifyConfiguration() {
   }
 
   function buildLabComponents() {
-    if (!labComponents)
+    const dateOptions = vuetifyAppOptions.date
+    if (!labComponents && !dateOptions)
       return <ImportsResult>{ imports: '', expression: '' }
 
     if (typeof labComponents === 'boolean') {
@@ -75,9 +77,10 @@ export function vuetifyConfiguration() {
       }
     }
     else {
+      const components = [...new Set<string>(dateOptions ? ['VDatePicker', ...labComponents] : labComponents)]
       return <ImportsResult>{
-        imports: `${labComponents.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
-        expression: `options.components = {${labComponents.join(',')}}`,
+        imports: `${components.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
+        expression: `options.components = {${components.join(',')}}`,
       }
     }
   }

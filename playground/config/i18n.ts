@@ -3,6 +3,26 @@ import type { LocaleObject } from '#i18n'
 const multipleJson = process.env.MULTIPLE_LANG_FILES === 'true'
 
 const countryLocaleVariants: Record<string, LocaleObject[]> = {
+  ar: [
+    // ar.json contains ar-EG translations
+    // { code: 'ar-DZ', name: 'Arabic (Algeria)' },
+    // { code: 'ar-BH', name: 'Arabic (Bahrain)' },
+    { country: true, code: 'ar-EG', name: 'العربية' },
+    // { code: 'ar-EG', name: 'Arabic (Egypt)' },
+    // { code: 'ar-IQ', name: 'Arabic (Iraq)' },
+    // { code: 'ar-JO', name: 'Arabic (Jordan)' },
+    // { code: 'ar-KW', name: 'Arabic (Kuwait)' },
+    // { code: 'ar-LB', name: 'Arabic (Lebanon)' },
+    // { code: 'ar-LY', name: 'Arabic (Libya)' },
+    // { code: 'ar-MA', name: 'Arabic (Morocco)' },
+    // { code: 'ar-OM', name: 'Arabic (Oman)' },
+    // { code: 'ar-QA', name: 'Arabic (Qatar)' },
+    // { code: 'ar-SA', name: 'Arabic (Saudi Arabia)' },
+    // { code: 'ar-SY', name: 'Arabic (Syria)' },
+    // { code: 'ar-TN', name: 'Arabic (Tunisia)' },
+    // { code: 'ar-AE', name: 'Arabic (U.A.E.)' },
+    // { code: 'ar-YE', name: 'Arabic (Yemen)' },
+  ],
   en: [
     // en.json contains en-US translations
     { code: 'en-US', name: 'English (US)' },
@@ -35,6 +55,16 @@ const countryLocaleVariants: Record<string, LocaleObject[]> = {
 }
 
 const locales: LocaleObject[] = [
+  {
+    code: 'ar',
+    file: 'ar.json',
+    name: 'العربية',
+    dir: 'rtl',
+    pluralRule: (choice: number) => {
+      const name = new Intl.PluralRules('ar-EG').select(choice)
+      return { zero: 0, one: 1, two: 2, few: 3, many: 4, other: 5 }[name]
+    },
+  },
   {
     code: 'en',
     file: 'en.json',

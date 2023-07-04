@@ -36,16 +36,19 @@ export default defineNuxtConfig({
       directives: true,
       labComponents: ['VDataTable'],
       blueprint: md3,
-      icons: {
-        defaultSet: undefined,
-        sets: undefined,
-      },
       theme: {
         defaultTheme: 'light',
+      },
+      date: {
+        // adapter: 'luxon',
+        adapter: 'vuetify',
       },
     },
   },
   vite: {
+    define: {
+      'process.env.DEBUG': false,
+    },
     build: {
       target: 'esnext',
     },

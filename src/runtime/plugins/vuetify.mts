@@ -8,11 +8,11 @@ export default defineNuxtPlugin({
   parallel: false,
   async setup() {
     const nuxtApp = useNuxtApp()
-    const options = vuetifyConfiguration()
+    const vuetifyOptions = vuetifyConfiguration()
 
-    await nuxtApp.hooks.callHook('vuetify:configuration', isDev, options)
+    await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
 
-    const vuetify = createVuetify(options)
+    const vuetify = createVuetify(vuetifyOptions)
 
     nuxtApp.vueApp.use(vuetify)
 

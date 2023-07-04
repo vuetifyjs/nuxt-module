@@ -1,3 +1,14 @@
 {
-  "xxx": "Favorito (es-ES)"
+  "xxx": "Favorito (es-ES)",
+  "$vuetify": {
+    "datePicker": {
+      "title": "Seleccione día",
+      "header": "Introduzca día",
+      "cancel": "Cancelar",
+      "ok": "Aceptar",
+      "input": {
+        "placeholder": "Introduzca día"
+      }
+    }
+  }
 }

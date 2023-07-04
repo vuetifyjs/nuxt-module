@@ -1,3 +1,14 @@
 {
-  "xxx": "Favorite"
+  "xxx": "Favorite",
+  "$vuetify": {
+    "datePicker": {
+      "title": "Select date",
+      "header": "Enter date",
+      "cancel": "Cancel",
+      "ok": "Ok",
+      "input": {
+        "placeholder": "Enter date"
+      }
+    }
+  }
 }
