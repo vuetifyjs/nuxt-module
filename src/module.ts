@@ -170,6 +170,7 @@ function checkVuetifyPlugins(config: ViteConfig) {
 }
 
 function detectDate() {
+  // todo: simply this, once filtered we don't need the pair
   return [
     'date-fns',
     'moment',
