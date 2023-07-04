@@ -95,6 +95,8 @@ You can check the playground folder, you can run it using single or multiple jso
 
 ## 📆 Date components support
 
+Right now you can only use Vuetify adapter, there is a bug and will not work, I'm working on it: https://github.com/userquin/vuetify-nuxt-module/pull/9#issuecomment-1620023814.
+
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
 - (optional): install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - configure the date entry in your Vuetify configuration:

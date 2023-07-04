@@ -84,7 +84,7 @@ export default defineNuxtModule<ModuleOptions>({
         dateAdapter = 'vuetify'
       }
       else {
-        dateAdapter = date[0][0]
+        dateAdapter = date[0]
       }
     }
 
@@ -170,8 +170,12 @@ function checkVuetifyPlugins(config: ViteConfig) {
 }
 
 function detectDate() {
-  // todo: simply this, once filtered we don't need the pair
-  return [
+  const result: DateAdapter[] = []
+  // todo: remove this once fixed on Vuetify side
+  if (true)
+    return result
+
+  ;[
     'date-fns',
     'moment',
     'luxon',
@@ -180,6 +184,10 @@ function detectDate() {
     'date-fns-jalali',
     'jalaali',
     'hijri',
-  ].map<[name: DateAdapter, exists: boolean]>(m => [m as DateAdapter, isPackageExists(`@date-io/${m}`)])
-    .filter(([, exists]) => exists)
+  ].forEach((adapter) => {
+    if (isPackageExists(`@date-io/${adapter}`))
+      result.push(adapter as DateAdapter)
+  })
+
+  return result
 }
