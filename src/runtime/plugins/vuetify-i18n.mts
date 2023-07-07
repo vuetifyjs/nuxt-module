@@ -1,9 +1,16 @@
 import { createAdapter } from './i18n'
 import { defineNuxtPlugin } from '#app'
+import { ref } from 'vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const isRtl = ref(false)
   nuxtApp.hook('vuetify:configuration', ({ vuetifyOptions }) => {
+    const { adapter, rtl } = createAdapter(nuxtApp)
+    isRtl.valuea = rtl
     vuetifyOptions.locale = vuetifyOptions.locale ?? {}
-    vuetifyOptions.locale.adapter = createAdapter(nuxtApp)
+    vuetifyOptions.locale.adapter = adapter
+  })
+  nuxtApp.hook('vuetify:post:configuration', (vuetify) => {
+    vuetify.locale.isRtl.value = isRtl.value
   })
 })

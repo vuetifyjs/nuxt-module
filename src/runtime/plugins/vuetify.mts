@@ -16,6 +16,8 @@ export default defineNuxtPlugin({
 
     nuxtApp.vueApp.use(vuetify)
 
+    await nuxtApp.hooks.callHook('vuetify:created', vuetify)
+
     if (process.client && isDev) {
       // eslint-disable-next-line no-console
       console.log('Vuetify 3 initialized', vuetify)

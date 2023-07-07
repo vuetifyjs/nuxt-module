@@ -10,6 +10,7 @@ import {
   watch,
 } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions } from 'vuetify'
+import { useRtl } from 'vuetify'
 import { toKebabCase } from '../../utils'
 import type { NuxtApp } from '#app'
 import { useI18n } from '#imports'
@@ -19,20 +20,36 @@ export function createAdapter(nuxtApp: NuxtApp) {
   const current = i18n.locale
   const fallback = i18n.fallbackLocale
   const messages = i18n.messages
+  const rtl = i18n.locales.value.find((locale: any) => locale.code === current.value)?.dir === 'rtl' ?? false
 
-  watch(() => current, l => (nuxtApp.$vuetify.locale.current.value = l))
+  watch(current, (l: string) => {
+    const vLocale = nuxtApp.$vuetify?.locale
+    if (vLocale) {
+      vLocale.current.value = l
+      const isRtl = vLocale.isRtl
+      if (isRtl) {
+        const locale = i18n.locales.value.find((locale: any) => locale.code === l)
+        isRtl.value = isRtl.value = locale?.dir === 'rtl' ?? false
+      }
+    }
+  }, { immediate: true })
 
-  watch(() => nuxtApp.$vuetify?.locale?.current.value, l => i18n.setLocale(l))
+  watch(() => nuxtApp.$vuetify?.locale?.current.value, (l) => {
+    i18n.setLocale(l)
+  }, { immediate: true })
 
   return {
-    name: 'nuxt-vue-i18n',
-    current,
-    fallback,
-    messages,
-    t: (key, ...params) => i18n.t(key, params),
-    n: i18n.n,
-    provide: createProvideFunction({ current, fallback, messages }),
-  } satisfies LocaleInstance
+    rtl,
+    adapter: {
+      name: 'nuxt-vue-i18n',
+      current,
+      fallback,
+      messages,
+      t: (key, ...params) => i18n.t(key, params),
+      n: i18n.n,
+      provide: createProvideFunction({ current, fallback, messages }),
+    } satisfies LocaleInstance,
+  }
 }
 
 function getCurrentInstance(name: string, message?: string) {
@@ -156,6 +173,7 @@ function createProvideFunction(data: {
     const current = useProvided(props, 'locale', data.current)
     const fallback = useProvided(props, 'fallback', data.fallback)
     const messages = useProvided(props, 'messages', data.messages)
+    const { isRtl } = useRtl()
 
     const i18n = useI18n({
       locale: current.value,
@@ -166,7 +184,10 @@ function createProvideFunction(data: {
       inheritLocale: false,
     })
 
-    watch(current, l => i18n.locale.value = l)
+    watch(current, (l) => {
+      i18n.locale.value = l
+      isRtl.value = (i18n.locales.value as any[]).find((locale: any) => locale.code === l)?.dir === 'rtl' ?? false
+    })
 
     return {
       name: 'nuxt-vue-i18n',
