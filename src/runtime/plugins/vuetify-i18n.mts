@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     vuetifyOptions.locale = vuetifyOptions.locale ?? {}
     vuetifyOptions.locale.adapter = adapter
   })
-  nuxtApp.hook('vuetify:post:configuration', (vuetify) => {
+  nuxtApp.hook('vuetify:created', (vuetify) => {
     vuetify.locale.isRtl.value = isRtl.value
   })
 })
