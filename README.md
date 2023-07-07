@@ -83,11 +83,7 @@ this plugin.
 
 ## 🌍 I18n support
 
-> Requires latest [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module: `8.0.0.beta.12`.
-
-There is a [bug](https://github.com/nuxt-modules/i18n/pull/2193) in the current version that prevents `@nuxtjs/i18n` module to work properly when using `lazy` i18n files.
-
-If you're using `lazy` i18n files per locale, apply [this patch](./patches/@nuxtjs__i18n@8.0.0-beta.12.patch) to your project: check how to apply it when using `pnpm` in the root `package.json` file in this repo: [package.json](./package.json#L97-L101).
+> Requires latest [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module: `8.0.0.beta.13`.
 
 You can check the playground folder, you can run it using single or multiple json files per locale:
 - for single file per locale: run from root folder `pnpm install && nr dev:prepare && nr dev`
