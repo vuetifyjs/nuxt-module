@@ -1,5 +1,4 @@
 import type { VuetifyOptions } from 'vuetify'
-import {createVuetify} from "vuetify";
 
 export type BooleanOrArrayString = boolean | string[]
 
@@ -91,6 +90,5 @@ declare module '#app' {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
     }) => Promise<void> | void
-    'vuetify:created': (vuetify: ReturnType<typeof createVuetify>) => Promise<void> | void
   }
 }

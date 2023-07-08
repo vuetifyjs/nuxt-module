@@ -50,10 +50,11 @@ watch(isRtl, (x) => {
     <v-locale-provider locale="es-ES">
       <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
     </v-locale-provider>
-    <br>
-    <v-date-picker />
-    <v-locale-provider locale="ar-EG" rtl>
+    <div style="display: flex">
       <v-date-picker />
-    </v-locale-provider>
+      <v-locale-provider locale="ar-EG" rtl>
+        <v-date-picker />
+      </v-locale-provider>
+    </div>
   </div>
 </template>

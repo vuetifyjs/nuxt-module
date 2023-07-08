@@ -3,7 +3,7 @@ import { configureLocales } from './date'
 import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook('vuetify:configuration', async ({ vuetifyOptions }) => {
+  nuxtApp.hook('vuetify:configuration', ({ vuetifyOptions }) => {
     if (adapter === 'custom')
       return
 
