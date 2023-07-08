@@ -1,6 +1,5 @@
 import type { Plugin } from 'vite'
-import type { VuetifyOptions } from 'vuetify'
-import type { BooleanOrArrayString } from '../types'
+import type { BooleanOrArrayString, VOptions } from '../types'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
@@ -12,12 +11,11 @@ export function vuetifyConfigurationPlugin(
   isDev: boolean,
   directives: BooleanOrArrayString,
   labComponents: BooleanOrArrayString,
-  vuetifyAppOptions: VuetifyOptions,
+  vuetifyAppOptions: VOptions,
 ) {
   const {
     directives: _directives,
     date: _date,
-    locale: _locale,
     ...newVuetifyOptions
   } = vuetifyAppOptions
   return <Plugin>{
