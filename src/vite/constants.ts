@@ -6,3 +6,5 @@ export const RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION = `/@nuxt-vuetify-configurat
 
 export const VIRTUAL_VUETIFY_DATE_CONFIGURATION = 'virtual:vuetify-date-configuration'
 export const RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION = `/@nuxt-vuetify-configuration/${VIRTUAL_VUETIFY_DATE_CONFIGURATION.slice('virtual:'.length)}`
+export const VIRTUAL_VUETIFY_ICONS_CONFIGURATION = 'virtual:vuetify-icons-configuration'
+export const RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION = `/@nuxt-vuetify-configuration/${VIRTUAL_VUETIFY_ICONS_CONFIGURATION.slice('virtual:'.length)}`

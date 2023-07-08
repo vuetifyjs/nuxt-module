@@ -14,10 +14,12 @@ export function vuetifyConfigurationPlugin(
   labComponents: BooleanOrArrayString,
   vuetifyAppOptions: VuetifyOptions,
 ) {
+  // TODO: handle blueprint
   const {
     directives: _directives,
     date: _date,
     locale: _locale,
+    icons: _icons,
     ...newVuetifyOptions
   } = vuetifyAppOptions
   return <Plugin>{

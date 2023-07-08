@@ -11,10 +11,12 @@ import vuetify from 'vite-plugin-vuetify'
 import type { VuetifyOptions } from 'vuetify'
 import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
-import { stylesPlugin } from './vite/styles-plugin'
+import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
 import type { DateAdapter, ModuleOptions } from './types'
 import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
+import { prepareIcons } from './utils/icons'
+import { vuetifyIconsPlugin } from './vite/vuetify-icons-configuration-plugin'
 
 export * from './types'
 
@@ -92,6 +94,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
+    const icons = prepareIcons(logger, vuetifyOptions?.icons)
+
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
       nuxt.options.css.unshift('vuetify/styles/main.sass')
@@ -99,6 +103,19 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.unshift('vuetify/styles')
     else if (typeof styles === 'object' && styles?.configFile && typeof styles.configFile === 'string')
       nuxt.options.css.unshift(styles.configFile)
+
+    if (icons.enabled) {
+      icons.local?.forEach(css => nuxt.options.css.push(css))
+      if (icons.cdn?.length) {
+        nuxt.options.app.head.link ??= []
+        icons.cdn.forEach(href => nuxt.options.app.head.link!.push({
+          rel: 'stylesheet',
+          href,
+          type: 'text/css',
+          crossorigin: 'anonymous',
+        }))
+      }
+    }
 
     extendWebpackConfig(() => {
       throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
@@ -124,14 +141,21 @@ export default defineNuxtModule<ModuleOptions>({
       ]
       const autoImportPlugin = vuetify({ styles: true, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
       viteInlineConfig.plugins.push(autoImportPlugin)
-      viteInlineConfig.plugins.push(stylesPlugin({ styles }, logger))
+      viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
         nuxt.options.dev,
         directives,
         labComponents,
         vuetifyAppOptions,
       ))
+      viteInlineConfig.plugins.push(vuetifyIconsPlugin(
+        nuxt.options.dev,
+        vuetifyAppOptions,
+        icons,
+      ))
+
       if (dateAdapter) {
+        // TODO: handle blueprint
         viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(
           nuxt.options.dev,
           i18n,
@@ -143,6 +167,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     addPlugin({
       src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
+    })
+    addPlugin({
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons.mts'),
     })
 
     if (i18n) {

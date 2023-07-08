@@ -51,12 +51,12 @@
     "release": "bumpp && npm publish"
   },
   "peerDependencies": {
-    "@nuxt/kit": "^3.5.3",
+    "@nuxt/kit": "^3.6.2",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.6"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.6.1",
+    "@nuxt/kit": "^3.6.2",
     "defu": "^6.1.2",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.6"
@@ -65,17 +65,17 @@
     "@antfu/eslint-config": "^0.39.6",
     "@antfu/ni": "^0.21.4",
     "@date-io/luxon": "^2.16.1",
-    "@nuxt/devtools": "^0.6.6",
+    "@nuxt/devtools": "^0.6.7",
     "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.6.1",
-    "@nuxt/test-utils": "^3.6.1",
+    "@nuxt/schema": "^3.6.2",
+    "@nuxt/test-utils": "^3.6.2",
     "@nuxtjs/i18n": "^8.0.0-beta.12",
     "@parcel/watcher": "^2.1.0",
     "@types/node": "^18",
     "bumpp": "^9.1.1",
     "eslint": "^8.43.0",
     "luxon": "^3.3.0",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.6.2",
     "sass": "^1.63.6",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",

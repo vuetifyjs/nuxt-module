@@ -13,3 +13,10 @@ declare module 'virtual:vuetify-date-configuration' {
   export const adapter: 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
   export function dateConfiguration(): DateOptions
 }
+
+declare module 'virtual:vuetify-icons-configuration' {
+  import type { IconOptions, VuetifyOptions } from 'vuetify'
+
+  export const isDev: boolean
+  export function configureIcons(vuetifyOptions: VuetifyOptions): void
+}

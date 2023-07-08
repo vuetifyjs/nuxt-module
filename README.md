@@ -32,6 +32,7 @@ Zero-config Nuxt module for Vuetify
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
+- 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
