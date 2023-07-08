@@ -7,7 +7,7 @@ const countryLocaleVariants: Record<string, LocaleObject[]> = {
     // ar.json contains ar-EG translations
     // { code: 'ar-DZ', name: 'Arabic (Algeria)' },
     // { code: 'ar-BH', name: 'Arabic (Bahrain)' },
-    { country: true, code: 'ar-EG', name: 'العربية' },
+    { code: 'ar-EG', name: 'العربية' },
     // { code: 'ar-EG', name: 'Arabic (Egypt)' },
     // { code: 'ar-IQ', name: 'Arabic (Iraq)' },
     // { code: 'ar-JO', name: 'Arabic (Jordan)' },

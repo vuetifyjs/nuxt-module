@@ -20,19 +20,21 @@ export function createAdapter(nuxtApp: NuxtApp) {
   const fallback = i18n.fallbackLocale
   const messages = i18n.messages
 
-  watch(() => current, l => (nuxtApp.$vuetify.locale.current.value = l))
+  const rtl: Record<string, boolean> = i18n.locales.value.reduce((acc: Record<string, boolean>, locale: any) => {
+    acc[locale.code] = locale.dir === 'rtl'
+    return acc
+  }, {})
 
-  watch(() => nuxtApp.$vuetify?.locale?.current.value, l => i18n.setLocale(l))
-
-  return {
+  return <LocaleInstance>{
     name: 'nuxt-vue-i18n',
     current,
     fallback,
     messages,
+    rtl,
     t: (key, ...params) => i18n.t(key, params),
     n: i18n.n,
-    provide: createProvideFunction({ current, fallback, messages }),
-  } satisfies LocaleInstance
+    provide: createProvideFunction({ current, fallback, messages, rtl }),
+  }
 }
 
 function getCurrentInstance(name: string, message?: string) {
@@ -150,6 +152,7 @@ function createProvideFunction(data: {
   current: Ref<string>
   fallback: Ref<string>
   messages: Ref<LocaleMessages>
+  rtl: Record<string, boolean>
 }) {
   return (props: LocaleOptions) => {
     // todo: simplify this, we don't need to proxy anything, the messages are there
@@ -166,18 +169,17 @@ function createProvideFunction(data: {
       inheritLocale: false,
     })
 
-    watch(current, l => i18n.locale.value = l)
-
-    return {
+    return <LocaleInstance>{
       name: 'nuxt-vue-i18n',
       current,
       fallback,
       messages,
+      rtl: data.rtl,
       // todo: fix this, we should check the options
       // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
-      provide: createProvideFunction({ current, fallback, messages }),
-    } satisfies LocaleInstance
+      provide: createProvideFunction({ current, fallback, messages, rtl: data.rtl }),
+    }
   }
 }

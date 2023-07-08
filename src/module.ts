@@ -8,11 +8,10 @@ import {
 import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
 import vuetify from 'vite-plugin-vuetify'
-import type { VuetifyOptions } from 'vuetify'
 import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
 import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
-import type { DateAdapter, ModuleOptions } from './types'
+import type { DateAdapter, ModuleOptions, VOptions } from './types'
 import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
 import { prepareIcons } from './utils/icons'
@@ -53,7 +52,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
-    const vuetifyAppOptions = <VuetifyOptions>defu(vOptions, {
+    const vuetifyAppOptions = <VOptions>defu(vOptions, {
       ssr: isSSR,
     })
 

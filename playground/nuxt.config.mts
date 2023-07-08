@@ -20,12 +20,14 @@ export default defineNuxtConfig({
     locales: availableLocales,
     lazy: true,
     strategy: 'no_prefix',
-    detectBrowserLanguage: false,
+    detectBrowserLanguage: {
+      fallbackLocale: 'en-US',
+      useCookie: false,
+    },
     langDir,
     defaultLocale: 'en-US',
-    customRoutes: undefined,
-    dynamicRouteParams: false,
-    // debug: true,
+    types: 'composition',
+    debug: true,
     vueI18n: './config/i18n.config.mts',
   },
   vuetify: {

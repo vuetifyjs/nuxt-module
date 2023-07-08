@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLocale } from 'vuetify'
+import { useLocale, useRtl } from 'vuetify'
 
 const value = reactive<{
   name1?: string
@@ -12,9 +12,14 @@ const value = reactive<{
 })
 const { locales, t } = useI18n()
 const { current } = useLocale()
+const { isRtl } = useRtl()
+
 watch(current, () => {
   console.log('current', t('xxx', { locale: current.value }))
 })
+watch(isRtl, (x) => {
+  console.log('isRtl', x)
+}, { immediate: true })
 </script>
 
 <template>
@@ -45,10 +50,11 @@ watch(current, () => {
     <v-locale-provider locale="es-ES">
       <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
     </v-locale-provider>
-    <br>
-    <v-date-picker />
-    <v-locale-provider locale="es-ES">
+    <div style="display: flex">
       <v-date-picker />
-    </v-locale-provider>
+      <v-locale-provider locale="ar-EG" rtl>
+        <v-date-picker />
+      </v-locale-provider>
+    </div>
   </div>
 </template>
