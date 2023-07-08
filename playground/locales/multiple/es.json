@@ -5,7 +5,10 @@
       "title": "Seleccione día",
       "header": "Introduzca día",
       "cancel": "Cancelar",
-      "ok": "Aceptar"
+      "ok": "Aceptar",
+      "input": {
+        "placeholder": "Introduzca día"
+      }
     }
   }
 }
