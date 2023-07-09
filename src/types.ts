@@ -33,7 +33,52 @@ export interface DateOptions {
   locale: Record<string, any>
 }
 
-export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives' | 'locale' | 'date'>> {
+export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md' | 'mdi-svg' | 'fa-svg' | 'custom'
+
+export interface IconSet {
+  name: IconSetName
+}
+
+export interface JSSVGIconSet extends IconSet {
+  aliases?: Record<string, string>
+}
+
+export interface FontAwesomeSvgIconSet extends IconSet {
+  /**
+   * The libraries to import and the corresponding name.
+   *
+   * For example, to import free svg icons, `libraries` should be (the default):
+   * `libraries: [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   *
+   * @default [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   */
+  libraries?: [defaultExport: boolean, name: string, statement: string][]
+}
+
+export interface FontIconSet extends IconSet {
+  /**
+   * Use CDN?
+   *
+   * - mdi: https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons
+   * - md:  https://fonts.googleapis.com/css?family=Material+Icons
+   * - fa:  https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css
+   * - fa4: https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css
+   *
+   * @default the corresponding CDN for the icon set
+   */
+  cdn?: string
+}
+
+export interface IconsOptions {
+  defaultSet: IconSetName
+  sets?: FontIconSet[]
+  svg?: {
+    mdi?: JSSVGIconSet
+    fa?: FontAwesomeSvgIconSet
+  }
+}
+
+export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives' | 'locale' | 'date' | 'icons'>> {
   /**
    * Include the lab components?
    *
@@ -65,6 +110,14 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
    * @see https://vuetifyjs.com/components/date-pickers/
    */
   date?: DateOptions
+  /**
+   * Include the icons?
+   *
+   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css.
+   *
+   * @see https://vuetifyjs.com/en/features/icon-fonts/
+   */
+  icons?: false | IconsOptions
 }
 
 export interface ModuleOptions {

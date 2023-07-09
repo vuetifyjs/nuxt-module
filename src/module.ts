@@ -10,10 +10,12 @@ import defu from 'defu'
 import vuetify from 'vite-plugin-vuetify'
 import { isPackageExists } from 'local-pkg'
 import { version } from '../package.json'
-import { stylesPlugin } from './vite/styles-plugin'
+import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
 import type { DateAdapter, ModuleOptions, VOptions } from './types'
 import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
+import { prepareIcons } from './utils/icons'
+import { vuetifyIconsPlugin } from './vite/vuetify-icons-configuration-plugin'
 
 export * from './types'
 
@@ -40,13 +42,13 @@ export default defineNuxtModule<ModuleOptions>({
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    const { moduleOptions, vuetifyOptions } = options
+    const { moduleOptions = {}, vuetifyOptions = {} } = options
 
     const {
       directives = false,
       labComponents = false,
       ...vOptions
-    } = vuetifyOptions ?? {}
+    } = vuetifyOptions
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
@@ -54,13 +56,13 @@ export default defineNuxtModule<ModuleOptions>({
       ssr: isSSR,
     })
 
-    const { styles = true } = moduleOptions ?? {}
+    const { styles = true } = moduleOptions
 
     const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
 
     let dateAdapter: DateAdapter | undefined
 
-    const dateOptions = vuetifyOptions?.date
+    const dateOptions = vuetifyOptions.date
 
     if (dateOptions) {
       const adapter = dateOptions.adapter
@@ -91,6 +93,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
+    const icons = prepareIcons(logger, vuetifyOptions)
+
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
       nuxt.options.css.unshift('vuetify/styles/main.sass')
@@ -98,6 +102,19 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.unshift('vuetify/styles')
     else if (typeof styles === 'object' && styles?.configFile && typeof styles.configFile === 'string')
       nuxt.options.css.unshift(styles.configFile)
+
+    if (icons.enabled) {
+      icons.local?.forEach(css => nuxt.options.css.push(css))
+      if (icons.cdn?.length) {
+        nuxt.options.app.head.link ??= []
+        icons.cdn.forEach(href => nuxt.options.app.head.link!.push({
+          rel: 'stylesheet',
+          href,
+          type: 'text/css',
+          crossorigin: 'anonymous',
+        }))
+      }
+    }
 
     extendWebpackConfig(() => {
       throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
@@ -123,14 +140,20 @@ export default defineNuxtModule<ModuleOptions>({
       ]
       const autoImportPlugin = vuetify({ styles: true, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
       viteInlineConfig.plugins.push(autoImportPlugin)
-      viteInlineConfig.plugins.push(stylesPlugin({ styles }, logger))
+      viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
         nuxt.options.dev,
         directives,
         labComponents,
         vuetifyAppOptions,
       ))
+      viteInlineConfig.plugins.push(vuetifyIconsPlugin(
+        nuxt.options.dev,
+        icons,
+      ))
+
       if (dateAdapter) {
+        // TODO: handle blueprint
         viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(
           nuxt.options.dev,
           i18n,
@@ -142,6 +165,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     addPlugin({
       src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
+    })
+    addPlugin({
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons.mts'),
     })
 
     if (i18n) {

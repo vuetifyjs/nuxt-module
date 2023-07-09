@@ -13,9 +13,11 @@ export function vuetifyConfigurationPlugin(
   labComponents: BooleanOrArrayString,
   vuetifyAppOptions: VOptions,
 ) {
+  // TODO: handle blueprint
   const {
     directives: _directives,
     date: _date,
+    icons: _icons,
     ...newVuetifyOptions
   } = vuetifyAppOptions
   return <Plugin>{

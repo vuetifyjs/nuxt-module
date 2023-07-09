@@ -30,21 +30,21 @@ export const i18n = ${i18n}
 export const adapter = '${dateAdapter}'
 export function dateConfiguration() {
   const options = ${JSON.stringify(newDateOptions)}
-  ${buildAdapter(dateAdapter)}
+  ${buildAdapter()}
   return options
 }
 `
       }
     },
   }
-}
 
-function buildAdapter(dateAdapter: DateAdapter) {
-  if (dateAdapter === 'custom')
-    return ''
+  function buildAdapter() {
+    if (dateAdapter === 'custom')
+      return ''
 
-  if (dateAdapter === 'vuetify')
-    return 'options.adapter = VuetifyDateAdapter'
+    if (dateAdapter === 'vuetify')
+      return 'options.adapter = VuetifyDateAdapter'
 
-  return 'options.adapter = Adapter'
+    return 'options.adapter = Adapter'
+  }
 }
