@@ -34,7 +34,7 @@ Zero-config Nuxt module for Vuetify
 - 💥 **SSR**: automatic SSR detection and configuration
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
 - 🎨 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
-- 📦 **Multiple Icon Sets**: you can also use []
+- 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
@@ -97,6 +97,17 @@ By default, the module will use the `mdi` font icon library. You can change it b
 - `fa4` for [Font Awesome 4](https://fontawesome.com/v4.7.0/)
 - `fa` for [Font Awesome 5](https://fontawesome.com)
 
+To configure a font icon you only need to specify the default set:
+```ts
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'mdi'
+    }
+  }
+}
+```
+
 The module will use the CDN version of the font icon. If you want to use the local version, you only need to install the corresponding dependency, the module will auto-detect it and will switch to register the font to use the local version.
 
 The CDN used for each font icon library, you can use the `cdn` option to change it:
@@ -104,6 +115,21 @@ The CDN used for each font icon library, you can use the `cdn` option to change 
 - [CDN for Material Icons (md)](https://fonts.googleapis.com/css?family=Material+Icons)
 - [CDN for Font Awesome 4 (fa4)](https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css)
 - [CDN for Font Awesome 5 (fa)](https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css)
+
+To chage the CDN for a font icon you only need to specify the `cdn` option:
+```ts
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'mdi'
+      sets: [{
+        name: 'mdi',
+        cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons'  
+      }]
+    }
+  }
+}
+```
 
 ## 🎨 SVG Icons
 
@@ -115,18 +141,26 @@ This module supports the following SVG icon libraries:
 
 You only need to add `@mdi/js` dependency to your project and configure the default set:
 ```ts
-icons: {
-  defaultSet: 'mdi-svg'
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'mdi-svg'
+    }
+  }
 }
 ```
 
 You can also add icon aliases:
 ```ts
-icons: {
-  defaultSet: 'mdi-svg',
-  svg: {
-    mdi: {
-      account: 'mdiAccount'
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'mdi-svg',
+      svg: {
+        mdi: {
+          account: 'mdiAccount'
+        }
+      }
     }
   }
 }
@@ -136,26 +170,44 @@ icons: {
 
 You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome`, and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
 ```ts
-icons: {
-  defaultSet: 'fa-svg'
-}
-```
-
-You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
-```ts
-icons: {
-  defaultSet: 'fa-svg',
-  svg: {
-    fa: {
-      libraries: [/* default export? */ false, /* export name */ 'fas', /* import */ '@fortawesome/free-solid-svg-icons']
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'fa-svg'
     }
   }
 }
 ```
 
+You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
+```ts
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'fa-svg',
+      svg: {
+        fa: {
+          libraries: [/* default export? */ false, /* export name */ 'fas', /* import */ '@fortawesome/free-solid-svg-icons']
+        }
+      }
+    }
+  } 
+}
+```
+
 ## 📦 Multiple Icon Sets
 
-WIP
+You can register multiple icons sets adding them to the sets array, don't forget to add the default set, otherwise 'mdi' will be used:
+```ts
+vuetify: {
+  vuetifyOptions: {
+    icons: {
+      defaultSet: 'mdi'
+      sets: [{ name: 'mdi' }, { name: 'fa' }]
+    }
+  }
+}
+```
 
 ## 🌍 I18n support
 
