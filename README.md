@@ -28,7 +28,6 @@
 
 ## 🚀 Features
 
-- 📖 [**Documentation & guides**](README.md#-features) (WIP)
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
 - 🔩 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
 - ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
