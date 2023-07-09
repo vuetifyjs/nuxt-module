@@ -85,9 +85,77 @@ this plugin.
 
 ## 😃 Font Icons
 
+This module supports the following font icons libraries:
+- [Material Design Icons](https://materialdesignicons.com/)
+- [Material Icons](https://fonts.google.com/icons)
+- [Font Awesome 4](https://fontawesome.com/v4.7.0/)
+- [Font Awesome 5](https://fontawesome.com/)
+
+By default, the module will use the `mdi` font icon library. You can change it by setting the `defaultSet` option to:
+- `mdi` for [Material Design Icons](https://materialdesignicons.com/)
+- `md` for [Material Icons](https://fonts.google.com/icons)
+- `fa4` for [Font Awesome 4](https://fontawesome.com/v4.7.0/)
+- `fa` for [Font Awesome 5](https://fontawesome.com)
+
+The module will use the CDN version of the font icon. If you want to use the local version, you only need to install the corresponding dependency, the module will auto-detect it and will switch to register the font to use the local version.
+
+The CDN used for each font icon library, you can use the `cdn` option to change it:
+- [CDN for Material Design Icons (mdi)](https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css)
+- [CDN for Material Icons (md)](https://fonts.googleapis.com/css?family=Material+Icons)
+- [CDN for Font Awesome 4 (fa4)](https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css)
+- [CDN for Font Awesome 5 (fa)](https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css)
+
 ## 🎨 SVG Icons
 
+This module supports the following SVG icon libraries:
+- [@mdi/js](https://www.npmjs.com/package/@mdi/js)
+- [@fortawesome/fontawesome-svg-core](https://www.npmjs.com/package/@fortawesome/fontawesome-svg-core)
+
+### mdi-svg
+
+You only need to add `@mdi/js` dependency to your project and configure the default set:
+```ts
+icons: {
+  defaultSet: 'mdi-svg'
+}
+```
+
+You can also add icon aliases:
+```ts
+icons: {
+  defaultSet: 'mdi-svg',
+  svg: {
+    mdi: {
+      account: 'mdiAccount'
+    }
+  }
+}
+```
+
+### fa-svg
+
+You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome`, and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
+```ts
+icons: {
+  defaultSet: 'fa-svg'
+}
+```
+
+You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
+```ts
+icons: {
+  defaultSet: 'fa-svg',
+  svg: {
+    fa: {
+      libraries: [/* default export? */ false, /* export name */ 'fas', /* import */ '@fortawesome/free-solid-svg-icons']
+    }
+  }
+}
+```
+
 ## 📦 Multiple Icon Sets
+
+WIP
 
 ## 🌍 I18n support
 
