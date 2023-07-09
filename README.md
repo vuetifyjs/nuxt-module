@@ -36,10 +36,11 @@
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
-- 🎨 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
+- 🎭 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
 - 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
+- 🎨 **Vuetify Blueprints (WIP)**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
@@ -131,7 +132,7 @@ vuetify: {
 }
 ```
 
-## 🎨 SVG Icons
+## 🎭 SVG Icons
 
 This module supports the following SVG icon libraries:
 - [@mdi/js](https://www.npmjs.com/package/@mdi/js)
@@ -244,6 +245,10 @@ If you want to use a custom date adapter, you can configure it using `vuetifyOpt
   ```
 
 Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
+
+## 🎨 Vuetify Blueprints
+
+**WIP**
 
 ## 👀 Full config
 
