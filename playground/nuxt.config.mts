@@ -20,20 +20,22 @@ export default defineNuxtConfig({
     locales: availableLocales,
     lazy: true,
     strategy: 'no_prefix',
-    detectBrowserLanguage: {
-      fallbackLocale: 'en-US',
+    detectBrowserLanguage: false, /* {      fallbackLocale: 'en-US',
       useCookie: false,
-    },
+    } */
     langDir,
     defaultLocale: 'en-US',
     types: 'composition',
+    pages: undefined,
+    dynamicRouteParams: false,
+    skipSettingLocaleOnNavigate: true,
     debug: true,
-    vueI18n: './config/i18n.config.mts',
+    vueI18n: './config/i18n.config.ts',
   },
   vuetify: {
-    moduleOptions: {
+    /* moduleOptions: {
       styles: { configFile: '/settings.scss' },
-    },
+    }, */
     vuetifyOptions: {
       directives: true,
       labComponents: ['VDataTable'],
@@ -75,7 +77,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ['/main.scss'],
+  // css: ['/main.scss'],
   experimental: {
     inlineSSRStyles: false,
     payloadExtraction: false,

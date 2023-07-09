@@ -1,7 +1,5 @@
 import type { Plugin } from 'vite'
-import type { VuetifyOptions } from 'vuetify'
 import type { ResolvedIcons } from '../utils/icons'
-import type { IconSetName, IconsOptions } from '../types'
 import {
   RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION,
   VIRTUAL_VUETIFY_ICONS_CONFIGURATION,
@@ -9,7 +7,6 @@ import {
 
 export function vuetifyIconsPlugin(
   isDev: boolean,
-  vuetifyAppOptions: VuetifyOptions,
   resolvedIcons: ResolvedIcons,
 ) {
   const iconsOptionsPromise = prepareIcons()
@@ -24,58 +21,56 @@ export function vuetifyIconsPlugin(
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
         if (!resolvedIcons.enabled) {
+          // no idea how to disable icons in vuetify
           return `export const isDev = ${isDev}
-export function configureIcons(vuetifyOptions) {
-  vuetifyOptions.icons = { defaultSet: undefined }
+export function iconsConfiguration() {
+  return { defaultSet: undefined }
 }
 `
         }
-        const { imports, icons } = await iconsOptionsPromise
+
+        const { defaultSet, imports, sets } = await iconsOptionsPromise
+
+        if (!defaultSet) {
+          return `export const isDev = ${isDev}
+export function iconsConfiguration() {
+  return { defaultSet: undefined }
+}
+`
+        }
 
         return `${imports}
 
 export const isDev = ${isDev}
-export function configureIcons(vuetifyOptions) {
-  console.log('${icons.defaultSet}')
-  // vuetifyOptions.icons = ${JSON.stringify(icons)}
+export function iconsConfiguration() {
+  return {
+    defaultSet: '${defaultSet}',
+    aliases,
+    sets: { ${sets} }
+  }
 }
 `
       }
     },
   }
 
-  function buildImports(defaultSet: IconSetName) {
-    const imports: string[] = []
-
-    return imports.join('\n')
-  }
-
-  async function prepareIcons() {
+  async function prepareIcons(): Promise<{
+    defaultSet?: string
+    imports: string
+    sets: string
+  }> {
     if (!resolvedIcons.enabled) {
       return {
+        defaultSet: undefined,
         imports: '',
-        icons: {
-          defaultSet: 'mdi',
-        },
+        sets: '',
       }
     }
 
-    const { icons = {} } = vuetifyAppOptions
-    let defaultSet = vuetifyAppOptions.icons?.defaultSet
-    if (!defaultSet && vuetifyAppOptions.icons?.defaultSet?.length)
-      defaultSet = vuetifyAppOptions.icons.defaultSet[0]
-
-    icons.defaultSet = defaultSet || 'mdi'
-
-    if (!icons.sets)
-      icons.sets = {}
-
-    return <{
-      icons: IconsOptions
-      imports: string
-    }>{
-      icons,
-      imports: buildImports(icons.defaultSet as IconSetName),
+    return {
+      defaultSet: resolvedIcons.defaultSet,
+      imports: Object.values(resolvedIcons.imports).join('\n'),
+      sets: resolvedIcons.sets.join(','),
     }
   }
 }

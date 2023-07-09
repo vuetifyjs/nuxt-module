@@ -42,13 +42,13 @@ export default defineNuxtModule<ModuleOptions>({
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    const { moduleOptions, vuetifyOptions } = options
+    const { moduleOptions = {}, vuetifyOptions = {} } = options
 
     const {
       directives = false,
       labComponents = false,
       ...vOptions
-    } = vuetifyOptions ?? {}
+    } = vuetifyOptions
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
@@ -56,13 +56,13 @@ export default defineNuxtModule<ModuleOptions>({
       ssr: isSSR,
     })
 
-    const { styles = true } = moduleOptions ?? {}
+    const { styles = true } = moduleOptions
 
     const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
 
     let dateAdapter: DateAdapter | undefined
 
-    const dateOptions = vuetifyOptions?.date
+    const dateOptions = vuetifyOptions.date
 
     if (dateOptions) {
       const adapter = dateOptions.adapter
@@ -93,7 +93,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
-    const icons = prepareIcons(logger, vuetifyOptions?.icons)
+    const icons = prepareIcons(logger, vuetifyOptions)
 
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
@@ -149,7 +149,6 @@ export default defineNuxtModule<ModuleOptions>({
       ))
       viteInlineConfig.plugins.push(vuetifyIconsPlugin(
         nuxt.options.dev,
-        vuetifyAppOptions,
         icons,
       ))
 

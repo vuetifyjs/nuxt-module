@@ -1,5 +1,5 @@
-import { configureIcons } from 'virtual:vuetify-icons-configuration'
-import { defineNuxtPlugin } from '#app'
+import { configureIcons } from './icons'
+import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:configuration', ({ vuetifyOptions }) => {

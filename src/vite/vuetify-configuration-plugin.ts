@@ -17,7 +17,6 @@ export function vuetifyConfigurationPlugin(
   const {
     directives: _directives,
     date: _date,
-    locale: _locale,
     icons: _icons,
     ...newVuetifyOptions
   } = vuetifyAppOptions

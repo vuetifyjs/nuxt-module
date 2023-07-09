@@ -1,3 +1,4 @@
+import type { DateTimeFormats, NumberFormats, PluralizationRules } from '@intlify/core-base'
 import type { LocaleObject } from '#i18n'
 
 const multipleJson = process.env.MULTIPLE_LANG_FILES === 'true'
@@ -115,5 +116,72 @@ function buildLocales() {
 }
 
 export const availableLocales = buildLocales()
+
+export const datetimeFormats = Object.values(availableLocales).reduce((acc, data) => {
+  const dateTimeFormats = data.dateTimeFormats
+  if (dateTimeFormats) {
+    acc[data.code] = { ...dateTimeFormats }
+    delete data.dateTimeFormats
+  }
+  else {
+    acc[data.code] = {
+      shortDate: {
+        dateStyle: 'short',
+      },
+      short: {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      },
+      long: {
+        dateStyle: 'long',
+        timeStyle: 'medium',
+      },
+    }
+  }
+
+  return acc
+}, <DateTimeFormats>{})
+
+export const numberFormats = Object.values(availableLocales).reduce((acc, data) => {
+  const numberFormats = data.numberFormats
+  if (numberFormats) {
+    acc[data.code] = { ...numberFormats }
+    delete data.numberFormats
+  }
+  else {
+    acc[data.code] = {
+      percentage: {
+        style: 'percent',
+        maximumFractionDigits: 1,
+      },
+      smallCounting: {
+        style: 'decimal',
+        maximumFractionDigits: 0,
+      },
+      kiloCounting: {
+        notation: 'compact',
+        compactDisplay: 'short',
+        maximumFractionDigits: 1,
+      },
+      millionCounting: {
+        notation: 'compact',
+        compactDisplay: 'short',
+        maximumFractionDigits: 2,
+      },
+    }
+  }
+
+  return acc
+}, <NumberFormats>{})
+
+export const pluralRules = Object.values(availableLocales).reduce((acc, data) => {
+  const pluralRule = data.pluralRule
+  if (pluralRule) {
+    acc[data.code] = pluralRule
+    delete data.pluralRule
+  }
+
+  return acc
+}, <PluralizationRules>{})
 
 export const langDir = multipleJson ? 'locales/multiple' : 'locales/single'

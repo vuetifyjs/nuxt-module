@@ -33,6 +33,8 @@ Zero-config Nuxt module for Vuetify
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
+- 🎨 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
+- 📦 **Multiple Icon Sets**: you can also use []
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
@@ -81,6 +83,11 @@ Read the [📖 documentation](https://vite-pwa-org.netlify.app/frameworks/nuxt) 
 this plugin.
 -->
 
+## 😃 Font Icons
+
+## 🎨 SVG Icons
+
+## 📦 Multiple Icon Sets
 
 ## 🌍 I18n support
 

@@ -15,8 +15,8 @@ declare module 'virtual:vuetify-date-configuration' {
 }
 
 declare module 'virtual:vuetify-icons-configuration' {
-  import type { IconOptions, VuetifyOptions } from 'vuetify'
+  import type { IconOptions } from 'vuetify'
 
   export const isDev: boolean
-  export function configureIcons(vuetifyOptions: VuetifyOptions): void
+  export function iconsConfiguration(): IconOptions
 }

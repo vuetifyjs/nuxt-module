@@ -9,31 +9,32 @@ import {
   toRaw,
   watch,
 } from 'vue'
-import type { LocaleInstance, LocaleMessages, LocaleOptions } from 'vuetify'
+import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
 import { toKebabCase } from '../../utils'
-import type { NuxtApp } from '#app'
 import { useI18n } from '#imports'
+import { useNuxtApp } from '#app'
 
-export function createAdapter(nuxtApp: NuxtApp) {
+export function createAdapter(vuetifyOptions: VuetifyOptions) {
+  vuetifyOptions.locale = {}
+  const nuxtApp = useNuxtApp()
   const i18n = nuxtApp.$i18n
   const current = i18n.locale
   const fallback = i18n.fallbackLocale
   const messages = i18n.messages
 
-  const rtl: Record<string, boolean> = i18n.locales.value.reduce((acc: Record<string, boolean>, locale: any) => {
+  vuetifyOptions.locale.rtl = i18n.locales.value.reduce((acc: Record<string, boolean>, locale: any) => {
     acc[locale.code] = locale.dir === 'rtl'
     return acc
   }, {})
 
-  return <LocaleInstance>{
+  vuetifyOptions.locale.adapter = {
     name: 'nuxt-vue-i18n',
     current,
     fallback,
     messages,
-    rtl,
     t: (key, ...params) => i18n.t(key, params),
     n: i18n.n,
-    provide: createProvideFunction({ current, fallback, messages, rtl }),
+    provide: createProvideFunction({ current, fallback, messages }),
   }
 }
 
@@ -152,7 +153,6 @@ function createProvideFunction(data: {
   current: Ref<string>
   fallback: Ref<string>
   messages: Ref<LocaleMessages>
-  rtl: Record<string, boolean>
 }) {
   return (props: LocaleOptions) => {
     // todo: simplify this, we don't need to proxy anything, the messages are there
@@ -174,12 +174,11 @@ function createProvideFunction(data: {
       current,
       fallback,
       messages,
-      rtl: data.rtl,
       // todo: fix this, we should check the options
       // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
-      provide: createProvideFunction({ current, fallback, messages, rtl: data.rtl }),
+      provide: createProvideFunction({ current, fallback, messages }),
     }
   }
 }
