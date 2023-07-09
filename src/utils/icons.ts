@@ -1,5 +1,5 @@
 import { isPackageExists } from 'local-pkg'
-import type { FontAwesomeSvgIconSet, IconSetName, VOptions } from '../types'
+import type { IconSetName, VOptions } from '../types'
 
 export interface ResolvedIcons {
   enabled: boolean
@@ -11,7 +11,7 @@ export interface ResolvedIcons {
   imports: Record<string, string[]>
   svg: {
     mdi?: boolean
-    fa?: FontAwesomeSvgIconSet['imports']
+    fa?: string[]
   }
 }
 
@@ -71,22 +71,24 @@ export function prepareIcons(
       resolvedIcons.cdn!.push(iconsCDN[name])
   })
 
-  const faSvg = vuetifyOptions.icons.svg?.fa
-  if (faSvg) {
+  let faSvg = vuetifyOptions.icons.svg?.fa
+  if (defaultSet === 'fa-svg' || faSvg) {
     let faSvgExists = isPackageExists('@fortawesome/fontawesome-svg-core')
     if (!faSvgExists)
       logger.warn('Missing @fortawesome/fontawesome-svg-core dependency, install it!')
 
     faSvgExists = isPackageExists('@fortawesome/vue-fontawesome')
     if (faSvgExists) {
-      if (!faSvg.imports?.length)
-        faSvg.imports = [['fas', '@fortawesome/free-solid-svg-icons']]
+      if (!faSvg?.libraries?.length) {
+        faSvg = faSvg || {}
+        faSvg.libraries = [[false, 'fas', '@fortawesome/free-solid-svg-icons']]
+      }
 
-      for (const p in faSvg.imports) {
-        const [, pkg] = faSvg.imports[p]
-        faSvgExists = isPackageExists(pkg)
+      for (const p in faSvg.libraries) {
+        const [_defaultExport, _name, library] = faSvg.libraries[p]
+        faSvgExists = isPackageExists(library)
         if (!faSvgExists)
-          logger.warn(`Missing ${pkg} dependency, install it!`)
+          logger.warn(`Missing library ${library} dependency, install it!`)
       }
     }
     else {
@@ -94,27 +96,36 @@ export function prepareIcons(
     }
 
     if (faSvgExists) {
-      resolvedIcons.svg!.fa = [...faSvg.imports]
-      delete faSvg.imports
+      resolvedIcons.imports.push(`import {${defaultSet === 'fa-svg' ? 'aliases,' : ''}fa} from \'vuetify/iconsets/fa-svg\'`)
+      resolvedIcons.imports.push('import { library } from \'@fortawesome/fontawesome-svg-core\'')
+      resolvedIcons.imports.push('import { FontAwesomeIcon } from \'@fortawesome/vue-fontawesome\'')
+      resolvedIcons.imports.push('import { useNuxtApp } from \'#app\'')
+      resolvedIcons.svg.fa = ['useNuxtApp().vueApp.component(\'font-awesome-icon\', FontAwesomeIcon)']
+      faSvg.libraries.forEach(([defaultExport, name, library]) => {
+        resolvedIcons.imports.push(`import ${defaultExport ? name : `{${name}}`} from \'${library}\'`)
+        resolvedIcons.svg.fa.push(`library.add(${name})`)
+      })
+      resolvedIcons.sets.push('fa')
+      if (defaultSet === 'fa-svg')
+        resolvedIcons.defaultSet = 'fa'
     }
   }
 
   const mdiSvg = vuetifyOptions.icons.svg?.mdi
   if (defaultSet === 'mdi-svg' || mdiSvg) {
-    if (defaultSet === 'mdi-svg')
-      resolvedIcons.defaultSet = 'mdi'
-
     const mdiSvgExists = isPackageExists('@mdi/js')
     if (mdiSvgExists) {
       resolvedIcons.svg!.mdi = true
       resolvedIcons.imports.push(`import {${defaultSet === 'mdi-svg' ? 'aliases,' : ''}mdi} from \'vuetify/iconsets/mdi-svg\'`)
-      resolvedIcons.sets.push('mdi')
       if (mdiSvg && mdiSvg.aliases) {
         resolvedIcons.imports.push(`import {${Object.values(mdiSvg.aliases).join(',')}} from \'@mdi/js\'`)
         Object.entries(mdiSvg.aliases).forEach(([alias, icon]) => {
           resolvedIcons.aliases.push(`${alias}: ${icon}`)
         })
       }
+      resolvedIcons.sets.push('mdi')
+      if (defaultSet === 'mdi-svg')
+        resolvedIcons.defaultSet = 'mdi'
     }
     else {
       resolvedIcons.svg!.mdi = false

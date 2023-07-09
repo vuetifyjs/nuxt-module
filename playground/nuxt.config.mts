@@ -46,8 +46,9 @@ export default defineNuxtConfig({
       date: {
         // adapter: 'luxon',
         adapter: 'vuetify',
-      }, /* ,
+      },
       icons: {
+        /* defaultSet: 'fa-svg', */ /*
         defaultSet: 'mdi-svg',
         svg: {
           mdi: {
@@ -55,8 +56,8 @@ export default defineNuxtConfig({
               account: 'mdiAccount',
             },
           },
-        },
-      }, */
+        }, */
+      },
     },
   },
   vite: {

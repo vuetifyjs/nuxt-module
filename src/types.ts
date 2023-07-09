@@ -43,16 +43,16 @@ export interface JSSVGIconSet extends IconSet {
   aliases?: Record<string, string>
 }
 
-export interface FontAwesomeSvgIconSet extends JSSVGIconSet {
+export interface FontAwesomeSvgIconSet extends IconSet {
   /**
-   * The icon collections to import and the corresponding name.
+   * The libraries to import and the corresponding name.
    *
-   * For example, to import free svg icons, `imports` should be (the default):
-   * `imports: [['fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   * For example, to import free svg icons, `libraries` should be (the default):
+   * `libraries: [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
    *
-   * @default [['fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   * @default [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
    */
-  imports?: [name: string, statement: string][]
+  libraries?: [defaultExport: boolean, name: string, statement: string][]
 }
 
 export interface FontIconSet extends IconSet {

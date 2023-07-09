@@ -29,7 +29,7 @@ export function iconsConfiguration() {
 `
         }
 
-        const { aliases, defaultSet, imports, sets } = await iconsOptionsPromise
+        const { aliases, fa, defaultSet, imports, sets } = await iconsOptionsPromise
 
         if (!defaultSet) {
           return `export const isDev = ${isDev}
@@ -43,9 +43,10 @@ export function iconsConfiguration() {
 
 export const isDev = ${isDev}
 export function iconsConfiguration() {
+${fa.map(f => `  ${f}`).join('\n')}
   return {
     defaultSet: '${defaultSet}',
-    ${aliases},
+    ${aliases}
     sets: { ${sets} }
   }
 }
@@ -55,6 +56,7 @@ export function iconsConfiguration() {
   }
 
   async function prepareIcons(): Promise<{
+    fa: string[]
     defaultSet?: string
     imports: string
     sets: string
@@ -65,20 +67,23 @@ export function iconsConfiguration() {
         defaultSet: undefined,
         imports: '',
         sets: '',
+        aliases: '',
+        fa: [],
       }
     }
 
-    let aliases = 'aliases'
+    let aliases = 'aliases,'
     const alias = resolvedIcons.aliases
     if (alias.length) {
       aliases = `aliases: {
       ...aliases,
       ${alias.join(',\n')}
-    }
+    },
 `
     }
 
     return {
+      fa: resolvedIcons.svg?.fa ?? [],
       defaultSet: resolvedIcons.defaultSet,
       imports: Object.values(resolvedIcons.imports).join('\n'),
       sets: resolvedIcons.sets.join(','),
