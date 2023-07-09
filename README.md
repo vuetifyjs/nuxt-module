@@ -53,6 +53,8 @@ yarn add vuetify-nuxt-module -D
 pnpm add vuetify-nuxt-module -D
 ```
 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vuetify-nuxt-module)
+
 ## 🦄 Usage
 
 > `vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
@@ -77,11 +79,6 @@ export default defineNuxtConfig({
   }
 })
 ```
-
-<!--
-Read the [📖 documentation](https://vite-pwa-org.netlify.app/frameworks/nuxt) for a complete guide on how to configure and use
-this plugin.
--->
 
 ## 😃 Font Icons
 

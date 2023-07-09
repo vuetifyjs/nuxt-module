@@ -109,5 +109,9 @@
     "patchedDependencies": {
       "@nuxtjs/i18n@8.0.0-beta.13": "patches/@nuxtjs__i18n@8.0.0-beta.13.patch"
     }
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && pnpm install && pnpm run dev"
   }
 }
