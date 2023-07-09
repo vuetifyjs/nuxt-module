@@ -120,17 +120,36 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
   icons?: false | IconsOptions
 }
 
-export interface ModuleOptions {
-  moduleOptions?: {
-    /**
-     * Vuetify styles.
-     *
-     * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
-     */
-    styles?: true | 'none' | 'expose' | 'sass' | {
-      configFile: string
-    }
+export interface MOptions {
+  /**
+   * @default true
+   */
+  importComposables?: boolean
+  /**
+   * If you are using another composables that collide with the Vuetify ones,
+   * enable this flag to prefix them with `V`:
+   * - `useLocale` -> `useVLocale`
+   * - `useDefaults` -> `useVDefaults`
+   * - `useDisplay` -> `useVDisplay`
+   * - `useLayout` -> `useVLayout`
+   * - `useRtl` -> `useVRtl`
+   * - `useTheme` -> `useVTheme`
+   *
+   * @default false
+   */
+  prefixComposables?: boolean
+  /**
+   * Vuetify styles.
+   *
+   * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
+   */
+  styles?: true | 'none' | 'expose' | 'sass' | {
+    configFile: string
   }
+}
+
+export interface ModuleOptions {
+  moduleOptions?: MOptions
   /**
    * Vuetify options.
    */

@@ -1,3 +1,6 @@
+/**
+ * Convert string to kebap-case
+ */
 export function toKebabCase(str = '') {
   if (toKebabCase.cache.has(str))
     return toKebabCase.cache.get(str)!

@@ -39,6 +39,7 @@
 - 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
+- ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
 - 🎨 **Vuetify Blueprints (WIP)**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
@@ -248,6 +249,28 @@ If you want to use a custom date adapter, you can configure it using `vuetifyOpt
   ```
 
 Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
+
+## ⚙️ Auto-Import Vuetify Composables
+
+No more Vuetify composables manual imports, auto import is enabled by default:
+- [useDate](https://vuetifyjs.com/en/api/use-date/)
+- [useDefaults](https://vuetifyjs.com/en/api/use-defaults/)
+- [useDisplay](https://vuetifyjs.com/en/api/use-display/)
+- [useLayout](https://vuetifyjs.com/en/api/use-layout/)
+- [useLocale](https://vuetifyjs.com/en/api/use-locale/)
+- [useRtl](https://vuetifyjs.com/en/api/use-rtl/)
+- [useTheme](https://vuetifyjs.com/en/api/use-theme/)
+
+You can disable auto-import using `moduleOptions.importComposables: false`.
+
+If you are using another composables that collide with the Vuetify ones, enable `moduleOptions.prefixComposables: true` to prefix them with `V`:
+- `useLocale` => `useVLocale`
+- `useDefaults` => `useVDefaults`
+- `useDisplay` => `useVDisplay`
+- `useLayout` => `useVLayout`
+- `useRtl` => `useVRtl`
+- `useTheme` => `useVTheme`
+
 
 ## 🎨 Vuetify Blueprints
 
