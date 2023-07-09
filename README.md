@@ -116,7 +116,7 @@ The CDN used for each font icon library, you can use the `cdn` option to change 
 - [CDN for Font Awesome 4 (fa4)](https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css)
 - [CDN for Font Awesome 5 (fa)](https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css)
 
-To chage the CDN for a font icon you only need to specify the `cdn` option:
+To change the CDN for a font icon library you only need to specify the `cdn` option:
 ```ts
 vuetify: {
   vuetifyOptions: {
@@ -222,7 +222,7 @@ You can check the playground folder, you can run it using single or multiple jso
 Right now you can only use Vuetify adapter, there is a bug and will not work, I'm working on it: https://github.com/userquin/vuetify-nuxt-module/pull/9#issuecomment-1620023814.
 
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
-- (optional): install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
+- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters (optional)
 - configure the date entry in your Vuetify configuration:
   ```ts
   vuetifyOptions: {
