@@ -284,4 +284,4 @@ The virtual modules can be found in [configuration.d.ts](https://github.com/user
 
 ## 📄 License
 
-[MIT](./LICENSE) License &copy; 2023-PRESENT [Joaquín Sánchez](https://github.com/userquin)
+[MIT](https://github.com/userquin/vuetify-nuxt-module/blob/main/LICENSE) License &copy; 2023-PRESENT [Joaquín Sánchez](https://github.com/userquin)
