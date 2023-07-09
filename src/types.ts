@@ -33,7 +33,7 @@ export interface DateOptions {
   locale: Record<string, any>
 }
 
-export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md'
+export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md' | 'mdi-svg' | 'fa-svg' | 'custom'
 
 export interface IconSet {
   name: IconSetName

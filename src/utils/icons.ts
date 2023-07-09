@@ -7,7 +7,8 @@ export interface ResolvedIcons {
   sets: string[]
   cdn: string[]
   local: string[]
-  imports: Record<string, string | string[]>
+  aliases: string[]
+  imports: Record<string, string[]>
   svg: {
     mdi?: boolean
     fa?: FontAwesomeSvgIconSet['imports']
@@ -52,7 +53,8 @@ export function prepareIcons(
     enabled: true,
     defaultSet,
     sets: [],
-    imports: {},
+    aliases: [],
+    imports: [],
     cdn: [],
     local: [],
     svg: {
@@ -61,7 +63,7 @@ export function prepareIcons(
   }
 
   sets.filter(s => cssFonts.includes(s.name)).map(s => s.name).forEach((name) => {
-    resolvedIcons.imports[name] = `import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`
+    resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`)
     resolvedIcons.sets.push(name)
     if (isPackageExists(iconsPackageNames[name].name))
       resolvedIcons.local!.push(iconsPackageNames[name].css)
@@ -98,10 +100,21 @@ export function prepareIcons(
   }
 
   const mdiSvg = vuetifyOptions.icons.svg?.mdi
-  if (mdiSvg) {
+  if (defaultSet === 'mdi-svg' || mdiSvg) {
+    if (defaultSet === 'mdi-svg')
+      resolvedIcons.defaultSet = 'mdi'
+
     const mdiSvgExists = isPackageExists('@mdi/js')
     if (mdiSvgExists) {
       resolvedIcons.svg!.mdi = true
+      resolvedIcons.imports.push(`import {${defaultSet === 'mdi-svg' ? 'aliases,' : ''}mdi} from \'vuetify/iconsets/mdi-svg\'`)
+      resolvedIcons.sets.push('mdi')
+      if (mdiSvg && mdiSvg.aliases) {
+        resolvedIcons.imports.push(`import {${Object.values(mdiSvg.aliases).join(',')}} from \'@mdi/js\'`)
+        Object.entries(mdiSvg.aliases).forEach(([alias, icon]) => {
+          resolvedIcons.aliases.push(`${alias}: ${icon}`)
+        })
+      }
     }
     else {
       resolvedIcons.svg!.mdi = false
@@ -113,9 +126,6 @@ export function prepareIcons(
     logger.warn('No icons found, icons disabled!')
     return { enabled: false }
   }
-
-  console.log(vuetifyOptions.icons)
-  console.log(resolvedIcons)
 
   return resolvedIcons
 }

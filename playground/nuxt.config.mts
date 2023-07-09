@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     pages: undefined,
     dynamicRouteParams: false,
     skipSettingLocaleOnNavigate: true,
-    debug: true,
+    // debug: true,
     vueI18n: './config/i18n.config.ts',
   },
   vuetify: {
@@ -46,7 +46,17 @@ export default defineNuxtConfig({
       date: {
         // adapter: 'luxon',
         adapter: 'vuetify',
-      },
+      }, /* ,
+      icons: {
+        defaultSet: 'mdi-svg',
+        svg: {
+          mdi: {
+            aliases: {
+              account: 'mdiAccount',
+            },
+          },
+        },
+      }, */
     },
   },
   vite: {

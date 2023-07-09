@@ -33,6 +33,9 @@ devDependencies:
   '@date-io/luxon':
     specifier: ^2.16.1
     version: 2.16.1(luxon@3.3.0)
+  '@mdi/js':
+    specifier: ^7.2.96
+    version: 7.2.96
   '@nuxt/devtools':
     specifier: ^0.6.7
     version: 0.6.7(nuxt@3.6.2)(rollup@3.25.3)(vite@4.3.9)
@@ -1199,6 +1202,10 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: true
+
+  /@mdi/js@7.2.96:
+    resolution: {integrity: sha512-paR9M9ZT7rKbh2boksNUynuSZMHhqRYnEZOm/KrZTjQ4/FzyhjLHuvw/8XYzP+E7fS4+/Ms/82EN1pl/OFsiIA==}
     dev: true
 
   /@mizchi/sucrase@4.1.0:
