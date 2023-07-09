@@ -45,14 +45,17 @@ export interface JSSVGIconSet extends IconSet {
 
 export interface FontAwesomeSvgIconSet extends IconSet {
   /**
-   * The libraries to import and the corresponding name.
+   * The libraries to import and register with the corresponding name.
    *
    * For example, to import free svg icons, `libraries` should be (the default):
-   * `libraries: [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   * `libraries: [[false, 'fas', '@fortawesome/free-solid-svg-icons']]
    *
-   * @default [[false, 'fas', 'import { fas } from \'@fortawesome/free-solid-svg-icons\'']]
+   * Following with the example, the resulting import will be:
+   * `import { fas } from '@fortawesome/free-solid-svg-icons'`
+   *
+   * @default [[false, 'fas', '@fortawesome/free-solid-svg-icons']]
    */
-  libraries?: [defaultExport: boolean, name: string, statement: string][]
+  libraries?: [defaultExport: boolean, name: string, library: string][]
 }
 
 export interface FontIconSet extends IconSet {
