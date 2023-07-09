@@ -246,7 +246,7 @@ Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an e
 
 Check out the type declaration [src/types.ts](./src/types.ts).
 
-The virtual modules can be found in [configuration.dts](./configuration.d.ts) file.
+The virtual modules can be found in [configuration.d.ts](./configuration.d.ts) file.
 
 ## 📄 License
 
