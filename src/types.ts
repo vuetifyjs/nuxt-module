@@ -138,6 +138,10 @@ export interface ModuleOptions {
 }
 
 declare module '#app' {
+  // TODO: fix this issue upstream in nuxt/module-builder
+  interface NuxtApp {
+    $vuetify: ReturnType<typeof import('vuetify')['createVuetify']>
+  }
   interface RuntimeNuxtHooks {
     'vuetify:configuration': (options: {
       isDev: boolean
