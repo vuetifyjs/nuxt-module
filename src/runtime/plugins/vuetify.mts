@@ -6,12 +6,16 @@ export default defineNuxtPlugin({
   enforce: 'post',
   parallel: false,
   async setup() {
-    const vuetify = await configureVuetify()
+    if (process.server) {
+      const vuetify = await configureVuetify()
 
-    return {
-      provide: {
-        vuetify,
-      },
+      return {
+        provide: {
+          vuetify,
+        },
+      }
     }
+
+    useNuxtApp().hook('app:beforeMount', configureVuetify)
   },
 })

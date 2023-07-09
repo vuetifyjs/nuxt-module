@@ -48,8 +48,9 @@ export default defineNuxtConfig({
         adapter: 'vuetify',
       },
       icons: {
-        /* defaultSet: 'fa-svg', */ /*
-        defaultSet: 'mdi-svg',
+        // remember to comment the v-icon in playground/pages/index.vue when switching
+        defaultSet: 'fa-svg',
+        /* defaultSet: 'mdi-svg',
         svg: {
           mdi: {
             aliases: {
