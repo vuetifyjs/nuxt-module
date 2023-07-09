@@ -137,6 +137,10 @@ This module supports the following SVG icon libraries:
 - [@mdi/js](https://www.npmjs.com/package/@mdi/js)
 - [@fortawesome/fontawesome-svg-core](https://www.npmjs.com/package/@fortawesome/fontawesome-svg-core)
 
+We're trying to include the following SVG icon libraries:
+- [Nuxt Icon](https://github.com/nuxt-modules/icon)
+- [unplugin-icons](https://github.com/antfu/unplugin-icons)
+
 ### mdi-svg
 
 You only need to add `@mdi/js` dependency to your project and configure the default set:
