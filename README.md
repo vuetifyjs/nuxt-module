@@ -1,10 +1,10 @@
-<p align="center">
+<div align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/userquin/vuetify-nuxt-module/raw/main/hero-dark.svg" />
   <img alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify" src='https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
 </picture>
 Zero-config Nuxt module for Vuetify
-</p>
+</div>
 
 <p align='center'>
 <a href='https://www.npmjs.com/package/vuetify-nuxt-module' target="__blank">
