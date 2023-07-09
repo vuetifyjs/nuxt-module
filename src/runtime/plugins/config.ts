@@ -12,10 +12,10 @@ export async function configureVuetify() {
 
   nuxtApp.vueApp.use(vuetify)
 
+  nuxtApp.provide('vuetify', vuetify)
+
   if (process.client) {
     // eslint-disable-next-line no-console
     isDev && console.log('Vuetify 3 initialized', vuetify)
   }
-
-  return vuetify
 }
