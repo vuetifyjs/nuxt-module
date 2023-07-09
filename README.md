@@ -244,13 +244,9 @@ Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an e
 
 ## 👀 Full config
 
-**WIP**
-<!--
-Check out the type declaration [src/types.ts](./src/types.ts) and the following links for more details.
+Check out the type declaration [src/types.ts](./src/types.ts).
 
-- [Web app manifests](https://developer.mozilla.org/en-US/docs/Web/Manifest)
-- [Workbox](https://developers.google.com/web/tools/workbox)
--->
+The virtual modules can be found in [configuration.dts](./configuration.d.ts) file.
 
 ## 📄 License
 
