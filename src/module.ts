@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import {
+  addImports,
   addPlugin,
   createResolver,
   defineNuxtModule,
@@ -13,7 +14,7 @@ import { isPackageExists } from 'local-pkg'
 import { resolveVuetifyBase } from '@vuetify/loader-shared'
 import { version } from '../package.json'
 import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
-import type { DateAdapter, ModuleOptions, VOptions } from './types'
+import type { DateAdapter, MOptions, ModuleOptions, VOptions } from './types'
 import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
 import { prepareIcons } from './utils/icons'
@@ -39,13 +40,14 @@ export default defineNuxtModule<ModuleOptions>({
       directives: false,
     },
     moduleOptions: {
+      importComposables: true,
       styles: true,
     },
   }),
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    const { moduleOptions = {}, vuetifyOptions = {} } = options
+    const { vuetifyOptions = {} } = options
 
     const {
       directives = false,
@@ -53,13 +55,20 @@ export default defineNuxtModule<ModuleOptions>({
       ...vOptions
     } = vuetifyOptions
 
+    // prepare options module
+    const moduleOptions = <MOptions>defu(options.moduleOptions ?? {}, {
+      styles: true,
+      importComposables: true,
+      prefixComposables: false,
+    })
+
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
     const vuetifyAppOptions = <VOptions>defu(vOptions, {
       ssr: isSSR,
     })
 
-    const { styles = true } = moduleOptions
+    const { styles } = moduleOptions
 
     const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
 
@@ -127,7 +136,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: 'vuetify-nuxt-module/configuration' })
-      references.push({ types: 'vuetify' })
     })
 
     const vuetifyBase = resolveVuetifyBase()
@@ -139,7 +147,8 @@ export default defineNuxtModule<ModuleOptions>({
           pascalName: component,
           kebabName: toKebabCase(component),
           export: component,
-          filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
+          // pointing to the mjs file, links will not work: there is d.mts file for each component
+          filePath: `${resolver.resolve(vuetifyBase, `lib/${from/* .replace(/\.mjs$/, '.d.mts') */}`)}`,
           shortPath: `components/${from}`,
           chunkName: toKebabCase(component),
           prefetch: false,
@@ -149,6 +158,16 @@ export default defineNuxtModule<ModuleOptions>({
         })
       })
     })
+
+    if (moduleOptions.importComposables) {
+      const composables = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
+      addImports(composables.map(name => ({
+        name,
+        from: 'vuetify',
+        as: moduleOptions.prefixComposables ? name.replace(/^use/, 'useV') : undefined,
+        meta: { docsUrl: `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
+      })))
+    }
 
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
       viteInlineConfig.plugins = viteInlineConfig.plugins || []

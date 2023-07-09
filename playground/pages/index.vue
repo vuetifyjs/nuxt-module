@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLocale, useRtl } from 'vuetify'
+// import { useLocale, useRtl } from 'vuetify'
 
 const value = reactive<{
   name1?: string
