@@ -13,6 +13,7 @@ const value = reactive<{
 const { locales, t } = useI18n()
 const { current } = useLocale()
 const { isRtl } = useRtl()
+console.log(useNuxtApp().$vuetify.icons)
 
 watch(current, () => {
   console.log('current', t('xxx', { locale: current.value }))
