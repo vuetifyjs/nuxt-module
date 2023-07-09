@@ -175,7 +175,7 @@ vuetify: {
 
 ### fa-svg
 
-You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome`, and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
+You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome` and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
 ```ts
 vuetify: {
   vuetifyOptions: {
@@ -248,7 +248,7 @@ If you want to use a custom date adapter, you can configure it using `vuetifyOpt
   import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
   ```
 
-Check out [vuetify-date](./src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
+Check out [vuetify-date](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/vuetify-date.mts) plugin for an example of a custom date adapter and how to access to the configuration.
 
 ## ⚙️ Auto-Import Vuetify Composables
 
@@ -278,9 +278,9 @@ If you are using another composables that collide with the Vuetify ones, enable 
 
 ## 👀 Full config
 
-Check out the type declaration [src/types.ts](./src/types.ts).
+Check out the type declaration [src/types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts).
 
-The virtual modules can be found in [configuration.d.ts](./configuration.d.ts) file.
+The virtual modules can be found in [configuration.d.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/configuration.d.ts) file.
 
 ## 📄 License
 
