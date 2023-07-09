@@ -3,11 +3,13 @@
 Zero-config Nuxt module for Vuetify
 </p>
 
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg" />
   <img src='https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
-  Zero-config Nuxt module for Vuetify
 </picture>
+Zero-config Nuxt module for Vuetify
+</p>
 
 <p align='center'>
 <a href='https://www.npmjs.com/package/vuetify-nuxt-module' target="__blank">
