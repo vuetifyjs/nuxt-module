@@ -155,7 +155,9 @@ vuetify: {
       defaultSet: 'mdi-svg',
       svg: {
         mdi: {
-          account: 'mdiAccount'
+          aliases: {
+            account: 'mdiAccount'
+          }  
         }
       }
     }
