@@ -1,14 +1,16 @@
+import { readFile } from 'node:fs/promises'
 import {
   addPlugin,
   createResolver,
   defineNuxtModule,
-  extendWebpackConfig, hasNuxtModule,
+  extendWebpackConfig,
+  hasNuxtModule,
   useLogger,
 } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
-import vuetify from 'vite-plugin-vuetify'
 import { isPackageExists } from 'local-pkg'
+import { resolveVuetifyBase } from '@vuetify/loader-shared'
 import { version } from '../package.json'
 import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
 import type { DateAdapter, ModuleOptions, VOptions } from './types'
@@ -16,6 +18,7 @@ import { vuetifyConfigurationPlugin } from './vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuration-plugin'
 import { prepareIcons } from './utils/icons'
 import { vuetifyIconsPlugin } from './vite/vuetify-icons-configuration-plugin'
+import { toKebabCase } from './utils'
 
 export * from './types'
 
@@ -127,6 +130,26 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify' })
     })
 
+    const vuetifyBase = resolveVuetifyBase()
+    nuxt.hook('components:extend', async (c) => {
+      const { components } = JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8'))
+      Object.keys(components).forEach((component) => {
+        const from = components[component].from
+        c.push({
+          pascalName: component,
+          kebabName: toKebabCase(component),
+          export: component,
+          filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
+          shortPath: `components/${from}`,
+          chunkName: toKebabCase(component),
+          prefetch: false,
+          preload: false,
+          global: false,
+          mode: 'all',
+        })
+      })
+    })
+
     nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
       viteInlineConfig.plugins = viteInlineConfig.plugins || []
       checkVuetifyPlugins(viteInlineConfig)
@@ -138,8 +161,7 @@ export default defineNuxtModule<ModuleOptions>({
         ...(Array.isArray(viteInlineConfig.ssr.noExternal) ? viteInlineConfig.ssr.noExternal : []),
         CONFIG_KEY,
       ]
-      const autoImportPlugin = vuetify({ styles: true, autoImport: true }).find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')!
-      viteInlineConfig.plugins.push(autoImportPlugin)
+
       viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
         nuxt.options.dev,
