@@ -134,9 +134,9 @@ export function vuetifyConfiguration() {
     if (config.components.size) {
       if (config.labComponents.size) {
         if (config.labComponents.has('*'))
-          componentsEntry = `options.components = {...labsComponents,${Array.from(config.components).join(',')}}`
+          componentsEntry = `options.components = {${Array.from(config.components).join(',')},...labsComponents}`
         else
-          componentsEntry = `options.components = {${Array.from(config.labComponents).join(',')},${Array.from(config.components).join(',')}}`
+          componentsEntry = `options.components = {${Array.from(config.components).join(',')},${Array.from(config.labComponents).join(',')}}`
       }
       else {
         componentsEntry = `options.components = {${Array.from(config.components).join(',')}}`
