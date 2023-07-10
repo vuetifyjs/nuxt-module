@@ -104,8 +104,8 @@ export function vuetifyConfiguration() {
     if (labComponents) {
       if (typeof labComponents === 'boolean') {
         config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
-        addDatePicker = false
         config.labComponents.add('*')
+        addDatePicker = false
       }
       else if (Array.isArray(labComponents)) {
         labComponents.forEach((labComponent) => {
