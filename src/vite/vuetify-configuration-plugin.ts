@@ -76,14 +76,16 @@ export function vuetifyConfiguration() {
     }
 
     // directives
-    if (typeof directives === 'boolean') {
-      config.imports.push('import * as directives from \'vuetify/directives\'')
-      config.directives = 'options.directives = directives'
-    }
-    else {
-      const useDirectives = Array.isArray(directives) ? directives : [directives]
-      config.imports.push(useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n'))
-      config.directives = `options.directives = {${useDirectives.join(',')}}`
+    if (directives) {
+      if (typeof directives === 'boolean') {
+        config.imports.push('import * as directives from \'vuetify/directives\'')
+        config.directives = 'options.directives = directives'
+      }
+      else {
+        const useDirectives = Array.isArray(directives) ? directives : [directives]
+        config.imports.push(useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n'))
+        config.directives = `options.directives = {${useDirectives.join(',')}}`
+      }
     }
 
     // components
