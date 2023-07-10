@@ -11,7 +11,6 @@ import {
 } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
 import { useI18n } from 'vue-i18n'
-import { toKebabCase } from '../../utils'
 import { useNuxtApp } from '#app'
 
 export function createAdapter(vuetifyOptions: VuetifyOptions) {
@@ -73,6 +72,13 @@ function useToggleScope(source: WatchSource<boolean>, fn: (reset: () => void) =>
   onScopeDispose(() => {
     scope?.stop()
   })
+}
+
+function toKebabCase(str = '') {
+  return str
+    .replace(/[^a-z]/gi, '-')
+    .replace(/\B([A-Z])/g, '-$1')
+    .toLowerCase()
 }
 
 type InnerVal<T> = T extends any[] ? Readonly<T> : T
