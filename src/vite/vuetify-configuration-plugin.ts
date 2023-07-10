@@ -37,7 +37,7 @@ ${labComponentsResult.imports}
 
 export const isDev = ${isDev}
 export function vuetifyConfiguration() {
-  const options = ${JSON.stringify(newVuetifyOptions)}
+  const options = JSON.parse('${JSON.stringify(newVuetifyOptions)}')
   ${directivesResult.expression}
   ${labComponentsResult.expression}
   return options

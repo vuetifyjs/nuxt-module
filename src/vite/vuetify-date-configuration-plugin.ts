@@ -29,7 +29,7 @@ export const isDev = ${isDev}
 export const i18n = ${i18n}
 export const adapter = '${dateAdapter}'
 export function dateConfiguration() {
-  const options = ${JSON.stringify(newDateOptions)}
+  const options = JSON.parse('${JSON.stringify(newDateOptions)}')
   ${buildAdapter()}
   return options
 }

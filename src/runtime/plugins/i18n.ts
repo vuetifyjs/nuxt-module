@@ -10,8 +10,8 @@ import {
   watch,
 } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
+import { useI18n } from 'vue-i18n'
 import { toKebabCase } from '../../utils'
-import { useI18n } from '#imports'
 import { useNuxtApp } from '#app'
 
 export function createAdapter(vuetifyOptions: VuetifyOptions) {
