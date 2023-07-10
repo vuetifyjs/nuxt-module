@@ -194,7 +194,7 @@ vuetify: {
       defaultSet: 'fa-svg',
       svg: {
         fa: {
-          libraries: [/* default export? */ false, /* export name */ 'fas', /* import */ '@fortawesome/free-solid-svg-icons']
+          libraries: [/* default export? */ false, /* export name */ 'fas', /* library */ '@fortawesome/free-solid-svg-icons']
         }
       }
     }
