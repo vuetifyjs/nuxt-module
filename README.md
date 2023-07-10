@@ -86,7 +86,7 @@ export default defineNuxtConfig({
 
 ## 🔥 Components, Directives, Lab Components
 
-By default, the module will add auto-import Vuetify components support (tree-shaking).
+The module will enable automatic tree shaking for Vuetify components.
 
 You don't need to install any Vuetify Vite Plugin (the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration):
 - the module will provide auto-import support via `vuetify/dist/json/importMap.json` json file and Nuxt `components:extend:` hook.
