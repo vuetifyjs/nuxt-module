@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { BooleanOrArrayString, VOptions } from '../types'
+import type { Directives, LabComponents, VOptions } from '../types'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
@@ -9,8 +9,8 @@ interface ImportsResult {
 
 export function vuetifyConfigurationPlugin(
   isDev: boolean,
-  directives: BooleanOrArrayString,
-  labComponents: BooleanOrArrayString,
+  directives: Directives,
+  labComponents: LabComponents,
   vuetifyAppOptions: VOptions,
 ) {
   // TODO: handle blueprint
@@ -58,9 +58,10 @@ export function vuetifyConfiguration() {
       }
     }
     else {
+      const useDirectives = Array.isArray(directives) ? directives : [directives]
       return <ImportsResult>{
-        imports: `${directives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n')}`,
-        expression: `options.directives = {${directives.join(',')}}`,
+        imports: `${useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n')}`,
+        expression: `options.directives = {${useDirectives.join(',')}}`,
       }
     }
   }
@@ -77,7 +78,8 @@ export function vuetifyConfiguration() {
       }
     }
     else {
-      const components = [...new Set<string>(dateOptions ? ['VDatePicker', ...labComponents] : labComponents)]
+      const useComponents = Array.isArray(labComponents) ? labComponents : [labComponents]
+      const components = [...new Set(dateOptions ? ['VDatePicker', ...useComponents] : useComponents)]
       return <ImportsResult>{
         imports: `${components.map(d => `import { ${d} } from 'vuetify/labs/${d}'`).join('\n')}`,
         expression: `options.components = {${components.join(',')}}`,

@@ -210,7 +210,7 @@ vuetify: {
   vuetifyOptions: {
     icons: {
       defaultSet: 'mdi'
-      sets: [{ name: 'mdi' }, { name: 'fa' }]
+      sets: ['mdi', 'fa']
     }
   }
 }
