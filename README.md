@@ -40,7 +40,7 @@
 - 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
-- 🎨 **Vuetify Blueprints (WIP)**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
+- 🎨 **Vuetify Blueprints**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
@@ -83,6 +83,34 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+## 🔥 Components, Directives, Lab Components
+
+The module will enable automatic tree shaking for Vuetify components.
+
+You don't need to install any Vuetify Vite Plugin (the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration):
+- the module will provide auto-import support via `vuetify/dist/json/importMap.json` json file and Nuxt `components:extend` hook.
+- the module will register a custom Vite Plugin for Vuetify styles: it is just a copy from the original Vuetify Vite Styles Plugin, changing some virtual names mappings and handling SSR flags.
+
+### Global Components
+
+If you need to add some global component, use `vuetifyOptions.components` module option, it has been declared properly to have better DX.
+
+Check the [components definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L80-L81).
+
+You can also provide [Aliasing & Virtual Components](https://vuetifyjs.com/en/features/aliasing/#virtual-component-defaults) via `vuetifyOptions.aliases` module option to register components with a different name, only available for global components. The components require to be registered globally.
+
+### Directives
+
+By default, the module will not register any Vuetify directive. If you need to register some directive, use `vuetifyOptions.directives` module option, it has been declared properly to have better DX.
+
+You can register all the directives or only the ones you need: check the [directives definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L82-L83).
+
+### Labs Components
+
+The module provides support to use Vuetify [labs components](https://vuetifyjs.com/en/labs/introduction/) via `vuetifyOptions.labsComponents` module option, it has been declared properly to have better DX.
+
+You can register all the labs components or only the ones you need: check the [labsComponent definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L84-L85).
 
 ## 😃 Font Icons
 
@@ -274,7 +302,13 @@ If you are using another composables that collide with the Vuetify ones, enable 
 
 ## 🎨 Vuetify Blueprints
 
-**WIP**
+The module supports Vuetify Blueprints, just add it to the `vuetifyOptions.blueprint` module option, but with some limitations:
+- `ssr` will be ignored, this flag can be only configured internally by the module via the Nuxt ssr option.
+- `components` will be ignored, configure them using the `vuetifyOptions.components` module option
+- `directives` will be ignored, configure them using the `vuetifyOptions.directives` module option.
+- `locale` will be ignored, configure it using the `vuetifyOptions.locale` module option.
+- `date` will be ignored, configure it using the `vuetifyOptions.date` module option.
+- `icons` will be ignored, configure it using the `vuetifyOptions.icons` module option.
 
 ## 👀 Full config
 

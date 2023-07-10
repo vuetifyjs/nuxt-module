@@ -155,7 +155,6 @@ function createProvideFunction(data: {
   messages: Ref<LocaleMessages>
 }) {
   return (props: LocaleOptions) => {
-    // todo: simplify this, we don't need to proxy anything, the messages are there
     const current = useProvided(props, 'locale', data.current)
     const fallback = useProvided(props, 'fallback', data.fallback)
     const messages = useProvided(props, 'messages', data.messages)

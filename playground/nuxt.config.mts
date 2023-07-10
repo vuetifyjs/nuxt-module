@@ -37,7 +37,11 @@ export default defineNuxtConfig({
       styles: { configFile: '/settings.scss' },
     }, */
     vuetifyOptions: {
+      aliases: {
+        MyBadge: 'VBadge',
+      },
       directives: true,
+      components: ['VDialog'],
       labComponents: ['VDataTable'],
       blueprint: md3,
       theme: {
