@@ -87,7 +87,7 @@ export default defineNuxtModule<ModuleOptions>({
           dateAdapter = adapter
         }
         else {
-          if (date.find(d => d[0] === adapter) === undefined)
+          if (date.find(d => d === adapter) === undefined)
             logger.warn(`Ignoring Vuetify Date configuration, date adapter "@date-io/${adapter}" not installed!`)
           else
             dateAdapter = adapter
@@ -138,8 +138,8 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify-nuxt-module/configuration' })
     })
 
-    const vuetifyBase = resolveVuetifyBase()
     nuxt.hook('components:extend', async (c) => {
+      const vuetifyBase = resolveVuetifyBase()
       const { components } = JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8'))
       Object.keys(components).forEach((component) => {
         const from = components[component].from
@@ -147,8 +147,7 @@ export default defineNuxtModule<ModuleOptions>({
           pascalName: component,
           kebabName: toKebabCase(component),
           export: component,
-          // pointing to the mjs file, links will not work: there is d.mts file for each component
-          filePath: `${resolver.resolve(vuetifyBase, `lib/${from/* .replace(/\.mjs$/, '.d.mts') */}`)}`,
+          filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
           shortPath: `components/${from}`,
           chunkName: toKebabCase(component),
           prefetch: false,

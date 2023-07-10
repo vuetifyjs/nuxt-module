@@ -1,7 +1,5 @@
 import type { VuetifyOptions } from 'vuetify'
 
-export type BooleanOrArrayString = boolean | string[]
-
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
 /**
@@ -30,20 +28,17 @@ export interface DateOptions {
    *
    * When `@nuxtjs/i18n` Nuxt module is present, this option will be ignored, locales will be extracted from the available locales.
    */
-  locale: Record<string, any>
+  locale?: Record<string, any>
 }
 
 export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md' | 'mdi-svg' | 'fa-svg' | 'custom'
+export type IconFontName = 'mdi' | 'fa' | 'fa4' | 'md'
 
-export interface IconSet {
-  name: IconSetName
-}
-
-export interface JSSVGIconSet extends IconSet {
+export interface JSSVGIconSet {
   aliases?: Record<string, string>
 }
 
-export interface FontAwesomeSvgIconSet extends IconSet {
+export interface FontAwesomeSvgIconSet {
   /**
    * The libraries to import and register with the corresponding name.
    *
@@ -58,7 +53,8 @@ export interface FontAwesomeSvgIconSet extends IconSet {
   libraries?: [defaultExport: boolean, name: string, library: string][]
 }
 
-export interface FontIconSet extends IconSet {
+export interface FontIconSet {
+  name: IconFontName
   /**
    * Use CDN?
    *
@@ -74,12 +70,17 @@ export interface FontIconSet extends IconSet {
 
 export interface IconsOptions {
   defaultSet: IconSetName
-  sets?: FontIconSet[]
+  sets?: IconFontName | IconFontName[] | FontIconSet[]
   svg?: {
     mdi?: JSSVGIconSet
     fa?: FontAwesomeSvgIconSet
   }
 }
+
+export type LabComponentName = keyof typeof import('vuetify/labs/components')
+export type LabComponents = boolean | LabComponentName | LabComponentName[]
+export type DirectiveName = keyof typeof import('vuetify/directives')
+export type Directives = boolean | DirectiveName | DirectiveName[]
 
 export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives' | 'locale' | 'date' | 'icons'>> {
   /**
@@ -93,7 +94,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
    *
    * @default false
    */
-  labComponents?: BooleanOrArrayString
+  labComponents?: LabComponents
   /**
    * Include the directives?
    *
@@ -103,7 +104,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directiv
    *
    * @default false
    */
-  directives?: BooleanOrArrayString
+  directives?: Directives
   /**
    * Date configuration.
    *
