@@ -5,7 +5,9 @@ import {
   createResolver,
   defineNuxtModule,
   extendWebpackConfig,
+  getNuxtVersion,
   hasNuxtModule,
+  isNuxt3,
   useLogger,
 } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
@@ -44,7 +46,10 @@ export default defineNuxtModule<ModuleOptions>({
       styles: true,
     },
   }),
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
+    if (!isNuxt3(nuxt))
+      logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
+
     const resolver = createResolver(import.meta.url)
 
     const { vuetifyOptions = {} } = options

@@ -180,6 +180,15 @@ export interface ModuleOptions {
   vuetifyOptions?: VOptions
 }
 
+declare module '@nuxt/schema' {
+  interface NuxtConfig {
+    vuetify?: ModuleOptions
+  }
+  interface NuxtHooks {
+    'vuetify:registerModule': (registerModule: (config: ModuleOptions) => void) => void
+  }
+}
+
 declare module '#app' {
   // TODO: fix this issue upstream in nuxt/module-builder
   interface NuxtApp {
