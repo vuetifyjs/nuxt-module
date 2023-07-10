@@ -1,4 +1,4 @@
-import type { VuetifyOptions } from 'vuetify'
+import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -77,12 +77,32 @@ export interface IconsOptions {
   }
 }
 
-export type LabComponentName = keyof typeof import('vuetify/labs/components')
-export type LabComponents = boolean | LabComponentName | LabComponentName[]
+export type ComponentName = keyof typeof import('vuetify/components')
+export type Components = false | ComponentName | ComponentName[]
 export type DirectiveName = keyof typeof import('vuetify/directives')
 export type Directives = boolean | DirectiveName | DirectiveName[]
+export type LabComponentName = keyof typeof import('vuetify/labs/components')
+export type LabComponents = boolean | LabComponentName | LabComponentName[]
 
-export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'directives' | 'locale' | 'date' | 'icons'>> {
+export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
+  aliases?: Record<string, ComponentName>
+  /**
+   * Do you need to configure some global components?.
+   *
+   * @default false
+   */
+  components?: Components
+  /**
+   * Configure the locale messages, the locale, the fallback locale and RTL options.
+   *
+   * When `@nuxtjs/i18n` Nuxt module is present, the following options will be ignored:
+   * - `locale`
+   * - `fallback`
+   * - `rtl`
+   *
+   * The adapter will be `vuetify`, if you want to use another adapter, check `date` option.
+   */
+  locale?: Omit<LocaleOptions, 'adapter'> & RtlOptions
   /**
    * Include the lab components?
    *

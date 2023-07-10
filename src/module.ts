@@ -68,6 +68,8 @@ export default defineNuxtModule<ModuleOptions>({
       ssr: isSSR,
     })
 
+    cleanupBlueprint(vuetifyAppOptions)
+
     const { styles } = moduleOptions
 
     const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
@@ -183,6 +185,7 @@ export default defineNuxtModule<ModuleOptions>({
       viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
         nuxt.options.dev,
+        i18n,
         directives,
         labComponents,
         vuetifyAppOptions,
@@ -193,7 +196,6 @@ export default defineNuxtModule<ModuleOptions>({
       ))
 
       if (dateAdapter) {
-        // TODO: handle blueprint
         viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(
           nuxt.options.dev,
           i18n,
@@ -255,4 +257,17 @@ function detectDate() {
   })
 
   return result
+}
+
+function cleanupBlueprint(vuetifyOptions: VOptions) {
+  const blueprint = vuetifyOptions.blueprint
+  if (blueprint) {
+    delete blueprint.ssr
+    delete blueprint.components
+    delete blueprint.directives
+    delete blueprint.locale
+    delete blueprint.date
+    delete blueprint.icons
+    vuetifyOptions.blueprint = blueprint
+  }
 }

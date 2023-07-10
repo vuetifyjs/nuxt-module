@@ -45,7 +45,6 @@ export function prepareIcons(
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
   vuetifyOptions: VOptions,
 ): ResolvedIcons {
-  // TODO: handle blueprint icons
   if (vuetifyOptions.icons === false)
     return disabledResolvedIcons
 
