@@ -127,7 +127,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   layers: ['my-awesome-vuetify-layer'],
   modules: ['vuetify-nuxt-module']
-}) 
+})
 ```
 
 ### Nuxt Hook
@@ -140,7 +140,7 @@ import MyVuetifyModule from './modules/my-vuetify-module'
 
 export default defineNuxtConfig({
   modules: [MyVuetifyModule, 'vuetify-nuxt-module']
-}) 
+})
 ```
 
 and the module will load your configuration:
@@ -149,7 +149,7 @@ and the module will load your configuration:
 export default defineNuxtConfig({
   modules: ['../module'],
   setup(_options, nuxt) {
-    nuxt.hook('vuetify:registerModule', (register) => register({
+    nuxt.hook('vuetify:registerModule', register => register({
       moduleOptions: {
         /* module specific options */
       },

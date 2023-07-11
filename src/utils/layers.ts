@@ -10,7 +10,6 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
 
   await nuxt.callHook('vuetify:registerModule', layerModuleOptions => moduleOptions.push(layerModuleOptions))
 
-  console.log(nuxt.options._layers.length)
   if (nuxt.options._layers.length > 1) {
     nuxt.options._layers.forEach((layer, idx) => {
       if (idx > 0 && layer.config.vuetify)
@@ -19,8 +18,6 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
   }
 
   moduleOptions.push(options)
-
-  console.log(moduleOptions.length)
 
   if (moduleOptions.length > 1) {
     const [base, ...rest] = moduleOptions
