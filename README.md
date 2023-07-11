@@ -29,7 +29,7 @@
 ## 🚀 Features
 
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
-- 🔩 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
+- 🔌 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
 - ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
@@ -41,6 +41,8 @@
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
 - 🎨 **Vuetify Blueprints**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
+- 🔩 **Nuxt Layers and Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
+- 👀 **Nuxt DevTools**: ready to inspect your Vuetify styles with the [Nuxt DevTools](https://github.com/nuxt/devtools) inspector
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
@@ -112,6 +114,52 @@ The module provides support to use Vuetify [labs components](https://vuetifyjs.c
 
 You can register all the labs components or only the ones you need: check the [labsComponent definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L84-L85).
 
+## 🔩 Nuxt Layers and Hooks
+
+You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+
+### Nuxt Layers
+
+Add your Vuetify configuration to a layer and then configure the module to use it:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  extends: ['my-awesome-vuetify-layer'],
+  modules: ['vuetify-nuxt-module']
+})
+```
+
+### Nuxt Hook
+
+You can use a custom module to load your Vuetify configuration:
+```ts
+// Nuxt config file
+import MyVuetifyModule from './modules/my-vuetify-module'
+
+export default defineNuxtConfig({
+  modules: [MyVuetifyModule, 'vuetify-nuxt-module']
+})
+```
+
+and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
+```ts
+// modules/my-vuetify-module
+export default defineNuxtModule({
+  setup(_options, nuxt) {
+    nuxt.hook('vuetify:registerModule', register => register({
+      moduleOptions: {
+        /* module specific options */
+      },
+      vuetifyOptions: {
+        /* vuetify options */
+      },
+    }))
+  },
+})
+```
+
 ## 😃 Font Icons
 
 This module supports the following font icons libraries:
@@ -132,9 +180,7 @@ To configure a font icon you only need to specify the default set:
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -159,9 +205,7 @@ To change the CDN for a font icon library you only need to specify the `cdn` opt
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -194,9 +238,7 @@ You only need to add `@mdi/js` dependency to your project and configure the defa
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -213,9 +255,7 @@ You can also add icon aliases:
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -241,9 +281,7 @@ You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-font
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -260,9 +298,7 @@ You can also add more libraries and install them in your project, the module wil
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -288,9 +324,7 @@ You can register multiple icons sets adding them to the sets array, don't forget
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: [
-    'vuetify-nuxt-module'
-  ],
+  modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -361,12 +395,12 @@ If you are using another composables that collide with the Vuetify ones, enable 
 ## 🎨 Vuetify Blueprints
 
 The module supports Vuetify Blueprints, just add it to the `vuetifyOptions.blueprint` module option, but with some limitations:
-- `ssr` will be ignored, this flag can be only configured internally by the module via the Nuxt ssr option.
+- `ssr` will be ignored, this flag can be only configured internally by the module via the Nuxt ssr option
 - `components` will be ignored, configure them using the `vuetifyOptions.components` module option
-- `directives` will be ignored, configure them using the `vuetifyOptions.directives` module option.
-- `locale` will be ignored, configure it using the `vuetifyOptions.locale` module option.
-- `date` will be ignored, configure it using the `vuetifyOptions.date` module option.
-- `icons` will be ignored, configure it using the `vuetifyOptions.icons` module option.
+- `directives` will be ignored, configure them using the `vuetifyOptions.directives` module option
+- `locale` will be ignored, configure it using the `vuetifyOptions.locale` module option
+- `date` will be ignored, configure it using the `vuetifyOptions.date` module option
+- `icons` will be ignored, configure it using the `vuetifyOptions.icons` module option
 
 ## 👀 Full config
 
