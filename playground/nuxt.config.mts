@@ -1,7 +1,9 @@
 import { md3 } from 'vuetify/blueprints'
 import { availableLocales, langDir } from './config/i18n'
+import LayerModule from './layer-module'
 
 export default defineNuxtConfig({
+  layers: ['./layers/vuetify-layer'],
   ssr: true,
   sourcemap: true,
   typescript: {
@@ -15,7 +17,7 @@ export default defineNuxtConfig({
     autoImport: true,
     injectAtEnd: true,
   },
-  modules: ['@nuxtjs/i18n', '../src/module'],
+  modules: ['@nuxtjs/i18n', LayerModule, '../src/module'],
   i18n: {
     locales: availableLocales,
     lazy: true,
