@@ -12,7 +12,6 @@ import {
 } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
-import { isPackageExists } from 'local-pkg'
 import { resolveVuetifyBase } from '@vuetify/loader-shared'
 import { version } from '../package.json'
 import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
@@ -22,6 +21,8 @@ import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuratio
 import { prepareIcons } from './utils/icons'
 import { vuetifyIconsPlugin } from './vite/vuetify-icons-configuration-plugin'
 import { toKebabCase } from './utils'
+import { cleanupBlueprint, detectDate } from './utils/module'
+import { mergeVuetifyModules } from './utils/layers'
 
 export * from './types'
 
@@ -53,6 +54,8 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
 
     const { vuetifyOptions = {} } = options
+
+    await mergeVuetifyModules(options, nuxt)
 
     const {
       directives = false,
@@ -239,41 +242,4 @@ function checkVuetifyPlugins(config: ViteConfig) {
   plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
   if (plugin)
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
-}
-
-function detectDate() {
-  const result: DateAdapter[] = []
-  // todo: remove this once fixed on Vuetify side
-  // eslint-disable-next-line no-constant-condition
-  if (true)
-    return result
-
-  ;[
-    'date-fns',
-    'moment',
-    'luxon',
-    'dayjs',
-    'js-joda',
-    'date-fns-jalali',
-    'jalaali',
-    'hijri',
-  ].forEach((adapter) => {
-    if (isPackageExists(`@date-io/${adapter}`))
-      result.push(adapter as DateAdapter)
-  })
-
-  return result
-}
-
-function cleanupBlueprint(vuetifyOptions: VOptions) {
-  const blueprint = vuetifyOptions.blueprint
-  if (blueprint) {
-    delete blueprint.ssr
-    delete blueprint.components
-    delete blueprint.directives
-    delete blueprint.locale
-    delete blueprint.date
-    delete blueprint.icons
-    vuetifyOptions.blueprint = blueprint
-  }
 }
