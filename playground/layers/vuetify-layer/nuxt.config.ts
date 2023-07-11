@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['../../module'],
+  modules: ['../../../src/module'],
   vuetify: {
     vuetifyOptions: {
       aliases: {
