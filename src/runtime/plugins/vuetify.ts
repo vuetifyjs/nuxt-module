@@ -4,7 +4,8 @@ import { useNuxtApp } from '#app'
 
 export default defineNuxtPlugin({
   name: 'vuetify:configuration:plugin',
-  enforce: 'pre',
+  enforce: 'post',
+  parallel: false,
   setup() {
     useNuxtApp().hook('app:created', configureVuetify)
   },

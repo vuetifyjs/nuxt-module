@@ -84,7 +84,9 @@ function toKebabCase(str = '') {
 type InnerVal<T> = T extends any[] ? Readonly<T> : T
 
 function useProxiedModel<
+
   Props extends object & { [key in Prop as `onUpdate:${Prop}`]: ((val: any) => void) | undefined },
+
   Prop extends Extract<keyof Props, string>,
   Inner = Props[Prop],
 >(

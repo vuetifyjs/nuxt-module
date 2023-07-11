@@ -108,8 +108,6 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    const runtimeDir = resolver.resolve('./runtime')
-    nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
     const icons = prepareIcons(logger, vuetifyOptions)
@@ -210,22 +208,24 @@ export default defineNuxtModule<ModuleOptions>({
       }
     })
 
+    const runtimeDir = resolver.resolve('./runtime')
+
     addPlugin({
-      src: resolver.resolve(runtimeDir, 'plugins/vuetify.mts'),
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify.ts'),
     })
     addPlugin({
-      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons.mts'),
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons.ts'),
     })
 
     if (i18n) {
       addPlugin({
-        src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.mts'),
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.ts'),
       })
     }
 
     if (dateAdapter) {
       addPlugin({
-        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.mts'),
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.ts'),
       })
     }
   },
@@ -244,6 +244,7 @@ function checkVuetifyPlugins(config: ViteConfig) {
 function detectDate() {
   const result: DateAdapter[] = []
   // todo: remove this once fixed on Vuetify side
+  // eslint-disable-next-line no-constant-condition
   if (true)
     return result
 
