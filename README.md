@@ -128,13 +128,21 @@ By default, the module will use the `mdi` font icon library. You can change it b
 
 To configure a font icon you only need to specify the default set:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'mdi'
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi'
+      }
     }
   }
-}
+})
 ```
 
 The module will use the CDN version of the font icon. If you want to use the local version, you only need to install the corresponding dependency, the module will auto-detect it and will switch to register the font to use the local version.
@@ -147,17 +155,25 @@ The CDN used for each font icon library, you can use the `cdn` option to change 
 
 To change the CDN for a font icon library you only need to specify the `cdn` option:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'mdi'
-      sets: [{
-        name: 'mdi',
-        cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons'  
-      }]
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi',
+        sets: [{
+          name: 'mdi',
+          cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons'
+        }]
+      }
     }
   }
-}
+})
 ```
 
 ## 🎭 SVG Icons
@@ -174,74 +190,116 @@ We're trying to figure out how to include the following SVG icon libraries:
 
 You only need to add `@mdi/js` dependency to your project and configure the default set:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'mdi-svg'
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi-svg'
+      }
     }
   }
-}
+})
 ```
 
 You can also add icon aliases:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'mdi-svg',
-      svg: {
-        mdi: {
-          aliases: {
-            account: 'mdiAccount'
-          }  
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi-svg',
+        svg: {
+          mdi: {
+            aliases: {
+              account: 'mdiAccount'
+            }
+          }
         }
       }
     }
   }
-}
+})
 ```
 
 ### fa-svg
 
 You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome` and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'fa-svg'
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'fa-svg'
+      }
     }
   }
-}
+})
 ```
 
 You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'fa-svg',
-      svg: {
-        fa: {
-          libraries: [[/* default export? */ false, /* export name */ 'fas', /* library */ '@fortawesome/free-solid-svg-icons']]
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'fa-svg',
+        svg: {
+          fa: {
+            libraries: [
+              [/* default export? */ false, /* export name */ 'fas', /* library */ '@fortawesome/free-solid-svg-icons']
+            ]
+          }
         }
       }
     }
-  } 
-}
+  }
+})
 ```
 
 ## 📦 Multiple Icon Sets
 
 You can register multiple icons sets adding them to the sets array, don't forget to add the default set, otherwise 'mdi' will be used:
 ```ts
-vuetify: {
-  vuetifyOptions: {
-    icons: {
-      defaultSet: 'mdi'
-      sets: ['mdi', 'fa']
+// nuxt.config.ts
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'mdi',
+        sets: ['mdi', 'fa']
+      }
     }
   }
-}
+})
 ```
 
 ## 🌍 I18n support
@@ -263,7 +321,7 @@ To use Vuetify components [that require date functionality](https://vuetifyjs.co
   vuetifyOptions: {
     date: {
       adapter: 'vuetify' // 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
-    }  
+    }
   }
   ```
 

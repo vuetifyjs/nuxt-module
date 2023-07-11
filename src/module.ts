@@ -239,6 +239,7 @@ function checkVuetifyPlugins(config: ViteConfig) {
 function detectDate() {
   const result: DateAdapter[] = []
   // todo: remove this once fixed on Vuetify side
+  // eslint-disable-next-line no-constant-condition
   if (true)
     return result
 

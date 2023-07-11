@@ -13,12 +13,15 @@ const value = reactive<{
 const { locales, t } = useI18n()
 const { current } = useLocale()
 const { isRtl } = useRtl()
+// eslint-disable-next-line no-console
 console.log(useNuxtApp().$vuetify.icons)
 
 watch(current, () => {
+  // eslint-disable-next-line no-console
   console.log('current', t('xxx', { locale: current.value }))
 })
 watch(isRtl, (x) => {
+  // eslint-disable-next-line no-console
   console.log('isRtl', x)
 }, { immediate: true })
 </script>
