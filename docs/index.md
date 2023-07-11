@@ -68,5 +68,5 @@ features:
     details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
   - icon: 👀
     title: Nuxt DevTools
-    details: Ready to inspect your Vuetify styles with the Nuxt DevTools
+    details: Ready to inspect your Vuetify styles with the Nuxt DevTools inspector
 ---
