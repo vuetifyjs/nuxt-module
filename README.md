@@ -126,7 +126,7 @@ Add your Vuetify configuration to a layer and then configure the module to use i
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  layers: ['my-awesome-vuetify-layer'],
+  extends: ['my-awesome-vuetify-layer'],
   modules: ['vuetify-nuxt-module']
 })
 ```
@@ -143,7 +143,7 @@ export default defineNuxtConfig({
 })
 ```
 
-and the module will load your configuration:
+and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
 ```ts
 // modules/my-vuetify-module
 export default defineNuxtModule({

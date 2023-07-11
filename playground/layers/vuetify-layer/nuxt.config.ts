@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
-  modules: ['../../../src/module'],
+  // since it is local, the path is relative to the playground folder
+  modules: ['../src/module'],
   vuetify: {
     vuetifyOptions: {
       aliases: {

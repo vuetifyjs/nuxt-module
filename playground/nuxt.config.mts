@@ -3,7 +3,7 @@ import { availableLocales, langDir } from './config/i18n'
 import LayerModule from './layer-module'
 
 export default defineNuxtConfig({
-  layers: ['layers/vuetify-layer'],
+  extends: ['layers/vuetify-layer'],
   ssr: true,
   sourcemap: true,
   typescript: {
