@@ -2,7 +2,7 @@
 layout: home
 sidebar: false
 
-title: Vite PWA
+title: Vuetify Nuxt Module
 
 hero:
   name: Vuetify
