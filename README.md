@@ -135,7 +135,6 @@ export default defineNuxtConfig({
 You can use a custom module to load your Vuetify configuration:
 ```ts
 // Nuxt config file
-import { defineNuxtConfig } from 'nuxt/config'
 import MyVuetifyModule from './modules/my-vuetify-module'
 
 export default defineNuxtConfig({
@@ -146,8 +145,7 @@ export default defineNuxtConfig({
 and the module will load your configuration:
 ```ts
 // modules/my-vuetify-module
-export default defineNuxtConfig({
-  modules: ['../module'],
+export default defineNuxtModule({
   setup(_options, nuxt) {
     nuxt.hook('vuetify:registerModule', register => register({
       moduleOptions: {
