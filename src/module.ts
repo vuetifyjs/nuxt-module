@@ -206,21 +206,21 @@ export default defineNuxtModule<ModuleOptions>({
     const runtimeDir = resolver.resolve('./runtime')
 
     addPlugin({
-      src: resolver.resolve(runtimeDir, 'plugins/vuetify.ts'),
+      src: resolver.resolve(runtimeDir, `plugins/vuetify${i18n ? '-sync' : ''}`),
     })
     addPlugin({
-      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons.ts'),
+      src: resolver.resolve(runtimeDir, 'plugins/vuetify-icons'),
     })
 
     if (i18n) {
       addPlugin({
-        src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n.ts'),
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-i18n'),
       })
     }
 
     if (dateAdapter) {
       addPlugin({
-        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date.ts'),
+        src: resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
       })
     }
   },
