@@ -1,0 +1,23 @@
+{
+  "name": "vuetify-nuxt-module-docs",
+  "type": "module",
+  "version": "0.0.0",
+  "private": "true",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "nr build && vitepress serve",
+    "serve": "nr build && serve .vitepress/dist"
+  },
+  "dependencies": {
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.1",
+    "@vite-pwa/assets-generator": "^0.0.3",
+    "@vite-pwa/vitepress": "^0.2.0",
+    "sitemap": "^7.1.1",
+    "unocss": "^0.53.5",
+    "vitepress": "1.0.0-beta.5"
+  }
+}
