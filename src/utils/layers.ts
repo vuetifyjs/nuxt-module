@@ -6,7 +6,6 @@ import type { ModuleOptions } from '../types'
  * Merges project layer with registered vuetify modules
  */
 export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
-  const projectLayer = nuxt.options._layers[0]
   const moduleOptions: ModuleOptions[] = []
 
   await nuxt.callHook('vuetify:registerModule', layerModuleOptions => moduleOptions.push(layerModuleOptions))
@@ -18,16 +17,13 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
     })
   }
 
-  if (projectLayer.config.vuetify)
-    moduleOptions.push(projectLayer.config.vuetify)
+  moduleOptions.push(options)
 
-  if (moduleOptions.length) {
-    if (moduleOptions.length > 1) {
-      const [base, ...rest] = moduleOptions
-      projectLayer.config.vuetify = <ModuleOptions>defu(base, ...rest)
-    }
-    else {
-      projectLayer.config.vuetify = moduleOptions[0]
-    }
+  if (moduleOptions.length > 1) {
+    const [base, ...rest] = moduleOptions
+    return <ModuleOptions>defu(base, ...rest)
+  }
+  else {
+    return options
   }
 }

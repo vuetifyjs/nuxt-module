@@ -53,9 +53,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     const resolver = createResolver(import.meta.url)
 
-    const { vuetifyOptions = {} } = options
+    options = await mergeVuetifyModules(options, nuxt)
 
-    await mergeVuetifyModules(options, nuxt)
+    const { vuetifyOptions = {} } = options
 
     const {
       directives = false,
