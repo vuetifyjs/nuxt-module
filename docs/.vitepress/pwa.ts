@@ -48,6 +48,12 @@ export const pwa = {
     edge_side_panel: {
       preferred_width: 480,
     },
+    screenshots: [{
+      src: 'og-image.png',
+      sizes: '1200x600',
+      type: 'image/png',
+      label: 'Screenshot of the Vuetify Nuxt Module home page in dark mode',
+    }],
   },
   workbox: {
     globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2}'],
