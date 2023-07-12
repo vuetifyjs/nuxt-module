@@ -34,12 +34,6 @@ export function transformHtml(code: string, id: string, { pageData }: TransformC
 
     // section entry
     if (url.endsWith('/')) {
-      if (url === 'sponsors/') {
-        return code.replace('<meta charset="utf-8">', `<meta charset="utf-8">
-<link rel="canonical" href="${hostname}${url}">
-`)
-      }
-
       return code.replace('<meta charset="utf-8">', `<meta charset="utf-8">
 <link rel="canonical" href="${hostname}${url}">
 `)
