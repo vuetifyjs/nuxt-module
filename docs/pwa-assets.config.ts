@@ -1,11 +1,12 @@
 import {
   defineConfig,
-  minimalPreset as preset,
+  minimalPreset,
 } from '@vite-pwa/assets-generator/config'
 
 export default defineConfig({
+  overrideAssets: true,
   preset: {
-    ...preset,
+    ...minimalPreset,
     assetName(type, size) {
       switch (type) {
         case 'transparent':
@@ -17,5 +18,5 @@ export default defineConfig({
       }
     },
   },
-  images: ['public/favicon.svg'],
+  images: ['public/logo.svg'],
 })

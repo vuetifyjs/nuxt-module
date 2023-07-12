@@ -7,7 +7,7 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "nr build && vitepress serve",
-    "serve": "nr build && serve .vitepress/dist",
+    "serve": "nr build && vitepress serve",
     "generate-pwa-icons": "pwa-assets-generator"
   },
   "dependencies": {
