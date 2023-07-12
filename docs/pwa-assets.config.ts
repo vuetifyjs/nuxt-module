@@ -4,7 +4,8 @@ import {
 } from '@vite-pwa/assets-generator/config'
 
 export default defineConfig({
-  overrideAssets: true,
+  overrideAssets: false,
+  logLevel: 'info',
   preset: {
     ...minimalPreset,
     assetName(type, size) {
