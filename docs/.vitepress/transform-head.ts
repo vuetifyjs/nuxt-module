@@ -4,7 +4,7 @@ const firaFont = 'https://fonts.googleapis.com/css2?family=Fira+Code&display=swa
 const googleapis = 'https://fonts.googleapis.com'
 const gstatic = 'https://fonts.gstatic.com'
 
-export async function transformHead({ pageData }: TransformContext): Promise<HeadConfig[]> {
+export async function transformHead(_tc: TransformContext): Promise<HeadConfig[]> {
   const head: HeadConfig[] = []
 
   // prefetch fira font
@@ -16,20 +16,6 @@ export async function transformHead({ pageData }: TransformContext): Promise<Hea
   // non-blocking css
   head.push(['link', { rel: 'preload', as: 'style', onload: 'this.onload=null;this.rel=\'stylesheet\'', href: firaFont }])
   head.push(['noscript', {}, `<link rel="stylesheet" crossorigin="anonymous" href="${firaFont}" />`])
-
-  // logo images
-  head.push(['link', { rel: 'prefetch', href: '/icon_light.svg' }])
-  head.push(['link', { rel: 'prefetch', href: '/icon_dark.svg' }])
-
-  // banner for index page
-  if (pageData.relativePath === 'index.md') {
-    head.push(['link', { rel: 'prefetch', href: '/banner_light.svg' }])
-    head.push(['link', { rel: 'prefetch', href: '/banner_dark.svg' }])
-  }
-
-  // prompt for update image
-  // if (pageData.relativePath === 'guide/prompt-for-update.md')
-  //   head.push(['link', { rel: 'prefetch', href: '/prompt-update.png' }])
 
   return head
 }

@@ -1,6 +1,7 @@
 import type { PwaOptions } from '@vite-pwa/vitepress'
 
 export const pwa = {
+  disable: true,
   outDir: '.vitepress/dist',
   registerType: 'autoUpdate',
   includeManifestIcons: false,
