@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import Unocss from 'unocss/vite'
 
 export default defineConfig({
   optimizeDeps: {
@@ -11,4 +12,5 @@ export default defineConfig({
       overlay: false,
     },
   },
+  plugins: [Unocss()],
 })

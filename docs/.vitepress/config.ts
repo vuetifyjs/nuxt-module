@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { withPwa } from '@vite-pwa/vitepress'
+import { version } from '../../package.json'
 import { pwa } from './pwa'
 import { transformHead } from './transform-head'
 import { buildEnd, transformHtml } from './sitemap'
@@ -52,104 +53,64 @@ export default withPwa(defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2023-PRESENT Joaquín Sánchez',
     },
-    /* nav: [
+    nav: [
       {
         text: 'Guide',
         items: [
           {
             text: 'Getting Started',
             link: '/guide/',
-            activeMatch: '^/guide/',
           },
           {
-            text: 'PWA Assets Generator',
-            link: '/assets-generator/',
-            activeMatch: '^/assets-generator/',
-          },
-          {
-            text: 'Frameworks',
-            link: '/frameworks/',
-            activeMatch: '^/frameworks/',
-          },
-          {
-            text: 'Examples',
-            link: '/examples/',
-            activeMatch: '^/examples/',
+            text: 'Globals',
+            link: '/guide/globals',
           },
         ],
-        activeMatch: '^/(guide|assets-generator|frameworks|examples)/',
+        activeMatch: '^/guide/',
       },
       {
-        text: 'Deploy',
-        link: '/deployment/',
-        activeMatch: '^/deployment/',
+        text: 'I18N',
+        link: '/guide/i18n',
       },
       {
-        text: 'Workbox',
-        link: '/workbox/',
-        activeMatch: '^/workbox/',
+        text: 'Date',
+        link: '/guide/date',
       },
       {
         text: `v${version}`,
         items: [
           {
-            text: 'Vite Plugin PWA',
+            text: 'Vuetify Nuxt Module',
             items: [
               {
                 text: 'Release Notes',
-                link: 'https://github.com/vite-pwa/vite-plugin-pwa/releases',
+                link: 'https://github.com/userquin/vuetify-nuxt-module/releases',
               },
               {
                 text: 'Contributing',
-                link: 'https://github.com/vite-pwa/vite-plugin-pwa/blob/main/CONTRIBUTING.md',
-              },
-            ],
-          },
-          {
-            text: 'îles Module',
-            items: [
-              {
-                text: 'Github',
-                link: 'https://github.com/ElMassimo/iles/tree/main/packages/pwa',
-              },
-              {
-                text: 'Documentation',
-                link: 'https://iles-docs.netlify.app/guide/pwa',
-              },
-            ],
-          },
-          {
-            text: 'Integrations',
-            items: [
-              {
-                text: 'SvelteKit',
-                link: 'https://github.com/vite-pwa/sveltekit',
-              },
-              {
-                text: 'VitePress',
-                link: 'https://github.com/vite-pwa/vitepress',
-              },
-              {
-                text: 'Astro',
-                link: 'https://github.com/vite-pwa/astro',
-              },
-              {
-                text: 'Nuxt 3',
-                link: 'https://github.com/vite-pwa/nuxt',
+                link: 'https://github.com/userquin/vuetify-nuxt-module/blob/main/CONTRIBUTING.md',
               },
             ],
           },
         ],
       },
-    ], */
-    // sidebar: {
-    //   '/guide/': prepareSidebar(0),
-    //   '/assets-generator/': prepareSidebar(1),
-    //   '/frameworks/': prepareSidebar(2),
-    //   '/examples/': prepareSidebar(3),
-    //   '/deployment/': prepareSidebar(4),
-    //   '/workbox/': prepareSidebar(5),
-    // },
+    ],
+    sidebar: [{
+      text: 'Guide',
+      items: [{
+        text: 'Getting Started',
+        link: '/guide/',
+      }, {
+        text: 'Global Components, Directives and Lab Components',
+        link: '/guide/globals',
+      }, {
+        text: 'I18N',
+        link: '/guide/i18n',
+      }, {
+        text: 'Date Support',
+        link: '/guide/date',
+      }],
+    }],
   },
   vite: {
     logLevel: 'info',

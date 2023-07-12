@@ -1,0 +1,55 @@
+/**
+ * Colors
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-accent: #1867c0;
+  --vp-c-brand: #1867c0;
+  --vp-c-brand-light: #1b5fb6;
+  --vp-c-brand-lighter: #215aab;
+  --vp-c-brand-dark: #094691;
+  --vp-c-brand-darker: #094691;
+  --vp-c-text-code: #000;
+  --vp-code-block-bg: rgba(125, 125, 125, 0.06);
+  --vp-code-block-hover-bg: rgba(125, 125, 125, 0.1);
+  --vp-c-bg-mute: #f5f5f5;
+  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-text: var(--vp-c-brand-dark);
+  --vp-custom-block-tip-bg: transparent;
+  --vp-custom-block-tip-code-bg: var(--vp-custom-block-tip-bg);
+  --vp-code-copy-code-bg: initial;
+  --vp-code-copy-code-hover-bg: var(--vp-custom-block-details-text);
+}
+
+.dark {
+  --vp-c-accent: #2196f3;
+  --vp-c-brand: #2196f3;
+  --vp-c-brand-light: #2d8bd9;
+  --vp-c-brand-lighter: #2d8bd9;
+  --vp-c-brand-dark: #1885d9;
+  --vp-c-brand-darker: #1885d9;
+  --vp-code-block-bg: rgba(0, 0, 0, 0.2);
+  --vp-c-text-code: #fff;
+  --vp-c-bg-mute: #2d2d2d;
+  --vp-code-copy-code-bg: initial;
+  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-button-brand-border: var(--vp-c-brand-light);
+  --vp-button-brand-text: #fff;
+  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-text: var(--vp-c-text-code);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
+  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-active-text: var(--vp-c-text-code);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+}
+ .dark {
+   --vp-button-brand-text: #000;
+ }

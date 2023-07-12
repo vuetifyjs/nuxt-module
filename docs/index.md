@@ -9,12 +9,8 @@ hero:
   text: Nuxt Module
   tagline: Zero-config Nuxt Module for Vuetify
   image:
-    light:
-      src: /icon_light.svg
-      alt: Vuetify Nuxt Module
-    dark:
-      src: /icon_dark.svg
-      alt: Vuetify Nuxt Module
+    src: /logo.svg
+    alt: Vuetify Nuxt Module
   actions:
     - theme: brand
       text: Get Started
