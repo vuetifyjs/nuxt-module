@@ -1,0 +1,31 @@
+[build.environment]
+  NODE_VERSION = "18"
+
+[build]
+  publish = ".vitepress/dist"
+  command = "pnpm run docs:build"
+
+[[redirects]]
+  from = "/guide/globals/"
+  to = "/guide/globals/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/guide/icons/"
+  to = "/guide/icons/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/guide/"
+  to = "/guide/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
