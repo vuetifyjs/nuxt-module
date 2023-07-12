@@ -4,6 +4,7 @@ import { version } from '../../package.json'
 import { pwa } from './pwa'
 import { transformHead } from './transform-head'
 import { buildEnd, transformHtml } from './sitemap'
+import { ogImage, ogUrl } from './constants'
 
 export default withPwa(defineConfig({
   lang: 'en-US',
@@ -13,6 +14,8 @@ export default withPwa(defineConfig({
     ['meta', { name: 'theme-color', content: '#ffffff' }],
     ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
     ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
     ['meta', { name: 'author', content: 'Joaquín Sánchez' }],
     ['meta', {
       name: 'keywords',
@@ -20,16 +23,15 @@ export default withPwa(defineConfig({
     }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vuetify Nuxt Module' }],
-    // ['meta', { property: 'og:image', content: ogImage }],
+    ['meta', { property: 'og:image', content: ogImage }],
     ['meta', { property: 'og:description', content: 'Zero-config Nuxt Module for Vuetify' }],
-    // ['meta', { property: 'og:url', content: ogUrl }],
+    ['meta', { property: 'og:url', content: ogUrl }],
     ['meta', { name: 'twitter:description', content: 'Zero-config Nuxt Module for Vuetify' }],
     ['meta', { name: 'twitter:title', content: 'Vuetify Nuxt Module' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    // ['meta', { name: 'twitter:image', content: ogImage }],
+    ['meta', { name: 'twitter:image', content: ogImage }],
     ['meta', { name: 'twitter:site', content: '@userquin' }],
-    // ['meta', { name: 'twitter:url', content: ogUrl }],
-    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' }],
+    ['meta', { name: 'twitter:url', content: ogUrl }],
   ],
   lastUpdated: true,
   markdown: {

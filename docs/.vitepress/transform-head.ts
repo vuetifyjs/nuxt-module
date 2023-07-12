@@ -4,7 +4,7 @@ const firaFont = 'https://fonts.googleapis.com/css2?family=Fira+Code&display=swa
 const googleapis = 'https://fonts.googleapis.com'
 const gstatic = 'https://fonts.gstatic.com'
 
-export async function transformHead(_tc: TransformContext): Promise<HeadConfig[]> {
+export async function transformHead({ pageData }: TransformContext): Promise<HeadConfig[]> {
   const head: HeadConfig[] = []
 
   // prefetch fira font
@@ -16,6 +16,10 @@ export async function transformHead(_tc: TransformContext): Promise<HeadConfig[]
   // non-blocking css
   head.push(['link', { rel: 'preload', as: 'style', onload: 'this.onload=null;this.rel=\'stylesheet\'', href: firaFont }])
   head.push(['noscript', {}, `<link rel="stylesheet" crossorigin="anonymous" href="${firaFont}" />`])
+
+  // banner for index page
+  if (pageData.relativePath === 'index.md')
+    head.push(['link', { rel: 'prefetch', href: '/logo.svg' }])
 
   return head
 }
