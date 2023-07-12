@@ -54,3 +54,8 @@ coverage
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# VP
+docs/vite.config.ts.timestamp-*
+docs/.vitepress/cache/
+docs/.vitepress/dist/
