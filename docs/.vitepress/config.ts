@@ -55,18 +55,35 @@ export default withPwa(defineConfig({
     },
     nav: [
       {
-        text: 'Guide',
-        items: [
-          {
-            text: 'Getting Started',
-            link: '/guide/',
-          },
-          {
-            text: 'Globals',
-            link: '/guide/globals',
-          },
-        ],
-        activeMatch: '^/guide/',
+        text: 'Getting Started',
+        link: '/guide/',
+      }, {
+        text: 'Globals',
+        items: [{
+          text: 'Globals',
+          link: '/guide/globals/',
+        }, {
+          text: 'Global Components',
+          link: '/guide/globals/global-components',
+        }, {
+          text: 'Directives',
+          link: '/guide/globals/directives',
+        }, {
+          text: 'Lab Components',
+          link: '/guide/globals/lab-components',
+        }],
+      }, {
+        text: 'Icons',
+        items: [{
+          text: 'Icons',
+          link: '/guide/icons/',
+        }, {
+          text: 'Font Icons',
+          link: '/guide/icons/font-icons',
+        }, {
+          text: 'SVG Icons',
+          link: '/guide/icons/svg-icons',
+        }],
       },
       {
         text: 'I18N',
@@ -101,8 +118,28 @@ export default withPwa(defineConfig({
         text: 'Getting Started',
         link: '/guide/',
       }, {
-        text: 'Global Components, Directives and Lab Components',
-        link: '/guide/globals',
+        text: 'Globals',
+        link: '/guide/globals/',
+        items: [{
+          text: 'Global Components',
+          link: '/guide/globals/global-components',
+        }, {
+          text: 'Directives',
+          link: '/guide/globals/directives',
+        }, {
+          text: 'Lab Components',
+          link: '/guide/globals/lab-components',
+        }],
+      }, {
+        text: 'Icons',
+        link: '/guide/icons/',
+        items: [{
+          text: 'Font Icons',
+          link: '/guide/icons/font-icons',
+        }, {
+          text: 'SVG Icons',
+          link: '/guide/icons/svg-icons',
+        }],
       }, {
         text: 'I18N',
         link: '/guide/i18n',
