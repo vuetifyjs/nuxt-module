@@ -17,10 +17,7 @@ export default withPwa(defineConfig({
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
     ['meta', { name: 'author', content: 'Joaquín Sánchez' }],
-    ['meta', {
-      name: 'keywords',
-      content: 'vuetify, vuetify3, nuxt, nuxt 3, nuxt module',
-    }],
+    ['meta', { name: 'keywords', content: 'vuetify, vuetify3, nuxt, nuxt 3, nuxt module' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Vuetify Nuxt Module' }],
     ['meta', { property: 'og:image', content: ogImage }],
