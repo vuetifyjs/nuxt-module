@@ -1,8 +1,10 @@
-# Date Components Supprot
+# Date Support
+
+:::warning
+Right now you can only use Vuetify adapter, there is a bug and will not work, I'm working on it: https://github.com/userquin/vuetify-nuxt-module/pull/9#issuecomment-1620023814.
+:::
 
 Use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
-
-Right now you can only use Vuetify adapter, there is a bug and will not work, I'm working on it: https://github.com/userquin/vuetify-nuxt-module/pull/9#issuecomment-1620023814.
 
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
 - install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters (optional)
@@ -15,7 +17,7 @@ To use Vuetify components [that require date functionality](https://vuetifyjs.co
   }
   ```
 
-If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` will be automatically configured, beware, the configured `locale` entry will be ignored.
+If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` and `vuetifyOptions.date.rtl` options will be automatically configured, beware, the configured `locale` entry will be ignored.
 
 If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, and then:
 - add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options
@@ -24,4 +26,4 @@ If you want to use a custom date adapter, you can configure it using `vuetifyOpt
   import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
   ```
 
-Check out [vuetify-date](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/vuetify-date.ts) plugin for an example of a custom date adapter and how to access to the configuration.
+Check out [vuetify-date](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/vuetify-date.ts) plugin and the [date module](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/date.ts) for an example of a custom date adapter and how to access to the configuration.

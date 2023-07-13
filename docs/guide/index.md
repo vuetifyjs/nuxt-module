@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Getting Started
 
 Welcome to the Vuetify Nuxt Module documentation.
@@ -8,7 +12,9 @@ You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing 
 
 ## Installation
 
-> Requires Vite, will not work with Webpack
+:::warning
+Requires Vite, will not work with Webpack
+:::
 
 ::: code-group
   ```bash [pnpm]
@@ -24,7 +30,13 @@ You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing 
 
 ## Usage
 
-> `vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
+:::info
+`vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
+:::
+
+:::warning
+You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
+:::
 
 Add `vuetify-nuxt-module` module to `nuxt.config.ts` and configure it:
 

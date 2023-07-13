@@ -3,7 +3,7 @@
 
 [build]
   publish = "docs/.vitepress/dist"
-  command = "pnpm run build && pnpm run docs:build"
+  command = "pnpm run docs:build"
 
 [[redirects]]
   from = "/guide/globals/"
