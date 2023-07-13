@@ -36,6 +36,8 @@ Requires Vite, will not work with Webpack
 
 :::warning
 You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
+
+Check out the [Globals](/guide/globals/) entry for more info.
 :::
 
 Add `vuetify-nuxt-module` module to `nuxt.config.ts` and configure it:
