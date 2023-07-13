@@ -42,14 +42,14 @@ export default withPwa(defineConfig({
   },
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/userquin/vuetify-nuxt-module/docs/edit/main/:path',
+      pattern: 'https://github.com/userquin/vuetify-nuxt-module/edit/main/docs/:path',
       text: 'Suggest changes to this page',
     },
     search: {
       provider: 'local',
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/userquin/vuetify-nuxt-module/docs' },
+      { icon: 'github', link: 'https://github.com/userquin/vuetify-nuxt-module' },
     ],
     footer: {
       message: 'Released under the MIT License.',
