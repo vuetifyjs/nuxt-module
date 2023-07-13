@@ -143,7 +143,7 @@ export default withPwa(defineConfig({
           link: '/guide/icons/svg-icons',
         }],
       }, {
-        text: 'I18N',
+        text: 'Internationalization',
         link: '/guide/i18n',
       }, {
         text: 'Date Support',
