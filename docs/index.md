@@ -9,7 +9,7 @@ hero:
   text: Nuxt Module
   tagline: Zero-config Nuxt Module for Vuetify
   image:
-    src: /logo.svg
+    src: /animated-logo.svg
     alt: Vuetify Nuxt Module
   actions:
     - theme: brand
