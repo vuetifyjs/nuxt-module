@@ -8,7 +8,9 @@ Welcome to the Vuetify Nuxt Module documentation.
 
 You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing with the playground:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vuetify-nuxt-module)
+<a href="https://stackblitz.com/github/userquin/vuetify-nuxt-module" target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" width="162" height="32">
+</a>
 
 ## Installation
 

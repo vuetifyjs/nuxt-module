@@ -16,6 +16,14 @@ const { isRtl } = useRtl()
 // eslint-disable-next-line no-console
 console.log(useNuxtApp().$vuetify.icons)
 
+const rtl = ref(isRtl.value)
+
+watch(isRtl, (x) => {
+  // eslint-disable-next-line no-console
+  console.log('isRtl', x)
+  rtl.value = x
+}, { immediate: true })
+
 watch(current, () => {
   // eslint-disable-next-line no-console
   console.log('current', t('xxx', { locale: current.value }))
@@ -49,13 +57,18 @@ watch(isRtl, (x) => {
       hint="name 1"
       persistent-hint
       outlined
+      clearable
     />
     <v-btn>{{ t('xxx') }}</v-btn>
     <v-locale-provider locale="es-ES">
       <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
     </v-locale-provider>
     <!--    <v-icon icon="fas fa-home" /> -->
-    <v-icon icon="$account" />
+    <!--    <v-icon icon="$account" /> -->
+    <v-icon class="i-mdi:account" />
+    <i class="i-mdi:account block" />
+    <v-checkbox v-model="isRtl" label="isRtl" readonly :true-value="true" :false-value="false" />
+    <v-checkbox v-model="isRtl" label="isRtl" readonly :true-value="true" :false-value="false" false-icon="i-mdi:account" />
     <div style="display: flex">
       <v-date-picker />
       <v-locale-provider locale="ar-EG" rtl>

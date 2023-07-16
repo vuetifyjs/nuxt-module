@@ -1,14 +1,18 @@
+---
+outline: deep
+---
+
 # SVG Icons
 
 This module supports the following SVG icon libraries:
 - [@mdi/js](https://www.npmjs.com/package/@mdi/js)
 - [@fortawesome/fontawesome-svg-core](https://www.npmjs.com/package/@fortawesome/fontawesome-svg-core)
 
-We're trying to figure out how to include the following SVG icon libraries:
+You can also use the following packages SVG icons libraries:
 - [Nuxt Icon](https://github.com/nuxt-modules/icon)
 - [unplugin-icons](https://github.com/antfu/unplugin-icons)
 
-## mdi-svg
+## Material Design Icons
 
 You only need to add `@mdi/js` dependency to your project and configure the default set:
 ```ts
@@ -51,7 +55,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## fa-svg
+## Font Awesome
 
 You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome` and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
 ```ts
@@ -92,4 +96,40 @@ export default defineNuxtConfig({
     }
   }
 })
+```
+
+### Font Awesome PRO
+
+To register Font Awesome Icons PRO you need to add `@fortawesome/pro-solid-svg-icons` dependency to your project, configure the default set and add the library to the list of libraries:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'fa-svg',
+        svg: {
+          fa: {
+            libraries: [
+              [/* default export? */ false, /* export name */ 'fad', /* library */ '@fortawesome/pro-duotone-svg-icons']
+            ]
+          }
+        }
+      }
+    }
+  }
+})
+```
+
+then you can use the icons in your components:
+```vue
+<v-icon>fa-duotone fa-server</v-icon>
+```
+
+If you want to animate the icon, add the animation to the `v-icon` class:
+```vue
+<v-icon class="fa-bounce">fa-duotone fa-server</v-icon>
 ```

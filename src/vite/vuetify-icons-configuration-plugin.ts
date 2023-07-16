@@ -29,7 +29,7 @@ export function iconsConfiguration() {
 `
         }
 
-        const { aliases, fa, defaultSet, imports, sets } = await iconsOptionsPromise
+        const { unocss, aliases, fa, defaultSet, imports, sets } = await iconsOptionsPromise
 
         if (!defaultSet) {
           return `export const isDev = ${isDev}
@@ -40,7 +40,6 @@ export function iconsConfiguration() {
         }
 
         return `${imports}
-
 export const isDev = ${isDev}
 export function iconsConfiguration() {
 ${fa.map(f => `  ${f}`).join('\n')}
@@ -50,6 +49,7 @@ ${fa.map(f => `  ${f}`).join('\n')}
     sets: { ${sets} }
   }
 }
+${unocss}
 `
       }
     },
@@ -57,6 +57,7 @@ ${fa.map(f => `  ${f}`).join('\n')}
 
   async function prepareIcons(): Promise<{
     fa: string[]
+    unocss: string
     defaultSet?: string
     imports: string
     sets: string
@@ -64,6 +65,7 @@ ${fa.map(f => `  ${f}`).join('\n')}
   }> {
     if (!resolvedIcons.enabled) {
       return {
+        unocss: '',
         defaultSet: undefined,
         imports: '',
         sets: '',
@@ -82,7 +84,56 @@ ${fa.map(f => `  ${f}`).join('\n')}
 `
     }
 
+    let unocss = ''
+
+    if (resolvedIcons.unocss && resolvedIcons.unocssAliases) {
+      resolvedIcons.imports.unshift('// @unocss-include')
+      const prefix = `${resolvedIcons.unocssIconPrefix}mdi:`
+      unocss = `const aliases = ${JSON.stringify({
+  collapse: `${prefix}chevron-up`,
+  complete: `${prefix}check`,
+  cancel: `${prefix}close-circle`,
+  close: `${prefix}close`,
+  delete: `${prefix}close-circle`,
+  // delete (e.g. v-chip close)
+  clear: `${prefix}close-circle`,
+  success: `${prefix}check-circle`,
+  info: `${prefix}information`,
+  warning: `${prefix}alert-circle`,
+  error: `${prefix}close-circle`,
+  prev: `${prefix}chevron-left`,
+  next: `${prefix}chevron-right`,
+  checkboxOn: `${prefix}checkbox-marked`,
+  checkboxOff: `${prefix}checkbox-blank-outline`,
+  checkboxIndeterminate: `${prefix}minus-box`,
+  delimiter: `${prefix}circle`,
+  // for carousel
+  sortAsc: `${prefix}arrow-up`,
+  sortDesc: `${prefix}arrow-down`,
+  expand: `${prefix}chevron-down`,
+  menu: `${prefix}menu`,
+  subgroup: `${prefix}menu-down`,
+  dropdown: `${prefix}menu-down`,
+  radioOn: `${prefix}radiobox-marked`,
+  radioOff: `${prefix}radiobox-blank`,
+  edit: `${prefix}pencil`,
+  ratingEmpty: `${prefix}star-outline`,
+  ratingFull: `${prefix}star`,
+  ratingHalf: `${prefix}star-half-full`,
+  loading: `${prefix}cached`,
+  first: `${prefix}page-first`,
+  last: `${prefix}page-last`,
+  unfold: `${prefix}unfold-more-horizontal`,
+  file: `${prefix}paperclip`,
+  plus: `${prefix}plus`,
+  minus: `${prefix}minus`,
+  calendar: `${prefix}calendar`,
+  })}
+`
+    }
+
     return {
+      unocss,
       fa: resolvedIcons.svg?.fa ?? [],
       defaultSet: resolvedIcons.defaultSet,
       imports: Object.values(resolvedIcons.imports).join('\n'),

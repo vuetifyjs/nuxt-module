@@ -113,7 +113,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.build.transpile.push(CONFIG_KEY)
 
-    const icons = prepareIcons(logger, vuetifyOptions)
+    const icons = prepareIcons(hasNuxtModule('@unocss/nuxt'), logger, vuetifyOptions)
 
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
