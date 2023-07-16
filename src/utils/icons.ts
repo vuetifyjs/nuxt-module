@@ -3,6 +3,8 @@ import type { FontIconSet, IconFontName, IconSetName, IconsOptions, VOptions } f
 
 export interface ResolvedIcons {
   enabled: boolean
+  unocss: boolean
+  unocssAliases: boolean
   defaultSet?: IconSetName
   sets: string[]
   cdn: string[]
@@ -15,24 +17,28 @@ export interface ResolvedIcons {
   }
 }
 
-export const cssFonts: IconSetName[] = ['mdi', 'md', 'fa', 'fa4']
+export const cssFonts: IconSetName[] = ['unocss-mdi', 'mdi', 'md', 'fa', 'fa4']
 
 const iconsPackageNames: Record<IconFontName, { name: string; css: string }> = {
-  mdi: { name: '@mdi/font', css: '@mdi/font/css/materialdesignicons.css' },
-  md: { name: 'material-design-icons-iconfont', css: '@mdi/font/css/materialdesignicons.css' },
-  fa: { name: '@fortawesome/fontawesome-free', css: '@fortawesome/fontawesome-free/css/all.css' },
-  fa4: { name: 'font-awesome@4.7.0', css: 'font-awesome/css/font-awesome.min.css' },
+  'unocss-mdi': { name: '@mdi/font', css: '' },
+  'mdi': { name: '@mdi/font', css: '@mdi/font/css/materialdesignicons.css' },
+  'md': { name: 'material-design-icons-iconfont', css: '@mdi/font/css/materialdesignicons.css' },
+  'fa': { name: '@fortawesome/fontawesome-free', css: '@fortawesome/fontawesome-free/css/all.css' },
+  'fa4': { name: 'font-awesome@4.7.0', css: 'font-awesome/css/font-awesome.min.css' },
 }
 
 const iconsCDN: Record<IconFontName, string> = {
-  mdi: 'https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css',
-  md: 'https://fonts.googleapis.com/css?family=Material+Icons',
-  fa: 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css',
-  fa4: 'https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css',
+  'unocss-mdi': '',
+  'mdi': 'https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css',
+  'md': 'https://fonts.googleapis.com/css?family=Material+Icons',
+  'fa': 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css',
+  'fa4': 'https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css',
 }
 
 const disabledResolvedIcons: ResolvedIcons = Object.freeze({
   enabled: false,
+  unocss: false,
+  unocssAliases: false,
   imports: [],
   aliases: [],
   sets: [],
@@ -42,6 +48,7 @@ const disabledResolvedIcons: ResolvedIcons = Object.freeze({
 })
 
 export function prepareIcons(
+  unocssPresent: boolean,
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
   vuetifyOptions: VOptions,
 ): ResolvedIcons {
@@ -58,10 +65,12 @@ export function prepareIcons(
   if (!sets && defaultSet !== 'mdi-svg' && defaultSet !== 'fa-svg' && defaultSet !== 'custom')
     sets = [{ name: defaultSet || 'mdi' }]
 
-  sets = sets ? convertFontSetsToObjectNotation(sets) : undefined
+  sets = sets ? convertFontSetsToObjectNotation(sets) : []
 
   const resolvedIcons: ResolvedIcons = {
     enabled: true,
+    unocss: unocssPresent && (defaultSet === 'unocss-mdi' || sets.some(s => s.name === 'unocss-mdi')),
+    unocssAliases: defaultSet === 'unocss-mdi',
     defaultSet,
     sets: [],
     aliases: [],
@@ -74,7 +83,16 @@ export function prepareIcons(
   }
 
   if (sets) {
+    if (!unocssPresent && defaultSet === 'unocss-mdi') {
+      logger.warn('Configured unocss-mdi as default icon set and @unocss/nuxt is not installed, reverting configuration to use mdi icon set: install @unocss/nuxt module or change the default icon set!')
+      defaultSet = 'mdi'
+      sets = sets.filter(s => s.name !== 'unocss-mdi')
+    }
+
     sets.filter(s => cssFonts.includes(s.name)).map(s => s.name).forEach((name) => {
+      if (name === 'unocss-mdi')
+        return
+
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`)
       resolvedIcons.sets.push(name)
       if (isPackageExists(iconsPackageNames[name].name))
@@ -82,6 +100,14 @@ export function prepareIcons(
       else
         resolvedIcons.cdn!.push(iconsCDN[name])
     })
+    if (resolvedIcons.unocss && defaultSet === 'unocss-mdi') {
+      if (!resolvedIcons.sets.includes('mdi')) {
+        resolvedIcons.sets.push('mdi')
+        resolvedIcons.imports.push('import {mdi} from \'vuetify/iconsets/mdi\'')
+      }
+
+      resolvedIcons.defaultSet = 'mdi'
+    }
   }
 
   let faSvg = icons.svg?.fa
@@ -151,7 +177,7 @@ export function prepareIcons(
     }
   }
 
-  if (!resolvedIcons.local?.length && !resolvedIcons.cdn?.length && !resolvedIcons.svg?.mdi && !resolvedIcons.svg?.fa?.length) {
+  if (defaultSet !== 'custom' && !resolvedIcons.unocss && !resolvedIcons.local?.length && !resolvedIcons.cdn?.length && !resolvedIcons.svg?.mdi && !resolvedIcons.svg?.fa?.length) {
     logger.warn('No icons found, icons disabled!')
     return disabledResolvedIcons
   }

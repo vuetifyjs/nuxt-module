@@ -31,8 +31,8 @@ export interface DateOptions {
   locale?: Record<string, any>
 }
 
-export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md' | 'mdi-svg' | 'fa-svg' | 'custom'
-export type IconFontName = 'mdi' | 'fa' | 'fa4' | 'md'
+export type IconSetName = 'mdi' | 'fa' | 'fa4' | 'md' | 'mdi-svg' | 'fa-svg' | 'unocss-mdi' | 'custom'
+export type IconFontName = 'unocss-mdi' | 'mdi' | 'fa' | 'fa4' | 'md'
 
 export interface JSSVGIconSet {
   aliases?: Record<string, string>

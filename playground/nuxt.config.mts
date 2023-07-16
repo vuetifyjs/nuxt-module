@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     autoImport: true,
     injectAtEnd: true,
   },
-  modules: ['@nuxtjs/i18n', LayerModule, '../src/module'],
+  modules: ['@unocss/nuxt', '@nuxtjs/i18n', LayerModule, '../src/module'],
   i18n: {
     locales: availableLocales,
     lazy: true,
@@ -56,14 +56,15 @@ export default defineNuxtConfig({
       icons: {
         // remember to comment the v-icon in playground/pages/index.vue when switching
         // defaultSet: 'fa-svg',
-        defaultSet: 'mdi-svg',
-        svg: {
+        defaultSet: 'unocss-mdi',
+        // defaultSet: 'mdi-svg',
+        /*svg: {
           mdi: {
             aliases: {
               account: 'mdiAccount',
             },
           },
-        },
+        },*/
       },
     },
   },
