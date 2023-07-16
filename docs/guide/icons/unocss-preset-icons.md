@@ -42,6 +42,24 @@ export default defineNuxtConfig({
 })
 ```
 
+If you're not using the default UnoCSS Preset Icons [prefix](https://unocss.dev/presets/icons#prefix), you can configure it using the `icons.unocssIconPrefix` option in your Nuxt configuration file:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'unocss-mdi',
+        unocssIconPrefix: 'myprefix-'
+      }
+    }
+  }
+})
+```
+
 ## Using another icon set
 
 This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` package and configuring Vuetify to use it:

@@ -5,6 +5,7 @@ export interface ResolvedIcons {
   enabled: boolean
   unocss: boolean
   unocssAliases: boolean
+  unocssIconPrefix: string
   defaultSet?: IconSetName
   sets: string[]
   cdn: string[]
@@ -39,6 +40,7 @@ const disabledResolvedIcons: ResolvedIcons = Object.freeze({
   enabled: false,
   unocss: false,
   unocssAliases: false,
+  unocssIconPrefix: 'i-',
   imports: [],
   aliases: [],
   sets: [],
@@ -71,6 +73,7 @@ export function prepareIcons(
     enabled: true,
     unocss: unocssPresent && (defaultSet === 'unocss-mdi' || sets.some(s => s.name === 'unocss-mdi')),
     unocssAliases: defaultSet === 'unocss-mdi',
+    unocssIconPrefix: icons.unocssIconPrefix ?? 'i-',
     defaultSet,
     sets: [],
     aliases: [],

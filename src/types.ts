@@ -69,7 +69,16 @@ export interface FontIconSet {
 }
 
 export interface IconsOptions {
+  /**
+   * @default 'mdi'
+   */
   defaultSet: IconSetName
+  /**
+   * The prefix for UnoCSS Preset Icons.
+   *
+   * @default 'i-'
+   */
+  unocssIconPrefix?: string
   sets?: IconFontName | IconFontName[] | FontIconSet[]
   svg?: {
     mdi?: JSSVGIconSet
