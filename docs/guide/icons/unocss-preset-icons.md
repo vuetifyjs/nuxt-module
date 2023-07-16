@@ -8,7 +8,24 @@ Once UnoCSS Nuxt Module and the UnoCSS Preset Icons installed and configured, yo
 
 UnoCSS Preset Icons use [Iconify](https://iconify.design/) as their data source of icons. You need to install the corresponding icon set in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all available collections.
 
-Then configure the default set to use `unocss-mdi`:
+## Using UnoCSS Preset Icons
+
+UnoCSS Preset Icons will allow you to use any icon in any component or any html markup, you only need to register the `mdi` icon set to allow Vuetify to configure the icon via `class`:
+```vue
+<v-icon class="i-mdi:home"></v-icon>
+```
+
+or directly in your html markup:
+
+```html
+<div class="i-mdi:home"></div>
+```
+
+## `unocss-mdi` icon set
+
+This module provides a new icon set for Vuetify: the `unocss-mdi` icon set. The `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection.
+
+You can configure it using the default set:
 ```ts
 // Nuxt config file
 import { defineNuxtConfig } from 'nuxt/config'
@@ -25,19 +42,6 @@ export default defineNuxtConfig({
 })
 ```
 
-## Using UnoCSS Preset Icons
-
-UnoCSS Preset Icons will allow you to use any icon in any component or any html markup:
-```vue
-<v-icon class="i-mdi:home"></v-icon>
-```
-
-or
-
-```html
-<div class="i-mdi:home"></div>
-```
-
 ## Using another icon set
 
 This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` package and configuring Vuetify to use it:
@@ -47,7 +51,7 @@ This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` ico
 - register `vuetify-configuration` hook in your plugin
 - register the new icon set aliases in the `vuetify-configuration` hook
 
-This is a Nuxt Plugin example using [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection (manual `unocss-mdi` replacement), replace the icons using your new collection:
+This is a Nuxt Plugin example using [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection (manual `unocss-mdi` icon set replacement), replace the icons using your new collection:
 ```ts
 // @unocss-include DON'T FORGET TO ADD THIS COMMENT
 import { mdi } from 'vuetify/lib/iconsets/mdi'
