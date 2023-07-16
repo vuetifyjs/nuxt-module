@@ -68,6 +68,7 @@ watch(isRtl, (x) => {
     <v-icon class="i-mdi:account" />
     <i class="i-mdi:account block" />
     <v-checkbox v-model="isRtl" label="isRtl" readonly :true-value="true" :false-value="false" />
+    <v-checkbox v-model="isRtl" label="isRtl" readonly :true-value="true" :false-value="false" false-icon="i-mdi:account" />
     <div style="display: flex">
       <v-date-picker />
       <v-locale-provider locale="ar-EG" rtl>

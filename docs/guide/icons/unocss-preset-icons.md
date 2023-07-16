@@ -10,12 +10,17 @@ UnoCSS Preset Icons use [Iconify](https://iconify.design/) as their data source 
 
 ## Using UnoCSS Preset Icons
 
-UnoCSS Preset Icons will allow you to use any icon in any component or any html markup, you only need to register the `mdi` icon set to allow Vuetify to configure the icon via `class`:
+UnoCSS Preset Icons will allow you to use any icon via `v-icon`, you only need to register the `mdi` icon set to allow Vuetify to configure the icon via `class`:
 ```vue
 <v-icon class="i-mdi:home"></v-icon>
 ```
 
-or directly in your html markup:
+or in any Vuetify component that allows to configure the icon:
+```vue
+<v-checkbox true-icon="i-mdi:account"></v-checkbox>
+```
+
+You can also use any icon directly in your html markup:
 
 ```html
 <div class="i-mdi:home"></div>
@@ -60,7 +65,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## Using another icon set
+## Adding a new Vuetify icon set
 
 This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` package and configuring Vuetify to use it:
 - configure the default set to use `custom`: `vuetify.vuetifyOptions.icons.defaultSet = 'custom'` in your nuxt config file
