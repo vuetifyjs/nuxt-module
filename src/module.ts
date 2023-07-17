@@ -146,9 +146,19 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify-nuxt-module/configuration' })
     })
 
+    const vuetifyBase = resolveVuetifyBase()
+    async function importMapResolver(): Promise<Record<string, { from: string }>> {
+      return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).components!
+    }
+    async function importMapLabResolver(): Promise<Record<string, { from: string }>> {
+      return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap-labs.json'), 'utf-8')).components!
+    }
+
+    const componentsPromise = importMapResolver()
+    const labComponentsPromise = importMapLabResolver()
+
     nuxt.hook('components:extend', async (c) => {
-      const vuetifyBase = resolveVuetifyBase()
-      const { components } = JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8'))
+      const components = await componentsPromise
       Object.keys(components).forEach((component) => {
         const from = components[component].from
         c.push({
@@ -195,6 +205,9 @@ export default defineNuxtModule<ModuleOptions>({
         directives,
         labComponents,
         vuetifyAppOptions,
+        componentsPromise,
+        labComponentsPromise,
+        logger,
       ))
       viteInlineConfig.plugins.push(vuetifyIconsPlugin(
         nuxt.options.dev,
