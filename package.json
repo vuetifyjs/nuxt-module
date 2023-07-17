@@ -114,6 +114,11 @@
   "pnpm": {
     "patchedDependencies": {
       "@nuxtjs/i18n@8.0.0-beta.13": "patches/@nuxtjs__i18n@8.0.0-beta.13.patch"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ]
     }
   },
   "stackblitz": {
