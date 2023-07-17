@@ -40,7 +40,7 @@ features:
     details: Automatic SSR detection and configuration
   - icon: <span class="i-carbon:face-wink hover:i-carbon:face-satisfied"></span>
     title: Pure CSS Icons
-    details: <span>No more font/js icons, use the new <strong>unocsss-mdi</strong> icon set or build your own with UnoCSS Preset Icons</span>
+    details: <span>No more font/js icons, use the new <strong>unocss-mdi</strong> icon set or build your own with UnoCSS Preset Icons</span>
     link: /guide/icons/unocss-preset-icons
     linkText: UnoCSS Preset Icons
   - icon: 😃

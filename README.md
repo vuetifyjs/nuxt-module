@@ -33,7 +33,7 @@
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
-- 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocsss-mdi` icon set or build your own with UnoCSS Preset Icons
+- 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocss-mdi` icon set or build your own with UnoCSS Preset Icons
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
 - 🎭 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
 - 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
