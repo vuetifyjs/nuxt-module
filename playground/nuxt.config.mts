@@ -43,8 +43,8 @@ export default defineNuxtConfig({
         MyBadge: 'VBadge',
       },
       directives: true,
-      components: ['VDialog'],
-      labComponents: ['VDataTable'],
+      components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
+      labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
       blueprint: md3,
       theme: {
         defaultTheme: 'light',
