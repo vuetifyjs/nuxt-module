@@ -1,8 +1,6 @@
 # UnoCSS Preset Icons
 
-You can use Pure CSS SVG Icons via [UnoCSS Preset Icons](https://unocss.dev/presets/icons).
-- [UnoCSS Nuxt Module](https://unocss.dev/integrations/nuxt)
-- [UnoCSS Preset Icons](https://unocss.dev/presets/icons)
+You can use Pure CSS Icons via [UnoCSS Preset Icons](https://unocss.dev/presets/icons), just install [UnoCSS Nuxt Module](https://unocss.dev/integrations/nuxt) and enable [UnoCSS Preset Icons](https://unocss.dev/presets/icons).
 
 Once UnoCSS Nuxt Module and the UnoCSS Preset Icons installed and configured, you need to install the icons collections you want to use.
 
@@ -28,7 +26,7 @@ You can also use any icon directly in your html markup:
 
 ## `unocss-mdi` icon set
 
-This module provides a new icon set for Vuetify: the `unocss-mdi` icon set. The `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection.
+This module provides a new icon set for Vuetify, `unocss-mdi` icon set. The `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection.
 
 You can configure it using the default set:
 ```ts

@@ -1,11 +1,11 @@
 # Icons
 
-This module will work with UnoCSS Preset Icons, Font icons and SVG icons:
-- [UnoCSS Preset Icons](/guide/icons/unocss-preset-icons)
+This module will work with Pure CSS Icons, Font icons and SVG icons:
+- Pure CSS Icons via [UnoCSS Preset Icons](/guide/icons/unocss-preset-icons)
 - [Font icons](/guide/icons/font-icons)
 - [SVG icons](/guide/icons/svg-icons)
 
-We recommend using UnoCSS Preset Icons, you will use/bundle only the SVG icons used in your application inside your CSS.
+We recommend using Pure CSS Icons, you will use/bundle only the SVG icons used in your application inside your CSS.
 
 ## Multiple Icon Sets
 
