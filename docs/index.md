@@ -66,17 +66,17 @@ features:
   - icon: ⚙️
     title: Auto-Import Vuetify Composables
     details: You don't need to import Vuetify composables manually, they are automatically imported for you
-    link: /guide/index#vuetify-composables
+    link: /guide/#vuetify-composables
     linkText: Vuetify Composables
   - icon: 🎨
     title: Vuetify Blueprints
     details: Use Vuetify Blueprints to quickly scaffold components
-    link: /guide/index#vuetify-blueprints
+    link: /guide/#vuetify-blueprints
     linkText: Vuetify Blueprints
   - icon: 🔩
     title: Nuxt Layers and Hooks
     details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
-    link: /guide/index#nuxt-layers-and-hooks
+    link: /guide/#nuxt-layers-and-hooks
     linkText: Nuxt Layers and Hooks
   - icon: 👀
     title: Nuxt DevTools
