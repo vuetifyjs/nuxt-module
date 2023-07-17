@@ -8,6 +8,8 @@ export async function configureVuetify() {
 
   await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
 
+  await nuxtApp.hooks.callHook('vuetify:before-create', { isDev, vuetifyOptions })
+
   const vuetify = createVuetify(vuetifyOptions)
 
   nuxtApp.vueApp.use(vuetify)

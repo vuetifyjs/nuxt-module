@@ -9,6 +9,9 @@
       "input": {
         "placeholder": "Enter date"
       }
+    },
+    "input": {
+      "clear": "Clear"
     }
   }
 }

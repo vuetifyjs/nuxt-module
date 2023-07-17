@@ -9,6 +9,9 @@
       "input": {
         "placeholder": "Introduzca día"
       }
+    },
+    "input": {
+      "clear": "Limpiar"
     }
   }
 }

@@ -208,5 +208,9 @@ declare module '#app' {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
     }) => Promise<void> | void
+    'vuetify:before-create': (options: {
+      isDev: boolean
+      vuetifyOptions: VuetifyOptions
+    }) => Promise<void> | void
   }
 }

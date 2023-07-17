@@ -1,1 +1,7 @@
-{}
+{
+  "$vuetify": {
+    "input": {
+      "clear": "Borrar"
+    }
+  }
+}

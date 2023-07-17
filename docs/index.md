@@ -38,30 +38,46 @@ features:
   - icon: 💥
     title: SSR
     details: Automatic SSR detection and configuration
+  - icon: <span class="i-carbon:face-wink hover:i-carbon:face-satisfied"></span>
+    title: Pure CSS Icons
+    details: <span>No more font/js icons, use the new <strong>unocsss-mdi</strong> icon set or build your own with UnoCSS Preset Icons</span>
+    link: /guide/icons/unocss-preset-icons
+    linkText: UnoCSS Preset Icons
   - icon: 😃
     title: Icon Fonts
     details: Configure the icon font you want to use, the module will automatically import it for you using CDN or local dependencies
+    link: /guide/icons/font-icons
+    linkText: Icon Fonts
   - icon: 🎭
     title: SVG Icons
     details: Ready to use @mdi/js and @fortawesome/vue-fontawesome SVG icons packs
-  - icon: 📦
-    title: Multiple Icon Sets
-    details: Register multiple icon sets
+    link: /guide/icons/svg-icons
+    linkText: SVG Icons
   - icon: 🌍
     title: I18n Ready
     details: Install @nuxtjs/i18n Nuxt module, and you're ready to use Vuetify internationalization features
+    link: /guide/i18n
+    linkText: Internationalization
   - icon: 📆
     title: Date Components
     details: Use Vuetify components that require date functionality installing and configuring one of the @date-io adapters
+    link: /guide/date
+    linkText: Date Components
   - icon: ⚙️
     title: Auto-Import Vuetify Composables
     details: You don't need to import Vuetify composables manually, they are automatically imported for you
+    link: /guide/index#vuetify-composables
+    linkText: Vuetify Composables
   - icon: 🎨
     title: Vuetify Blueprints
     details: Use Vuetify Blueprints to quickly scaffold components
+    link: /guide/index#vuetify-blueprints
+    linkText: Vuetify Blueprints
   - icon: 🔩
     title: Nuxt Layers and Hooks
     details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
+    link: /guide/index#nuxt-layers-and-hooks
+    linkText: Nuxt Layers and Hooks
   - icon: 👀
     title: Nuxt DevTools
     details: Ready to inspect your Vuetify styles with the Nuxt DevTools inspector
