@@ -49,7 +49,19 @@ export default defineNuxtConfig({
       /*locale: {
         messages: {
           en: {
-            one: 'One',
+            hello: 'Hi',
+            question: {
+              one: 'One',
+              two: 'Two',
+            },
+          },
+          es: {
+            hello: 'Hola',
+            question: {
+              one: 'Uno',
+              two: 'Dos',
+              three: 'Tres',
+            },
           },
         },
       },
