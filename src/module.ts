@@ -140,11 +140,11 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
 
     nuxt.hook('prepare:types', ({ references }) => {
+      references.push({ types: 'vuetify' })
       references.push({ types: 'vuetify-nuxt-module/configuration' })
     })
 
     const {
-      vuetifyBase,
       componentsPromise,
       labComponentsPromise,
     } = resolveVuetifyComponents(resolver)
@@ -152,13 +152,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('components:extend', async (c) => {
       const components = await componentsPromise
       Object.keys(components).forEach((component) => {
-        const from = components[component].from
         c.push({
           pascalName: component,
           kebabName: toKebabCase(component),
           export: component,
-          filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
-          shortPath: `vuetify/components/${from}`,
+          filePath: 'vuetify/components',
+          shortPath: 'vuetify/components',
           chunkName: toKebabCase(component),
           prefetch: false,
           preload: false,
