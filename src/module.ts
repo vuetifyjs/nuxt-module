@@ -1,4 +1,3 @@
-import { readFile } from 'node:fs/promises'
 import {
   addImports,
   addPlugin,
@@ -10,9 +9,7 @@ import {
   isNuxt3,
   useLogger,
 } from '@nuxt/kit'
-import type { ViteConfig } from '@nuxt/schema'
 import defu from 'defu'
-import { resolveVuetifyBase } from '@vuetify/loader-shared'
 import { version } from '../package.json'
 import { vuetifyStylesPlugin } from './vite/vuetify-styles-plugin'
 import type { DateAdapter, MOptions, ModuleOptions, VOptions } from './types'
@@ -21,7 +18,7 @@ import { vuetifyDateConfigurationPlugin } from './vite/vuetify-date-configuratio
 import { prepareIcons } from './utils/icons'
 import { vuetifyIconsPlugin } from './vite/vuetify-icons-configuration-plugin'
 import { toKebabCase } from './utils'
-import { cleanupBlueprint, detectDate } from './utils/module'
+import { checkVuetifyPlugins, cleanupBlueprint, detectDate, resolveVuetifyComponents } from './utils/module'
 import { mergeVuetifyModules } from './utils/layers'
 
 export * from './types'
@@ -120,7 +117,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.unshift('vuetify/styles/main.sass')
     else if (styles === true)
       nuxt.options.css.unshift('vuetify/styles')
-    else if (typeof styles === 'object' && styles?.configFile && typeof styles.configFile === 'string')
+    else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
       nuxt.options.css.unshift(styles.configFile)
 
     if (icons.enabled) {
@@ -146,16 +143,11 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: 'vuetify-nuxt-module/configuration' })
     })
 
-    const vuetifyBase = resolveVuetifyBase()
-    async function importMapResolver(): Promise<Record<string, { from: string }>> {
-      return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).components!
-    }
-    async function importMapLabResolver(): Promise<Record<string, { from: string }>> {
-      return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap-labs.json'), 'utf-8')).components!
-    }
-
-    const componentsPromise = importMapResolver()
-    const labComponentsPromise = importMapLabResolver()
+    const {
+      vuetifyBase,
+      componentsPromise,
+      labComponentsPromise,
+    } = resolveVuetifyComponents(resolver)
 
     nuxt.hook('components:extend', async (c) => {
       const components = await componentsPromise
@@ -166,7 +158,7 @@ export default defineNuxtModule<ModuleOptions>({
           kebabName: toKebabCase(component),
           export: component,
           filePath: `${resolver.resolve(vuetifyBase, `lib/${from}`)}`,
-          shortPath: `components/${from}`,
+          shortPath: `vuetify/components/${from}`,
           chunkName: toKebabCase(component),
           prefetch: false,
           preload: false,
@@ -246,13 +238,3 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
 })
-
-function checkVuetifyPlugins(config: ViteConfig) {
-  let plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')
-  if (plugin)
-    throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
-
-  plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
-  if (plugin)
-    throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
-}

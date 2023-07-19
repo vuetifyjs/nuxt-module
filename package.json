@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "0.4.7",
-  "packageManager": "pnpm@8.6.8",
+  "packageManager": "pnpm@8.6.9",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
@@ -59,13 +59,13 @@
   "peerDependencies": {
     "@nuxt/kit": "^3.6.2",
     "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.6"
+    "vuetify": "^3.3.9"
   },
   "dependencies": {
     "@nuxt/kit": "^3.6.2",
     "defu": "^6.1.2",
     "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.6"
+    "vuetify": "^3.3.9"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.6",

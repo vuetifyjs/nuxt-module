@@ -16,22 +16,18 @@ const { isRtl } = useRtl()
 // eslint-disable-next-line no-console
 console.log(useNuxtApp().$vuetify.icons)
 
-const rtl = ref(isRtl.value)
+// const rtl = ref(isRtl.value)
 
 watch(isRtl, (x) => {
   // eslint-disable-next-line no-console
   console.log('isRtl', x)
-  rtl.value = x
+  // rtl.value = x
 }, { immediate: true })
 
 watch(current, () => {
   // eslint-disable-next-line no-console
   console.log('current', t('xxx', { locale: current.value }))
 })
-watch(isRtl, (x) => {
-  // eslint-disable-next-line no-console
-  console.log('isRtl', x)
-}, { immediate: true })
 </script>
 
 <template>

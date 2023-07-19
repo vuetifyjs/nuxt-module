@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite'
 import type { ComponentName, Directives, LabComponentName, LabComponents, VOptions } from '../types'
+import type { VuetifyComponentsImportMap } from '../utils/module'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
@@ -7,6 +8,7 @@ interface ImportsResult {
   components: string
   aliases: string
   directives: string
+  messages: string
 }
 
 export function vuetifyConfigurationPlugin(
@@ -15,14 +17,15 @@ export function vuetifyConfigurationPlugin(
   directives: Directives,
   labComponents: LabComponents,
   vuetifyAppOptions: VOptions,
-  componentsPromise: Promise<Record<string, { from: string }>>,
-  labComponentsPromise: Promise<Record<string, { from: string }>>,
+  componentsPromise: Promise<VuetifyComponentsImportMap>,
+  labComponentsPromise: Promise<VuetifyComponentsImportMap>,
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
 ) {
   const {
     directives: _directives,
     date: _date,
     icons: _icons,
+    localeMessages,
     components,
     aliases,
     ...newVuetifyOptions
@@ -44,6 +47,7 @@ export function vuetifyConfigurationPlugin(
         }
 
         const result = await buildConfiguration()
+        const deepCopy = result.messages.length > 0
 
         return `${result.imports}
 
@@ -53,7 +57,23 @@ export function vuetifyConfiguration() {
   ${result.directives}
   ${result.aliases}
   ${result.components}
+  ${result.messages}
   return options
+}
+${deepCopy
+  ? `function deepCopy(src,des) {
+    for (const key in src) {
+      if (typeof src[key] === 'object') {
+        if (!typeof des[key] === 'object') des[key] = {}
+        deepCopy(src[key], des[key])
+      } else {
+        des[key] = src[key]
+      }
+    }
+    return des
+  }
+  `
+  : ''
 }
 `
       }
@@ -69,6 +89,7 @@ export function vuetifyConfiguration() {
       aliases: Record<string, ComponentName>
       components: Set<ComponentName>
       labComponents: Set<LabComponentName | '*'>
+      messages: string
     } = {
       directives: '',
       imports: [],
@@ -76,6 +97,7 @@ export function vuetifyConfiguration() {
       aliases: aliases || {},
       components: new Set(components ? (Array.isArray(components) ? components : [components]) : []),
       labComponents: new Set(),
+      messages: '',
     }
 
     // directives
@@ -227,11 +249,29 @@ export function vuetifyConfiguration() {
         componentsEntry = `options.components = {${Array.from(config.labComponents).join(',')}}`
     }
 
+    if (/*! i18n && */localeMessages) {
+      const useLocales = Array.isArray(localeMessages) ? [...new Set([...localeMessages])] : [localeMessages]
+      config.imports.push(`import {${useLocales.join(',')}} from 'vuetify/locale'`)
+      config.messages = `
+  options.locale = options.locale || {}
+  options.locale.messages = options.locale.messages || {}
+${useLocales.map((locale) => {
+  return `
+  if ('${locale}' in options.locale.messages)
+    options.locale.messages['${locale}'] = deepCopy(options.locale.messages['${locale}'],${locale})
+  else
+    options.locale.messages['${locale}'] = ${locale}
+`
+}).join('')}
+`
+    }
+
     return <ImportsResult>{
       imports: config.imports.length ? config.imports.join('\n') : '',
       components: componentsEntry,
       aliases: config.aliasEntries.length ? `options.aliases = {${config.aliasEntries.join(',')}}` : '',
       directives: config.directives,
+      messages: config.messages,
     }
   }
 }
