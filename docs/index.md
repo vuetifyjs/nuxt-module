@@ -63,6 +63,11 @@ features:
     details: Use Vuetify components that require date functionality installing and configuring one of the @date-io adapters
     link: /guide/date
     linkText: Date Components
+  - icon: 💬
+    title: Auto-Import Vuetify Locale Messages
+    details: Add the Vuetify Locale Messages adding the locales you want to use, no more imports needed
+    link: /guide/#vuetify-locale-messages
+    linkText: Vuetify Locale Messages
   - icon: ⚙️
     title: Auto-Import Vuetify Composables
     details: You don't need to import Vuetify composables manually, they are automatically imported for you
