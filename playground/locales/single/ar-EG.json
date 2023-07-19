@@ -9,6 +9,9 @@
       "input": {
         "placeholder": "أدخل اليوم"
       }
+    },
+    "input": {
+      "clear": "Limpiar"
     }
   }
 }

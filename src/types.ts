@@ -92,8 +92,9 @@ export type DirectiveName = keyof typeof import('vuetify/directives')
 export type Directives = boolean | DirectiveName | DirectiveName[]
 export type LabComponentName = keyof typeof import('vuetify/labs/components')
 export type LabComponents = boolean | LabComponentName | LabComponentName[]
+export type VuetifyLocale = keyof typeof import('vuetify/locale')
 
-export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
+export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
   aliases?: Record<string, ComponentName>
   /**
    * Do you need to configure some global components?.
@@ -108,10 +109,19 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
    * - `locale`
    * - `fallback`
    * - `rtl`
+   * - `messages`
    *
    * The adapter will be `vuetify`, if you want to use another adapter, check `date` option.
    */
   locale?: Omit<LocaleOptions, 'adapter'> & RtlOptions
+  /**
+   * Include locale messages?
+   *
+   * When `@nuxtjs/i18n` Nuxt module is present, this option will be ignored.
+   *
+   * You can include the locales you want to use in your application, this module will load and configure the messages for you.
+   */
+  localeMessages?: VuetifyLocale | VuetifyLocale[]
   /**
    * Include the lab components?
    *

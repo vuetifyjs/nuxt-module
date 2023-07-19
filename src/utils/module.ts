@@ -1,12 +1,17 @@
+import { readFile } from 'node:fs/promises'
 import { isPackageExists } from 'local-pkg'
+import { resolveVuetifyBase } from '@vuetify/loader-shared'
+import type { Resolver } from '@nuxt/kit'
+import type { ViteConfig } from '@nuxt/schema'
 import type { DateAdapter, VOptions } from '../types'
+
+export interface VuetifyImportMap {
+  from: string
+}
+export type VuetifyComponentsImportMap = Record<string, VuetifyImportMap>
 
 export function detectDate() {
   const result: DateAdapter[] = []
-  // todo: remove this once fixed on Vuetify side
-  // eslint-disable-next-line no-constant-condition
-  if (true)
-    return result
 
   ;[
     'date-fns',
@@ -35,5 +40,34 @@ export function cleanupBlueprint(vuetifyOptions: VOptions) {
     delete blueprint.date
     delete blueprint.icons
     vuetifyOptions.blueprint = blueprint
+  }
+}
+
+export function checkVuetifyPlugins(config: ViteConfig) {
+  let plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:import')
+  if (plugin)
+    throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
+
+  plugin = config.plugins?.find(p => p && typeof p === 'object' && 'name' in p && p.name === 'vuetify:styles')
+  if (plugin)
+    throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
+}
+
+export function resolveVuetifyComponents(resolver: Resolver) {
+  const vuetifyBase = resolveVuetifyBase()
+  const componentsPromise = importMapResolver()
+  const labComponentsPromise = importMapLabResolver()
+
+  return {
+    vuetifyBase,
+    componentsPromise,
+    labComponentsPromise,
+  }
+
+  async function importMapResolver(): Promise<VuetifyComponentsImportMap> {
+    return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).components!
+  }
+  async function importMapLabResolver(): Promise<VuetifyComponentsImportMap> {
+    return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap-labs.json'), 'utf-8')).components!
   }
 }

@@ -59,13 +59,13 @@
   "peerDependencies": {
     "@nuxt/kit": "^3.6.2",
     "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.6"
+    "vuetify": "^3.3.9"
   },
   "dependencies": {
     "@nuxt/kit": "^3.6.2",
     "defu": "^6.1.2",
     "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.6"
+    "vuetify": "^3.3.9"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.6",

@@ -1,9 +1,5 @@
 # Date Support
 
-:::warning
-Right now you can only use Vuetify adapter, there is a bug and will not work, I'm working on it: https://github.com/userquin/vuetify-nuxt-module/pull/9#issuecomment-1620023814.
-:::
-
 Use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
 
 To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):

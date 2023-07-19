@@ -46,12 +46,20 @@ export default defineNuxtConfig({
       components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
       labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
       blueprint: md3,
+      /*locale: {
+        messages: {
+          en: {
+            one: 'One',
+          },
+        },
+      },
+      localeMessages: ['en', 'es', 'ar'],*/
       theme: {
         defaultTheme: 'light',
       },
       date: {
-        // adapter: 'luxon',
-        adapter: 'vuetify',
+        adapter: 'luxon',
+        // adapter: 'vuetify',
       },
       icons: {
         // remember to comment the v-icon in playground/pages/index.vue when switching
