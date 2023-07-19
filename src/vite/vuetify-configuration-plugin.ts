@@ -64,13 +64,12 @@ ${deepCopy
   ? `function deepCopy(src,des) {
     for (const key in src) {
       if (typeof src[key] === 'object') {
-        if (!typeof des[key] === 'object') des[key] = {}
+        if (typeof des[key] !== 'object') des[key] = {}
         deepCopy(src[key], des[key])
       } else {
         des[key] = src[key]
       }
     }
-    return des
   }
   `
   : ''
@@ -249,7 +248,7 @@ ${deepCopy
         componentsEntry = `options.components = {${Array.from(config.labComponents).join(',')}}`
     }
 
-    if (/*! i18n && */localeMessages) {
+    if (!i18n && localeMessages) {
       const useLocales = Array.isArray(localeMessages) ? [...new Set([...localeMessages])] : [localeMessages]
       config.imports.push(`import {${useLocales.join(',')}} from 'vuetify/locale'`)
       config.messages = `
@@ -258,9 +257,9 @@ ${deepCopy
 ${useLocales.map((locale) => {
   return `
   if ('${locale}' in options.locale.messages)
-    options.locale.messages['${locale}'] = deepCopy(options.locale.messages['${locale}'],${locale})
-  else
-    options.locale.messages['${locale}'] = ${locale}
+    deepCopy(options.locale.messages['${locale}'],${locale})
+
+  options.locale.messages['${locale}'] = ${locale}
 `
 }).join('')}
 `
