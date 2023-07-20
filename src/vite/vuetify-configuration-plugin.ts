@@ -13,6 +13,7 @@ interface ImportsResult {
 
 export function vuetifyConfigurationPlugin(
   isDev: boolean,
+  isSSR: boolean,
   i18n: boolean,
   directives: Directives,
   labComponents: LabComponents,
@@ -27,9 +28,13 @@ export function vuetifyConfigurationPlugin(
     icons: _icons,
     localeMessages,
     components,
+    ssr,
     aliases,
     ...newVuetifyOptions
   } = vuetifyAppOptions
+  if (isSSR)
+    (newVuetifyOptions as any).ssr = ssr ?? true
+
   return <Plugin>{
     name: 'vuetify:configuration:nuxt',
     enforce: 'pre',

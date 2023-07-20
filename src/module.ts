@@ -69,9 +69,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Prepare options for the runtime plugin
     const isSSR = nuxt.options.ssr
-    const vuetifyAppOptions = <VOptions>defu(vOptions, {
-      ssr: isSSR,
-    })
+    const vuetifyAppOptions = <VOptions>defu(vOptions, {})
 
     cleanupBlueprint(vuetifyAppOptions)
 
@@ -192,6 +190,7 @@ export default defineNuxtModule<ModuleOptions>({
       viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, logger))
       viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(
         nuxt.options.dev,
+        isSSR,
         i18n,
         directives,
         labComponents,

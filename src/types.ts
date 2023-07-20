@@ -95,6 +95,15 @@ export type LabComponents = boolean | LabComponentName | LabComponentName[]
 export type VuetifyLocale = keyof typeof import('vuetify/locale')
 
 export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
+  /**
+   * Configure the SSR options.
+   *
+   * This option is only used when SSR is enabled in your Nuxt configuration.
+   */
+  ssr?: {
+    clientWidth: number
+    clientHeight?: number
+  }
   aliases?: Record<string, ComponentName>
   /**
    * Do you need to configure some global components?.
