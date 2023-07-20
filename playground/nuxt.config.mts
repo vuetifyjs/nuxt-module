@@ -39,6 +39,9 @@ export default defineNuxtConfig({
       styles: { configFile: '/settings.scss' },
     }, */
     vuetifyOptions: {
+      ssr: {
+        clientWidth: 100,
+      },
       aliases: {
         MyBadge: 'VBadge',
       },
