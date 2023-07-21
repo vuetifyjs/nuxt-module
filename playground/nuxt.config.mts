@@ -1,4 +1,3 @@
-import { md3 } from 'vuetify/blueprints'
 import { availableLocales, langDir } from './config/i18n'
 import LayerModule from './layer-module'
 
@@ -39,7 +38,7 @@ export default defineNuxtConfig({
       styles: { configFile: '/settings.scss' },
     }, */
     vuetifyOptions: './vuetify.options.mts',
-    /*vuetifyOptions: {
+    /* vuetifyOptions: {
       ssr: {
         clientWidth: 100,
       },
@@ -90,7 +89,7 @@ export default defineNuxtConfig({
           },
         },*!/
       },
-    },*/
+    }, */
   },
   vite: {
     define: {

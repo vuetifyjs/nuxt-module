@@ -52,7 +52,25 @@ export default defineNuxtModule<ModuleOptions>({
 
     const resolver = createResolver(import.meta.url)
 
-    const { moduleOptions = {}, vuetifyOptions = {} } = await mergeVuetifyModules(options, nuxt)
+    const {
+      configuration,
+      vuetifyConfigurationFilesToWatch,
+    } = await mergeVuetifyModules(options, nuxt)
+
+    // right now we restart the dev server when any vuetify configuration file changes
+    // TODO: there is a bug in nuxt that prevents this from working, I'll send a PR to fix it
+    // `nuxt.options.watch` entries should be relative to `srcDir`, but the path in the callback is always absolute
+    // https://github.com/nuxt/nuxt/blob/4b6f3e1ba11ee247906a34ea76292bf3a171ed3b/packages/nuxt/src/core/nuxt.ts#L350-L357
+    // TODO: move the entire module to a new module and try to use HMR when Vuetify changes doesn't require a restart
+    if (nuxt.options.dev && vuetifyConfigurationFilesToWatch.size) {
+      // nuxt.options.watch.push(...vuetifyConfigurationFilesToWatch.keys())
+      nuxt.hooks.hook('builder:watch', (event, path) => {
+        if (vuetifyConfigurationFilesToWatch.has(path))
+          return nuxt.callHook('restart')
+      })
+    }
+
+    const { moduleOptions = {}, vuetifyOptions = {} } = configuration
 
     const {
       directives = false,

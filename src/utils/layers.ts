@@ -10,7 +10,7 @@ import { loadVuetifyConfiguration } from './config'
  */
 export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
   const moduleOptions: InlineModuleOptions[] = []
-  const vuetifyConfigurationFilesToWatch: string[] = []
+  const vuetifyConfigurationFilesToWatch = new Set<string>()
 
   // if (typeof moduleOptions.vuetifyOptions === 'string')
   //   nuxt.
@@ -23,9 +23,11 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
       if (layer.config.vuetify) {
         const configOrPath = layer.config.vuetify.vuetifyOptions
         if (typeof configOrPath === 'string' && !configOrPath.includes('node_modules')) {
-          vuetifyConfigurationFilesToWatch.push(
-            relative(nuxt.options.srcDir, resolve(layer.config.rootDir, configOrPath)),
-          )
+          const fullPath = resolve(layer.config.rootDir, configOrPath)
+          const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
+          vuetifyConfigurationFilesToWatch.add(relativePath.replace(/\\/g, '/'))
+          vuetifyConfigurationFilesToWatch.add(relativePath)
+          vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
         }
 
         moduleOptions.push({
@@ -44,25 +46,33 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
     options.vuetifyOptions,
   )
 
-  if (typeof options.vuetifyOptions === 'string')
-    vuetifyConfigurationFilesToWatch.push(options.vuetifyOptions)
+  if (typeof options.vuetifyOptions === 'string') {
+    const fullPath = resolve(nuxt.options.rootDir, options.vuetifyOptions)
+    const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
+    vuetifyConfigurationFilesToWatch.add(relativePath.replace(/\\/g, '/'))
+    vuetifyConfigurationFilesToWatch.add(relativePath)
+    vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
+  }
 
   moduleOptions.push({
     moduleOptions: options.moduleOptions,
     vuetifyOptions: resolvedOptions.config,
   })
 
-  console.log(vuetifyConfigurationFilesToWatch)
-  vuetifyConfigurationFilesToWatch.forEach(file => nuxt.options.watch.push(file))
-
   if (moduleOptions.length > 1) {
     const [base, ...rest] = moduleOptions
-    return <InlineModuleOptions>defu(base, ...rest)
+    return {
+      configuration: <InlineModuleOptions>defu(base, ...rest),
+      vuetifyConfigurationFilesToWatch,
+    }
   }
   else {
     return {
-      moduleOptions: options.moduleOptions,
-      vuetifyOptions: resolvedOptions.config,
-    } satisfies InlineModuleOptions
+      configuration: <InlineModuleOptions>{
+        moduleOptions: options.moduleOptions,
+        vuetifyOptions: resolvedOptions.config,
+      },
+      vuetifyConfigurationFilesToWatch,
+    }
   }
 }
