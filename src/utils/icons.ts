@@ -92,16 +92,16 @@ export function prepareIcons(
       sets = sets.filter(s => s.name !== 'unocss-mdi')
     }
 
-    sets.filter(s => cssFonts.includes(s.name)).map(s => s.name).forEach((name) => {
+    sets.filter(s => cssFonts.includes(s.name)).forEach(({ name, cdn }) => {
       if (name === 'unocss-mdi')
         return
 
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`)
       resolvedIcons.sets.push(name)
       if (isPackageExists(iconsPackageNames[name].name))
-        resolvedIcons.local!.push(iconsPackageNames[name].css)
+        resolvedIcons.local.push(iconsPackageNames[name].css)
       else
-        resolvedIcons.cdn!.push(iconsCDN[name])
+        resolvedIcons.cdn.push(cdn ?? iconsCDN[name])
     })
     if (resolvedIcons.unocss && defaultSet === 'unocss-mdi') {
       if (!resolvedIcons.sets.includes('mdi')) {

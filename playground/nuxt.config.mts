@@ -121,7 +121,7 @@ export default defineNuxtConfig({
   },
   // css: ['/main.scss'],
   experimental: {
-    inlineSSRStyles: false,
+    // inlineSSRStyles: false,
     payloadExtraction: false,
     typedPages: false,
     watcher: 'parcel',
