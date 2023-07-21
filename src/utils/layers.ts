@@ -25,9 +25,9 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
         if (typeof configOrPath === 'string' && !configOrPath.includes('node_modules')) {
           const fullPath = resolve(layer.config.rootDir, configOrPath)
           const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
-          vuetifyConfigurationFilesToWatch.add(relativePath.replace(/\\/g, '/'))
           vuetifyConfigurationFilesToWatch.add(relativePath)
           vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
+          vuetifyConfigurationFilesToWatch.add(fullPath.replace(/\\/g, '/'))
         }
 
         moduleOptions.push({
@@ -49,9 +49,9 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
   if (typeof options.vuetifyOptions === 'string') {
     const fullPath = resolve(nuxt.options.rootDir, options.vuetifyOptions)
     const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
-    vuetifyConfigurationFilesToWatch.add(relativePath.replace(/\\/g, '/'))
     vuetifyConfigurationFilesToWatch.add(relativePath)
     vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
+    vuetifyConfigurationFilesToWatch.add(fullPath.replace(/\\/g, '/'))
   }
 
   moduleOptions.push({
