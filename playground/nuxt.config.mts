@@ -38,7 +38,8 @@ export default defineNuxtConfig({
     /* moduleOptions: {
       styles: { configFile: '/settings.scss' },
     }, */
-    vuetifyOptions: {
+    vuetifyOptions: './vuetify.options.mts',
+    /*vuetifyOptions: {
       ssr: {
         clientWidth: 100,
       },
@@ -49,7 +50,7 @@ export default defineNuxtConfig({
       components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
       labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
       blueprint: md3,
-      /*locale: {
+      /!*locale: {
         messages: {
           en: {
             hello: 'Hi',
@@ -68,7 +69,7 @@ export default defineNuxtConfig({
           },
         },
       },
-      localeMessages: ['en', 'es', 'ar'],*/
+      localeMessages: ['en', 'es', 'ar'],*!/
       theme: {
         defaultTheme: 'light',
       },
@@ -81,15 +82,15 @@ export default defineNuxtConfig({
         // defaultSet: 'fa-svg',
         defaultSet: 'unocss-mdi',
         // defaultSet: 'mdi-svg',
-        /*svg: {
+        /!*svg: {
           mdi: {
             aliases: {
               account: 'mdiAccount',
             },
           },
-        },*/
+        },*!/
       },
-    },
+    },*/
   },
   vite: {
     define: {

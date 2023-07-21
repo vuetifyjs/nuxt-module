@@ -204,8 +204,15 @@ export interface ModuleOptions {
   moduleOptions?: MOptions
   /**
    * Vuetify options.
+   *
+   * You can link to a file with the options, for example:
+   * `vuetifyOptions: './vuetify.options.ts'`
    */
-  vuetifyOptions?: VOptions
+  vuetifyOptions?: string | VOptions
+}
+
+export interface InlineModuleOptions extends Omit<ModuleOptions, 'vuetifyOptions'> {
+  vuetifyOptions: VOptions
 }
 
 declare module '@nuxt/schema' {
@@ -213,7 +220,7 @@ declare module '@nuxt/schema' {
     vuetify?: ModuleOptions
   }
   interface NuxtHooks {
-    'vuetify:registerModule': (registerModule: (config: ModuleOptions) => void) => void
+    'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => void
   }
 }
 

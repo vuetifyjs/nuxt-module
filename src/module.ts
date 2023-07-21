@@ -23,6 +23,8 @@ import { mergeVuetifyModules } from './utils/layers'
 
 export * from './types'
 
+export { defineVuetifyConfiguration } from './utils/config'
+
 const CONFIG_KEY = 'vuetify'
 const logger = useLogger(`nuxt:${CONFIG_KEY}`)
 
@@ -50,9 +52,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const resolver = createResolver(import.meta.url)
 
-    options = await mergeVuetifyModules(options, nuxt)
-
-    const { vuetifyOptions = {} } = options
+    const { moduleOptions = {}, vuetifyOptions = {} } = await mergeVuetifyModules(options, nuxt)
 
     const {
       directives = false,
@@ -61,7 +61,7 @@ export default defineNuxtModule<ModuleOptions>({
     } = vuetifyOptions
 
     // prepare options module
-    const moduleOptions = <MOptions>defu(options.moduleOptions ?? {}, {
+    const newModuleOptions = <MOptions>defu(moduleOptions, {
       styles: true,
       importComposables: true,
       prefixComposables: false,
@@ -73,7 +73,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     cleanupBlueprint(vuetifyAppOptions)
 
-    const { styles } = moduleOptions
+    const { styles } = newModuleOptions
 
     const i18n = hasNuxtModule('@nuxtjs/i18n', nuxt)
 
@@ -106,9 +106,16 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    nuxt.options.build.transpile.push(CONFIG_KEY)
+    const runtimeDir = resolver.resolve('./runtime')
 
-    const icons = prepareIcons(hasNuxtModule('@unocss/nuxt'), logger, vuetifyOptions)
+    nuxt.options.build.transpile.push(CONFIG_KEY)
+    nuxt.options.build.transpile.push(runtimeDir)
+
+    const icons = prepareIcons(
+      hasNuxtModule('@unocss/nuxt', nuxt),
+      logger,
+      vuetifyOptions,
+    )
 
     nuxt.options.css ??= []
     if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
@@ -165,12 +172,12 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
-    if (moduleOptions.importComposables) {
+    if (newModuleOptions.importComposables) {
       const composables = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
       addImports(composables.map(name => ({
         name,
         from: 'vuetify',
-        as: moduleOptions.prefixComposables ? name.replace(/^use/, 'useV') : undefined,
+        as: newModuleOptions.prefixComposables ? name.replace(/^use/, 'useV') : undefined,
         meta: { docsUrl: `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
       })))
     }
@@ -213,8 +220,6 @@ export default defineNuxtModule<ModuleOptions>({
         ))
       }
     })
-
-    const runtimeDir = resolver.resolve('./runtime')
 
     addPlugin({
       src: resolver.resolve(runtimeDir, `plugins/vuetify${i18n ? '-sync' : ''}`),
