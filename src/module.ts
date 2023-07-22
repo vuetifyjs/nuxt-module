@@ -15,8 +15,6 @@ import { configureNuxt } from './utils/configure-nuxt'
 
 export * from './types'
 
-export { defineVuetifyConfiguration } from './utils/config'
-
 const CONFIG_KEY = 'vuetify'
 const logger = useLogger(`nuxt:${CONFIG_KEY}`)
 

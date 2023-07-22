@@ -273,11 +273,22 @@ and then use `defineVuetifyConfiguration` in your `vuetify.config` file:
 
 ```ts
 // vuetify.config.ts
-import { defineVuetifyConfiguration } from 'vuetify-nuxt-module'
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
 
 export default defineVuetifyConfiguration({
   /* vuetify options */
 })
+```
+
+or just using object notation:
+
+```ts
+// vuetify.config.ts
+import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
+
+export default {
+  /* vuetify options */
+} satisfies ExternalVuetifyOptions
 ```
 
 You can omit `vuetifyOptions`, you only need to add one of the following files, the module will load it for you:
@@ -291,12 +302,23 @@ You can omit `vuetifyOptions`, you only need to add one of the following files, 
 If you want the module to omit loading your configuration file, add `config: false` to your configuration:
 ```ts
 // vuetify.config.ts
-import { defineVuetifyConfiguration } from 'vuetify-nuxt-module'
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
 
 export default defineVuetifyConfiguration({
   config: false
   /* other vuetify options */
 })
+```
+or using object notation:
+
+```ts
+// vuetify.config.ts
+import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
+
+export default {
+  config: false  
+  /* vuetify options */
+} satisfies ExternalVuetifyOptions
 ```
 
 ## Nuxt Plugin Hooks

@@ -25,6 +25,7 @@ export function configureNuxt(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
 
   nuxt.hook('prepare:types', ({ references }) => {
     references.push({ types: 'vuetify' })
+    references.push({ types: 'vuetify-nuxt-module/custom-configuration' })
     references.push({ types: 'vuetify-nuxt-module/configuration' })
   })
 

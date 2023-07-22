@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
 import { createConfigLoader as createLoader } from 'unconfig'
 import type { Resolver } from '@nuxt/kit'
-import type { DateAdapter, MOptions, VOptions } from '../types'
+import type { DateAdapter, ExternalVuetifyOptions, MOptions, VOptions } from '../types'
 import type { ResolvedIcons } from './icons'
 import type { VuetifyComponentsImportMap } from './module'
 
@@ -21,14 +21,6 @@ export interface VuetifyNuxtContext {
   icons: ResolvedIcons
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
-}
-
-export interface ExternalVuetifyOptions extends VOptions {
-  config?: boolean
-}
-
-export function defineVuetifyConfiguration(vuetifyOptions: ExternalVuetifyOptions) {
-  return vuetifyOptions
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>(
@@ -51,12 +43,20 @@ export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>
     cwd = dirname(resolved).replace(/\\/g, '/')
   }
 
+  const rewrite = <U>(config: U) => {
+    if (typeof config === 'function')
+      return config() as U
+
+    return config
+  }
+
   const loader = createLoader<U>({
     sources: isFile
       ? [
           {
             files: resolved,
             extensions: [],
+            rewrite,
           },
         ]
       : [
@@ -64,11 +64,15 @@ export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>
             files: [
               'vuetify.config',
             ],
+            // we don't want `package.json` to be loaded
+            extensions: ['mts', 'cts', 'ts', 'mjs', 'cjs', 'js'],
+            rewrite,
           },
           ...extraConfigSources,
         ],
     cwd,
     defaults: inlineConfig,
+    merge: false,
   })
 
   const result = await loader.load()

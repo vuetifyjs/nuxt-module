@@ -217,6 +217,10 @@ export interface InlineModuleOptions extends Omit<ModuleOptions, 'vuetifyOptions
   vuetifyOptions: VOptions
 }
 
+export interface ExternalVuetifyOptions extends VOptions {
+  config?: boolean
+}
+
 declare module '@nuxt/schema' {
   interface NuxtConfig {
     vuetify?: ModuleOptions

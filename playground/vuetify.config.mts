@@ -1,5 +1,5 @@
 import { md3 } from 'vuetify/blueprints'
-import { defineVuetifyConfiguration } from '../src/module'
+import { defineVuetifyConfiguration } from '../custom-configuration'
 
 export default defineVuetifyConfiguration({
   ssr: {
