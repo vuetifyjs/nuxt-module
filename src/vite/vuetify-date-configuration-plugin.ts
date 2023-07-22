@@ -1,14 +1,8 @@
 import type { Plugin } from 'vite'
-import type { DateAdapter, DateOptions } from '../types'
+import type { VuetifyNuxtContext } from '../utils/config'
 import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION, VIRTUAL_VUETIFY_DATE_CONFIGURATION } from './constants'
 
-export function vuetifyDateConfigurationPlugin(
-  isDev: boolean,
-  i18n: boolean,
-  dateAdapter: DateAdapter,
-  dateOptions: DateOptions,
-) {
-  const { adapter: _adapter, ...newDateOptions } = dateOptions
+export function vuetifyDateConfigurationPlugin(ctx: VuetifyNuxtContext) {
   return <Plugin>{
     name: 'vuetify:date-configuration:nuxt',
     enforce: 'pre',
@@ -18,16 +12,31 @@ export function vuetifyDateConfigurationPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION) {
-        const imports = dateAdapter === 'vuetify'
+        if (!ctx.dateAdapter) {
+          return `
+export const enabled = false
+export const isDev = ${ctx.isDev}
+export const i18n = ${ctx.i18n}
+export const adapter = 'custom'
+export function dateConfiguration() {
+  return {}
+}
+`
+        }
+
+        const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
+
+        const imports = ctx.dateAdapter === 'vuetify'
           ? 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
-          : dateAdapter === 'custom'
+          : ctx.dateAdapter === 'custom'
             ? ''
-            : `import Adapter from '@date-io/${dateAdapter}'`
+            : `import Adapter from '@date-io/${ctx.dateAdapter}'`
 
         return `${imports}
-export const isDev = ${isDev}
-export const i18n = ${i18n}
-export const adapter = '${dateAdapter}'
+export const enabled = true
+export const isDev = ${ctx.isDev}
+export const i18n = ${ctx.i18n}
+export const adapter = '${ctx.dateAdapter}'
 export function dateConfiguration() {
   const options = JSON.parse('${JSON.stringify(newDateOptions)}')
   ${buildAdapter()}
@@ -39,10 +48,10 @@ export function dateConfiguration() {
   }
 
   function buildAdapter() {
-    if (dateAdapter === 'custom')
+    if (ctx.dateAdapter === 'custom')
       return ''
 
-    if (dateAdapter === 'vuetify')
+    if (ctx.dateAdapter === 'vuetify')
       return 'options.adapter = VuetifyDateAdapter'
 
     return 'options.adapter = Adapter'

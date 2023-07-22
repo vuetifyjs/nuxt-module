@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     /* moduleOptions: {
       styles: { configFile: '/settings.scss' },
     }, */
-    vuetifyOptions: './vuetify.options.mts',
+    vuetifyOptions: './vuetify.config.mts',
     /* vuetifyOptions: {
       ssr: {
         clientWidth: 100,
@@ -92,6 +92,7 @@ export default defineNuxtConfig({
     }, */
   },
   vite: {
+    clearScreen: false,
     define: {
       'process.env.DEBUG': false,
     },
@@ -127,6 +128,6 @@ export default defineNuxtConfig({
     watcher: 'parcel',
   },
   devtools: {
-    enabled: true,
+    enabled: false,
   },
 })

@@ -1,16 +1,11 @@
 import type { Plugin } from 'vite'
-import type { ResolvedIcons } from '../utils/icons'
+import type { VuetifyNuxtContext } from '../utils/config'
 import {
   RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION,
   VIRTUAL_VUETIFY_ICONS_CONFIGURATION,
 } from './constants'
 
-export function vuetifyIconsPlugin(
-  isDev: boolean,
-  resolvedIcons: ResolvedIcons,
-) {
-  const iconsOptionsPromise = prepareIcons()
-
+export function vuetifyIconsPlugin(ctx: VuetifyNuxtContext) {
   return <Plugin>{
     name: 'vuetify:icons-configuration:nuxt',
     enforce: 'pre',
@@ -20,27 +15,37 @@ export function vuetifyIconsPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
-        if (!resolvedIcons.enabled) {
+        const {
+          enabled,
+          unocss,
+          aliases,
+          fa,
+          defaultSet,
+          imports,
+          sets,
+        } = await prepareIcons()
+        if (!enabled) {
           // no idea how to disable icons in vuetify
-          return `export const isDev = ${isDev}
+          return `export const enabled = false
+export const isDev = ${ctx.isDev}
 export function iconsConfiguration() {
-  return { defaultSet: undefined }
+  return {}
 }
 `
         }
 
-        const { unocss, aliases, fa, defaultSet, imports, sets } = await iconsOptionsPromise
-
         if (!defaultSet) {
-          return `export const isDev = ${isDev}
+          return `export const enabled = true
+export const isDev = ${ctx.isDev}
 export function iconsConfiguration() {
-  return { defaultSet: undefined }
+  return {}
 }
 `
         }
 
         return `${imports}
-export const isDev = ${isDev}
+export const enabled = true
+export const isDev = ${ctx.isDev}
 export function iconsConfiguration() {
 ${fa.map(f => `  ${f}`).join('\n')}
   return {
@@ -56,6 +61,7 @@ ${unocss}
   }
 
   async function prepareIcons(): Promise<{
+    enabled: boolean
     fa: string[]
     unocss: string
     defaultSet?: string
@@ -63,8 +69,9 @@ ${unocss}
     sets: string
     aliases: string
   }> {
-    if (!resolvedIcons.enabled) {
+    if (!ctx.icons.enabled) {
       return {
+        enabled: false,
         unocss: '',
         defaultSet: undefined,
         imports: '',
@@ -75,7 +82,7 @@ ${unocss}
     }
 
     let aliases = 'aliases,'
-    const alias = resolvedIcons.aliases
+    const alias = ctx.icons.aliases
     if (alias.length) {
       aliases = `aliases: {
       ...aliases,
@@ -86,9 +93,9 @@ ${unocss}
 
     let unocss = ''
 
-    if (resolvedIcons.unocss && resolvedIcons.unocssAliases) {
-      resolvedIcons.imports.unshift('// @unocss-include')
-      const prefix = `${resolvedIcons.unocssIconPrefix}mdi:`
+    if (ctx.icons.unocss && ctx.icons.unocssAliases) {
+      ctx.icons.imports.unshift('// @unocss-include')
+      const prefix = `${ctx.icons.unocssIconPrefix}mdi:`
       unocss = `const aliases = ${JSON.stringify({
   collapse: `${prefix}chevron-up`,
   complete: `${prefix}check`,
@@ -133,11 +140,12 @@ ${unocss}
     }
 
     return {
+      enabled: true,
       unocss,
-      fa: resolvedIcons.svg?.fa ?? [],
-      defaultSet: resolvedIcons.defaultSet,
-      imports: Object.values(resolvedIcons.imports).join('\n'),
-      sets: resolvedIcons.sets.join(','),
+      fa: ctx.icons.svg?.fa ?? [],
+      defaultSet: ctx.icons.defaultSet,
+      imports: Object.values(ctx.icons.imports).join('\n'),
+      sets: ctx.icons.sets.join(','),
       aliases,
     }
   }

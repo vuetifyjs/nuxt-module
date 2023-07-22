@@ -2,7 +2,26 @@ import { existsSync, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
 import { createConfigLoader as createLoader } from 'unconfig'
-import type { VOptions } from '../types'
+import type { Resolver } from '@nuxt/kit'
+import type { DateAdapter, MOptions, VOptions } from '../types'
+import type { ResolvedIcons } from './icons'
+import type { VuetifyComponentsImportMap } from './module'
+
+export interface VuetifyNuxtContext {
+  resolver: Resolver
+  logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>
+  moduleOptions: MOptions
+  vuetifyOptions: VOptions
+  vuetifyFilesToWatch: string[]
+  isDev: boolean
+  i18n: boolean
+  isSSR: boolean
+  unocss: boolean
+  dateAdapter?: DateAdapter
+  icons: ResolvedIcons
+  componentsPromise: Promise<VuetifyComponentsImportMap>
+  labComponentsPromise: Promise<VuetifyComponentsImportMap>
+}
 
 export function defineVuetifyConfiguration(vuetifyOptions: VOptions) {
   return vuetifyOptions

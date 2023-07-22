@@ -1,7 +1,5 @@
-import { resolve } from 'node:path'
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import { relative } from 'pathe'
 import type { InlineModuleOptions, ModuleOptions } from '../types'
 import { loadVuetifyConfiguration } from './config'
 
@@ -21,21 +19,17 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
     for (let i = 1; i < nuxt.options._layers.length; i++) {
       const layer = nuxt.options._layers[i]
       if (layer.config.vuetify) {
-        const configOrPath = layer.config.vuetify.vuetifyOptions
-        if (typeof configOrPath === 'string' && !configOrPath.includes('node_modules')) {
-          const fullPath = resolve(layer.config.rootDir, configOrPath)
-          const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
-          vuetifyConfigurationFilesToWatch.add(relativePath)
-          vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
-          vuetifyConfigurationFilesToWatch.add(fullPath.replace(/\\/g, '/'))
-        }
+        const resolvedOptions = await loadVuetifyConfiguration(
+          layer.config.rootDir,
+          layer.config.vuetify.vuetifyOptions,
+        )
+
+        if (resolvedOptions.sources.length)
+          resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
 
         moduleOptions.push({
           moduleOptions: layer.config.vuetify.moduleOptions,
-          vuetifyOptions: (await loadVuetifyConfiguration(
-            layer.config.rootDir,
-            layer.config.vuetify.vuetifyOptions,
-          )).config,
+          vuetifyOptions: resolvedOptions.config,
         })
       }
     }
@@ -46,13 +40,8 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
     options.vuetifyOptions,
   )
 
-  if (typeof options.vuetifyOptions === 'string') {
-    const fullPath = resolve(nuxt.options.rootDir, options.vuetifyOptions)
-    const relativePath = relative(nuxt.options.srcDir, fullPath).replace(/\\/g, '/')
-    vuetifyConfigurationFilesToWatch.add(relativePath)
-    vuetifyConfigurationFilesToWatch.add(`${relativePath}~`)
-    vuetifyConfigurationFilesToWatch.add(fullPath.replace(/\\/g, '/'))
-  }
+  if (resolvedOptions.sources.length)
+    resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
 
   moduleOptions.push({
     moduleOptions: options.moduleOptions,

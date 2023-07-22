@@ -1,10 +1,10 @@
-import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
+import { adapter, dateConfiguration, enabled, i18n } from 'virtual:vuetify-date-configuration'
 import type { VuetifyOptions } from 'vuetify'
 import { useNuxtApp } from '#app'
 import type { LocaleObject } from '#i18n'
 
 export function configureDate(vuetifyOptions: VuetifyOptions) {
-  if (adapter === 'custom')
+  if (adapter === 'custom' || !enabled)
     return
 
   const dateOptions = dateConfiguration()

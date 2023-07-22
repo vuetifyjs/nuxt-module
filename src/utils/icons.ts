@@ -8,7 +8,7 @@ export interface ResolvedIcons {
   unocssIconPrefix: string
   defaultSet?: IconSetName
   sets: string[]
-  cdn: string[]
+  cdn: [key: string, cdn: string][]
   local: string[]
   aliases: string[]
   imports: string[]
@@ -101,7 +101,7 @@ export function prepareIcons(
       if (isPackageExists(iconsPackageNames[name].name))
         resolvedIcons.local.push(iconsPackageNames[name].css)
       else
-        resolvedIcons.cdn.push(cdn ?? iconsCDN[name])
+        resolvedIcons.cdn.push([name, cdn ?? iconsCDN[name]])
     })
     if (resolvedIcons.unocss && defaultSet === 'unocss-mdi') {
       if (!resolvedIcons.sets.includes('mdi')) {
