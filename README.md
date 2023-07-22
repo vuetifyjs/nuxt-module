@@ -33,6 +33,8 @@
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration
+- 🔩 **Nuxt Layers and Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
+- 📥 **Vuetify Configuration File**: configure your Vuetify options using a custom `vuetify.config` file, no dev server restart needed
 - 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocss-mdi` icon set or build your own with UnoCSS Preset Icons
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
 - 🎭 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
@@ -42,7 +44,6 @@
 - 💬 **Auto-Import Vuetify Locale Messages**: add [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) adding just the locales you want to use, no more imports needed
 - ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
 - 🎨 **Vuetify Blueprints**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
-- 🔩 **Nuxt Layers and Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
 - 👀 **Nuxt DevTools**: ready to inspect your Vuetify styles with the [Nuxt DevTools](https://github.com/nuxt/devtools) inspector
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 

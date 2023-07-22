@@ -63,55 +63,28 @@ export default defineNuxtConfig({
 })
 ```
 
-## Nuxt Layers and Hooks
-
-You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
-
-### Nuxt Layers
-
-Add your Vuetify configuration to a layer and then configure the module to use it:
-```ts
-// Nuxt config file
-import { defineNuxtConfig } from 'nuxt/config'
-
-export default defineNuxtConfig({
-  extends: ['my-awesome-vuetify-layer'],
-  modules: ['vuetify-nuxt-module']
-})
-```
-
-### Nuxt Hook
-
-You can use a custom module to load your Vuetify configuration:
-```ts
-// Nuxt config file
-import MyVuetifyModule from './modules/my-vuetify-module'
-
-export default defineNuxtConfig({
-  modules: [MyVuetifyModule, 'vuetify-nuxt-module']
-})
-```
-
-and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
-```ts
-// modules/my-vuetify-module
-export default defineNuxtModule({
-  setup(_options, nuxt) {
-    nuxt.hook('vuetify:registerModule', register => register({
-      moduleOptions: {
-        /* module specific options */
-      },
-      vuetifyOptions: {
-        /* vuetify options */
-      },
-    }))
-  },
-})
-```
-
 ## Module Options
 
 Check out the type declaration [src/types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts).
+
+<details>
+<summary><strong>Vuetify Nuxt Module Options</strong></summary>
+
+```ts
+export interface ModuleOptions {
+  moduleOptions?: MOptions
+  /**
+   * Vuetify options.
+   *
+   * You can inline the configuration or specify a file path:
+   * `vuetifyOptions: './vuetify.options.ts'`
+   *
+   * The path should be relative to the root folder.
+   */
+  vuetifyOptions?: string | VOptions
+}
+```
+</details>
 
 <details>
 <summary><strong>moduleOptions</strong></summary>
@@ -167,7 +140,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
    * - `fallback`
    * - `rtl`
    * - `messages`
-   * 
+   *
    * The adapter will be `vuetify`, if you want to use another adapter, check `date` option.
    */
   locale?: Omit<LocaleOptions, 'adapter'> & RtlOptions
@@ -222,6 +195,132 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
 ```
 </details>
 
+## Nuxt Layers and Hooks
+
+You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+
+### Nuxt Layers
+
+Add your Vuetify configuration to a layer and then configure the module to use it:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  extends: ['my-awesome-vuetify-layer'],
+  modules: ['vuetify-nuxt-module']
+})
+```
+
+### Nuxt Hook
+
+You can use a custom module to load your Vuetify configuration:
+```ts
+// Nuxt config file
+import MyVuetifyModule from './modules/my-vuetify-module'
+
+export default defineNuxtConfig({
+  modules: [MyVuetifyModule, 'vuetify-nuxt-module']
+})
+```
+
+and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
+```ts
+// modules/my-vuetify-module
+export default defineNuxtModule({
+  setup(_options, nuxt) {
+    nuxt.hook('vuetify:registerModule', register => register({
+      moduleOptions: {
+        /* module specific options */
+      },
+      vuetifyOptions: {
+        /* vuetify options */
+      },
+    }))
+  },
+})
+```
+
+## Vuetify Configuration File
+
+You can register Vuetify options using a file, the file path **must** be relative to the root folder.
+
+You can also use it in Nuxt Layers, the module will scan for `vuetify.config` files with the following extensions: `js`, `mjs`, `cjs`, `ts`, `cts` and `mts`.
+
+This module will watch Vuetify configuration files in development and only configuration files outside `node_modules`.
+
+When any Vuetify configuration file is changed in development, this module will invalidate all virtual configuration modules. The current version of the module will send 2 or 3 full page reloads in a row, not very optimal but much better than restarting the development server, we will try to fix it in future versions.
+
+For example, you can configure:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    moduleOptions: {
+      /* module specific options */
+    },
+    vuetifyOptions: './vuetify.config.ts' // <== you can omit it
+  }
+})
+```
+
+and then use `defineVuetifyConfiguration` in your `vuetify.config` file:
+
+```ts
+// vuetify.config.ts
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
+
+export default defineVuetifyConfiguration({
+  /* vuetify options */
+})
+```
+
+or just using object notation:
+
+```ts
+// vuetify.config.ts
+import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
+
+export default {
+  /* vuetify options */
+} satisfies ExternalVuetifyOptions
+```
+
+You can omit `vuetifyOptions`, you only need to add one of the following files, the module will load it for you:
+- `vuetify.config.js`
+- `vuetify.config.cjs`
+- `vuetify.config.mjs`
+- `vuetify.config.ts`
+- `vuetify.config.cts`
+- `vuetify.config.mts`
+
+If you want the module to omit loading your configuration file, add `config: false` to your configuration:
+```ts
+// vuetify.config.ts
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
+
+export default defineVuetifyConfiguration({
+  config: false
+  /* other vuetify options */
+})
+```
+or using object notation:
+
+```ts
+// vuetify.config.ts
+import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
+
+export default {
+  config: false
+  /* vuetify options */
+} satisfies ExternalVuetifyOptions
+```
+
 ## Nuxt Plugin Hooks
 
 This module configures and registers Vuetify using Nuxt plugins via `vuetify:configuration` hook.
@@ -267,7 +366,7 @@ export default defineNuxtConfig({
     vuetifyOptions: {
       locale: {
         locale: 'zhHans',
-        fallback: 'sv',  
+        fallback: 'sv',
       },
       loadMessages: ['zhHans', 'pl'],
       /* other vuetify options */
@@ -314,9 +413,9 @@ This module will merge the messages for you, so you don't need to worry about it
 
 If you want to load your custom messages from a Nuxt Plugin:
 ```ts
-import { defineNuxtPlugin } from '#imports'
 // Your own translation file
 import sv from './i18n/vuetify/sv'
+import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:before-create', ({ vuetifyOptions }) => {

@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
-import type { ComponentName, Directives, LabComponentName, LabComponents, VOptions } from '../types'
-import type { VuetifyComponentsImportMap } from '../utils/module'
+import type { ComponentName, LabComponentName } from '../types'
+import type { VuetifyNuxtContext } from '../utils/config'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
@@ -11,30 +11,7 @@ interface ImportsResult {
   messages: string
 }
 
-export function vuetifyConfigurationPlugin(
-  isDev: boolean,
-  isSSR: boolean,
-  i18n: boolean,
-  directives: Directives,
-  labComponents: LabComponents,
-  vuetifyAppOptions: VOptions,
-  componentsPromise: Promise<VuetifyComponentsImportMap>,
-  labComponentsPromise: Promise<VuetifyComponentsImportMap>,
-  logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
-) {
-  const {
-    directives: _directives,
-    date: _date,
-    icons: _icons,
-    localeMessages,
-    components,
-    ssr,
-    aliases,
-    ...newVuetifyOptions
-  } = vuetifyAppOptions
-  if (isSSR)
-    (newVuetifyOptions as any).ssr = ssr ?? true
-
+export function vuetifyConfigurationPlugin(ctx: VuetifyNuxtContext) {
   return <Plugin>{
     name: 'vuetify:configuration:nuxt',
     enforce: 'pre',
@@ -44,19 +21,31 @@ export function vuetifyConfigurationPlugin(
     },
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
+        const {
+          directives: _directives,
+          date: _date,
+          icons: _icons,
+          localeMessages: _localeMessages,
+          components: _components,
+          ssr,
+          aliases: _aliases,
+          ...newVuetifyOptions
+        } = ctx.vuetifyOptions
+        if (ctx.isSSR)
+          (newVuetifyOptions as any).ssr = ssr ?? true
         // remove i18n stuff: we don't need to send it to the client
-        if (i18n && newVuetifyOptions.locale) {
+        if (ctx.i18n && newVuetifyOptions.locale) {
           delete newVuetifyOptions.locale.rtl
           delete newVuetifyOptions.locale.locale
           delete newVuetifyOptions.locale.fallback
         }
 
-        const result = await buildConfiguration()
+        const result = await buildConfiguration(ctx)
         const deepCopy = result.messages.length > 0
 
         return `${result.imports}
 
-export const isDev = ${isDev}
+export const isDev = ${ctx.isDev}
 export function vuetifyConfiguration() {
   const options = JSON.parse('${JSON.stringify(newVuetifyOptions)}')
   ${result.directives}
@@ -83,199 +72,212 @@ ${deepCopy
       }
     },
   }
+}
 
-  async function buildConfiguration() {
-    const dateOptions = vuetifyAppOptions.date
-    const config: {
-      directives: string
-      imports: string[]
-      aliasEntries: string[]
-      aliases: Record<string, ComponentName>
-      components: Set<ComponentName>
-      labComponents: Set<LabComponentName | '*'>
-      messages: string
-    } = {
-      directives: '',
-      imports: [],
-      aliasEntries: [],
-      aliases: aliases || {},
-      components: new Set(components ? (Array.isArray(components) ? components : [components]) : []),
-      labComponents: new Set(),
-      messages: '',
+async function buildConfiguration(ctx: VuetifyNuxtContext) {
+  const {
+    componentsPromise,
+    labComponentsPromise,
+    logger,
+    vuetifyOptions,
+  } = ctx
+  const {
+    aliases,
+    components,
+    directives,
+    localeMessages,
+    labComponents,
+    date: dateOptions,
+  } = vuetifyOptions
+  const config: {
+    directives: string
+    imports: string[]
+    aliasEntries: string[]
+    aliases: Record<string, ComponentName>
+    components: Set<ComponentName>
+    labComponents: Set<LabComponentName | '*'>
+    messages: string
+  } = {
+    directives: '',
+    imports: [],
+    aliasEntries: [],
+    aliases: aliases || {},
+    components: new Set(components ? (Array.isArray(components) ? components : [components]) : []),
+    labComponents: new Set(),
+    messages: '',
+  }
+
+  // directives
+  if (directives) {
+    if (typeof directives === 'boolean') {
+      config.imports.push('import * as directives from \'vuetify/directives\'')
+      config.directives = 'options.directives = directives'
+    }
+    else {
+      const useDirectives = Array.isArray(directives) ? [...new Set(...directives)] : [directives]
+      config.imports.push(useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n'))
+      config.directives = `options.directives = {${useDirectives.join(',')}}`
+    }
+  }
+
+  // components
+  const importMapComponents = await componentsPromise
+
+  const componentsToImport = new Map<string, string[]>()
+  config.components.forEach((component) => {
+    const { from } = importMapComponents[component]
+    if (!from) {
+      logger.warn(`Component ${component} not found in Vuetify.`)
+      return
     }
 
-    // directives
-    if (directives) {
-      if (typeof directives === 'boolean') {
-        config.imports.push('import * as directives from \'vuetify/directives\'')
-        config.directives = 'options.directives = directives'
-      }
-      else {
-        const useDirectives = Array.isArray(directives) ? [...new Set(...directives)] : [directives]
-        config.imports.push(useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n'))
-        config.directives = `options.directives = {${useDirectives.join(',')}}`
-      }
+    const parts = from.split('/')
+    if (parts.length < 2) {
+      logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
+      return
     }
 
-    // components
-    const importMapComponents = await componentsPromise
+    if (!componentsToImport.has(parts[1]))
+      componentsToImport.set(parts[1], [])
 
-    const componentsToImport = new Map<string, string[]>()
-    config.components.forEach((component) => {
-      const { from } = importMapComponents[component]
-      if (!from) {
-        logger.warn(`Component ${component} not found in Vuetify.`)
-        return
-      }
+    const componentsArray = componentsToImport.get(parts[1])!
+    if (!componentsArray.includes(component))
+      componentsArray.push(component)
+  })
 
-      const parts = from.split('/')
-      if (parts.length < 2) {
-        logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
-        return
-      }
+  Object.entries(config.aliases).forEach(([key, component]) => {
+    const { from } = importMapComponents[component]
+    if (!from) {
+      logger.warn(`Component ${component} not found in Vuetify.`)
+      return
+    }
 
-      if (!componentsToImport.has(parts[1]))
-        componentsToImport.set(parts[1], [])
+    const parts = from.split('/')
+    if (parts.length < 2) {
+      logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
+      return
+    }
 
-      const componentsArray = componentsToImport.get(parts[1])!
-      if (!componentsArray.includes(component))
-        componentsArray.push(component)
-    })
+    if (!componentsToImport.has(parts[1]))
+      componentsToImport.set(parts[1], [])
 
-    Object.entries(config.aliases).forEach(([key, component]) => {
-      const { from } = importMapComponents[component]
-      if (!from) {
-        logger.warn(`Component ${component} not found in Vuetify.`)
-        return
-      }
+    const componentsArray = componentsToImport.get(parts[1])!
+    if (!componentsArray.includes(component))
+      componentsArray.push(component)
 
-      const parts = from.split('/')
-      if (parts.length < 2) {
-        logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
-        return
-      }
+    config.aliasEntries.push(`'${key}': ${component}`)
+  })
 
-      if (!componentsToImport.has(parts[1]))
-        componentsToImport.set(parts[1], [])
+  componentsToImport.forEach((componentsArray, from) => {
+    config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/components/${from}'`)
+  })
 
-      const componentsArray = componentsToImport.get(parts[1])!
-      if (!componentsArray.includes(component))
-        componentsArray.push(component)
+  // lab components
+  let addDatePicker = true
 
-      config.aliasEntries.push(`'${key}': ${component}`)
-    })
+  if (labComponents) {
+    const useLabComponents: LabComponentName[] = []
+    if (typeof labComponents === 'boolean') {
+      config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
+      config.labComponents.add('*')
+      addDatePicker = false
+    }
+    else if (typeof labComponents === 'string') {
+      useLabComponents.push(labComponents)
+    }
+    else if (Array.isArray(labComponents)) {
+      useLabComponents.push(...labComponents)
+    }
 
-    componentsToImport.forEach((componentsArray, from) => {
-      config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/components/${from}'`)
-    })
-
-    // lab components
-    let addDatePicker = true
-
-    if (labComponents) {
-      const useLabComponents: LabComponentName[] = []
-      if (typeof labComponents === 'boolean') {
-        config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
-        config.labComponents.add('*')
-        addDatePicker = false
-      }
-      else if (typeof labComponents === 'string') {
-        useLabComponents.push(labComponents)
-      }
-      else if (Array.isArray(labComponents)) {
-        useLabComponents.push(...labComponents)
-      }
-
-      if (useLabComponents.length) {
-        componentsToImport.clear()
-        const importMapLabComponents = await labComponentsPromise
-        useLabComponents.forEach((component) => {
-          const { from } = importMapLabComponents[component]
-          if (!from) {
-            logger.warn(`Lab Component ${component} not found in Vuetify.`)
-            return
-          }
-
-          const parts = from.split('/')
-          if (parts.length < 2) {
-            logger.warn(`Lab Component ${component} not found in Vuetify, please report a new issue.`)
-            return
-          }
-
-          if (!componentsToImport.has(parts[1]))
-            componentsToImport.set(parts[1], [])
-
-          const componentsArray = componentsToImport.get(parts[1])!
-          if (!componentsArray.includes(component))
-            componentsArray.push(component)
-
-          config.labComponents.add(component)
-        })
-
-        if (dateOptions && !config.labComponents.has('VDatePicker')) {
-          const entry = componentsToImport.get('VDatePicker')
-          if (entry) {
-            entry.push('VDatePicker')
-            config.labComponents.add('VDatePicker')
-          }
+    if (useLabComponents.length) {
+      componentsToImport.clear()
+      const importMapLabComponents = await labComponentsPromise
+      useLabComponents.forEach((component) => {
+        const { from } = importMapLabComponents[component]
+        if (!from) {
+          logger.warn(`Lab Component ${component} not found in Vuetify.`)
+          return
         }
 
-        componentsToImport.forEach((componentsArray, from) => {
-          config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/labs/${from}'`)
-        })
-        addDatePicker = !config.labComponents.has('VDatePicker')
-      }
-    }
+        const parts = from.split('/')
+        if (parts.length < 2) {
+          logger.warn(`Lab Component ${component} not found in Vuetify, please report a new issue.`)
+          return
+        }
 
-    // include date picker only when needed
-    if (dateOptions && addDatePicker) {
-      config.imports.push('import {VDatePicker} from \'vuetify/labs/VDatePicker\'')
-      config.labComponents.add('VDatePicker')
-    }
+        if (!componentsToImport.has(parts[1]))
+          componentsToImport.set(parts[1], [])
 
-    // components entry
-    let componentsEntry = ''
-    if (config.components.size) {
-      if (config.labComponents.size) {
-        if (config.labComponents.has('*'))
-          componentsEntry = `options.components = {${Array.from(config.components).join(',')},...labsComponents}`
-        else
-          componentsEntry = `options.components = {${Array.from(config.components).join(',')},${Array.from(config.labComponents).join(',')}}`
+        const componentsArray = componentsToImport.get(parts[1])!
+        if (!componentsArray.includes(component))
+          componentsArray.push(component)
+
+        config.labComponents.add(component)
+      })
+
+      if (dateOptions && !config.labComponents.has('VDatePicker')) {
+        const entry = componentsToImport.get('VDatePicker')
+        if (entry) {
+          entry.push('VDatePicker')
+          config.labComponents.add('VDatePicker')
+        }
       }
-      else {
-        componentsEntry = `options.components = {${Array.from(config.components).join(',')}}`
-      }
+
+      componentsToImport.forEach((componentsArray, from) => {
+        config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/labs/${from}'`)
+      })
+      addDatePicker = !config.labComponents.has('VDatePicker')
     }
-    else if (config.labComponents.size) {
+  }
+
+  // include date picker only when needed
+  if (dateOptions && addDatePicker) {
+    config.imports.push('import {VDatePicker} from \'vuetify/labs/VDatePicker\'')
+    config.labComponents.add('VDatePicker')
+  }
+
+  // components entry
+  let componentsEntry = ''
+  if (config.components.size) {
+    if (config.labComponents.size) {
       if (config.labComponents.has('*'))
-        componentsEntry = 'options.components = {...labsComponents}'
+        componentsEntry = `options.components = {${Array.from(config.components).join(',')},...labsComponents}`
       else
-        componentsEntry = `options.components = {${Array.from(config.labComponents).join(',')}}`
+        componentsEntry = `options.components = {${Array.from(config.components).join(',')},${Array.from(config.labComponents).join(',')}}`
     }
+    else {
+      componentsEntry = `options.components = {${Array.from(config.components).join(',')}}`
+    }
+  }
+  else if (config.labComponents.size) {
+    if (config.labComponents.has('*'))
+      componentsEntry = 'options.components = {...labsComponents}'
+    else
+      componentsEntry = `options.components = {${Array.from(config.labComponents).join(',')}}`
+  }
 
-    if (!i18n && localeMessages) {
-      const useLocales = Array.isArray(localeMessages) ? [...new Set([...localeMessages])] : [localeMessages]
-      config.imports.push(`import {${useLocales.join(',')}} from 'vuetify/locale'`)
-      config.messages = `
+  if (!ctx.i18n && localeMessages) {
+    const useLocales = Array.isArray(localeMessages) ? [...new Set([...localeMessages])] : [localeMessages]
+    config.imports.push(`import {${useLocales.join(',')}} from 'vuetify/locale'`)
+    config.messages = `
   options.locale = options.locale || {}
   options.locale.messages = options.locale.messages || {}
 ${useLocales.map((locale) => {
-  return `
+      return `
   if ('${locale}' in options.locale.messages)
     deepCopy(options.locale.messages['${locale}'],${locale})
 
   options.locale.messages['${locale}'] = ${locale}
 `
-}).join('')}
+    }).join('')}
 `
-    }
+  }
 
-    return <ImportsResult>{
-      imports: config.imports.length ? config.imports.join('\n') : '',
-      components: componentsEntry,
-      aliases: config.aliasEntries.length ? `options.aliases = {${config.aliasEntries.join(',')}}` : '',
-      directives: config.directives,
-      messages: config.messages,
-    }
+  return <ImportsResult>{
+    imports: config.imports.length ? config.imports.join('\n') : '',
+    components: componentsEntry,
+    aliases: config.aliasEntries.length ? `options.aliases = {${config.aliasEntries.join(',')}}` : '',
+    directives: config.directives,
+    messages: config.messages,
   }
 }

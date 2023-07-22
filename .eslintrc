@@ -10,7 +10,8 @@
         "array-bracket-spacing": "off",
         "n/handle-callback-err": "off",
         "no-restricted-syntax": "off",
-        "no-labels": "off"
+        "no-labels": "off",
+        "vue/block-tag-newline": "off"
       }
     }
   ]

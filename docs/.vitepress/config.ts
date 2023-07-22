@@ -138,7 +138,7 @@ export default withPwa(defineConfig({
         items: [{
           text: 'UnoCSS Preset Icons',
           link: '/guide/icons/unocss-preset-icons',
-        },{
+        }, {
           text: 'Font Icons',
           link: '/guide/icons/font-icons',
         }, {

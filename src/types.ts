@@ -204,8 +204,21 @@ export interface ModuleOptions {
   moduleOptions?: MOptions
   /**
    * Vuetify options.
+   *
+   * You can inline the configuration or specify a file path:
+   * `vuetifyOptions: './vuetify.options.ts'`
+   *
+   * The path should be relative to the root folder.
    */
-  vuetifyOptions?: VOptions
+  vuetifyOptions?: string | VOptions
+}
+
+export interface InlineModuleOptions extends Omit<ModuleOptions, 'vuetifyOptions'> {
+  vuetifyOptions: VOptions
+}
+
+export interface ExternalVuetifyOptions extends VOptions {
+  config?: boolean
 }
 
 declare module '@nuxt/schema' {
@@ -213,7 +226,7 @@ declare module '@nuxt/schema' {
     vuetify?: ModuleOptions
   }
   interface NuxtHooks {
-    'vuetify:registerModule': (registerModule: (config: ModuleOptions) => void) => void
+    'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => void
   }
 }
 

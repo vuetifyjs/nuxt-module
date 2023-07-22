@@ -25,6 +25,11 @@
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
     },
+    "./custom-configuration": {
+      "types": "./custom-configuration.d.ts",
+      "require": "./custom-configuration.cjs",
+      "import": "./custom-configuration.mjs"
+    },
     "./configuration": {
       "types": "./configuration.d.ts"
     }
@@ -33,7 +38,9 @@
   "types": "./dist/types.d.ts",
   "files": [
     "dist",
-    "*.d.ts"
+    "*.cjs",
+    "*.d.ts",
+    "*.mjs"
   ],
   "scripts": {
     "build": "pnpm dev:prepare && nuxt-module-build",
@@ -58,12 +65,16 @@
   },
   "peerDependencies": {
     "@nuxt/kit": "^3.6.2",
+    "perfect-debounce": "^1.0.0",
+    "unconfig": "^0.3.9",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.9"
   },
   "dependencies": {
     "@nuxt/kit": "^3.6.2",
     "defu": "^6.1.2",
+    "perfect-debounce": "^1.0.0",
+    "unconfig": "^0.3.9",
     "vite-plugin-vuetify": "^1.0.2",
     "vuetify": "^3.3.9"
   },
@@ -103,9 +114,11 @@
       "esbuild",
       "local-pkg",
       "pathe",
+      "perfect-debounce",
       "rollup",
       "upath",
       "ufo",
+      "unconfig",
       "vite",
       "vite-plugin-vuetify",
       "vuetify"

@@ -38,6 +38,16 @@ features:
   - icon: 💥
     title: SSR
     details: Automatic SSR detection and configuration
+  - icon: 🔩
+    title: Nuxt Layers and Hooks
+    details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
+    link: /guide/#nuxt-layers-and-hooks
+    linkText: Nuxt Layers and Hooks
+  - icon: 📥
+    title: Vuetify Configuration File
+    details: Configure your Vuetify options using a custom <strong>vuetify.config</strong> file, no dev server restart needed
+    link: /guide/#vuetify-configuration-file
+    linkText: Vuetify Configuration File
   - icon: <span class="i-carbon:face-wink hover:i-carbon:face-satisfied"></span>
     title: Pure CSS Icons
     details: <span>No more font/js icons, use the new <strong>unocss-mdi</strong> icon set or build your own with UnoCSS Preset Icons</span>
@@ -53,6 +63,11 @@ features:
     details: Ready to use @mdi/js and @fortawesome/vue-fontawesome SVG icons packs
     link: /guide/icons/svg-icons
     linkText: SVG Icons
+  - icon: 📦
+    title: Multiple Icon Sets
+    details: You can register multiple icon sets
+    link: /guide/icons/#multiple-icon-sets
+    linkText: Multiple Icon Sets
   - icon: 🌍
     title: I18n Ready
     details: Install @nuxtjs/i18n Nuxt module, and you're ready to use Vuetify internationalization features
@@ -78,11 +93,6 @@ features:
     details: Use Vuetify Blueprints to quickly scaffold components
     link: /guide/#vuetify-blueprints
     linkText: Vuetify Blueprints
-  - icon: 🔩
-    title: Nuxt Layers and Hooks
-    details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
-    link: /guide/#nuxt-layers-and-hooks
-    linkText: Nuxt Layers and Hooks
   - icon: 👀
     title: Nuxt DevTools
     details: Ready to inspect your Vuetify styles with the Nuxt DevTools inspector
