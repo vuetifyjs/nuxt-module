@@ -9,7 +9,7 @@ import {
 import { version } from '../package.json'
 import type { ModuleOptions } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
-import { load, registerWatcher } from './utils/load'
+import { load, registerWatcher } from './utils/loader'
 import { configureVite } from './utils/configure-vite'
 import { configureNuxt } from './utils/configure-nuxt'
 

@@ -1,6 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import type { ModuleNode } from 'vite'
 import { debounce } from 'perfect-debounce'
 import { addVitePlugin } from '@nuxt/kit'
 import type { ModuleOptions, VOptions } from '../types'
@@ -100,7 +99,7 @@ export async function load(
 
 export function registerWatcher(options: ModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   if (nuxt.options.dev) {
-    let pageReload: (() => Promise<ModuleNode[]>) | undefined
+    let pageReload: (() => Promise<void>) | undefined
 
     nuxt.hooks.hook('builder:watch', (_event, path) => {
       if (!pageReload && ctx.vuetifyFilesToWatch.includes(path))
@@ -112,21 +111,19 @@ export function registerWatcher(options: ModuleOptions, nuxt: Nuxt, ctx: Vuetify
         return
 
       pageReload = debounce(async () => {
-        const modules: ModuleNode[] = []
+        const modules: NodeModule[] = []
         for (const v of RESOLVED_VIRTUAL_MODULES) {
           const module = server.moduleGraph.getModuleById(v)
-          if (module) {
+          if (module)
             modules.push(module)
-            module.importers.forEach(i => modules.push(i))
-          }
         }
         // reload configuration always
         await load(options, nuxt, ctx)
+        // TODO: try to change the logic here with custom event and using the moduleGraph + client invalidation
+        // server.reloadModule will send at least 2 or 3 full page reloads in a row: it is better than server restart
         if (modules.length)
           await Promise.all(modules.map(m => server.reloadModule(m)))
-
-        return modules
-      }, 100, { trailing: true })
+      }, 50, { trailing: false })
     })
 
     addVitePlugin({
