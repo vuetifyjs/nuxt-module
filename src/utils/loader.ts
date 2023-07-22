@@ -2,6 +2,7 @@ import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import { debounce } from 'perfect-debounce'
 import { addVitePlugin } from '@nuxt/kit'
+import type { ModuleNode } from 'vite'
 import type { ModuleOptions, VOptions } from '../types'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { mergeVuetifyModules } from './layers'
@@ -111,7 +112,7 @@ export function registerWatcher(options: ModuleOptions, nuxt: Nuxt, ctx: Vuetify
         return
 
       pageReload = debounce(async () => {
-        const modules: NodeModule[] = []
+        const modules: ModuleNode[] = []
         for (const v of RESOLVED_VIRTUAL_MODULES) {
           const module = server.moduleGraph.getModuleById(v)
           if (module)
