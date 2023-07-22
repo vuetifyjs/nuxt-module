@@ -75,10 +75,10 @@ export interface ModuleOptions {
   moduleOptions?: MOptions
   /**
    * Vuetify options.
-   * 
+   *
    * You can inline the configuration or specify a file path:
    * `vuetifyOptions: './vuetify.options.ts'`
-   * 
+   *
    * The path should be relative to the root folder.
    */
   vuetifyOptions?: string | VOptions
@@ -140,7 +140,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
    * - `fallback`
    * - `rtl`
    * - `messages`
-   * 
+   *
    * The adapter will be `vuetify`, if you want to use another adapter, check `date` option.
    */
   locale?: Omit<LocaleOptions, 'adapter'> & RtlOptions
@@ -316,7 +316,7 @@ or using object notation:
 import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
 
 export default {
-  config: false  
+  config: false
   /* vuetify options */
 } satisfies ExternalVuetifyOptions
 ```
@@ -366,7 +366,7 @@ export default defineNuxtConfig({
     vuetifyOptions: {
       locale: {
         locale: 'zhHans',
-        fallback: 'sv',  
+        fallback: 'sv',
       },
       loadMessages: ['zhHans', 'pl'],
       /* other vuetify options */
@@ -413,9 +413,9 @@ This module will merge the messages for you, so you don't need to worry about it
 
 If you want to load your custom messages from a Nuxt Plugin:
 ```ts
-import { defineNuxtPlugin } from '#imports'
 // Your own translation file
 import sv from './i18n/vuetify/sv'
+import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:before-create', ({ vuetifyOptions }) => {

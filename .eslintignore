@@ -1,6 +1,7 @@
 dist
 node_modules
-./*.cjs
-./*.mjs
+*.cjs
+*.mjs
+*.d.ts
 !docs/.vitepress
 docs/.vitepress/cache/deps/*.*
