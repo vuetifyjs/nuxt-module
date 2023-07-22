@@ -33,12 +33,12 @@ export default defineNuxtConfig({
     // debug: true,
     vueI18n: './config/i18n.config.ts',
   },
-  vuetify: {
-    /* moduleOptions: {
+  // vuetify: {
+  /* moduleOptions: {
       styles: { configFile: '/settings.scss' },
     }, */
-    // vuetifyOptions: './vuetify.config.mts',
-    /* vuetifyOptions: {
+  // vuetifyOptions: './vuetify.config.mts',
+  /* vuetifyOptions: {
       ssr: {
         clientWidth: 100,
       },
@@ -90,7 +90,7 @@ export default defineNuxtConfig({
         },*!/
       },
     }, */
-  },
+  // },
   vite: {
     clearScreen: false,
     define: {

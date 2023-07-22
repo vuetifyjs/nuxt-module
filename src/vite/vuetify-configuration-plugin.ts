@@ -27,6 +27,7 @@ export function vuetifyConfigurationPlugin(ctx: VuetifyNuxtContext) {
           icons: _icons,
           localeMessages: _localeMessages,
           components: _components,
+          labComponents: _labComponents,
           ssr,
           aliases: _aliases,
           ...newVuetifyOptions
