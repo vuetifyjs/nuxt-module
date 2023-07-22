@@ -18,20 +18,18 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
   if (nuxt.options._layers.length > 1) {
     for (let i = 1; i < nuxt.options._layers.length; i++) {
       const layer = nuxt.options._layers[i]
-      if (layer.config.vuetify) {
-        const resolvedOptions = await loadVuetifyConfiguration(
-          layer.config.rootDir,
-          layer.config.vuetify.vuetifyOptions,
-        )
+      const resolvedOptions = await loadVuetifyConfiguration(
+        layer.config.rootDir,
+        layer.config.vuetify?.vuetifyOptions,
+      )
 
-        if (resolvedOptions.sources.length)
-          resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
+      if (resolvedOptions.sources.length)
+        resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
 
-        moduleOptions.push({
-          moduleOptions: layer.config.vuetify.moduleOptions,
-          vuetifyOptions: resolvedOptions.config,
-        })
-      }
+      moduleOptions.push({
+        moduleOptions: layer.config.vuetify?.moduleOptions,
+        vuetifyOptions: resolvedOptions.config,
+      })
     }
   }
 
