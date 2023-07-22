@@ -63,55 +63,28 @@ export default defineNuxtConfig({
 })
 ```
 
-## Nuxt Layers and Hooks
-
-You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
-
-### Nuxt Layers
-
-Add your Vuetify configuration to a layer and then configure the module to use it:
-```ts
-// Nuxt config file
-import { defineNuxtConfig } from 'nuxt/config'
-
-export default defineNuxtConfig({
-  extends: ['my-awesome-vuetify-layer'],
-  modules: ['vuetify-nuxt-module']
-})
-```
-
-### Nuxt Hook
-
-You can use a custom module to load your Vuetify configuration:
-```ts
-// Nuxt config file
-import MyVuetifyModule from './modules/my-vuetify-module'
-
-export default defineNuxtConfig({
-  modules: [MyVuetifyModule, 'vuetify-nuxt-module']
-})
-```
-
-and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
-```ts
-// modules/my-vuetify-module
-export default defineNuxtModule({
-  setup(_options, nuxt) {
-    nuxt.hook('vuetify:registerModule', register => register({
-      moduleOptions: {
-        /* module specific options */
-      },
-      vuetifyOptions: {
-        /* vuetify options */
-      },
-    }))
-  },
-})
-```
-
 ## Module Options
 
 Check out the type declaration [src/types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts).
+
+<details>
+<summary><strong>Vuetify Nuxt Module Options</strong></summary>
+
+```ts
+export interface ModuleOptions {
+  moduleOptions?: MOptions
+  /**
+   * Vuetify options.
+   * 
+   * You can inline the configuration or specify a file path:
+   * `vuetifyOptions: './vuetify.options.ts'`
+   * 
+   * The path should be relative to the root folder.
+   */
+  vuetifyOptions?: string | VOptions
+}
+```
+</details>
 
 <details>
 <summary><strong>moduleOptions</strong></summary>
@@ -221,6 +194,110 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
 }
 ```
 </details>
+
+## Nuxt Layers and Hooks
+
+You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+
+### Nuxt Layers
+
+Add your Vuetify configuration to a layer and then configure the module to use it:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  extends: ['my-awesome-vuetify-layer'],
+  modules: ['vuetify-nuxt-module']
+})
+```
+
+### Nuxt Hook
+
+You can use a custom module to load your Vuetify configuration:
+```ts
+// Nuxt config file
+import MyVuetifyModule from './modules/my-vuetify-module'
+
+export default defineNuxtConfig({
+  modules: [MyVuetifyModule, 'vuetify-nuxt-module']
+})
+```
+
+and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
+```ts
+// modules/my-vuetify-module
+export default defineNuxtModule({
+  setup(_options, nuxt) {
+    nuxt.hook('vuetify:registerModule', register => register({
+      moduleOptions: {
+        /* module specific options */
+      },
+      vuetifyOptions: {
+        /* vuetify options */
+      },
+    }))
+  },
+})
+```
+
+## Vuetify Configuration File
+
+You can register Vuetify options using a file, the file path **must** be relative to the root folder.
+
+You can also use it in Nuxt Layers, the module will scan for `vuetify.config` files with the following extensions: `js`, `mjs`, `cjs`, `ts`, `cts` and `mts`.
+
+This module will watch Vuetify configuration files in dev and only configuration files outside `node_modules`.
+
+When any Vuetify configuration file is changed in dev, this module will invalidate all the virtual configuration modules and the importers; once the modules have been invalidated, it will send a full page reload.
+
+For example, you can configure:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+  vuetify: {
+    moduleOptions: {
+      /* module specific options */
+    },
+    vuetifyOptions: './vuetify.config.ts' // <== you can omit it
+  }
+})
+```
+
+and then use `defineVuetifyConfiguration` in your `vuetify.config` file:
+
+```ts
+// vuetify.config.ts
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module'
+
+export default defineVuetifyConfiguration({
+  /* vuetify options */
+})
+```
+
+You can omit `vuetifyOptions`, you only need to add one of the following files, the module will load it for you:
+- `vuetify.config.js`
+- `vuetify.config.cjs`
+- `vuetify.config.mjs`
+- `vuetify.config.ts`
+- `vuetify.config.cts`
+- `vuetify.config.mts`
+
+If you want the module to omit loading your configuration file, add `config: false` to your configuration:
+```ts
+// vuetify.config.ts
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module'
+
+export default defineVuetifyConfiguration({
+  config: false
+  /* other vuetify options */
+})
+```
 
 ## Nuxt Plugin Hooks
 

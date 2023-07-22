@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     /* moduleOptions: {
       styles: { configFile: '/settings.scss' },
     }, */
-    vuetifyOptions: './vuetify.config.mts',
+    // vuetifyOptions: './vuetify.config.mts',
     /* vuetifyOptions: {
       ssr: {
         clientWidth: 100,

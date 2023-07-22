@@ -23,11 +23,15 @@ export interface VuetifyNuxtContext {
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
 }
 
-export function defineVuetifyConfiguration(vuetifyOptions: VOptions) {
+export interface ExternalVuetifyOptions extends VOptions {
+  config?: boolean
+}
+
+export function defineVuetifyConfiguration(vuetifyOptions: ExternalVuetifyOptions) {
   return vuetifyOptions
 }
 
-export async function loadVuetifyConfiguration<U extends VOptions>(
+export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>(
   cwd = process.cwd(),
   configOrPath: string | U = cwd,
   defaults: VOptions = {},
@@ -68,7 +72,12 @@ export async function loadVuetifyConfiguration<U extends VOptions>(
   })
 
   const result = await loader.load()
-  result.config = Object.assign(defaults, result.config || inlineConfig)
+  if (result.config?.config === false)
+    result.config = Object.assign(defaults, inlineConfig)
+  else
+    result.config = Object.assign(defaults, result.config || inlineConfig)
+
+  delete result.config.config
 
   return result
 }

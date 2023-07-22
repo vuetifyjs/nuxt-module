@@ -6,7 +6,7 @@ export default defineVuetifyConfiguration({
     clientWidth: 100,
   },
   aliases: {
-    MyBadge: 'VBadge',
+    MyXBadge: 'VBadge',
   },
   directives: true,
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],

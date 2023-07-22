@@ -205,8 +205,10 @@ export interface ModuleOptions {
   /**
    * Vuetify options.
    *
-   * You can link to a file with the options, for example:
+   * You can inline the configuration or specify a file path:
    * `vuetifyOptions: './vuetify.options.ts'`
+   *
+   * The path should be relative to the root folder.
    */
   vuetifyOptions?: string | VOptions
 }
