@@ -247,9 +247,9 @@ You can register Vuetify options using a file, the file path **must** be relativ
 
 You can also use it in Nuxt Layers, the module will scan for `vuetify.config` files with the following extensions: `js`, `mjs`, `cjs`, `ts`, `cts` and `mts`.
 
-This module will watch Vuetify configuration files in dev and only configuration files outside `node_modules`.
+This module will watch Vuetify configuration files in development and only configuration files outside `node_modules`.
 
-When any Vuetify configuration file is changed in dev, this module will invalidate all the virtual configuration modules and the importers; once the modules have been invalidated, it will send a full page reload.
+When any Vuetify configuration file is changed in development, this module will invalidate all virtual configuration modules. The current version of the module will send 2 or 3 full page reloads in a row, not very optimal but much better than restarting the development server, we will try to fix it in future versions.
 
 For example, you can configure:
 ```ts
