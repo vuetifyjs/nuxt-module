@@ -13,8 +13,11 @@ const value = reactive<{
 const { locales, t } = useI18n()
 const { current } = useLocale()
 const { isRtl } = useRtl()
-// eslint-disable-next-line no-console
-console.log(useNuxtApp().$vuetify.icons)
+
+if (process.client) {
+  // eslint-disable-next-line no-console
+  console.log(useNuxtApp().$vuetify.icons)
+}
 
 // const rtl = ref(isRtl.value)
 

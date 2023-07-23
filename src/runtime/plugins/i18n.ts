@@ -1,157 +1,44 @@
-/* eslint-disable no-prototype-builtins */
-import type { EffectScope, Ref, WatchSource } from 'vue'
-import {
-  getCurrentInstance as _getCurrentInstance,
-  computed,
-  effectScope,
-  onScopeDispose,
-  ref,
-  toRaw,
-  watch,
-} from 'vue'
+import type { Ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
+import type { Locale } from 'vue-i18n'
 import { useI18n } from 'vue-i18n'
 import { useNuxtApp } from '#app'
 
 export function createAdapter(vuetifyOptions: VuetifyOptions) {
   vuetifyOptions.locale = {}
   const nuxtApp = useNuxtApp()
-  const i18n = nuxtApp.$i18n
+  const i18n: ReturnType<typeof useI18n> = nuxtApp.$i18n
   const current = i18n.locale
   const fallback = i18n.fallbackLocale
   const messages = i18n.messages
+  const currentLocale = ref<Locale>(current.value)
 
   vuetifyOptions.locale.rtl = i18n.locales.value.reduce((acc: Record<string, boolean>, locale: any) => {
     acc[locale.code] = locale.dir === 'rtl'
     return acc
   }, {})
 
+  watch(currentLocale, (val, oldVal) => {
+    if (oldVal)
+      i18n.setLocale(val)
+  }, { immediate: true, flush: 'post' })
+
+  if (process.client) {
+    nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
+      currentLocale.value = newLocale
+    })
+  }
+
   vuetifyOptions.locale.adapter = {
     name: 'nuxt-vue-i18n',
-    current,
+    current: currentLocale,
     fallback,
     messages,
     t: (key, ...params) => i18n.t(key, params),
     n: i18n.n,
-    provide: createProvideFunction({ current, fallback, messages }),
+    provide: createProvideFunction({ current: currentLocale, fallback, messages }),
   }
-}
-
-function getCurrentInstance(name: string, message?: string) {
-  const vm = _getCurrentInstance()
-
-  if (!vm)
-    throw new Error(`[Vuetify] ${name} ${message || 'must be called from inside a setup function'}`)
-
-  return vm
-}
-
-function useToggleScope(source: WatchSource<boolean>, fn: (reset: () => void) => void) {
-  let scope: EffectScope | undefined
-  function start() {
-    scope = effectScope()
-    scope.run(() => fn.length
-      ? fn(() => {
-        scope?.stop()
-        start()
-      })
-      : (fn as any)(),
-    )
-  }
-
-  watch(source, (active) => {
-    if (active && !scope) {
-      start()
-    }
-    else if (!active) {
-      scope?.stop()
-      scope = undefined
-    }
-  }, { immediate: true })
-
-  onScopeDispose(() => {
-    scope?.stop()
-  })
-}
-
-function toKebabCase(str = '') {
-  return str
-    .replace(/[^a-z]/gi, '-')
-    .replace(/\B([A-Z])/g, '-$1')
-    .toLowerCase()
-}
-
-type InnerVal<T> = T extends any[] ? Readonly<T> : T
-
-function useProxiedModel<
-  Props extends object & { [key in Prop as `onUpdate:${Prop}`]: ((val: any) => void) | undefined },
-  Prop extends Extract<keyof Props, string>,
-  Inner = Props[Prop],
->(
-  props: Props,
-  prop: Prop,
-  defaultValue?: Props[Prop],
-  transformIn: (value?: Props[Prop]) => Inner = (v: any) => v,
-  transformOut: (value: Inner) => Props[Prop] = (v: any) => v,
-) {
-  const vm = getCurrentInstance('useProxiedModel')
-  const internal = ref(props[prop] !== undefined ? props[prop] : defaultValue) as Ref<Props[Prop]>
-  const kebabProp = toKebabCase(prop)
-  const checkKebab = kebabProp !== prop
-
-  const isControlled = checkKebab
-    ? computed(() => {
-      void props[prop]
-      return !!(
-        (vm.vnode.props?.hasOwnProperty(prop) || vm.vnode.props?.hasOwnProperty(kebabProp))
-        && (vm.vnode.props?.hasOwnProperty(`onUpdate:${prop}`) || vm.vnode.props?.hasOwnProperty(`onUpdate:${kebabProp}`))
-      )
-    })
-    : computed(() => {
-      void props[prop]
-      return !!(vm.vnode.props?.hasOwnProperty(prop) && vm.vnode.props?.hasOwnProperty(`onUpdate:${prop}`))
-    })
-
-  useToggleScope(() => !isControlled.value, () => {
-    watch(() => props[prop], (val) => {
-      internal.value = val
-    })
-  })
-
-  const model = computed({
-    get(): any {
-      const externalValue = props[prop]
-      return transformIn(isControlled.value ? externalValue : internal.value)
-    },
-    set(internalValue) {
-      const newValue = transformOut(internalValue)
-      const value = toRaw(isControlled.value ? props[prop] : internal.value)
-      if (value === newValue || transformIn(value) === internalValue)
-        return
-
-      internal.value = newValue
-      vm?.emit(`update:${prop}`, newValue)
-    },
-  }) as any as Ref<InnerVal<Inner>> & { readonly externalValue: Props[Prop] }
-
-  Object.defineProperty(model, 'externalValue', {
-    get: () => isControlled.value ? props[prop] : internal.value,
-  })
-
-  return model
-}
-
-function useProvided<T>(props: any, prop: string, provided: Ref<T>) {
-  const internal = useProxiedModel(props, prop)
-
-  internal.value = props[prop] ?? provided.value
-
-  watch(provided, (v) => {
-    if (props[prop] == null)
-      internal.value = v
-  })
-
-  return internal as Ref<T>
 }
 
 // todo: add formatNumber, formatCurrency, formatDateTime, formatDate, formatTime...
@@ -161,29 +48,35 @@ function createProvideFunction(data: {
   messages: Ref<LocaleMessages>
 }) {
   return (props: LocaleOptions) => {
-    const current = useProvided(props, 'locale', data.current)
-    const fallback = useProvided(props, 'fallback', data.fallback)
-    const messages = useProvided(props, 'messages', data.messages)
+    const currentLocale = ref(props.locale ?? data.current.value)
+    // const current = useProvided(props, 'locale', data.current)
+    // const fallback = useProvided(props, 'fallback', data.fallback)
+    // const messages = useProvided(props, 'messages', data.messages)
 
     const i18n = useI18n({
-      locale: current.value,
-      fallbackLocale: fallback.value,
-      messages: messages.value as any,
+      locale: currentLocale.value,
+      fallbackLocale: data.fallback.value,
+      messages: data.messages.value as any,
       useScope: 'local',
       legacy: false,
       inheritLocale: false,
     })
 
+    watch(currentLocale, (val, oldVal) => {
+      if (oldVal)
+        i18n.setLocale(val)
+    }, { immediate: true, flush: 'post' })
+
     return <LocaleInstance>{
       name: 'nuxt-vue-i18n',
-      current,
-      fallback,
-      messages,
+      current: currentLocale,
+      fallback: data.fallback,
+      messages: data.messages,
       // todo: fix this, we should check the options
       // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
-      provide: createProvideFunction({ current, fallback, messages }),
+      provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
     }
   }
 }

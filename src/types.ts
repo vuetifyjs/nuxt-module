@@ -94,6 +94,10 @@ export type LabComponentName = keyof typeof import('vuetify/labs/components')
 export type LabComponents = boolean | LabComponentName | LabComponentName[]
 export type VuetifyLocale = keyof typeof import('vuetify/locale')
 
+export interface I18nOptions {
+
+}
+
 export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
   /**
    * Configure the SSR options.

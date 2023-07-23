@@ -10,9 +10,6 @@ export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
   const moduleOptions: InlineModuleOptions[] = []
   const vuetifyConfigurationFilesToWatch = new Set<string>()
 
-  // if (typeof moduleOptions.vuetifyOptions === 'string')
-  //   nuxt.
-
   await nuxt.callHook('vuetify:registerModule', layerModuleOptions => moduleOptions.push(layerModuleOptions))
 
   if (nuxt.options._layers.length > 1) {
