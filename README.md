@@ -1,9 +1,6 @@
 <div align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/userquin/vuetify-nuxt-module/raw/main/hero-dark.svg" />
-  <img alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify" src='https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt module for Vuetify"><br>
-</picture>
-<p>Zero-config Nuxt module for Vuetify</p>
+  <img alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify" src='https://raw.githubusercontent.com/userquin/vuetify-nuxt-module/main/docs/public/animated-logo.svg' alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify"><br>
+  <p>Zero-config Nuxt Module for Vuetify</p>
 </div>
 
 <p align='center'>
