@@ -26,10 +26,10 @@ export default defineNuxtConfig({
     } */
     langDir,
     defaultLocale: 'en-US',
-    types: 'composition',
-    pages: undefined,
+    // types: 'composition',
+    // pages: undefined,
     dynamicRouteParams: false,
-    skipSettingLocaleOnNavigate: true,
+    skipSettingLocaleOnNavigate: false,
     // debug: true,
     vueI18n: './config/i18n.config.ts',
   },
