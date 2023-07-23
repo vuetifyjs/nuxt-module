@@ -70,9 +70,10 @@ watch(current, () => {
     <v-checkbox v-model="isRtl" label="isRtl" readonly :true-value="true" :false-value="false" false-icon="i-mdi:account" />
     <div style="display: flex">
       <v-date-picker />
-      <v-locale-provider locale="ar-EG" rtl>
+      <!-- we cannot use this when using lazy: missing messages since ar-EG not being loaded -->
+      <!--      <v-locale-provider locale="ar-EG" rtl>
         <v-date-picker />
-      </v-locale-provider>
+      </v-locale-provider> -->
     </div>
   </div>
 </template>

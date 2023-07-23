@@ -71,7 +71,7 @@
     "vuetify": "^3.3.9"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.6.2",
+    "@nuxt/kit": "^3.6.5",
     "defu": "^6.1.2",
     "perfect-debounce": "^1.0.0",
     "unconfig": "^0.3.9",
@@ -79,27 +79,27 @@
     "vuetify": "^3.3.9"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.6",
-    "@antfu/ni": "^0.21.4",
-    "@date-io/luxon": "^2.16.1",
+    "@antfu/eslint-config": "^0.39.8",
+    "@antfu/ni": "^0.21.5",
+    "@date-io/luxon": "^2.17.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@iconify-json/carbon": "^1.1.18",
     "@iconify-json/mdi": "^1.1.53",
     "@mdi/js": "^7.2.96",
-    "@nuxt/devtools": "^0.6.7",
+    "@nuxt/devtools": "^0.7.0",
     "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.6.2",
-    "@nuxt/test-utils": "^3.6.2",
-    "@nuxtjs/i18n": "^8.0.0-beta.13",
-    "@parcel/watcher": "^2.1.0",
+    "@nuxt/schema": "^3.6.5",
+    "@nuxt/test-utils": "^3.6.5",
+    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge",
+    "@parcel/watcher": "^2.2.0",
     "@types/node": "^18",
-    "@unocss/nuxt": "^0.53.5",
+    "@unocss/nuxt": "^0.53.6",
     "bumpp": "^9.1.1",
-    "eslint": "^8.43.0",
+    "eslint": "^8.45.0",
     "luxon": "^3.3.0",
-    "nuxt": "^3.6.2",
+    "nuxt": "^3.6.5",
     "sass": "^1.63.6",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
@@ -125,9 +125,6 @@
     ]
   },
   "pnpm": {
-    "patchedDependencies": {
-      "@nuxtjs/i18n@8.0.0-beta.13": "patches/@nuxtjs__i18n@8.0.0-beta.13.patch"
-    },
     "peerDependencyRules": {
       "ignoreMissing": [
         "@algolia/client-search"
