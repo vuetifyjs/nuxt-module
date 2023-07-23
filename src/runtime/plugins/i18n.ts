@@ -49,9 +49,6 @@ function createProvideFunction(data: {
 }) {
   return (props: LocaleOptions) => {
     const currentLocale = ref(props.locale ?? data.current.value)
-    // const current = useProvided(props, 'locale', data.current)
-    // const fallback = useProvided(props, 'fallback', data.fallback)
-    // const messages = useProvided(props, 'messages', data.messages)
 
     const i18n = useI18n({
       locale: currentLocale.value,
