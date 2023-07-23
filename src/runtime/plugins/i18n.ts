@@ -24,11 +24,9 @@ export function createAdapter(vuetifyOptions: VuetifyOptions) {
       i18n.setLocale(val)
   }, { immediate: true, flush: 'post' })
 
-  if (process.client) {
-    nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
-      currentLocale.value = newLocale
-    })
-  }
+  nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
+    currentLocale.value = newLocale
+  })
 
   vuetifyOptions.locale.adapter = {
     name: 'nuxt-vue-i18n',

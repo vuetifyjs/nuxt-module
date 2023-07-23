@@ -13,7 +13,10 @@ function isSubdir(root: string, test: string) {
 
 const styleImportRegexp = /(@use |meta\.load-css\()['"](vuetify(?:\/lib)?(?:\/styles(?:\/main(?:\.sass)?)?)?)['"]/
 
-export function vuetifyStylesPlugin(options: Options, logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>): Plugin {
+export function vuetifyStylesPlugin(
+  options: Options,
+  logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
+): Plugin {
   const vuetifyBase = resolveVuetifyBase()
   const files = new Set<string>()
 

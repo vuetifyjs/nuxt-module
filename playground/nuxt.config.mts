@@ -5,13 +5,13 @@ export default defineNuxtConfig({
   extends: ['layers/vuetify-layer'],
   ssr: true,
   sourcemap: true,
-  typescript: {
+  /*typescript: {
     tsConfig: {
       compilerOptions: {
         moduleResolution: 'bundler',
       },
     },
-  },
+  },*/
   imports: {
     autoImport: true,
     injectAtEnd: true,
@@ -126,8 +126,9 @@ export default defineNuxtConfig({
     payloadExtraction: false,
     typedPages: false,
     watcher: 'parcel',
+    typescriptBundlerResolution: true,
   },
   devtools: {
-    enabled: false,
+    enabled: true,
   },
 })
