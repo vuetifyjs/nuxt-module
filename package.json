@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "0.5.4",
-  "packageManager": "pnpm@8.6.9",
+  "packageManager": "pnpm@8.6.10",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
@@ -63,15 +63,8 @@
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish"
   },
-  "peerDependencies": {
-    "@nuxt/kit": "^3.6.2",
-    "perfect-debounce": "^1.0.0",
-    "unconfig": "^0.3.9",
-    "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.9"
-  },
   "dependencies": {
-    "@nuxt/kit": "^3.6.5",
+    "@nuxt/kit": "^3.6.2",
     "defu": "^6.1.2",
     "perfect-debounce": "^1.0.0",
     "unconfig": "^0.3.9",
