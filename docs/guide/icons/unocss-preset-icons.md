@@ -28,13 +28,31 @@ You can also use any icon directly in your html markup:
 
 This module provides a new icon set for Vuetify, `unocss-mdi` icon set. The `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection.
 
-You can configure it using the default set:
+In order to use the `unocss-mdi` icon set, you will need to:
+- install the `@iconify-json/mdi` package as dev dependency
+- install the `@unocss/nuxt` package as dev dependency and enable UnoCSS Preset Icons: [UnoCSS Nuxt Integration](https://unocss.dev/integrations/nuxt)
+
+To configure UnoCSS, add `unocss.config.ts` file to your project root folder and register the icons preset:
+```ts
+// unocss.config.ts
+import { defineConfig, presetIcons } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetIcons({
+      scale: 1.2, // scale the icons
+    }),
+  ]
+})
+```
+
+In your Nuxt configuration file, add the UnoCSS Nuxt module and configure the `unocss-mdi` icon set:
 ```ts
 // Nuxt config file
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ['@unocss/nuxt', 'vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -51,7 +69,7 @@ If you're not using the default UnoCSS Preset Icons [prefix](https://unocss.dev/
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ['@unocss/nuxt', 'vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
       icons: {
@@ -65,7 +83,7 @@ export default defineNuxtConfig({
 
 ## Adding a new Vuetify icon set
 
-This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` package and configuring Vuetify to use it:
+This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` packages and configuring Vuetify to use it:
 - configure the default set to use `custom`: `vuetify.vuetifyOptions.icons.defaultSet = 'custom'` in your nuxt config file
 - create a new Nuxt Plugin to configure the new icon set
 - add `@unocss-include` comment to the plugin file: this comment will be used by UnoCSS to include the icons

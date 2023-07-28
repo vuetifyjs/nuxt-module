@@ -29,7 +29,7 @@ export function configureNuxt(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
     references.push({ types: 'vuetify-nuxt-module/configuration' })
   })
 
-  nuxt.hook('components:extend', async (c) => {
+  /* nuxt.hook('components:extend', async (c) => {
     const components = await ctx.componentsPromise
     Object.keys(components).forEach((component) => {
       c.push({
@@ -45,7 +45,7 @@ export function configureNuxt(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
         mode: 'all',
       })
     })
-  })
+  }) */
 
   if (importComposables) {
     const composables = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']

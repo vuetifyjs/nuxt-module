@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
+import vuetify from 'vite-plugin-vuetify'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -21,6 +22,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       configKey,
     ]
 
+    viteInlineConfig.plugins.push(vuetify({ styles: true, autoImport: true }))
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))
