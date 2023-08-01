@@ -112,6 +112,9 @@ export interface MOptions {
    * Vuetify styles.
    *
    * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
+   *
+   * If you want to use configFile on SSR and run `nuxt generate`, remember to disable `experimental.inlineSSRStyles` in nuxt.config
+   * @see https://github.com/userquin/vuetify-nuxt-module/issues/78
    */
   styles?: true | 'none' | 'expose' | 'sass' | {
     configFile: string
