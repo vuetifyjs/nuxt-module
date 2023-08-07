@@ -57,7 +57,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     await load(options, nuxt, ctx)
 
-    configureNuxt(CONFIG_KEY, nuxt, ctx)
+    await configureNuxt(CONFIG_KEY, nuxt, ctx)
 
     registerWatcher(options, nuxt, ctx)
 

@@ -35,6 +35,7 @@ watch(current, () => {
 
 <template>
   <div>
+    <v-img src="~/assets/logo.svg" width="48" height="48" />
     <div>Vuetify useLocale(): {{ current }}</div>
     <div>$i18n current: {{ $i18n.locale }}</div>
     <div>$vuetify.locale.current: {{ $vuetify.locale.current }}</div>

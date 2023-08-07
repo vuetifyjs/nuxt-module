@@ -198,6 +198,12 @@ export interface MOptions {
   styles?: true | 'none' | 'expose' | 'sass' | {
     configFile: string
   }
+  /**
+   * Add Vuetify Vite Plugin `transformAssetsUrls`?
+   *
+   * @default false
+   */
+  includeTransformAssetsUrls?: boolean
 }
 
 export interface ModuleOptions {
