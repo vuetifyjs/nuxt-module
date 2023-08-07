@@ -1,5 +1,6 @@
 import { availableLocales, langDir } from './config/i18n'
 import LayerModule from './layer-module'
+// import { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   extends: ['layers/vuetify-layer'],
@@ -25,6 +26,11 @@ export default defineNuxtConfig({
     skipSettingLocaleOnNavigate: false,
     // debug: true,
     vueI18n: './config/i18n.config.ts',
+  },
+  vuetify: {
+    moduleOptions: {
+      includeTransformAssetsUrls: true,
+    },
   },
   // vuetify: {
   /* moduleOptions: {
@@ -93,6 +99,7 @@ export default defineNuxtConfig({
       target: 'esnext',
     },
     vue: {
+      // template: { transformAssetUrls },
       script: {
         propsDestructure: true,
       },
@@ -123,5 +130,5 @@ export default defineNuxtConfig({
   },
   devtools: {
     enabled: true,
-  },
+  }
 })

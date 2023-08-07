@@ -59,7 +59,7 @@ export async function load(
       }
       else {
         if (date.find(d => d === adapter) === undefined)
-          ctx.logger.warn(`Ignoring Vuetify Date configuration, date adapter "@date-io/${adapter}" not installed!`)
+          ctx.logger.warn(`[vuetify-nuxt-module] Ignoring Vuetify Date configuration, date adapter "@date-io/${adapter}" not installed!`)
         else
           ctx.dateAdapter = adapter
       }

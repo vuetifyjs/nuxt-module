@@ -1,10 +1,20 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
+import { transformAssetUrls } from 'vite-plugin-vuetify'
 import type { VuetifyNuxtContext } from './config'
 import { toKebabCase } from './index'
 
-export function configureNuxt(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
-  const { importComposables, prefixComposables, styles } = ctx.moduleOptions
+export function configureNuxt(
+  configKey: string,
+  nuxt: Nuxt,
+  ctx: VuetifyNuxtContext,
+) {
+  const {
+    importComposables,
+    prefixComposables,
+    styles,
+    includeTransformAssetsUrls = false,
+  } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
 
@@ -18,6 +28,15 @@ export function configureNuxt(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
     nuxt.options.css.unshift('vuetify/styles')
   else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
     nuxt.options.css.unshift(styles.configFile)
+
+  if (includeTransformAssetsUrls) {
+    nuxt.options.vite.vue ??= {}
+    nuxt.options.vite.vue.template ??= {}
+    if (typeof nuxt.options.vite.vue.template.transformAssetUrls === 'undefined')
+      nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
+    else
+      ctx.logger.warn('[vuetify-nuxt-module] `includeTransformAssetsUrls` is enabled but `vite.vue.template.transformAssetUrls` is already configured, ignored!')
+  }
 
   extendWebpackConfig(() => {
     throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
