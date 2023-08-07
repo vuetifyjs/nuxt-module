@@ -1,9 +1,10 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
+import { transformAssetUrls } from 'vite-plugin-vuetify'
 import type { VuetifyNuxtContext } from './config'
 import { toKebabCase } from './index'
 
-export async function configureNuxt(
+export function configureNuxt(
   configKey: string,
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
@@ -32,7 +33,7 @@ export async function configureNuxt(
     nuxt.options.vite.vue ??= {}
     nuxt.options.vite.vue.template ??= {}
     if (typeof nuxt.options.vite.vue.template.transformAssetUrls === 'undefined')
-      nuxt.options.vite.vue.template.transformAssetUrls = await import('vite-plugin-vuetify').then(({ transformAssetUrls }) => transformAssetUrls)
+      nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
     else
       ctx.logger.warn('[vuetify-nuxt-module] `includeTransformAssetsUrls` is enabled but `vite.vue.template.transformAssetUrls` is already configured, ignored!')
   }
