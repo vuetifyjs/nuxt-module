@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
 If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme]() will not work since there is no way to know which theme to use in the server. You will need to add some logic in the client to restore the theme after hydration.
 
-For example, if you want to use `dark` and `light` Vuetify Themes restoring the initial value using `prefers-color-scheme` and `localStorage`, you can use [useDark](https://vueuse.org/core/useDark/) and [useToogle](https://vueuse.org/shared/useToggle/) from VueUse in the following composable:
+For example, if you want to use `dark` and `light` Vuetify Themes restoring the initial value using `prefers-color-scheme` and `localStorage`, you can use [useDark](https://vueuse.org/core/useDark/) and [useToogle](https://vueuse.org/shared/useToggle/) composables from VueUse in the following way:
 
 ```ts
 // composables/useCustomTheme.ts
@@ -51,10 +51,10 @@ export function useCustomTheme() {
 }
 ```
 
-then, in your `App.vue` or layout templates, you can use the composable to restore the theme:
+then, in your `App.vue` or layout templates, you can use previous composable to restore the theme:
 ```vue
 <script setup>
-import { useSSRTheme } from '~/composables/useCustomTheme'
+import { useCustomTheme } from '~/composables/useCustomTheme'
 
 const { isDark } = useCustomTheme()
 </script>
