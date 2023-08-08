@@ -64,3 +64,7 @@ const { isDark } = useCustomTheme()
   </VApp>
 </template>
 ```
+
+## Vuetify Display
+
+If you're using Vuetify [useDisplay](https://vuetifyjs.com/en/api/use-display/) composable with SSR enabled, there is only one way for the server to get the client's width: use the [Sec-CH-Viewport-Width Header Field](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width), will not work for the initial request.
