@@ -68,3 +68,32 @@
  .dark {
    --vp-button-brand-text: #000;
  }
+
+/**
+ * Component: VPSidebarItem
+ * -------------------------------------------------------------------------- */
+.VPSidebarItem.level-1 .items, .VPSidebarItem.level-2 .items, .VPSidebarItem.level-3 .items, .VPDocAside .has-outline .content {
+  position: relative;
+  border-left-color: transparent !important;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 1px;
+    background: var(--vp-c-border);
+    animation: 0.5s linear forwards border-horizontal;
+  }
+}
+
+@keyframes border-horizontal {
+  from {
+    bottom: 100%;
+  }
+  to {
+    bottom: 0;
+  }
+}
+

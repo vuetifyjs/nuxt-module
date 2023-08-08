@@ -26,6 +26,8 @@ features:
   - icon: 🔌
     title: Extensible
     details: Expose the ability to customize the Vuetify configuration via Nuxt Plugin Hooks
+    link: /guide/nuxt-plugin-hooks
+    linkText: Nuxt Plugin Hooks
   - icon: ⚡
     title: Fully tree shakable
     details: By default, only the needed Vuetify components are imported
@@ -38,15 +40,17 @@ features:
   - icon: 💥
     title: SSR
     details: Automatic SSR detection and configuration
+    link: /guide/server-side-rendering
+    linkText: Server Side Rendering
   - icon: 🔩
     title: Nuxt Layers and Hooks
     details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
-    link: /guide/#nuxt-layers-and-hooks
+    link: /guide/nuxt-layers-and-hooks
     linkText: Nuxt Layers and Hooks
   - icon: 📥
     title: Vuetify Configuration File
     details: Configure your Vuetify options using a custom <strong>vuetify.config</strong> file, no dev server restart needed
-    link: /guide/#vuetify-configuration-file
+    link: /guide/vuetify-configuration-file
     linkText: Vuetify Configuration File
   - icon: <span class="i-carbon:face-wink hover:i-carbon:face-satisfied"></span>
     title: Pure CSS Icons
@@ -81,17 +85,17 @@ features:
   - icon: 💬
     title: Auto-Import Vuetify Locale Messages
     details: Add the Vuetify Locale Messages adding the locales you want to use, no more imports needed
-    link: /guide/#vuetify-locale-messages
+    link: /guide/vuetify-locale-messages
     linkText: Vuetify Locale Messages
   - icon: ⚙️
     title: Auto-Import Vuetify Composables
     details: You don't need to import Vuetify composables manually, they are automatically imported for you
-    link: /guide/#vuetify-composables
+    link: /guide/vuetify-composables
     linkText: Vuetify Composables
   - icon: 🎨
     title: Vuetify Blueprints
     details: Use Vuetify Blueprints to quickly scaffold components
-    link: /guide/#vuetify-blueprints
+    link: /guide/vuetify-blueprints
     linkText: Vuetify Blueprints
   - icon: 👀
     title: Nuxt DevTools

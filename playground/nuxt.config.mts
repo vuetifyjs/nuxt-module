@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       includeTransformAssetsUrls: true,
+      // styles: { configFile: '/settings.scss' },
     },
   },
   // vuetify: {
@@ -120,9 +121,10 @@ export default defineNuxtConfig({
       ],
     },
   },
+  // css: ['vuetify/styles'],
   // css: ['/main.scss'],
   experimental: {
-    // inlineSSRStyles: false,
+    inlineSSRStyles: false,
     payloadExtraction: false,
     typedPages: false,
     typescriptBundlerResolution: true,
