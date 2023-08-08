@@ -120,6 +120,27 @@ export default withPwa(defineConfig({
         text: 'Getting Started',
         link: '/guide/',
       }, {
+        text: 'Nuxt Layers and Hooks',
+        link: '/guide/nuxt-layers-and-hooks',
+      }, {
+        text: 'Vuetify Configuration File',
+        link: '/guide/vuetify-configuration-file',
+      }, {
+        text: 'Nuxt Plugin Hooks',
+        link: '/guide/nuxt-plugin-hooks',
+      }, {
+        text: 'Server Side Rendering (SSR)',
+        link: '/guide/server-side-rendering',
+      }, {
+        text: 'Vuetify Locale Messages',
+        link: '/guide/vuetify-locale-messages',
+      }, {
+        text: 'Vuetify Composables',
+        link: '/guide/vuetify-composables',
+      }, {
+        text: 'Vuetify Blueprints',
+        link: '/guide/vuetify-blueprints',
+      }, {
         text: 'Globals',
         link: '/guide/globals/',
         items: [{
@@ -132,6 +153,7 @@ export default withPwa(defineConfig({
           text: 'Lab Components',
           link: '/guide/globals/lab-components',
         }],
+        collapsed: true,
       }, {
         text: 'Icons',
         link: '/guide/icons/',
@@ -145,6 +167,7 @@ export default withPwa(defineConfig({
           text: 'SVG Icons',
           link: '/guide/icons/svg-icons',
         }],
+        collapsed: true,
       }, {
         text: 'Internationalization',
         link: '/guide/i18n',
