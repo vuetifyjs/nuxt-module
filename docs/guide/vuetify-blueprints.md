@@ -7,4 +7,4 @@ The module supports Vuetify Blueprints, just add it to the `vuetifyOptions.bluep
 - `locale` will be ignored, configure it using the `vuetifyOptions.locale` module option
 - `date` will be ignored, configure it using the `vuetifyOptions.date` module option
 - `icons` will be ignored, configure it using the `vuetifyOptions.icons` module option
-
+- `aliases` only supports defining aliases with [strings](/guide/globals/global-components.html#aliasing-global-component), using a component type will result in error (`Cannot start nuxt:  Unexpected token '.'`)

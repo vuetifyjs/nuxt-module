@@ -17,6 +17,7 @@ img.resizable-img {
 
 details > summary:hover {
   cursor: pointer;
+  user-select: none;
 }
 
 .custom-block.tip code,
