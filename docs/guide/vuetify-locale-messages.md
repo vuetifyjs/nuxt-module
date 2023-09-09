@@ -2,7 +2,7 @@
 
 You can load [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) using the `vuetifyOptions.loadMessages` module configuration option, you don't need to configure a Nuxt Plugin with the `vuetify:before-create` hook, the module will import them for you, it has been declared properly to have better DX.
 
-:::warning
+::: warning
 When `@nuxtjs/i18n` Nuxt module is present, `vuetifyOptions.loadMessages` module configuration option will be ignored.
 :::
 
