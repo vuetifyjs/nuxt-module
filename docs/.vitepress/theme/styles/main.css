@@ -18,3 +18,32 @@ img.resizable-img {
 details > summary:hover {
   cursor: pointer;
 }
+
+.custom-block.tip code,
+.custom-block.info code,
+.custom-block.warning code,
+.custom-block.danger code {
+  font-size: var(--vp-custom-block-code-font-size);
+  font-weight: 700;
+}
+
+.info.custom-block > p > code,
+.info.custom-block > p > a:hover {
+  color: var(--vp-c-text-2);
+  opacity: 1;
+}
+.tip.custom-block > p > code,
+.tip.custom-block > p > a:hover {
+  color: var(--vp-c-brand-1);
+  opacity: 1;
+}
+.warning.custom-block > p > code,
+.warning.custom-block > p > a:hover {
+  color: var(--vp-c-warning-1);
+  opacity: 1;
+}
+.danger.custom-block > p > code,
+.danger.custom-block > p > a:hover {
+  color: var(--vp-c-danger-1);
+  opacity: 1;
+}

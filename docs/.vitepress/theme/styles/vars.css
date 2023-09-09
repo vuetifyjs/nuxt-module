@@ -1,78 +1,77 @@
 /**
  * Colors
  * -------------------------------------------------------------------------- */
-
+/**
+ * Colors
+ * -------------------------------------------------------------------------- */
 :root {
-  --vp-c-accent: #1867c0;
-  --vp-c-brand: #1867c0;
-  --vp-c-brand-light: #1b5fb6;
-  --vp-c-brand-lighter: #215aab;
-  --vp-c-brand-dark: #094691;
-  --vp-c-brand-darker: #094691;
-  --vp-c-text-code: #000;
-  --vp-code-block-bg: rgba(125, 125, 125, 0.06);
-  --vp-code-block-hover-bg: rgba(125, 125, 125, 0.1);
-  --vp-c-bg-mute: #f5f5f5;
-  --vp-custom-block-tip-border: var(--vp-c-brand);
-  --vp-custom-block-tip-text: var(--vp-c-brand-dark);
-  --vp-custom-block-tip-bg: transparent;
-  --vp-custom-block-tip-code-bg: var(--vp-custom-block-tip-bg);
-  --vp-code-copy-code-bg: initial;
-  --vp-code-copy-code-hover-bg: var(--vp-custom-block-details-text);
-  --vp-custom-block-warning-border: #827717;
-  --vp-custom-block-warning-text: #827717;
-  --vp-custom-block-warning-bg: #ffffe777;
-  --vp-custom-block-danger-border: #b71c1c;
-  --vp-custom-block-danger-text: #b71c1c;
-  --vp-custom-block-danger-bg: #ffebee77;
+  --vp-c-brand-1: #1867c0;
+  --vp-c-brand-2: #215aab;
+  --vp-c-brand-3: #094691;
+  --vp-c-warning-1: #827717;
+  --vp-c-warning-soft: #eeeef0;
+  --vp-c-danger-1: #b71c1c;
+  --vp-c-danger-soft: #ffebee77;
+  /* TODO: remove this once new rc, VP has this but not yet released */
+  --vp-local-search-highlight-text: var(--vp-c-neutral-inverse);
 }
-
 .dark {
-  --vp-c-accent: #2196f3;
-  --vp-c-brand: #2196f3;
-  --vp-c-brand-light: #2d8bd9;
-  --vp-c-brand-lighter: #2d8bd9;
-  --vp-c-brand-dark: #1885d9;
-  --vp-c-brand-darker: #1885d9;
-  --vp-code-block-bg: rgba(0, 0, 0, 0.2);
-  --vp-c-text-code: #fff;
-  --vp-c-bg-mute: #2d2d2d;
-  --vp-code-copy-code-bg: initial;
-  --vp-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
-  --vp-custom-block-warning-border: rgb(234 179 6 / 50%);
-  --vp-custom-block-warning-text: #EAB306;
-  --vp-custom-block-warning-bg: var(--vp-c-bg-soft-up);
-  /*--vp-custom-block-danger-border: #bf0808;
-  --vp-custom-block-danger-text: #bf0808;
-  --vp-custom-block-danger-bg: #ffffffd6;*/
-  --vp-custom-block-danger-border: var(--vp-c-text-code);
-  --vp-custom-block-danger-text: var(--vp-c-text-code);
-  --vp-custom-block-danger-bg: #660000;
+  --vp-c-brand-1: #2196f3;
+  --vp-c-brand-2: #2da0f8;
+  --vp-c-brand-3: #3199f1;
+  --vp-c-warning-1: #EAB306;
+  --vp-c-danger-1: #fff;
+  --vp-c-danger-soft: #660000;
 }
 
 /**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-custom-block-info-border: var(--vp-c-border);
+  --vp-custom-block-info-text: var(--vp-c-text-2);
+  --vp-custom-block-info-bg: var(--vp-c-default-soft);
+  --vp-custom-block-info-code-bg: var(--vp-c-default-soft);
+
+  --vp-custom-block-tip-border: var(--vp-c-brand-1);
+  --vp-custom-block-tip-text: var(--vp-c-brand-1);
+  --vp-custom-block-tip-bg: tranparent;
+  --vp-custom-block-tip-code-bg: var(--vp-c-default-soft);
+
+  --vp-custom-block-warning-border: var(--vp-c-warning-1);
+  --vp-custom-block-warning-text: var(--vp-c-warning-1);
+  --vp-custom-block-warning-bg: #ffffe777;
+  --vp-custom-block-warning-code-bg: var(--vp-c-warning-soft);
+
+  --vp-custom-block-danger-border: var(--vp-c-danger-1);
+  --vp-custom-block-danger-text: var(--vp-c-danger-1);
+  --vp-custom-block-danger-bg: var(--vp-c-danger-soft);
+  --vp-custom-block-danger-code-bg: #eeeef0;
+}
+
+.dark {
+  --vp-custom-block-warning-border: #827717;
+  --vp-custom-block-warning-text: #EAB306;
+  --vp-custom-block-warning-bg: #323238;
+  --vp-custom-block-warning-code-bg: #323238;
+
+  --vp-custom-block-danger-code-bg: #323238;
+}
+/**
  * Component: Button
  * -------------------------------------------------------------------------- */
-
-:root {
-  --vp-button-brand-border: var(--vp-c-brand-light);
-  --vp-button-brand-text: #fff;
-  --vp-button-brand-bg: var(--vp-c-brand);
-  --vp-button-brand-hover-border: var(--vp-c-brand-light);
-  --vp-button-brand-hover-text: var(--vp-c-text-code);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
-  --vp-button-brand-active-border: var(--vp-c-brand-light);
-  --vp-button-brand-active-text: var(--vp-c-text-code);
-  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+.dark {
+  --vp-button-brand-hover-text: #000;
+  --vp-button-brand-text: #000;
 }
- .dark {
-   --vp-button-brand-text: #000;
- }
 
 /**
  * Component: VPSidebarItem
  * -------------------------------------------------------------------------- */
-.VPSidebarItem.level-1 .items, .VPSidebarItem.level-2 .items, .VPSidebarItem.level-3 .items, .VPDocAside .has-outline .content {
+.VPSidebarItem.level-1 .items,
+.VPSidebarItem.level-2 .items,
+.VPSidebarItem.level-3 .items,
+.VPDocAside .has-outline .content {
   position: relative;
   border-left-color: transparent !important;
 

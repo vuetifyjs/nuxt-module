@@ -14,7 +14,7 @@ You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing 
 
 ## Installation
 
-:::warning
+::: warning
 Requires Vite, will not work with Webpack
 :::
 
@@ -32,11 +32,11 @@ Requires Vite, will not work with Webpack
 
 ## Usage
 
-:::info
+::: info
 `vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
 :::
 
-:::warning
+::: warning
 You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
 
 Check out the [Globals](/guide/globals/) entry for more info.
