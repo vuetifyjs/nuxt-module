@@ -20,6 +20,6 @@
     "@vite-pwa/vitepress": "^0.2.1",
     "sitemap": "^7.1.1",
     "unocss": "^0.53.5",
-    "vitepress": "1.0.0-rc.10"
+    "vitepress": "1.0.0-rc.11"
   }
 }

@@ -12,8 +12,6 @@
   --vp-c-warning-soft: #eeeef0;
   --vp-c-danger-1: #b71c1c;
   --vp-c-danger-soft: #ffebee77;
-  /* TODO: remove this once new rc, VP has this but not yet released */
-  --vp-local-search-highlight-text: var(--vp-c-neutral-inverse);
 }
 .dark {
   --vp-c-brand-1: #2196f3;
