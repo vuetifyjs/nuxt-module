@@ -118,6 +118,9 @@ export default defineNuxtConfig({
     head: {
       meta: [
         { charset: 'utf-8' },
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints
+        // <meta http-equiv="Accept-CH" content="Width, Downlink, Sec-CH-UA" />
+        { 'http-equiv': 'Accept-CH', content: 'Width, Downlink, Sec-CH-Prefers-Color-Scheme' },
       ],
     },
   },
