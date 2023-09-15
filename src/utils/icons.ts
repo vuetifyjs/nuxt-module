@@ -11,6 +11,7 @@ export interface ResolvedIcons {
   cdn: [key: string, cdn: string][]
   local: string[]
   aliases: string[]
+  aliasesImportPresent: boolean
   imports: string[]
   svg: {
     mdi?: boolean
@@ -43,6 +44,7 @@ const disabledResolvedIcons: ResolvedIcons = Object.freeze({
   unocssIconPrefix: 'i-',
   imports: [],
   aliases: [],
+  aliasesImportPresent: false,
   sets: [],
   cdn: [],
   local: [],
@@ -77,6 +79,7 @@ export function prepareIcons(
     defaultSet,
     sets: [],
     aliases: [],
+    aliasesImportPresent: false,
     imports: [],
     cdn: [],
     local: [],
@@ -96,6 +99,7 @@ export function prepareIcons(
       if (name === 'unocss-mdi')
         return
 
+      resolvedIcons.aliasesImportPresent ||= (name === defaultSet)
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`)
       resolvedIcons.sets.push(name)
       if (isPackageExists(iconsPackageNames[name].name))
@@ -140,6 +144,7 @@ export function prepareIcons(
     }
 
     if (faSvgExists) {
+      resolvedIcons.aliasesImportPresent ||= defaultSet === 'fa-svg'
       resolvedIcons.imports.push(`import {${defaultSet === 'fa-svg' ? 'aliases,' : ''}fa} from \'vuetify/iconsets/fa-svg\'`)
       resolvedIcons.imports.push('import { library } from \'@fortawesome/fontawesome-svg-core\'')
       resolvedIcons.imports.push('import { FontAwesomeIcon } from \'@fortawesome/vue-fontawesome\'')
@@ -163,6 +168,7 @@ export function prepareIcons(
     const mdiSvgExists = isPackageExists('@mdi/js')
     if (mdiSvgExists) {
       resolvedIcons.svg.mdi = true
+      resolvedIcons.aliasesImportPresent ||= defaultSet === 'mdi-svg'
       resolvedIcons.imports.push(`import {${defaultSet === 'mdi-svg' ? 'aliases,' : ''}mdi} from \'vuetify/iconsets/mdi-svg\'`)
       if (mdiSvg && mdiSvg.aliases) {
         resolvedIcons.imports.push(`import {${Object.values(mdiSvg.aliases).join(',')}} from \'@mdi/js\'`)

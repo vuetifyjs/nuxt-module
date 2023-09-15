@@ -1,6 +1,7 @@
 import { createWriteStream } from 'node:fs'
 import { resolve } from 'node:path'
 import { writeFile } from 'node:fs/promises'
+import process from 'node:process'
 import type { SiteConfig, TransformContext } from 'vitepress/dist/node'
 import { isCI } from 'std-env'
 import { SitemapStream } from 'sitemap'
