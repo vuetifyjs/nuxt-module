@@ -1,4 +1,5 @@
 import { utimes } from 'node:fs/promises'
+import process from 'node:process'
 import type { Plugin, ViteDevServer } from 'vite'
 import { cacheDir, normalizePath, resolveVuetifyBase, writeStyles } from '@vuetify/loader-shared'
 import { isAbsolute, join, relative as relativePath } from 'pathe'

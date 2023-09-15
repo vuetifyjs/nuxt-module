@@ -1,5 +1,6 @@
 import { existsSync, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import process from 'node:process'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
 import { createConfigLoader as createLoader } from 'unconfig'
 import type { Resolver } from '@nuxt/kit'

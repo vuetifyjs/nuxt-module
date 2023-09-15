@@ -82,13 +82,18 @@ ${unocss}
     }
 
     let aliases = 'aliases,'
-    const alias = ctx.icons.aliases
-    if (alias.length) {
-      aliases = `aliases: {
+    if (!ctx.icons.aliasesImportPresent || (ctx.vuetifyOptions.icons && ctx.vuetifyOptions.icons.defaultSet === 'custom')) {
+      aliases = ''
+    }
+    else {
+      const alias = ctx.icons.aliases
+      if (alias.length) {
+        aliases = `aliases: {
       ...aliases,
       ${alias.join(',\n')}
     },
 `
+      }
     }
 
     let unocss = ''
