@@ -84,7 +84,6 @@ export interface IconsOptions {
     mdi?: JSSVGIconSet
     fa?: FontAwesomeSvgIconSet
   }
-  aliases?: Record<string, string>
 }
 
 export type ComponentName = keyof typeof import('vuetify/components')
