@@ -85,16 +85,9 @@ Check [SSR Http Client Hints](#ssr-http-client-hints) for more details.
 ## SSR Http Client Hints
 
 You can enable SSR Http Client Hints using the module `ssrClientHints` option:
-Certainly, I can format the provided information into a table without changing any word:
-
-| Property               | Header                                      | Default Value |
-|------------------------|---------------------------------------------|---------------|
-| `viewportSize`         | `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers | `false`       |
-| `prefersColorScheme`   | `Sec-CH-Prefers-Color-Scheme` header        | `false`       |
-| `prefersReducedMotion` | `Sec-CH-Prefers-Reduced-Motion` header      | `false`       |
-
-
-I've formatted the information into a table as requested. If you need any further assistance or have more questions, feel free to ask.
+- `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers? Defaults to `false`.
+- `prefersColorScheme`: `Sec-CH-Prefers-Color-Scheme` header? Defaults to `false`.
+- `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header Defaults to `false`.
 
 The module will only configure Vuetify `ssr` entry when `ssrClientHints.viewportSize` is enabled.
 
