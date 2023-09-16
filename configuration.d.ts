@@ -22,3 +22,14 @@ declare module 'virtual:vuetify-icons-configuration' {
   export const isDev: boolean
   export function iconsConfiguration(): IconOptions
 }
+
+declare module 'virtual:vuetify-ssr-client-hints-configuration' {
+  export interface ClientHints {
+    viewportSize: boolean
+    prefersColorScheme: boolean
+    prefersReducedMotion: boolean
+    clientWidth?: number
+    clientHeight?: number
+  }
+  export function clientHintsConfiguration(): ClientHints
+}

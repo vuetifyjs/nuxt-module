@@ -1,4 +1,5 @@
 import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
+import type { UnwrapNestedRefs } from 'vue'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -207,6 +208,38 @@ export interface MOptions {
    * @default false
    */
   includeTransformAssetsUrls?: boolean
+  /**
+   * Vuetify SSR client hints.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints
+   */
+  ssrClientHints?: {
+    /**
+     * Enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers?
+     *
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height
+     *
+     * @default false
+     */
+    viewportSize?: boolean
+    /**
+     * Enable `Sec-CH-Prefers-Color-Scheme` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme
+     *
+     * @default false
+     */
+    prefersColorScheme?: boolean
+    /**
+     * Enable `Sec-CH-Prefers-Reduced-Motion` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion
+     *
+     * @default false
+     */
+    prefersReducedMotion?: boolean
+  }
 }
 
 export interface ModuleOptions {
@@ -230,6 +263,16 @@ export interface ExternalVuetifyOptions extends VOptions {
   config?: boolean
 }
 
+/**
+ * Request headers received from the client in SSR.
+ */
+export interface SSRClientHints {
+  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
+  prefersReducedMotion?: 'no-preference' | 'reduce'
+  viewportHeight?: number
+  viewPortWidth?: number
+}
+
 declare module '@nuxt/schema' {
   interface NuxtConfig {
     vuetify?: ModuleOptions
@@ -243,6 +286,10 @@ declare module '#app' {
   // TODO: fix this issue upstream in nuxt/module-builder
   interface NuxtApp {
     $vuetify: ReturnType<typeof import('vuetify')['createVuetify']>
+    /**
+     * Request headers received from the client in SSR.
+     */
+    $ssrClientHints: UnwrapNestedRefs<SSRClientHints>
   }
   interface RuntimeNuxtHooks {
     'vuetify:configuration': (options: {
@@ -252,6 +299,10 @@ declare module '#app' {
     'vuetify:before-create': (options: {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
+    }) => Promise<void> | void
+    'vuetify:ssr-client-hints': (options: {
+      vuetifyOptions: VuetifyOptions
+      ssrClientHints: SSRClientHints
     }) => Promise<void> | void
   }
 }

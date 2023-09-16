@@ -30,6 +30,9 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       includeTransformAssetsUrls: true,
+      ssrClientHints: {
+        viewportSize: true,
+      },
       // styles: { configFile: '/settings.scss' },
     },
   },

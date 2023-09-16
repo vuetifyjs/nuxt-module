@@ -19,6 +19,9 @@ if (process.client) {
   console.log(useNuxtApp().$vuetify.icons)
 }
 
+const ssrClientHints = useNuxtApp().$ssrClientHints
+const { width, height, md } = useDisplay()
+
 // const rtl = ref(isRtl.value)
 
 watch(isRtl, (x) => {
@@ -36,6 +39,13 @@ watch(current, () => {
 <template>
   <div>
     <v-img src="~/assets/logo.svg" width="48" height="48" />
+    <div>
+      <h2>SSR Client Hints Headers:</h2>
+      <pre>{{ ssrClientHints }}</pre>
+      <h2>useDisplay</h2>
+      <div>Resize the screen and refresh the page</div>
+      <pre>{{ width }} x {{ height }} (md {{ md }}?)</pre>
+    </div>
     <div>Vuetify useLocale(): {{ current }}</div>
     <div>$i18n current: {{ $i18n.locale }}</div>
     <div>$vuetify.locale.current: {{ $vuetify.locale.current }}</div>
