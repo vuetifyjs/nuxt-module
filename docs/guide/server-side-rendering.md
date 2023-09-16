@@ -97,7 +97,7 @@ Before calling your `vuetify:ssr-client-hints` hook, the module will configure `
 Since the headers sent by the user agent may not be accurate, from time to time your application will receive some hydration mismatch errors.
 
 :::warning
-If you resize the window while app is loading in SSR then you might get hydration error in devtool console.
+If you resize the window while app is loading in SSR then you might get hydration error in console.
 :::
 
 ```ts
