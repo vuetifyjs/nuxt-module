@@ -232,6 +232,31 @@ export interface MOptions {
      */
     prefersColorScheme?: boolean
     /**
+     * The options for `prefersColorScheme`, `prefersColorScheme` must be enabled.
+     *
+     * If you want the module to handle the color scheme for you, you should configure this option, otherwise you'll need to add your custom implementation.
+     */
+    prefersColorSchemeOptions?: {
+      /**
+       * The name for the cookie.
+       *
+       * @default 'color-scheme'
+       */
+      cookieName?: string
+      /**
+       * The name for the dark theme.
+       *
+       * @default 'dark'
+       */
+      darkThemeName?: string
+      /**
+       * The name for the light theme.
+       *
+       * @default 'light'
+       */
+      lightThemeName?: string
+    }
+    /**
      * Enable `Sec-CH-Prefers-Reduced-Motion` header?
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion
@@ -271,6 +296,10 @@ export interface SSRClientHints {
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
   viewPortWidth?: number
+  /**
+   * The theme name from the cookie.
+   */
+  colorSchemeFromCookie?: string
 }
 
 declare module '@nuxt/schema' {

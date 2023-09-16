@@ -21,6 +21,7 @@ export function vuetifySSRClientHintsPlugin(ctx: VuetifyNuxtContext) {
           prefersReducedMotion: ctx.ssrClientHints.prefersReducedMotion,
           clientWidth: ctx.vuetifyOptions.ssr?.clientWidth,
           clientHeight: ctx.vuetifyOptions.ssr?.clientHeight,
+          prefersColorSchemeOptions: ctx.ssrClientHints.prefersColorSchemeOptions,
         }
 
         return `export function clientHintsConfiguration() { return JSON.parse('${JSON.stringify(data)}') }`

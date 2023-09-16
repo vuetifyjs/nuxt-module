@@ -21,6 +21,11 @@ if (process.client) {
 
 const ssrClientHints = useNuxtApp().$ssrClientHints
 const { width, height, md } = useDisplay()
+const theme = useTheme()
+
+function toogleTheme() {
+  theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
+}
 
 // const rtl = ref(isRtl.value)
 
@@ -45,6 +50,12 @@ watch(current, () => {
       <h2>useDisplay</h2>
       <div>Resize the screen and refresh the page</div>
       <pre>{{ width }} x {{ height }} (md {{ md }}?)</pre>
+      <div>
+        <h2>useTheme: {{ theme.global.name }}</h2>
+        <v-btn @click="toogleTheme">
+          toogle theme
+        </v-btn>
+      </div>
     </div>
     <div>Vuetify useLocale(): {{ current }}</div>
     <div>$i18n current: {{ $i18n.locale }}</div>

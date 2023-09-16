@@ -30,6 +30,14 @@ declare module 'virtual:vuetify-ssr-client-hints-configuration' {
     prefersReducedMotion: boolean
     clientWidth?: number
     clientHeight?: number
+    prefersColorSchemeOptions?: {
+      baseUrl: string
+      defaultTheme: string
+      themeNames: string[]
+      cookieName: string
+      darkThemeName: string
+      lightThemeName: string
+    }
   }
   export function clientHintsConfiguration(): ClientHints
 }

@@ -38,7 +38,11 @@ export default defineNuxtConfig({
 
 ## Vuetify Themes
 
-If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work since there is no way to know which theme to use in the server (the server will use the default theme). You will need to add some logic in the client to restore the theme after hydration.
+If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work since there is no way to know which theme to use in the server (the server will use the default theme).
+
+This module provides support to restore the theme using `prefers-color-scheme` for simple use cases where you have only two themes, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
+
+Alternatively, you will need to add some logic in the client to restore the theme after hydration.
 
 For example, if you want to use `dark` and `light` Vuetify Themes restoring the initial value using `prefers-color-scheme` and `localStorage`, you can use [useDark](https://vueuse.org/core/useDark/) and [useToogle](https://vueuse.org/shared/useToggle/) composables from VueUse in the following way:
 ```ts
@@ -86,19 +90,12 @@ Check [SSR Http Client Hints](#ssr-http-client-hints) for more details.
 
 You can enable SSR Http Client Hints using the module `ssrClientHints` option:
 - `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers? Defaults to `false`.
-- `prefersColorScheme`: `Sec-CH-Prefers-Color-Scheme` header? Defaults to `false`.
+- `prefersColorScheme`: `Sec-CH-Prefers-Color-Scheme` header? Defaults to `false`, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
 - `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header Defaults to `false`.
 
-The module will only configure Vuetify `ssr` entry when `ssrClientHints.viewportSize` is enabled.
-
-If you enable `prefersColorScheme` and `prefersReducedMotion` you should handle them with a Nuxt plugin registering the `vuetify:ssr-client-hints` hook.
-**Your plugin hook will be only called on SSR** with the Vuetify options and the `ssrClientHints` objects as parameters.
-Before calling your `vuetify:ssr-client-hints` hook, the module will configure `vuetifyOptions.ssr` properly when `ssrClientHints.viewportSize` is enabled.
-Since the headers sent by the user agent may not be accurate, from time to time your application will receive some hydration mismatch errors.
-
-:::warning
-If you resize the window while app is loading in SSR then you might get hydration error in console.
-:::
+If you enable `prefersReducedMotion`, you should handle them with a Nuxt plugin registering the `vuetify:ssr-client-hints` hook.
+**Your Nuxt plugin hook will be only called on the server** with the Vuetify options and the `ssrClientHints` as parameter.
+Before calling your `vuetify:ssr-client-hints` hook, this module will configure `vuetifyOptions.ssr` and the `global Vuetify theme` properly when `ssrClientHints.viewportSize` and `ssrClientHints.prefersColorScheme` are enabled.
 
 ```ts
 export default defineNuxtPlugin((nuxtApp) => {
@@ -109,7 +106,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 ```
 
-The module will expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that not enabled in the module option will be undefined), here the definition:
+The module will expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that not enabled in the module option will be `undefined`), here the definition:
 ```ts
 /**
  * Request headers received from the client in SSR.
@@ -119,6 +116,10 @@ export interface SSRClientHints {
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
   viewPortWidth?: number
+  /**
+   * The theme name from the cookie.
+   */
+  colorSchemeFromCookie?: string
 }
 declare module '#app' {
   interface NuxtApp {
@@ -126,3 +127,31 @@ declare module '#app' {
   }
 }
 ```
+
+### Sec-CH-Prefers-Color-Scheme
+
+This module provides support to access to the `prefers-color-scheme` user's preference in the server side, it will not work on first request.
+
+To enable it, you must configure `ssrClientHints.prefersColorScheme` to `true` in the module options. To access the value in the server, you can use the `vuetify:ssr-client-hints` hook in your custom Nuxt plugin or using the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`).
+
+If you want to support two themes (dark and light themes, for example), this module provides support using a cookie. 
+To enable it, you must configure:
+- `ssrClientHints.prefersColorScheme` to `true` 
+- `ssrClientHints.prefersColorSchemeOptions`
+
+If `ssrClientHints.prefersColorSchemeOptions` option is empty, the module will use:
+- `dark` for `darkThemeName`
+- `light` for `lightThemeName`
+- `color-scheme` for `cookieName`
+
+The module will add the cookie with the following properties:
+- `Path` to `nuxt.options.app.baseURL` (defaults to `/`)
+- `Expires` to 365 days (will be updated on every page refresh)
+- `SameSite` to `Lax`
+- `Secure` when the request is `https`
+
+:::warning
+Since the headers sent by the user agent may not be accurate, from time to time your application will get some hydration mismatch warnings in the console.
+
+If you resize the window while your application is loading then you may get a mismatch hydration warning in the console.
+:::

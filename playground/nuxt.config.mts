@@ -1,5 +1,6 @@
 import { availableLocales, langDir } from './config/i18n'
 import LayerModule from './layer-module'
+
 // import { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
@@ -31,6 +32,8 @@ export default defineNuxtConfig({
     moduleOptions: {
       includeTransformAssetsUrls: true,
       ssrClientHints: {
+        prefersColorScheme: true,
+        prefersColorSchemeOptions: {},
         viewportSize: true,
       },
       // styles: { configFile: '/settings.scss' },
@@ -135,5 +138,5 @@ export default defineNuxtConfig({
   },
   devtools: {
     enabled: true,
-  }
+  },
 })

@@ -83,7 +83,7 @@ export async function load(
   ctx.vuetifyOptions = configuration.vuetifyOptions!
   ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions)
-  ctx.ssrClientHints = prepareSSRClientHints(ctx)
+  ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
 
   if (ctx.icons.enabled) {
     ctx.icons.local?.forEach(css => nuxt.options.css.push(css))

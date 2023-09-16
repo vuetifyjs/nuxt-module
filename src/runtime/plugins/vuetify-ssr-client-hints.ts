@@ -1,4 +1,5 @@
-import type { IncomingHttpHeaders } from 'node:http'
+import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
+
 import { type ClientHints, clientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import { defineNuxtPlugin } from '#imports'
 import { useNuxtApp } from '#app'
@@ -9,11 +10,35 @@ export default defineNuxtPlugin((nuxtApp) => {
   const event = useRequestEvent(nuxtApp)
 
   if (!event) {
-    if (clientHints.viewportSize) {
-      // on client, we update the display to avoid hydration mismatch on page refresh
-      // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
+    const { viewportSize, prefersColorScheme, prefersColorSchemeOptions } = clientHints
+    if (viewportSize || (prefersColorScheme && prefersColorSchemeOptions)) {
       nuxtApp.hook('app:beforeMount', () => {
-        useNuxtApp().$vuetify.display.update()
+        const vuetify = useNuxtApp().$vuetify
+        // on client, we update the display to avoid hydration mismatch on page refresh
+        // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
+        if (viewportSize)
+          vuetify.display.update()
+
+        // update the theme
+        if (prefersColorScheme && prefersColorSchemeOptions) {
+          const cookieName = prefersColorSchemeOptions.cookieName
+          const parseCookieName = `${cookieName}=`
+          const theme = state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
+
+          if (theme)
+            vuetify.theme.global.name.value = theme
+
+          watch(() => vuetify.theme.global.name.value, (newThemeName) => {
+            const newCookies: string[] = []
+            document.cookie.split(';').map(c => c.trim()).forEach((c) => {
+              if (c.startsWith(parseCookieName))
+                newCookies.push(`${cookieName}=${newThemeName}`)
+              else
+                newCookies.push(c)
+            })
+            document.cookie = newCookies.join('; ')
+          })
+        }
       })
     }
     return {
@@ -28,8 +53,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const requestHeaders = request.headers ?? {}
 
-  // TODO: detect user agent
   // 1. check if we should send client hints
+  // TODO: detect user agent
   // 2. prepare client hints request
   const clientHintsRequest = collectClientHints(clientHints, requestHeaders)
   // 3. send client hints request
@@ -37,6 +62,15 @@ export default defineNuxtPlugin((nuxtApp) => {
   Object.entries(responseHeader).forEach(([key, value]) => {
     response.setHeader(key, value)
   })
+  // 4. send the theme cookie to the client
+  if (clientHints.prefersColorScheme && clientHints.prefersColorSchemeOptions) {
+    sendThemeCookie(
+      clientHints.prefersColorSchemeOptions!.cookieName,
+      clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions.defaultTheme,
+      clientHints.prefersColorSchemeOptions!.baseUrl,
+      response,
+    )
+  }
 
   state.value = {
     ssrClientHints: clientHintsRequest,
@@ -51,6 +85,10 @@ export default defineNuxtPlugin((nuxtApp) => {
           clientHeight,
         }
       : true
+
+    // update theme from cookie
+    if (clientHintsRequest.colorSchemeFromCookie)
+      vuetifyOptions.theme.defaultTheme = clientHintsRequest.colorSchemeFromCookie
 
     await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
       vuetifyOptions,
@@ -86,6 +124,7 @@ interface ClientHintsRequest {
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
   viewPortWidth?: number
+  colorSchemeFromCookie?: string
 }
 
 interface SSRClientHints {
@@ -104,9 +143,32 @@ function collectClientHints(clientHints: ClientHints, headers: IncomingHttpHeade
   const hints: ClientHintsRequest = {}
 
   if (clientHints.prefersColorScheme) {
-    const value = readClientHeader(AcceptClientHintsRequestHeaders.prefersColorScheme, headers)?.toLowerCase()
-    if (value === 'dark' || value === 'light' || value === 'no-preference')
-      hints.prefersColorScheme = value
+    if (clientHints.prefersColorSchemeOptions) {
+      const cookieName = clientHints.prefersColorSchemeOptions.cookieName
+      const cookieValue = readClientHeader('cookie', headers)?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))
+      if (cookieValue) {
+        const value = cookieValue.split('=')?.[1].trim()
+        if (clientHints.prefersColorSchemeOptions.themeNames.includes(value))
+          hints.colorSchemeFromCookie = value
+      }
+    }
+    if (!hints.colorSchemeFromCookie) {
+      const value = readClientHeader(AcceptClientHintsRequestHeaders.prefersColorScheme, headers)?.toLowerCase()
+      if (value === 'dark' || value === 'light' || value === 'no-preference')
+        hints.prefersColorScheme = value
+
+      // update the color scheme cookie
+      if (clientHints.prefersColorSchemeOptions) {
+        if (!value || value === 'no-preference') {
+          hints.colorSchemeFromCookie = clientHints.prefersColorSchemeOptions.defaultTheme
+        }
+        else {
+          hints.colorSchemeFromCookie = value === 'dark'
+            ? clientHints.prefersColorSchemeOptions.darkThemeName
+            : clientHints.prefersColorSchemeOptions.lightThemeName
+        }
+      }
+    }
   }
 
   if (clientHints.prefersReducedMotion) {
@@ -168,4 +230,25 @@ function createClientHintsResponseHeaders(clientHints: ClientHints) {
   }
 
   return headers
+}
+
+function sendThemeCookie(
+  cookieName: string,
+  themeName: string,
+  path: string,
+  response: ServerResponse,
+) {
+  const setCookie = response.getHeaders()['Set-Cookie']
+  const setCookieHeader: string[] = []
+  if (typeof setCookie === 'string')
+    setCookieHeader.push(setCookie)
+  else if (typeof setCookie === 'number')
+    setCookieHeader.push(`${setCookie}`)
+  else if (Array.isArray(setCookie))
+    setCookieHeader.push(...setCookie)
+
+  const date = new Date()
+  const secure = response.req.url?.startsWith('https:') ? 'Secure; ' : ''
+  setCookieHeader.push(`${cookieName}=${themeName}; ${secure}SameSite=Lax; Expires=${new Date(date.setDate(date.getDate() + 365))}; Path=${path}`)
+  response.setHeader('Set-Cookie', setCookieHeader)
 }
