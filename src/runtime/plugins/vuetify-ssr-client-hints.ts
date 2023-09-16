@@ -10,15 +10,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   if (!event) {
     if (clientHints.viewportSize) {
-      // on client, we update the display and watch for changes to avoid hydration mismatch on page refresh
+      // on client, we update the display to avoid hydration mismatch on page refresh
       // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
       nuxtApp.hook('app:beforeMount', () => {
-        const { width, height, update } = useNuxtApp().$vuetify.display
-        update()
-        watch(() => [width.value, height.value], ([width, height]) => {
-          state.value.ssrClientHints.viewportHeight = height
-          state.value.ssrClientHints.viewPortWidth = width
-        })
+        useNuxtApp().$vuetify.display.update()
       })
     }
     return {
