@@ -12,6 +12,9 @@ The module includes support for the following [Http Client Hints](https://develo
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
 
+> **Warning**
+> If you resize the window while app is loading in SSR then you might get hydration error in devtool console.
+
 
 ## Vuetify SASS Variables
 
