@@ -21,22 +21,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 
         // update the theme
         if (prefersColorScheme && prefersColorSchemeOptions) {
+          vuetify.theme.global.name.value = state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
+
           const cookieName = prefersColorSchemeOptions.cookieName
           const parseCookieName = `${cookieName}=`
-          const theme = state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
-
-          if (theme)
-            vuetify.theme.global.name.value = theme
-
-          watch(() => vuetify.theme.global.name.value, (newThemeName) => {
-            const newCookies: string[] = []
-            document.cookie.split(';').map(c => c.trim()).forEach((c) => {
-              if (c.startsWith(parseCookieName))
-                newCookies.push(`${cookieName}=${newThemeName}`)
-              else
-                newCookies.push(c)
-            })
-            document.cookie = newCookies.join('; ')
+          watch(vuetify.theme.global.name, (newThemeName) => {
+            const oldCookies = document.cookie
+            document.cookie = oldCookies.split(';').map(c => c.trim()).map((c) => {
+              return c.startsWith(parseCookieName) ? `${cookieName}=${newThemeName}` : c
+            }).join('; ')
+            if (document.cookie === oldCookies)
+              console.warn(`Cannot rewrite document.cookie to store ${cookieName}, review the cookies in your application, try cleaning all browser cookies for the site!`)
           })
         }
       })

@@ -37,7 +37,7 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
 
   clientHints.enabled = clientHints.viewportSize || clientHints.prefersColorScheme || clientHints.prefersReducedMotion
 
-  if (clientHints.enabled && ssrClientHints?.prefersColorSchemeOptions) {
+  if (clientHints.enabled && clientHints.prefersColorScheme && ssrClientHints?.prefersColorSchemeOptions) {
     const theme = ctx.vuetifyOptions.theme
     if (!theme)
       throw new Error('Vuetify theme is disabled')
