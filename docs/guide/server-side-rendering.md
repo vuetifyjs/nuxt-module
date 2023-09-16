@@ -95,6 +95,11 @@ If you enable `prefersColorScheme` and `prefersReducedMotion` you should handle 
 **Your plugin hook will be only called on SSR** with the Vuetify options and the `ssrClientHints` objects as parameters.
 Before calling your `vuetify:ssr-client-hints` hook, the module will configure `vuetifyOptions.ssr` properly when `ssrClientHints.viewportSize` is enabled.
 Since the headers sent by the user agent may not be accurate, from time to time your application will receive some hydration mismatch errors.
+
+:::warning
+If you resize the window while app is loading in SSR then you might get hydration error in console.
+:::
+
 ```ts
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:ssr-client-hints', ({ vuetifyOptions, ssrClientHints }) => {
