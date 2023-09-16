@@ -96,10 +96,10 @@ export function prepareIcons(
     }
 
     sets.filter(s => cssFonts.includes(s.name)).forEach(({ name, cdn }) => {
+      resolvedIcons.aliasesImportPresent ||= (name === defaultSet)
       if (name === 'unocss-mdi')
         return
 
-      resolvedIcons.aliasesImportPresent ||= (name === defaultSet)
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from \'vuetify/iconsets/${name}\'`)
       resolvedIcons.sets.push(name)
       if (isPackageExists(iconsPackageNames[name].name))
