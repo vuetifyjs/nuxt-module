@@ -1,8 +1,9 @@
 import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
-
 import { type ClientHints, clientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import type { ClientHintsRequest, SSRClientHints } from './client-hints'
+import type { Browser } from './detect-browser'
+import { parseUserAgent } from './detect-browser'
 import { defineNuxtPlugin } from '#imports'
-import { useNuxtApp } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const clientHints = clientHintsConfiguration()
@@ -10,37 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const event = useRequestEvent(nuxtApp)
 
   if (!event) {
-    const { viewportSize, prefersColorScheme, prefersColorSchemeOptions } = clientHints
-    if (viewportSize || (prefersColorScheme && prefersColorSchemeOptions)) {
-      nuxtApp.hook('app:beforeMount', () => {
-        const vuetify = useNuxtApp().$vuetify
-        // on client, we update the display to avoid hydration mismatch on page refresh
-        // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
-        if (viewportSize)
-          vuetify.display.update()
-
-        // update the theme
-        if (prefersColorScheme && prefersColorSchemeOptions) {
-          vuetify.theme.global.name.value = state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
-
-          const cookieName = prefersColorSchemeOptions.cookieName
-          const parseCookieName = `${cookieName}=`
-          watch(vuetify.theme.global.name, (newThemeName) => {
-            const oldCookies = document.cookie
-            document.cookie = oldCookies.split(';').map(c => c.trim()).map((c) => {
-              return c.startsWith(parseCookieName) ? `${cookieName}=${newThemeName}` : c
-            }).join('; ')
-            if (document.cookie === oldCookies)
-              console.warn(`Cannot rewrite document.cookie to store ${cookieName}, review the cookies in your application, try cleaning all browser cookies for the site!`)
-          })
-        }
-      })
-    }
-    return {
-      provide: reactive({
-        ssrClientHints: state,
-      }),
-    }
+    // todo: should be an error?
   }
 
   const request = event.node.req
@@ -48,12 +19,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const requestHeaders = request.headers ?? {}
 
+  const userAgentHeader = readClientHeader('user-agent', requestHeaders)
+
   // 1. check if we should send client hints
-  // TODO: detect user agent
+  const userAgent = userAgentHeader
+    ? parseUserAgent(userAgentHeader)
+    : null
   // 2. prepare client hints request
-  const clientHintsRequest = collectClientHints(clientHints, requestHeaders)
+  const clientHintsRequest = collectClientHints(userAgent, clientHints, requestHeaders)
   // 3. send client hints request
-  const responseHeader = createClientHintsResponseHeaders(clientHints)
+  const responseHeader = createClientHintsResponseHeaders(clientHintsRequest, clientHints)
   Object.entries(responseHeader).forEach(([key, value]) => {
     response.setHeader(key, value)
   })
@@ -98,6 +73,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 })
 
+const allowedBrowsers: Browser[] = ['chrome', 'edge', 'opera', 'chromium-webview', 'edge-ios']
+
 const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
   prefersReducedMotion: 'Sec-CH-Prefers-Reduced-Motion',
@@ -114,18 +91,6 @@ const AcceptClientHintsRequestHeaders = Object.entries(AcceptClientHintsHeaders)
 
 const ClientHeaders = ['Accept-CH', 'Vary', 'Critical-CH']
 
-interface ClientHintsRequest {
-  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
-  prefersReducedMotion?: 'no-preference' | 'reduce'
-  viewportHeight?: number
-  viewPortWidth?: number
-  colorSchemeFromCookie?: string
-}
-
-interface SSRClientHints {
-  ssrClientHints: ClientHintsRequest
-}
-
 function readClientHeader(name: string, headers: IncomingHttpHeaders) {
   const value = headers[name]
   if (Array.isArray(value))
@@ -134,8 +99,14 @@ function readClientHeader(name: string, headers: IncomingHttpHeaders) {
   return value
 }
 
-function collectClientHints(clientHints: ClientHints, headers: IncomingHttpHeaders) {
-  const hints: ClientHintsRequest = {}
+function collectClientHints(
+  userAgent: ReturnType<typeof parseUserAgent>,
+  clientHints: ClientHints,
+  headers: IncomingHttpHeaders,
+) {
+  const hints: ClientHintsRequest = {
+    available: userAgent && userAgent.type === 'browser' && allowedBrowsers.includes(userAgent.name),
+  }
 
   if (clientHints.prefersColorScheme) {
     if (clientHints.prefersColorSchemeOptions) {
@@ -207,11 +178,17 @@ function writeClientHintHeaders(key: string, headers: Record<string, string[]>) 
   })
 }
 
-function createClientHintsResponseHeaders(clientHints: ClientHints) {
+function createClientHintsResponseHeaders(
+  clientHintsRequest: ClientHintsRequest,
+  clientHints: ClientHints,
+) {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Critical-CH
   // Each header listed in the Critical-CH header should also be present in the Accept-CH and Vary headers.
 
   const headers: Record<string, string[]> = {}
+
+  if (!clientHintsRequest.available)
+    return headers
 
   if (clientHints.prefersColorScheme)
     writeClientHintHeaders(AcceptClientHintsHeaders.prefersColorScheme, headers)

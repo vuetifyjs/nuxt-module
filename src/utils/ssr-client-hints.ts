@@ -23,7 +23,7 @@ const disabledClientHints: ResolvedClientHints = Object.freeze({
 })
 
 export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) {
-  if (!ctx.isSSR || ctx.isNuxtPrepare || ctx.isNuxtGenerate)
+  if (!ctx.isSSR || ctx.isNuxtGenerate)
     return disabledClientHints
 
   const { ssrClientHints } = ctx.moduleOptions

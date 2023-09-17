@@ -292,6 +292,10 @@ export interface ExternalVuetifyOptions extends VOptions {
  * Request headers received from the client in SSR.
  */
 export interface SSRClientHints {
+  /**
+   * The browser supports http client hints?
+   */
+  available: boolean
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number

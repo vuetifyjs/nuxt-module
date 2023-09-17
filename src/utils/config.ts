@@ -19,7 +19,6 @@ export interface VuetifyNuxtContext {
   i18n: boolean
   isSSR: boolean
   isNuxtGenerate: boolean
-  isNuxtPrepare: boolean
   unocss: boolean
   dateAdapter?: DateAdapter
   icons: ResolvedIcons

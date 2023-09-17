@@ -40,7 +40,7 @@ export default defineNuxtConfig({
 
 If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work since there is no way to know which theme to use in the server (the server will use the default theme).
 
-This module provides support to restore the theme using `prefers-color-scheme` for simple use cases where you have only two themes, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
+This module provides support to restore the theme using `prefers-color-scheme`, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
 
 Alternatively, you will need to add some logic in the client to restore the theme after hydration.
 
@@ -112,6 +112,10 @@ The module will expose the `$ssrClientHints` property in the Nuxt App instance (
  * Request headers received from the client in SSR.
  */
 export interface SSRClientHints {
+  /**
+   * The browser supports http client hints?
+   */
+  available: boolean
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
@@ -134,14 +138,21 @@ This module provides support to access to the `prefers-color-scheme` user's pref
 
 To enable it, you must configure `ssrClientHints.prefersColorScheme` to `true` in the module options. To access the value in the server, you can use the `vuetify:ssr-client-hints` hook in your custom Nuxt plugin or using the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`).
 
-If you want to support two themes (dark and light themes, for example), this module provides support using a cookie. 
+If you want to support multiple themes, this module provides support using a cookie. 
 To enable it, you must configure:
 - `ssrClientHints.prefersColorScheme` to `true` 
-- `ssrClientHints.prefersColorSchemeOptions`
+- `ssrClientHints.prefersColorSchemeOptions`: can be an empty object
+
+where `ssrClientHints.prefersColorSchemeOptions` is an object with the following properties:
+- `darkThemeName`: the theme name to be used when the user's preference is `dark`
+- `lightThemeName`: the theme name to be used when the user's preference is `light`
+- `defaultTheme`: the theme name to be used when the user's preference is `no-preference`
+- `cookieName`: the cookie name to store the theme
 
 If `ssrClientHints.prefersColorSchemeOptions` option is empty, the module will use:
 - `dark` for `darkThemeName`
 - `light` for `lightThemeName`
+- `defaultTheme` will be extracted from the Vuetify `vuetifyOptions.theme.defaultTheme` property
 - `color-scheme` for `cookieName`
 
 The module will add the cookie with the following properties:
