@@ -13,9 +13,18 @@ export default defineNuxtPlugin((nuxtApp) => {
     prefersColorSchemeOptions,
   } = clientHints
   if (viewportSize || (prefersColorScheme && prefersColorSchemeOptions)) {
+    // If the browser does not support client hints, we need to update the vuetify configuration
+    // In that case, the state will get the ssr configured in the server and later the viewport size will be updated
     if (!state.value.ssrClientHints.available && viewportSize) {
-      nuxtApp.hook('app:suspense:resolve', () => {
-        useNuxtApp().$vuetify.display.update()
+      nuxtApp.hook('vuetify:before-create', ({ vuetifyOptions }) => {
+        const clientWidth = state.value.ssrClientHints.viewPortWidth
+        const clientHeight = state.value.ssrClientHints.viewportHeight
+        vuetifyOptions.ssr = typeof clientWidth === 'number'
+          ? {
+              clientWidth,
+              clientHeight,
+            }
+          : true
       })
     }
     nuxtApp.hook('app:beforeMount', () => {
