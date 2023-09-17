@@ -89,6 +89,8 @@ implements DetectedInfo<'react-native', 'react-native', null, null> {
 
 export type Browser =
     | 'aol'
+    | 'arc'
+    | 'brave'
     | 'edge'
     | 'edge-ios'
     | 'yandexbrowser'
@@ -156,6 +158,7 @@ const REQUIRED_VERSION_PARTS = 3
 
 const userAgentRules: UserAgentRule[] = [
   ['aol', /AOLShield\/([0-9\._]+)/],
+  ['brave', /Brave\/([0-9\._]+)/],
   ['edge', /Edge\/([0-9\._]+)/],
   ['edge-ios', /EdgiOS\/([0-9\._]+)/],
   ['yandexbrowser', /YaBrowser\/([0-9\._]+)/],

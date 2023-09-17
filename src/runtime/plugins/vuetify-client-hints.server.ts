@@ -73,11 +73,17 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 })
 
-const allowedBrowsers: Browser[] = [
-  'chrome',
-  'edge', 'edge-chromium', 'edge-ios',
-  'chromium-webview',
-  'opera',
+type AvailableBrowser = (android: boolean, versions: number[]) => boolean
+
+// Tests for Browser compatibility
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion#browser_compatibility
+const allowedBrowsers: [browser: Browser, AvailableBrowser][] = [
+  ['chrome', (_, v) => v[0] >= 108],
+  // 'edge',
+  ['edge-chromium', (_, v) => v[0] >= 21],
+  // 'edge-ios',
+  ['chromium-webview', (_, v) => v[0] >= 108],
+  ['opera', (android, v) => v[0] >= (android ? 73 : 95)],
 ]
 
 const AcceptClientHintsHeaders = {
@@ -104,13 +110,38 @@ function readClientHeader(name: string, headers: IncomingHttpHeaders) {
   return value
 }
 
+function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>) {
+  if (userAgent == null || userAgent.type !== 'browser')
+    return false
+
+  try {
+    const browserName = userAgent.name
+    const android = userAgent.os?.toLowerCase().startsWith('android') ?? false
+    const versions = userAgent.version.split('.').map(v => Number.parseInt(v))
+    return allowedBrowsers.some(([name, check]) => {
+      if (browserName !== name)
+        return false
+
+      try {
+        return check(android, versions)
+      }
+      catch {
+        return false
+      }
+    })
+  }
+  catch {
+    return false
+  }
+}
+
 function collectClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
   clientHints: ClientHints,
   headers: IncomingHttpHeaders,
 ) {
   const hints: ClientHintsRequest = {
-    available: userAgent && userAgent.type === 'browser' && allowedBrowsers.includes(userAgent.name),
+    available: browserAvailable(userAgent),
   }
 
   if (clientHints.prefersColorScheme) {
