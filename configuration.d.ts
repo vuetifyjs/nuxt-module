@@ -25,6 +25,7 @@ declare module 'virtual:vuetify-icons-configuration' {
 
 declare module 'virtual:vuetify-ssr-client-hints-configuration' {
   export interface ClientHints {
+    reloadOnFirstRequest: boolean
     viewportSize: boolean
     prefersColorScheme: boolean
     prefersReducedMotion: boolean

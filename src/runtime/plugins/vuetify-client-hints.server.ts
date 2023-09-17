@@ -3,6 +3,7 @@ import { type ClientHints, clientHintsConfiguration } from 'virtual:vuetify-ssr-
 import type { ClientHintsRequest, SSRClientHints } from './client-hints'
 import type { Browser } from './detect-browser'
 import { parseUserAgent } from './detect-browser'
+
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -32,11 +33,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   Object.entries(responseHeader).forEach(([key, value]) => {
     response.setHeader(key, value)
   })
-  // 4. send the theme cookie to the client
-  if (clientHints.prefersColorScheme && clientHints.prefersColorSchemeOptions) {
+  // 4. send the theme cookie to the client:
+  if (shouldWriteCookieOnInitialRequest(clientHintsRequest, clientHints)) {
     sendThemeCookie(
       clientHints.prefersColorSchemeOptions!.cookieName,
-      clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions.defaultTheme,
+      clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions!.defaultTheme,
       clientHints.prefersColorSchemeOptions!.baseUrl,
       response,
     )
@@ -62,6 +63,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
       vuetifyOptions,
+      ssrClientHintsConfiguration: clientHints,
       ssrClientHints: state.value,
     })
   })
@@ -73,19 +75,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 })
 
-type AvailableBrowser = (android: boolean, versions: number[]) => boolean
-
-// Tests for Browser compatibility
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion#browser_compatibility
-const allowedBrowsers: [browser: Browser, AvailableBrowser][] = [
-  ['chrome', (_, v) => v[0] >= 108],
-  // 'edge',
-  ['edge-chromium', (_, v) => v[0] >= 21],
-  // 'edge-ios',
-  ['chromium-webview', (_, v) => v[0] >= 108],
-  ['opera', (android, v) => v[0] >= (android ? 73 : 95)],
-]
-
 const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
   prefersReducedMotion: 'Sec-CH-Prefers-Reduced-Motion',
@@ -94,6 +83,32 @@ const AcceptClientHintsHeaders = {
 }
 
 type AcceptClientHintsHeadersKey = keyof typeof AcceptClientHintsHeaders
+
+type BrowserFeatureAvailable = (android: boolean, versions: number[]) => boolean
+type BrowserFeatures = Record<AcceptClientHintsHeadersKey, BrowserFeatureAvailable>
+
+// Tests for Browser compatibility
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion#browser_compatibility
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme#browser_compatibility
+const chromiumBasedBrowserFeatures: BrowserFeatures = {
+  prefersColorScheme: (_, v) => v[0] >= 93,
+  prefersReducedMotion: (_, v) => v[0] >= 108,
+  viewportHeight: (_, v) => v[0] >= 108,
+  viewPortWidth: (_, v) => v[0] >= 108,
+}
+const allowedBrowsers: [browser: Browser, features: BrowserFeatures][] = [
+  // 'edge',
+  // 'edge-ios',
+  ['chrome', chromiumBasedBrowserFeatures],
+  ['edge-chromium', chromiumBasedBrowserFeatures],
+  ['chromium-webview', chromiumBasedBrowserFeatures],
+  ['opera', {
+    prefersColorScheme: (android, v) => v[0] >= (android ? 66 : 79),
+    prefersReducedMotion: (android, v) => v[0] >= (android ? 73 : 94),
+    viewportHeight: (android, v) => v[0] >= (android ? 73 : 94),
+    viewPortWidth: (android, v) => v[0] >= (android ? 73 : 94),
+  }],
+]
 
 const AcceptClientHintsRequestHeaders = Object.entries(AcceptClientHintsHeaders).reduce((acc, [key, value]) => {
   acc[key as AcceptClientHintsHeadersKey] = value.toLowerCase()
@@ -110,7 +125,7 @@ function readClientHeader(name: string, headers: IncomingHttpHeaders) {
   return value
 }
 
-function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>) {
+function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>, feature: AcceptClientHintsHeadersKey) {
   if (userAgent == null || userAgent.type !== 'browser')
     return false
 
@@ -123,7 +138,7 @@ function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>) {
         return false
 
       try {
-        return check(android, versions)
+        return check[feature](android, versions)
       }
       catch {
         return false
@@ -135,14 +150,42 @@ function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>) {
   }
 }
 
+function findClientHints(
+  userAgent: ReturnType<typeof parseUserAgent>,
+  clientHints: ClientHints,
+) {
+  const features: ClientHintsRequest = {
+    firstRequest: true,
+    prefersColorSchemeAvailable: false,
+    prefersReducedMotionAvailable: false,
+    viewportHeightAvailable: false,
+    viewportWidthAvailable: false,
+  }
+
+  if (userAgent == null || userAgent.type !== 'browser')
+    return features
+
+  if (clientHints.prefersColorScheme)
+    features.prefersColorSchemeAvailable = browserAvailable(userAgent, 'prefersColorScheme')
+
+  if (clientHints.prefersReducedMotion)
+    features.prefersReducedMotionAvailable = browserAvailable(userAgent, 'prefersReducedMotion')
+
+  if (clientHints.viewportSize) {
+    features.viewportHeightAvailable = browserAvailable(userAgent, 'viewportHeight')
+    features.viewportWidthAvailable = browserAvailable(userAgent, 'viewPortWidth')
+  }
+
+  return features
+}
+
 function collectClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
   clientHints: ClientHints,
   headers: IncomingHttpHeaders,
 ) {
-  const hints: ClientHintsRequest = {
-    available: browserAvailable(userAgent),
-  }
+  // collect client hints
+  const hints: ClientHintsRequest = findClientHints(userAgent, clientHints)
 
   if (clientHints.prefersColorScheme) {
     if (clientHints.prefersColorSchemeOptions) {
@@ -150,14 +193,20 @@ function collectClientHints(
       const cookieValue = readClientHeader('cookie', headers)?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))
       if (cookieValue) {
         const value = cookieValue.split('=')?.[1].trim()
-        if (clientHints.prefersColorSchemeOptions.themeNames.includes(value))
+        if (clientHints.prefersColorSchemeOptions.themeNames.includes(value)) {
           hints.colorSchemeFromCookie = value
+          hints.firstRequest = false
+        }
       }
     }
     if (!hints.colorSchemeFromCookie) {
-      const value = readClientHeader(AcceptClientHintsRequestHeaders.prefersColorScheme, headers)?.toLowerCase()
-      if (value === 'dark' || value === 'light' || value === 'no-preference')
+      const value = hints.prefersColorSchemeAvailable
+        ? readClientHeader(AcceptClientHintsRequestHeaders.prefersColorScheme, headers)?.toLowerCase()
+        : undefined
+      if (value === 'dark' || value === 'light' || value === 'no-preference') {
         hints.prefersColorScheme = value
+        hints.firstRequest = false
+      }
 
       // update the color scheme cookie
       if (clientHints.prefersColorSchemeOptions) {
@@ -173,14 +222,16 @@ function collectClientHints(
     }
   }
 
-  if (clientHints.prefersReducedMotion) {
+  if (hints.prefersReducedMotionAvailable && clientHints.prefersReducedMotion) {
     const value = readClientHeader(AcceptClientHintsRequestHeaders.prefersReducedMotion, headers)?.toLowerCase()
-    if (value === 'no-preference' || value === 'reduce')
+    if (value === 'no-preference' || value === 'reduce') {
       hints.prefersReducedMotion = value
+      hints.firstRequest = false
+    }
   }
 
-  if (hints.available && clientHints.viewportSize) {
-    let header = readClientHeader(AcceptClientHintsRequestHeaders.viewportHeight, headers)
+  if (hints.viewportHeightAvailable && clientHints.viewportSize) {
+    const header = readClientHeader(AcceptClientHintsRequestHeaders.viewportHeight, headers)
     if (header) {
       try {
         hints.viewportHeight = Number.parseInt(header)
@@ -188,9 +239,15 @@ function collectClientHints(
       catch {
         hints.viewportHeight = clientHints.clientHeight
       }
+      hints.firstRequest = false
     }
+  }
+  else {
+    hints.viewportHeight = clientHints.clientHeight
+  }
 
-    header = readClientHeader(AcceptClientHintsRequestHeaders.viewPortWidth, headers)
+  if (hints.viewportWidthAvailable && clientHints.viewportSize) {
+    const header = readClientHeader(AcceptClientHintsRequestHeaders.viewPortWidth, headers)
     if (header) {
       try {
         hints.viewPortWidth = Number.parseInt(header)
@@ -198,10 +255,10 @@ function collectClientHints(
       catch {
         hints.viewPortWidth = clientHints.clientWidth
       }
+      hints.firstRequest = false
     }
   }
   else {
-    hints.viewportHeight = clientHints.clientHeight
     hints.viewPortWidth = clientHints.clientWidth
   }
 
@@ -223,21 +280,45 @@ function createClientHintsResponseHeaders(
 
   const headers: Record<string, string[]> = {}
 
-  if (!clientHintsRequest.available)
-    return headers
-
-  if (clientHints.prefersColorScheme)
+  if (clientHints.prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
     writeClientHintHeaders(AcceptClientHintsHeaders.prefersColorScheme, headers)
 
-  if (clientHints.prefersReducedMotion)
+  if (clientHints.prefersReducedMotion && clientHintsRequest.prefersReducedMotionAvailable)
     writeClientHintHeaders(AcceptClientHintsHeaders.prefersReducedMotion, headers)
 
-  if (clientHints.viewportSize) {
+  if (clientHints.viewportSize && clientHintsRequest.viewportHeightAvailable && clientHintsRequest.viewportWidthAvailable) {
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportHeight, headers)
     writeClientHintHeaders(AcceptClientHintsHeaders.viewPortWidth, headers)
   }
 
   return headers
+}
+
+function shouldWriteCookieOnInitialRequest(
+  clientHintsRequest: ClientHintsRequest,
+  clientHints: ClientHints,
+) {
+  let writeCookie = clientHints.prefersColorScheme && !!clientHints.prefersColorSchemeOptions
+  if (writeCookie && clientHintsRequest.firstRequest && clientHints.reloadOnFirstRequest) {
+    const {
+      prefersColorScheme,
+      prefersReducedMotion,
+      viewportSize,
+    } = clientHints
+    if (prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
+      writeCookie = false
+
+    if (prefersReducedMotion && clientHintsRequest.prefersReducedMotionAvailable)
+      writeCookie = false
+
+    if (viewportSize && clientHintsRequest.viewportWidthAvailable)
+      writeCookie = false
+
+    if (viewportSize && clientHintsRequest.viewportHeightAvailable)
+      writeCookie = false
+  }
+
+  return writeCookie
 }
 
 function sendThemeCookie(

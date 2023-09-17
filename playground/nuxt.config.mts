@@ -32,6 +32,7 @@ export default defineNuxtConfig({
     moduleOptions: {
       includeTransformAssetsUrls: true,
       ssrClientHints: {
+        reloadOnFirstRequest: false,
         prefersColorScheme: true,
         prefersColorSchemeOptions: {},
         viewportSize: true,

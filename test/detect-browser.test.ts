@@ -3,6 +3,7 @@ import { parseUserAgent } from '../src/runtime/plugins/detect-browser'
 
 // Tests for Browser compatibility
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion#browser_compatibility
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme#browser_compatibility
 describe('Browser Detection Tests', () => {
   it('Chrome Windows 10: latest', () => {
     const browser = parseUserAgent(

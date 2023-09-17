@@ -215,6 +215,12 @@ export interface MOptions {
    */
   ssrClientHints?: {
     /**
+     * Should the module reload the page on first request?
+     *
+     * @default false
+     */
+    reloadOnFirstRequest?: boolean
+    /**
      * Enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers?
      *
      * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
@@ -293,9 +299,25 @@ export interface ExternalVuetifyOptions extends VOptions {
  */
 export interface SSRClientHints {
   /**
-   * The browser supports http client hints?
+   * Is the first request the browser hits the server?
    */
-  available: boolean
+  firstRequest: boolean
+  /**
+   * The browser supports prefer-color-scheme client hints?
+   */
+  prefersColorSchemeAvailable: boolean
+  /**
+   * The browser supports prefer-reduced-motion client hints?
+   */
+  prefersReducedMotionAvailable: boolean
+  /**
+   * The browser supports viewport-height client hints?
+   */
+  viewportHeightAvailable: boolean
+  /**
+   * The browser supports viewport-width client hints?
+   */
+  viewportWidthAvailable: boolean
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
@@ -304,6 +326,21 @@ export interface SSRClientHints {
    * The theme name from the cookie.
    */
   colorSchemeFromCookie?: string
+}
+
+export interface SSRClientHintsConfiguration {
+  enabled: boolean
+  viewportSize: boolean
+  prefersColorScheme: boolean
+  prefersReducedMotion: boolean
+  prefersColorSchemeOptions?: {
+    baseUrl: string
+    defaultTheme: string
+    themeNames: string[]
+    cookieName: string
+    darkThemeName: string
+    lightThemeName: string
+  }
 }
 
 declare module '@nuxt/schema' {
@@ -336,6 +373,7 @@ declare module '#app' {
     'vuetify:ssr-client-hints': (options: {
       vuetifyOptions: VuetifyOptions
       ssrClientHints: SSRClientHints
+      ssrClientHintsConfiguration: SSRClientHintsConfiguration
     }) => Promise<void> | void
   }
 }

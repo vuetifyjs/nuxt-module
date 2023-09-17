@@ -8,10 +8,36 @@ export default defineNuxtPlugin((nuxtApp) => {
   const state = useState<SSRClientHints>('ssrClientHints')
 
   const {
+    firstRequest,
+    prefersColorSchemeAvailable,
+    prefersReducedMotionAvailable,
+    viewportHeightAvailable,
+    viewportWidthAvailable,
+  } = state.value.ssrClientHints
+
+  const {
+    reloadOnFirstRequest,
     viewportSize,
+    prefersReducedMotion,
     prefersColorScheme,
     prefersColorSchemeOptions,
   } = clientHints
+
+  // reload the page when it is the first request, explicitly configured, and any feature available
+  if (firstRequest && reloadOnFirstRequest) {
+    if (prefersColorScheme && prefersColorSchemeAvailable)
+      window.location.reload()
+
+    if (prefersReducedMotion && prefersReducedMotionAvailable)
+      window.location.reload()
+
+    if (viewportSize && viewportHeightAvailable)
+      window.location.reload()
+
+    if (viewportSize && viewportWidthAvailable)
+      window.location.reload()
+  }
+
   if (viewportSize || (prefersColorScheme && prefersColorSchemeOptions)) {
     // restore SSR state
     nuxtApp.hook('vuetify:before-create', ({ vuetifyOptions }) => {

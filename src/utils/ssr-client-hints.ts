@@ -2,6 +2,7 @@ import type { VuetifyNuxtContext } from './config'
 
 export interface ResolvedClientHints {
   enabled: boolean
+  reloadOnFirstRequest: boolean
   viewportSize: boolean
   prefersColorScheme: boolean
   prefersReducedMotion: boolean
@@ -17,6 +18,7 @@ export interface ResolvedClientHints {
 
 const disabledClientHints: ResolvedClientHints = Object.freeze({
   enabled: false,
+  reloadOnFirstRequest: false,
   viewportSize: false,
   prefersColorScheme: false,
   prefersReducedMotion: false,
@@ -30,6 +32,7 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
 
   const clientHints: ResolvedClientHints = {
     enabled: false,
+    reloadOnFirstRequest: ssrClientHints?.reloadOnFirstRequest ?? false,
     viewportSize: ssrClientHints?.viewportSize ?? false,
     prefersColorScheme: ssrClientHints?.prefersColorScheme ?? false,
     prefersReducedMotion: ssrClientHints?.prefersReducedMotion ?? false,

@@ -12,6 +12,9 @@ The module includes support for the following [Http Client Hints](https://develo
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
 
+::: warning
+The [Http Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
+:::
 
 ## Vuetify SASS Variables
 
@@ -99,38 +102,25 @@ Before calling your `vuetify:ssr-client-hints` hook, this module will configure 
 
 ```ts
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook('vuetify:ssr-client-hints', ({ vuetifyOptions, ssrClientHints }) => {
+  nuxtApp.hook('vuetify:ssr-client-hints', ({ vuetifyOptions, ssrClientHints, ssrClientHintsConfiguration }) => {
     // vuetifyOptions.ssr is configured when ssrClientHints.viewportSize is enabled  
     // your logic here
   })
 })
 ```
 
-The module will expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that not enabled in the module option will be `undefined`), here the definition:
-```ts
-/**
- * Request headers received from the client in SSR.
- */
-export interface SSRClientHints {
-  /**
-   * The browser supports http client hints?
-   */
-  available: boolean
-  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
-  prefersReducedMotion?: 'no-preference' | 'reduce'
-  viewportHeight?: number
-  viewPortWidth?: number
-  /**
-   * The theme name from the cookie.
-   */
-  colorSchemeFromCookie?: string
-}
-declare module '#app' {
-  interface NuxtApp {
-    $ssrClientHints: UnwrapNestedRefs<SSRClientHints>
-  }
-}
-```
+where:
+- `vuetifyOptions` is the configuration for the Vuetify instance (if you need to update some option)
+- `ssrClientHints` are the client hints extracted from the request headers (the full definition can be found in the [types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts) in the `#app` module augmentation)
+- `ssrClientHintsConfiguration` is the client hints configuration (the full definition can be found in the `virtual:vuetify-ssr-client-hints-configuration` declaration in the [configuration.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/configuration.d.ts) module)
+
+This module will also expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that not enabled in the module option will be `undefined`), check the module augmentation for `#app` in the [types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts) module for the full definition.
+
+### Reload on First Request
+
+Browsers that support any of the Http Client Hints will send them only after the first request. This module provides support to reload the page when the browser hits the server for the first time.
+
+To enable it, you must configure `ssrClientHints.reloadOnFirstRequest` to `true` in the module options. The module will not reload the page if the browser doesn't support any of the Http Client Hints.
 
 ### Sec-CH-Prefers-Color-Scheme
 

@@ -16,6 +16,7 @@ export function vuetifySSRClientHintsPlugin(ctx: VuetifyNuxtContext) {
     async load(id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_SSR_CLIENT_HINTS_CONFIGURATION) {
         const data: Record<string, any> = {
+          reloadOnFirstRequest: ctx.ssrClientHints.reloadOnFirstRequest,
           viewportSize: ctx.ssrClientHints.viewportSize,
           prefersColorScheme: ctx.ssrClientHints.prefersColorScheme,
           prefersReducedMotion: ctx.ssrClientHints.prefersReducedMotion,
