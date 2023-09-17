@@ -73,7 +73,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 })
 
-const allowedBrowsers: Browser[] = ['chrome', 'edge', 'opera', 'chromium-webview', 'edge-ios']
+const allowedBrowsers: Browser[] = [
+  'chrome',
+  'edge', 'edge-chromium', 'edge-ios',
+  'chromium-webview',
+  'opera',
+]
 
 const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
@@ -143,7 +148,7 @@ function collectClientHints(
       hints.prefersReducedMotion = value
   }
 
-  if (clientHints.viewportSize) {
+  if (hints.available && clientHints.viewportSize) {
     let header = readClientHeader(AcceptClientHintsRequestHeaders.viewportHeight, headers)
     if (header) {
       try {
