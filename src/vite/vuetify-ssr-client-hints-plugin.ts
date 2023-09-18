@@ -25,7 +25,7 @@ export function vuetifySSRClientHintsPlugin(ctx: VuetifyNuxtContext) {
           prefersColorSchemeOptions: ctx.ssrClientHints.prefersColorSchemeOptions,
         }
 
-        return `export function clientHintsConfiguration() { return JSON.parse('${JSON.stringify(data)}') }`
+        return `export const ssrClientHintsConfiguration = JSON.parse('${JSON.stringify(data)}');`
       }
     },
   }

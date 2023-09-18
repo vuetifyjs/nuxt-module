@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // import { useLocale, useRtl } from 'vuetify'
+import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 
 const value = reactive<{
   name1?: string
@@ -22,6 +23,13 @@ if (process.client) {
 const ssrClientHints = useNuxtApp().$ssrClientHints
 const { width, height, md } = useDisplay()
 const theme = useTheme()
+
+const enableToogleTheme = computed(() => {
+  if (ssrClientHintsConfiguration.prefersColorScheme && ssrClientHintsConfiguration.prefersColorSchemeOptions)
+    return !ssrClientHintsConfiguration.prefersColorSchemeOptions.useBrowserThemeOnly
+
+  return false
+})
 
 function toogleTheme() {
   theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
@@ -52,7 +60,7 @@ watch(current, () => {
       <pre>{{ width }} x {{ height }} (md {{ md }}?)</pre>
       <div>
         <h2>useTheme: {{ theme.global.name }}</h2>
-        <v-btn @click="toogleTheme">
+        <v-btn v-if="enableToogleTheme" @click="toogleTheme">
           toogle theme
         </v-btn>
       </div>

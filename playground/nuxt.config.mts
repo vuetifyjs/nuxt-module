@@ -34,7 +34,9 @@ export default defineNuxtConfig({
       ssrClientHints: {
         reloadOnFirstRequest: false,
         prefersColorScheme: true,
-        prefersColorSchemeOptions: {},
+        prefersColorSchemeOptions: {
+          useBrowserThemeOnly: true,
+        },
         viewportSize: true,
       },
       // styles: { configFile: '/settings.scss' },

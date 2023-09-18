@@ -24,7 +24,7 @@ declare module 'virtual:vuetify-icons-configuration' {
 }
 
 declare module 'virtual:vuetify-ssr-client-hints-configuration' {
-  export interface ClientHints {
+  export interface SSRClientHintsConfiguration {
     reloadOnFirstRequest: boolean
     viewportSize: boolean
     prefersColorScheme: boolean
@@ -38,7 +38,8 @@ declare module 'virtual:vuetify-ssr-client-hints-configuration' {
       cookieName: string
       darkThemeName: string
       lightThemeName: string
+      useBrowserThemeOnly: boolean
     }
   }
-  export function clientHintsConfiguration(): ClientHints
+  export const ssrClientHintsConfiguration: SSRClientHintsConfiguration
 }

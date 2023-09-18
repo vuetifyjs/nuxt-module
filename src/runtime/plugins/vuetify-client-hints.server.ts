@@ -1,12 +1,11 @@
 import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
-import { type ClientHints, clientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import { type SSRClientHintsConfiguration, ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { ClientHintsRequest, SSRClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
 import { defineNuxtPlugin, useNuxtApp } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const event = useRequestEvent()
-  const clientHints = clientHintsConfiguration()
   const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
 
   const request = event.node.req
@@ -21,18 +20,18 @@ export default defineNuxtPlugin((nuxtApp) => {
     ? parseUserAgent(userAgentHeader)
     : null
   // 2. prepare client hints request
-  const clientHintsRequest = collectClientHints(userAgent, clientHints, requestHeaders)
+  const clientHintsRequest = collectClientHints(userAgent, ssrClientHintsConfiguration, requestHeaders)
   // 3. write client hints response headers
-  writeClientHintsResponseHeaders(clientHintsRequest, clientHints, response)
+  writeClientHintsResponseHeaders(clientHintsRequest, ssrClientHintsConfiguration, response)
   state.value = {
     ssrClientHints: clientHintsRequest,
   }
   // 4. send the theme cookie to the client when required
-  if (shouldWriteThemeCookie(clientHintsRequest, clientHints)) {
+  if (shouldWriteThemeCookie(clientHintsRequest, ssrClientHintsConfiguration)) {
     state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
-      clientHints.prefersColorSchemeOptions!.cookieName,
-      clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions!.defaultTheme,
-      clientHints.prefersColorSchemeOptions!.baseUrl,
+      ssrClientHintsConfiguration.prefersColorSchemeOptions!.cookieName,
+      clientHintsRequest.colorSchemeFromCookie ?? ssrClientHintsConfiguration.prefersColorSchemeOptions!.defaultTheme,
+      ssrClientHintsConfiguration.prefersColorSchemeOptions!.baseUrl,
     )
   }
 
@@ -52,7 +51,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
       vuetifyOptions,
-      ssrClientHintsConfiguration: clientHints,
+      ssrClientHintsConfiguration,
       ssrClientHints: state.value,
     })
   })
@@ -141,7 +140,7 @@ function browserFeatureAvailable(userAgent: ReturnType<typeof parseUserAgent>, f
 
 function lookupClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
-  clientHints: ClientHints,
+  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
 ) {
   const features: ClientHintsRequest = {
     firstRequest: true,
@@ -154,13 +153,13 @@ function lookupClientHints(
   if (userAgent == null || userAgent.type !== 'browser')
     return features
 
-  if (clientHints.prefersColorScheme)
+  if (ssrClientHintsConfiguration.prefersColorScheme)
     features.prefersColorSchemeAvailable = browserFeatureAvailable(userAgent, 'prefersColorScheme')
 
-  if (clientHints.prefersReducedMotion)
+  if (ssrClientHintsConfiguration.prefersReducedMotion)
     features.prefersReducedMotionAvailable = browserFeatureAvailable(userAgent, 'prefersReducedMotion')
 
-  if (clientHints.viewportSize) {
+  if (ssrClientHintsConfiguration.viewportSize) {
     features.viewportHeightAvailable = browserFeatureAvailable(userAgent, 'viewportHeight')
     features.viewportWidthAvailable = browserFeatureAvailable(userAgent, 'viewportWidth')
   }
@@ -170,19 +169,19 @@ function lookupClientHints(
 
 function collectClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
-  clientHints: ClientHints,
+  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
   headers: IncomingHttpHeaders,
 ) {
   // collect client hints
-  const hints: ClientHintsRequest = lookupClientHints(userAgent, clientHints)
+  const hints: ClientHintsRequest = lookupClientHints(userAgent, ssrClientHintsConfiguration)
 
-  if (clientHints.prefersColorScheme) {
-    if (clientHints.prefersColorSchemeOptions) {
-      const cookieName = clientHints.prefersColorSchemeOptions.cookieName
+  if (ssrClientHintsConfiguration.prefersColorScheme) {
+    if (ssrClientHintsConfiguration.prefersColorSchemeOptions) {
+      const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
       const cookieValue = readClientHeader('cookie', headers)?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))
       if (cookieValue) {
         const value = cookieValue.split('=')?.[1].trim()
-        if (clientHints.prefersColorSchemeOptions.themeNames.includes(value)) {
+        if (ssrClientHintsConfiguration.prefersColorSchemeOptions.themeNames.includes(value)) {
           hints.colorSchemeFromCookie = value
           hints.firstRequest = false
         }
@@ -198,20 +197,20 @@ function collectClientHints(
       }
 
       // update the color scheme cookie
-      if (clientHints.prefersColorSchemeOptions) {
+      if (ssrClientHintsConfiguration.prefersColorSchemeOptions) {
         if (!value || value === 'no-preference') {
-          hints.colorSchemeFromCookie = clientHints.prefersColorSchemeOptions.defaultTheme
+          hints.colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
         }
         else {
           hints.colorSchemeFromCookie = value === 'dark'
-            ? clientHints.prefersColorSchemeOptions.darkThemeName
-            : clientHints.prefersColorSchemeOptions.lightThemeName
+            ? ssrClientHintsConfiguration.prefersColorSchemeOptions.darkThemeName
+            : ssrClientHintsConfiguration.prefersColorSchemeOptions.lightThemeName
         }
       }
     }
   }
 
-  if (hints.prefersReducedMotionAvailable && clientHints.prefersReducedMotion) {
+  if (hints.prefersReducedMotionAvailable && ssrClientHintsConfiguration.prefersReducedMotion) {
     const value = readClientHeader(AcceptClientHintsRequestHeaders.prefersReducedMotion, headers)?.toLowerCase()
     if (value === 'no-preference' || value === 'reduce') {
       hints.prefersReducedMotion = value
@@ -219,7 +218,7 @@ function collectClientHints(
     }
   }
 
-  if (hints.viewportHeightAvailable && clientHints.viewportSize) {
+  if (hints.viewportHeightAvailable && ssrClientHintsConfiguration.viewportSize) {
     const header = readClientHeader(AcceptClientHintsRequestHeaders.viewportHeight, headers)
     if (header) {
       hints.firstRequest = false
@@ -227,15 +226,15 @@ function collectClientHints(
         hints.viewportHeight = Number.parseInt(header)
       }
       catch {
-        hints.viewportHeight = clientHints.clientHeight
+        hints.viewportHeight = ssrClientHintsConfiguration.clientHeight
       }
     }
   }
   else {
-    hints.viewportHeight = clientHints.clientHeight
+    hints.viewportHeight = ssrClientHintsConfiguration.clientHeight
   }
 
-  if (hints.viewportWidthAvailable && clientHints.viewportSize) {
+  if (hints.viewportWidthAvailable && ssrClientHintsConfiguration.viewportSize) {
     const header = readClientHeader(AcceptClientHintsRequestHeaders.viewportWidth, headers)
     if (header) {
       hints.firstRequest = false
@@ -243,12 +242,12 @@ function collectClientHints(
         hints.viewportWidth = Number.parseInt(header)
       }
       catch {
-        hints.viewportWidth = clientHints.clientWidth
+        hints.viewportWidth = ssrClientHintsConfiguration.clientWidth
       }
     }
   }
   else {
-    hints.viewportWidth = clientHints.clientWidth
+    hints.viewportWidth = ssrClientHintsConfiguration.clientWidth
   }
 
   return hints
@@ -262,7 +261,7 @@ function writeClientHintHeaders(key: string, headers: Record<string, string[]>) 
 
 function writeClientHintsResponseHeaders(
   clientHintsRequest: ClientHintsRequest,
-  clientHints: ClientHints,
+  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
   response: ServerResponse,
 ) {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Critical-CH
@@ -270,13 +269,13 @@ function writeClientHintsResponseHeaders(
 
   const headers: Record<string, string[]> = {}
 
-  if (clientHints.prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
+  if (ssrClientHintsConfiguration.prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
     writeClientHintHeaders(AcceptClientHintsHeaders.prefersColorScheme, headers)
 
-  if (clientHints.prefersReducedMotion && clientHintsRequest.prefersReducedMotionAvailable)
+  if (ssrClientHintsConfiguration.prefersReducedMotion && clientHintsRequest.prefersReducedMotionAvailable)
     writeClientHintHeaders(AcceptClientHintsHeaders.prefersReducedMotion, headers)
 
-  if (clientHints.viewportSize && clientHintsRequest.viewportHeightAvailable && clientHintsRequest.viewportWidthAvailable) {
+  if (ssrClientHintsConfiguration.viewportSize && clientHintsRequest.viewportHeightAvailable && clientHintsRequest.viewportWidthAvailable) {
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportHeight, headers)
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportWidth, headers)
   }
@@ -293,15 +292,15 @@ function writeClientHintsResponseHeaders(
 
 function shouldWriteThemeCookie(
   clientHintsRequest: ClientHintsRequest,
-  clientHints: ClientHints,
+  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
 ) {
-  let writeCookie = clientHints.prefersColorScheme && !!clientHints.prefersColorSchemeOptions
-  if (writeCookie && clientHintsRequest.firstRequest && clientHints.reloadOnFirstRequest) {
+  let writeCookie = ssrClientHintsConfiguration.prefersColorScheme && !!ssrClientHintsConfiguration.prefersColorSchemeOptions
+  if (writeCookie && clientHintsRequest.firstRequest && ssrClientHintsConfiguration.reloadOnFirstRequest) {
     const {
       prefersColorScheme,
       prefersReducedMotion,
       viewportSize,
-    } = clientHints
+    } = ssrClientHintsConfiguration
     if (prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
       writeCookie = false
 

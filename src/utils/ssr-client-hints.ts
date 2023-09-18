@@ -13,6 +13,7 @@ export interface ResolvedClientHints {
     cookieName: string
     darkThemeName: string
     lightThemeName: string
+    useBrowserThemeOnly: boolean
   }
 }
 
@@ -28,19 +29,19 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
   if (!ctx.isSSR || ctx.isNuxtGenerate)
     return disabledClientHints
 
-  const { ssrClientHints } = ctx.moduleOptions
+  const { ssrClientHints: ssrClientHintsConfiguration } = ctx.moduleOptions
 
   const clientHints: ResolvedClientHints = {
     enabled: false,
-    reloadOnFirstRequest: ssrClientHints?.reloadOnFirstRequest ?? false,
-    viewportSize: ssrClientHints?.viewportSize ?? false,
-    prefersColorScheme: ssrClientHints?.prefersColorScheme ?? false,
-    prefersReducedMotion: ssrClientHints?.prefersReducedMotion ?? false,
+    reloadOnFirstRequest: ssrClientHintsConfiguration?.reloadOnFirstRequest ?? false,
+    viewportSize: ssrClientHintsConfiguration?.viewportSize ?? false,
+    prefersColorScheme: ssrClientHintsConfiguration?.prefersColorScheme ?? false,
+    prefersReducedMotion: ssrClientHintsConfiguration?.prefersReducedMotion ?? false,
   }
 
   clientHints.enabled = clientHints.viewportSize || clientHints.prefersColorScheme || clientHints.prefersReducedMotion
 
-  if (clientHints.enabled && clientHints.prefersColorScheme && ssrClientHints?.prefersColorSchemeOptions) {
+  if (clientHints.enabled && clientHints.prefersColorScheme && ssrClientHintsConfiguration?.prefersColorSchemeOptions) {
     const theme = ctx.vuetifyOptions.theme
     if (!theme)
       throw new Error('Vuetify theme is disabled')
@@ -56,11 +57,11 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
     if (!themes[defaultTheme])
       throw new Error(`Missing default theme ${defaultTheme} in the Vuetify themes!`)
 
-    const darkThemeName = clientHints.prefersColorSchemeOptions?.darkThemeName ?? 'dark'
+    const darkThemeName = ssrClientHintsConfiguration.prefersColorSchemeOptions?.darkThemeName ?? 'dark'
     if (!themes[darkThemeName])
       throw new Error(`Missing theme ${darkThemeName} in the Vuetify themes!`)
 
-    const lightThemeName = clientHints.prefersColorSchemeOptions?.lightThemeName ?? 'light'
+    const lightThemeName = ssrClientHintsConfiguration.prefersColorSchemeOptions?.lightThemeName ?? 'light'
     if (!themes[lightThemeName])
       throw new Error(`Missing theme ${lightThemeName} in the Vuetify themes!`)
 
@@ -71,9 +72,10 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
       baseUrl,
       defaultTheme,
       themeNames: Array.from(Object.keys(themes)),
-      cookieName: clientHints?.prefersColorSchemeOptions?.cookieName ?? 'color-scheme',
+      cookieName: ssrClientHintsConfiguration.prefersColorSchemeOptions?.cookieName ?? 'color-scheme',
       darkThemeName,
       lightThemeName,
+      useBrowserThemeOnly: ssrClientHintsConfiguration.prefersColorSchemeOptions?.useBrowserThemeOnly ?? false,
     }
   }
 

@@ -261,6 +261,15 @@ export interface MOptions {
        * @default 'light'
        */
       lightThemeName?: string
+      /**
+       * Use the browser theme only?
+       *
+       * This flag can be used when your application provides a custom dark and light themes,
+       * but will not provide a theme switcher, that's, using by default the browser theme.
+       *
+       * @default false
+       */
+      useBrowserThemeOnly?: boolean
     }
     /**
      * Enable `Sec-CH-Prefers-Reduced-Motion` header?

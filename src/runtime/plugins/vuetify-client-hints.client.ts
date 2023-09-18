@@ -1,10 +1,10 @@
-import { clientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import type { createVuetify } from 'vuetify'
 import type { SSRClientHints } from './client-hints'
 import { defineNuxtPlugin } from '#imports'
 import { useNuxtApp } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const clientHints = clientHintsConfiguration()
   const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
 
   const {
@@ -21,7 +21,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     prefersReducedMotion,
     prefersColorScheme,
     prefersColorSchemeOptions,
-  } = clientHints
+  } = ssrClientHintsConfiguration
 
   // reload the page when it is the first request, explicitly configured, and any feature available
   if (firstRequest && reloadOnFirstRequest) {
@@ -72,6 +72,13 @@ export default defineNuxtPlugin((nuxtApp) => {
           watch(vuetify.theme.global.name, (newThemeName) => {
             document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
           })
+          if (prefersColorSchemeOptions.useBrowserThemeOnly) {
+            const { darkThemeName, lightThemeName } = prefersColorSchemeOptions
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
+            const prefersLight = window.matchMedia('(prefers-color-scheme: light)')
+            prefersDark.addEventListener('change', e => switchTheme(e, darkThemeName, vuetify))
+            prefersLight.addEventListener('change', e => switchTheme(e, lightThemeName, vuetify))
+          }
         })
       }
     }
@@ -83,3 +90,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     }),
   }
 })
+
+function switchTheme(
+  e: MediaQueryListEvent,
+  newThemeName: string,
+  vuetify: ReturnType<typeof createVuetify>,
+) {
+  e.matches && (vuetify.theme.global.name.value = newThemeName)
+}
