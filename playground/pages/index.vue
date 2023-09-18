@@ -46,7 +46,7 @@ watch(current, () => {
     <v-img src="~/assets/logo.svg" width="48" height="48" />
     <div>
       <h2>SSR Client Hints Headers:</h2>
-      <pre>{{ ssrClientHints }}</pre>
+      <pre class="text-body-2">{{ ssrClientHints }}</pre>
       <h2>useDisplay</h2>
       <div>Resize the screen and refresh the page</div>
       <pre>{{ width }} x {{ height }} (md {{ md }}?)</pre>

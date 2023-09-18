@@ -1,19 +1,13 @@
 import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
 import { type ClientHints, clientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { ClientHintsRequest, SSRClientHints } from './client-hints'
-import type { Browser } from './detect-browser'
-import { parseUserAgent } from './detect-browser'
-
-import { defineNuxtPlugin } from '#imports'
+import { type Browser, parseUserAgent } from './detect-browser'
+import { defineNuxtPlugin, useNuxtApp } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const event = useRequestEvent()
   const clientHints = clientHintsConfiguration()
-  const state = useState<SSRClientHints>('ssrClientHints')
-  const event = useRequestEvent(nuxtApp)
-
-  if (!event) {
-    // todo: should be an error?
-  }
+  const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
 
   const request = event.node.req
   const response = event.node.res
@@ -22,29 +16,24 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const userAgentHeader = readClientHeader('user-agent', requestHeaders)
 
-  // 1. check if we should send client hints
+  // 1. extract browser info
   const userAgent = userAgentHeader
     ? parseUserAgent(userAgentHeader)
     : null
   // 2. prepare client hints request
   const clientHintsRequest = collectClientHints(userAgent, clientHints, requestHeaders)
-  // 3. send client hints request
-  const responseHeader = createClientHintsResponseHeaders(clientHintsRequest, clientHints)
-  Object.entries(responseHeader).forEach(([key, value]) => {
-    response.setHeader(key, value)
-  })
-  // 4. send the theme cookie to the client:
-  if (shouldWriteCookieOnInitialRequest(clientHintsRequest, clientHints)) {
-    sendThemeCookie(
+  // 3. write client hints request
+  writeClientHintsResponseHeaders(clientHintsRequest, clientHints, response)
+  state.value = {
+    ssrClientHints: clientHintsRequest,
+  }
+  // 4. send the theme cookie to the client when required
+  if (shouldWriteCookie(clientHintsRequest, clientHints)) {
+    state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
       clientHints.prefersColorSchemeOptions!.cookieName,
       clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions!.defaultTheme,
       clientHints.prefersColorSchemeOptions!.baseUrl,
-      response,
     )
-  }
-
-  state.value = {
-    ssrClientHints: clientHintsRequest,
   }
 
   nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
@@ -271,9 +260,10 @@ function writeClientHintHeaders(key: string, headers: Record<string, string[]>) 
   })
 }
 
-function createClientHintsResponseHeaders(
+function writeClientHintsResponseHeaders(
   clientHintsRequest: ClientHintsRequest,
   clientHints: ClientHints,
+  response: ServerResponse,
 ) {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Critical-CH
   // Each header listed in the Critical-CH header should also be present in the Accept-CH and Vary headers.
@@ -291,10 +281,17 @@ function createClientHintsResponseHeaders(
     writeClientHintHeaders(AcceptClientHintsHeaders.viewPortWidth, headers)
   }
 
-  return headers
+  if (Object.keys(headers).length === 0)
+    return
+
+  withNuxtAppRendered(() => {
+    Object.entries(headers).forEach(([key, value]) => {
+      response.setHeader(key, value)
+    })
+  })
 }
 
-function shouldWriteCookieOnInitialRequest(
+function shouldWriteCookie(
   clientHintsRequest: ClientHintsRequest,
   clientHints: ClientHints,
 ) {
@@ -321,23 +318,27 @@ function shouldWriteCookieOnInitialRequest(
   return writeCookie
 }
 
-function sendThemeCookie(
+function withNuxtAppRendered(callback: () => void) {
+  const nuxtApp = useNuxtApp()
+  const unhook = nuxtApp.hooks.hookOnce('app:rendered', callback)
+  nuxtApp.hooks.hookOnce('app:error', () => {
+    unhook()
+    return callback()
+  })
+}
+
+function writeThemeCookie(
   cookieName: string,
   themeName: string,
   path: string,
-  response: ServerResponse,
 ) {
-  const setCookie = response.getHeaders()['Set-Cookie']
-  const setCookieHeader: string[] = []
-  if (typeof setCookie === 'string')
-    setCookieHeader.push(setCookie)
-  else if (typeof setCookie === 'number')
-    setCookieHeader.push(`${setCookie}`)
-  else if (Array.isArray(setCookie))
-    setCookieHeader.push(...setCookie)
-
   const date = new Date()
-  const secure = response.req.url?.startsWith('https:') ? 'Secure; ' : ''
-  setCookieHeader.push(`${cookieName}=${themeName}; ${secure}SameSite=Lax; Expires=${new Date(date.setDate(date.getDate() + 365))}; Path=${path}`)
-  response.setHeader('Set-Cookie', setCookieHeader)
+  const expires = new Date(date.setDate(date.getDate() + 365))
+  useCookie(cookieName, {
+    path,
+    expires,
+    sameSite: 'lax',
+  }).value = themeName
+
+  return `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
 }

@@ -5,7 +5,7 @@ import { useNuxtApp } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const clientHints = clientHintsConfiguration()
-  const state = useState<SSRClientHints>('ssrClientHints')
+  const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
 
   const {
     firstRequest,
@@ -61,21 +61,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     // update theme logic
     if (prefersColorScheme && prefersColorSchemeOptions) {
-      nuxtApp.hook('app:beforeMount', () => {
-        const vuetify = useNuxtApp().$vuetify
-
-        // update the theme
-        const cookieName = prefersColorSchemeOptions.cookieName
-        const parseCookieName = `${cookieName}=`
-        watch(vuetify.theme.global.name, (newThemeName) => {
-          const oldCookies = document.cookie
-          document.cookie = oldCookies.split(';').map(c => c.trim()).map((c) => {
-            return c.startsWith(parseCookieName) ? `${cookieName}=${newThemeName}` : c
-          }).join('; ')
-          if (document.cookie === oldCookies)
-            console.warn(`Cannot rewrite document.cookie to store ${cookieName}, review the cookies in your application, try cleaning all browser cookies for the site!`)
+      const themeCookie = state.value.ssrClientHints.colorSchemeCookie
+      if (themeCookie) {
+        nuxtApp.hook('app:beforeMount', () => {
+          const vuetify = useNuxtApp().$vuetify
+          // update the theme
+          const cookieName = prefersColorSchemeOptions.cookieName
+          const parseCookieName = `${cookieName}=`
+          const cookieEntry = `${parseCookieName}${state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
+          watch(vuetify.theme.global.name, (newThemeName) => {
+            document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
+          })
         })
-      })
+      }
     }
   }
 

@@ -11,6 +11,7 @@ export interface ClientHintsRequest extends ClientHintRequestFeatures {
   viewportHeight?: number
   viewPortWidth?: number
   colorSchemeFromCookie?: string
+  colorSchemeCookie?: string
 }
 
 export interface SSRClientHints {

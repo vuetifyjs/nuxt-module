@@ -326,6 +326,7 @@ export interface SSRClientHints {
    * The theme name from the cookie.
    */
   colorSchemeFromCookie?: string
+  colorSchemeCookie?: string
 }
 
 export interface SSRClientHintsConfiguration {
