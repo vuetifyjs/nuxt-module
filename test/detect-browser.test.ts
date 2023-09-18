@@ -104,4 +104,15 @@ describe('Browser Detection Tests', () => {
     expect(Number.parseInt(versions![0]) >= 73).toBe(true)
     expect(browser?.os?.toLowerCase().startsWith('android')).toBe(true)
   })
+  it('Firefox macOS: Version 117.0.1', () => {
+    const browser = parseUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0',
+    )
+    expect(browser).not.toBe(null)
+    expect(browser?.name).toBe('firefox')
+    const versions = browser?.version?.split('.')
+    expect(versions?.length).toBe(3)
+    expect(Number.parseInt(versions![0]) >= 117).toBe(true)
+    expect(browser?.os?.toLowerCase().startsWith('mac os')).toBe(true)
+  })
 })
