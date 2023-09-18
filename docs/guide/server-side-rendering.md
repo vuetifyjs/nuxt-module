@@ -91,12 +91,12 @@ Check [SSR Http Client Hints](#ssr-http-client-hints) for more details.
 
 ## SSR Http Client Hints
 
-You can enable SSR Http Client Hints using the module `ssrClientHints` option:
-- `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers? Defaults to `false`.
-- `prefersColorScheme`: `Sec-CH-Prefers-Color-Scheme` header? Defaults to `false`, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
-- `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header Defaults to `false`.
+You can enable SSR Http Client Hints using the `ssrClientHints` module option:
+- `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers (defaults to `false`)?
+- `prefersColorScheme`: enable `Sec-CH-Prefers-Color-Scheme` header (defaults to `false`)? Check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details
+- `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header (defaults to `false`)?
 
-If you enable `prefersReducedMotion`, you should handle it with a Nuxt plugin registering the `vuetify:ssr-client-hints` hook.
+If you enable `prefersReducedMotion` option, you should handle it with a Nuxt plugin registering the `vuetify:ssr-client-hints` hook.
 **Your Nuxt plugin hook will be only called on the server** with the Vuetify options and the `ssrClientHints` as parameter.
 Before calling your `vuetify:ssr-client-hints` hook, this module will configure `vuetifyOptions.ssr` and the `global Vuetify theme` properly when `ssrClientHints.viewportSize` and `ssrClientHints.prefersColorScheme` are enabled.
 
