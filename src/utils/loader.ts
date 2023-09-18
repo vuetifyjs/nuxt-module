@@ -9,6 +9,7 @@ import { mergeVuetifyModules } from './layers'
 import { cleanupBlueprint, detectDate, resolveVuetifyComponents } from './module'
 import { prepareIcons } from './icons'
 import type { VuetifyNuxtContext } from './config'
+import { prepareSSRClientHints } from './ssr-client-hints'
 
 export async function load(
   options: ModuleOptions,
@@ -82,6 +83,7 @@ export async function load(
   ctx.vuetifyOptions = configuration.vuetifyOptions!
   ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions)
+  ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
 
   if (ctx.icons.enabled) {
     ctx.icons.local?.forEach(css => nuxt.options.css.push(css))

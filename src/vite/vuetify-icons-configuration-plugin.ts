@@ -101,7 +101,7 @@ ${unocss}
     if (ctx.icons.unocss && ctx.icons.unocssAliases) {
       ctx.icons.imports.unshift('// @unocss-include')
       const prefix = `${ctx.icons.unocssIconPrefix}mdi:`
-      unocss = `const aliases = ${JSON.stringify({
+      unocss = `const aliases = JSON.parse('${JSON.stringify({
   collapse: `${prefix}chevron-up`,
   complete: `${prefix}check`,
   cancel: `${prefix}close-circle`,
@@ -140,7 +140,7 @@ ${unocss}
   plus: `${prefix}plus`,
   minus: `${prefix}minus`,
   calendar: `${prefix}calendar`,
-  })}
+  })}');
 `
     }
 

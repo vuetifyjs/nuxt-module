@@ -32,7 +32,7 @@
 - ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
-- 💥 **SSR**: automatic SSR detection and configuration
+- 💥 **SSR**: automatic SSR detection and configuration including [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints)
 - 🔩 **Nuxt Layers and Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
 - 📥 **Vuetify Configuration File**: configure your Vuetify options using a custom `vuetify.config` file, no dev server restart needed
 - 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocss-mdi` icon set or build your own with UnoCSS Preset Icons

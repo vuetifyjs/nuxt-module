@@ -48,9 +48,11 @@ export default defineNuxtModule<ModuleOptions>({
       vuetifyFilesToWatch: [],
       isSSR: nuxt.options.ssr,
       isDev: nuxt.options.dev,
+      isNuxtGenerate: nuxt.options._generate,
       unocss: hasNuxtModule('@unocss/nuxt', nuxt),
       i18n: hasNuxtModule('@nuxtjs/i18n', nuxt),
       icons: undefined!,
+      ssrClientHints: undefined!,
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
     }

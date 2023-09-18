@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // import { useLocale, useRtl } from 'vuetify'
+import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 
 const value = reactive<{
   name1?: string
@@ -19,6 +20,21 @@ if (process.client) {
   console.log(useNuxtApp().$vuetify.icons)
 }
 
+const ssrClientHints = useNuxtApp().$ssrClientHints
+const { width, height, md } = useDisplay()
+const theme = useTheme()
+
+const enableToogleTheme = computed(() => {
+  if (ssrClientHintsConfiguration.prefersColorScheme && ssrClientHintsConfiguration.prefersColorSchemeOptions)
+    return !ssrClientHintsConfiguration.prefersColorSchemeOptions.useBrowserThemeOnly
+
+  return false
+})
+
+function toogleTheme() {
+  theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
+}
+
 // const rtl = ref(isRtl.value)
 
 watch(isRtl, (x) => {
@@ -36,6 +52,19 @@ watch(current, () => {
 <template>
   <div>
     <v-img src="~/assets/logo.svg" width="48" height="48" />
+    <div>
+      <h2>SSR Client Hints Headers:</h2>
+      <pre class="text-body-2">{{ ssrClientHints }}</pre>
+      <h2>useDisplay</h2>
+      <div>Resize the screen and refresh the page</div>
+      <pre>{{ width }} x {{ height }} (md {{ md }}?)</pre>
+      <div>
+        <h2>useTheme: {{ theme.global.name }}</h2>
+        <v-btn v-if="enableToogleTheme" @click="toogleTheme">
+          toogle theme
+        </v-btn>
+      </div>
+    </div>
     <div>Vuetify useLocale(): {{ current }}</div>
     <div>$i18n current: {{ $i18n.locale }}</div>
     <div>$vuetify.locale.current: {{ $vuetify.locale.current }}</div>

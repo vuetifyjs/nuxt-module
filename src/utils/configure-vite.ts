@@ -5,6 +5,7 @@ import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configuration-plugin'
+import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-plugin'
 import { checkVuetifyPlugins } from './module'
 import type { VuetifyNuxtContext } from './config'
 
@@ -27,5 +28,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(ctx))
+    if (ctx.ssrClientHints.enabled)
+      viteInlineConfig.plugins.push(vuetifySSRClientHintsPlugin(ctx))
   })
 }

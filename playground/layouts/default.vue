@@ -8,7 +8,6 @@
       <v-col>
         <v-sheet
           class="pa-4 d-flex align-center flex-column"
-          color="grey-lighten-3"
           rounded="lg"
         >
           <NuxtPage />

@@ -7,6 +7,7 @@ import type { Resolver } from '@nuxt/kit'
 import type { DateAdapter, ExternalVuetifyOptions, MOptions, VOptions } from '../types'
 import type { ResolvedIcons } from './icons'
 import type { VuetifyComponentsImportMap } from './module'
+import type { ResolvedClientHints } from './ssr-client-hints'
 
 export interface VuetifyNuxtContext {
   resolver: Resolver
@@ -17,9 +18,11 @@ export interface VuetifyNuxtContext {
   isDev: boolean
   i18n: boolean
   isSSR: boolean
+  isNuxtGenerate: boolean
   unocss: boolean
   dateAdapter?: DateAdapter
   icons: ResolvedIcons
+  ssrClientHints: ResolvedClientHints
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
 }

@@ -1,4 +1,5 @@
 import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
+import type { UnwrapNestedRefs } from 'vue'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -207,6 +208,78 @@ export interface MOptions {
    * @default false
    */
   includeTransformAssetsUrls?: boolean
+  /**
+   * Vuetify SSR client hints.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints
+   */
+  ssrClientHints?: {
+    /**
+     * Should the module reload the page on first request?
+     *
+     * @default false
+     */
+    reloadOnFirstRequest?: boolean
+    /**
+     * Enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers?
+     *
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height
+     *
+     * @default false
+     */
+    viewportSize?: boolean
+    /**
+     * Enable `Sec-CH-Prefers-Color-Scheme` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme
+     *
+     * @default false
+     */
+    prefersColorScheme?: boolean
+    /**
+     * The options for `prefersColorScheme`, `prefersColorScheme` must be enabled.
+     *
+     * If you want the module to handle the color scheme for you, you should configure this option, otherwise you'll need to add your custom implementation.
+     */
+    prefersColorSchemeOptions?: {
+      /**
+       * The name for the cookie.
+       *
+       * @default 'color-scheme'
+       */
+      cookieName?: string
+      /**
+       * The name for the dark theme.
+       *
+       * @default 'dark'
+       */
+      darkThemeName?: string
+      /**
+       * The name for the light theme.
+       *
+       * @default 'light'
+       */
+      lightThemeName?: string
+      /**
+       * Use the browser theme only?
+       *
+       * This flag can be used when your application provides a custom dark and light themes,
+       * but will not provide a theme switcher, that's, using by default the browser theme.
+       *
+       * @default false
+       */
+      useBrowserThemeOnly?: boolean
+    }
+    /**
+     * Enable `Sec-CH-Prefers-Reduced-Motion` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion
+     *
+     * @default false
+     */
+    prefersReducedMotion?: boolean
+  }
 }
 
 export interface ModuleOptions {
@@ -230,6 +303,56 @@ export interface ExternalVuetifyOptions extends VOptions {
   config?: boolean
 }
 
+/**
+ * Request headers received from the client in SSR.
+ */
+export interface SSRClientHints {
+  /**
+   * Is the first request the browser hits the server?
+   */
+  firstRequest: boolean
+  /**
+   * The browser supports prefer-color-scheme client hints?
+   */
+  prefersColorSchemeAvailable: boolean
+  /**
+   * The browser supports prefer-reduced-motion client hints?
+   */
+  prefersReducedMotionAvailable: boolean
+  /**
+   * The browser supports viewport-height client hints?
+   */
+  viewportHeightAvailable: boolean
+  /**
+   * The browser supports viewport-width client hints?
+   */
+  viewportWidthAvailable: boolean
+  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
+  prefersReducedMotion?: 'no-preference' | 'reduce'
+  viewportHeight?: number
+  viewportWidth?: number
+  /**
+   * The theme name from the cookie.
+   */
+  colorSchemeFromCookie?: string
+  colorSchemeCookie?: string
+}
+
+export interface SSRClientHintsConfiguration {
+  enabled: boolean
+  viewportSize: boolean
+  prefersColorScheme: boolean
+  prefersReducedMotion: boolean
+  prefersColorSchemeOptions?: {
+    baseUrl: string
+    defaultTheme: string
+    themeNames: string[]
+    cookieName: string
+    darkThemeName: string
+    lightThemeName: string
+  }
+}
+
 declare module '@nuxt/schema' {
   interface NuxtConfig {
     vuetify?: ModuleOptions
@@ -243,6 +366,10 @@ declare module '#app' {
   // TODO: fix this issue upstream in nuxt/module-builder
   interface NuxtApp {
     $vuetify: ReturnType<typeof import('vuetify')['createVuetify']>
+    /**
+     * Request headers received from the client in SSR.
+     */
+    $ssrClientHints: UnwrapNestedRefs<SSRClientHints>
   }
   interface RuntimeNuxtHooks {
     'vuetify:configuration': (options: {
@@ -252,6 +379,11 @@ declare module '#app' {
     'vuetify:before-create': (options: {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
+    }) => Promise<void> | void
+    'vuetify:ssr-client-hints': (options: {
+      vuetifyOptions: VuetifyOptions
+      ssrClientHints: SSRClientHints
+      ssrClientHintsConfiguration: SSRClientHintsConfiguration
     }) => Promise<void> | void
   }
 }

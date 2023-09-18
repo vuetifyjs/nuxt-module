@@ -34,6 +34,14 @@ export default defineVuetifyConfiguration({
   localeMessages: ['en', 'es', 'ar'], */
   theme: {
     defaultTheme: 'light',
+    themes: {
+      light: {
+        dark: false,
+      },
+      dark: {
+        dark: true,
+      },
+    },
   },
   date: {
     adapter: 'luxon',

@@ -76,9 +76,21 @@ export function configureNuxt(
     })))
   }
 
+  if (ctx.ssrClientHints.enabled) {
+    addPlugin({
+      src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-client-hints.client'),
+      mode: 'client',
+    })
+    addPlugin({
+      src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-client-hints.server'),
+      mode: 'server',
+    })
+  }
+
   addPlugin({
     src: ctx.resolver.resolve(runtimeDir, `plugins/vuetify${ctx.i18n ? '-sync' : ''}`),
   })
+
   addPlugin({
     src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-icons'),
   })

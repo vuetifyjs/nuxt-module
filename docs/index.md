@@ -39,7 +39,7 @@ features:
     details: Configure your variables using Vuetify SASS Variables
   - icon: 💥
     title: SSR
-    details: Automatic SSR detection and configuration
+    details: Automatic SSR detection and configuration including HTTP Client hints
     link: /guide/server-side-rendering
     linkText: Server Side Rendering
   - icon: 🔩
