@@ -35,7 +35,7 @@ export default defineNuxtConfig({
         reloadOnFirstRequest: false,
         prefersColorScheme: true,
         prefersColorSchemeOptions: {
-          useBrowserThemeOnly: true,
+          useBrowserThemeOnly: false,
         },
         viewportSize: true,
       },
