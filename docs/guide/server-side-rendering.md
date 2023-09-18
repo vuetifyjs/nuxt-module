@@ -136,20 +136,19 @@ To enable it, you must configure:
 where `ssrClientHints.prefersColorSchemeOptions` is an object with the following properties:
 - `darkThemeName`: the theme name to be used when the user's preference is `dark`
 - `lightThemeName`: the theme name to be used when the user's preference is `light`
-- `defaultTheme`: the theme name to be used when the user's preference is `no-preference`
 - `cookieName`: the cookie name to store the theme
+- `useBrowserThemeOnly`: this flag can be used when your application provides a custom dark and light themes, but will not provide a theme selector, i.e., the theme selector will be the one provided by the browser
 
 If `ssrClientHints.prefersColorSchemeOptions` option is empty, the module will use:
 - `dark` for `darkThemeName`
 - `light` for `lightThemeName`
-- `defaultTheme` will be extracted from the Vuetify `vuetifyOptions.theme.defaultTheme` property
 - `color-scheme` for `cookieName`
+- `false` for `useBrowserThemeOnly`
 
 The module will add the cookie with the following properties:
 - `Path` to `nuxt.options.app.baseURL` (defaults to `/`)
 - `Expires` to 365 days (will be updated on every page refresh)
 - `SameSite` to `Lax`
-- `Secure` when the request is `https`
 
 :::warning
 Since the headers sent by the user agent may not be accurate, from time to time your application will get some hydration mismatch warnings in the console.
