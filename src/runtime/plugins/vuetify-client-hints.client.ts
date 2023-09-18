@@ -25,8 +25,22 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // reload the page when it is the first request, explicitly configured, and any feature available
   if (firstRequest && reloadOnFirstRequest) {
-    if (prefersColorScheme && prefersColorSchemeAvailable)
-      window.location.reload()
+    if (prefersColorScheme) {
+      const themeCookie = state.value.ssrClientHints.colorSchemeCookie
+      // write the cookie and refresh the page if configured
+      if (prefersColorSchemeOptions && themeCookie) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const cookieName = prefersColorSchemeOptions.cookieName
+        const parseCookieName = `${cookieName}=`
+        const cookieEntry = `${parseCookieName}${state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
+        const newThemeName = prefersDark ? prefersColorSchemeOptions.darkThemeName : prefersColorSchemeOptions.lightThemeName
+        document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
+        window.location.reload()
+      }
+      else if (prefersColorSchemeAvailable) {
+        window.location.reload()
+      }
+    }
 
     if (prefersReducedMotion && prefersReducedMotionAvailable)
       window.location.reload()

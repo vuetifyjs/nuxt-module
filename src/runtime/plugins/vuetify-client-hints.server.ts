@@ -27,13 +27,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     ssrClientHints: clientHintsRequest,
   }
   // 4. send the theme cookie to the client when required
-  if (shouldWriteThemeCookie(clientHintsRequest, ssrClientHintsConfiguration)) {
-    state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
-      ssrClientHintsConfiguration.prefersColorSchemeOptions!.cookieName,
-      clientHintsRequest.colorSchemeFromCookie ?? ssrClientHintsConfiguration.prefersColorSchemeOptions!.defaultTheme,
-      ssrClientHintsConfiguration.prefersColorSchemeOptions!.baseUrl,
-    )
-  }
+  state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
+    clientHintsRequest,
+    ssrClientHintsConfiguration,
+  )
 
   nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
     const clientWidth = clientHintsRequest.viewportWidth
@@ -290,33 +287,6 @@ function writeClientHintsResponseHeaders(
   })
 }
 
-function shouldWriteThemeCookie(
-  clientHintsRequest: ClientHintsRequest,
-  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
-) {
-  let writeCookie = ssrClientHintsConfiguration.prefersColorScheme && !!ssrClientHintsConfiguration.prefersColorSchemeOptions
-  if (writeCookie && clientHintsRequest.firstRequest && ssrClientHintsConfiguration.reloadOnFirstRequest) {
-    const {
-      prefersColorScheme,
-      prefersReducedMotion,
-      viewportSize,
-    } = ssrClientHintsConfiguration
-    if (prefersColorScheme && clientHintsRequest.prefersColorSchemeAvailable)
-      writeCookie = false
-
-    if (prefersReducedMotion && clientHintsRequest.prefersReducedMotionAvailable)
-      writeCookie = false
-
-    if (viewportSize && clientHintsRequest.viewportWidthAvailable)
-      writeCookie = false
-
-    if (viewportSize && clientHintsRequest.viewportHeightAvailable)
-      writeCookie = false
-  }
-
-  return writeCookie
-}
-
 function withNuxtAppRendered(callback: () => void) {
   const nuxtApp = useNuxtApp()
   const unhook = nuxtApp.hooks.hookOnce('app:rendered', callback)
@@ -327,17 +297,25 @@ function withNuxtAppRendered(callback: () => void) {
 }
 
 function writeThemeCookie(
-  cookieName: string,
-  themeName: string,
-  path: string,
+  clientHintsRequest: ClientHintsRequest,
+  ssrClientHintsConfiguration: SSRClientHintsConfiguration,
 ) {
+  if (!ssrClientHintsConfiguration.prefersColorScheme || !ssrClientHintsConfiguration.prefersColorSchemeOptions)
+    return
+
+  const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
+  const themeName = clientHintsRequest.colorSchemeFromCookie ?? ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
+  const path = ssrClientHintsConfiguration.prefersColorSchemeOptions.baseUrl
+
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
-  useCookie(cookieName, {
-    path,
-    expires,
-    sameSite: 'lax',
-  }).value = themeName
+  if (!clientHintsRequest.firstRequest || !ssrClientHintsConfiguration.reloadOnFirstRequest) {
+    useCookie(cookieName, {
+      path,
+      expires,
+      sameSite: 'lax',
+    }).value = themeName
+  }
 
   return `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
 }
