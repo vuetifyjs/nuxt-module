@@ -6,14 +6,14 @@ outline: deep
 
 Vuetify Nuxt Module supports [SSR](https://nuxt.com/docs/api/configuration/nuxt-config#ssr) out of the box. It will automatically detect if you are using SSR and configure Vuetify accordingly.
 
-The module includes support for the following [Http Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints), check [SSR Http Client Hints](#ssr-http-client-hints) for more details:
+The module includes support for the following [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints), check [SSR HTTP Client hints](#ssr-http-client-hints) for more details:
 - [Sec-CH-Prefers-Color-Scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme)
 - [Sec-CH-Prefers-Reduced-Motion](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
 
 ::: warning
-The [Http Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
+The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
 :::
 
 ## Vuetify SASS Variables
@@ -87,11 +87,11 @@ const { isDark } = useCustomTheme()
 
 If you're using Vuetify [useDisplay](https://vuetifyjs.com/en/api/use-display/) composable with SSR enabled, there is only one way for the server to get the client's width and height (still in draft): use the [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width) and [Sec-CH-Viewport-Height](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) headers respectively, will not work for the initial request.
 
-Check [SSR Http Client Hints](#ssr-http-client-hints) for more details.
+Check [SSR HTTP Client hints](#ssr-http-client-hints) for more details.
 
-## SSR Http Client Hints
+## SSR HTTP Client hints
 
-You can enable SSR Http Client Hints using the `ssrClientHints` module option:
+You can enable SSR **HTTP Client hints** using the `ssrClientHints` module option:
 - `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers (defaults to `false`)?
 - `prefersColorScheme`: enable `Sec-CH-Prefers-Color-Scheme` header (defaults to `false`)? Check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details
 - `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header (defaults to `false`)?
@@ -117,7 +117,7 @@ This module will expose the `$ssrClientHints` property in the Nuxt App instance 
 
 ### Reload on First Request
 
-Browsers that support any of the Http Client Hints will send them only after the first request. This module provides support to reload the page when the browser hits the server for the first time.
+Browsers that support any of the **HTTP Client hints** will send them only after the first request. This module provides support to reload the page when the browser hits the server for the first time.
 
 To enable this feature, you must configure `ssrClientHints.reloadOnFirstRequest` to `true` in the module options.
 
