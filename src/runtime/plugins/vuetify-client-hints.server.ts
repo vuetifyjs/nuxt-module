@@ -2,11 +2,12 @@ import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
 import { type SSRClientHintsConfiguration, ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { ClientHintsRequest, SSRClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
+import { VuetifyHTTPClientHints } from './client-hints'
 import { defineNuxtPlugin, useNuxtApp } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const event = useRequestEvent()
-  const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
+  const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
 
   const request = event.node.req
   const response = event.node.res

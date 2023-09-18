@@ -1,11 +1,12 @@
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { createVuetify } from 'vuetify'
 import type { SSRClientHints } from './client-hints'
+import { VuetifyHTTPClientHints } from './client-hints'
 import { defineNuxtPlugin } from '#imports'
 import { useNuxtApp } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const state = useState<SSRClientHints>('vuetify:nuxt:ssr-client-hints')
+  const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
 
   const {
     firstRequest,

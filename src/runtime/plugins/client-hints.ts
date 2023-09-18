@@ -17,3 +17,5 @@ export interface ClientHintsRequest extends ClientHintRequestFeatures {
 export interface SSRClientHints {
   ssrClientHints: ClientHintsRequest
 }
+
+export const VuetifyHTTPClientHints = 'vuetify:nuxt:ssr-client-hints'
