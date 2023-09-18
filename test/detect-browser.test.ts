@@ -16,6 +16,17 @@ describe('Browser Detection Tests', () => {
     expect(Number.parseInt(versions![0]) >= 108).toBe(true)
     expect(browser?.os?.toLowerCase().startsWith('windows')).toBe(true)
   })
+  it('Safari: Version 16.6', () => {
+    const browser = parseUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15',
+    )
+    expect(browser).not.toBe(null)
+    expect(browser?.name).toBe('safari')
+    const versions = browser?.version?.split('.')
+    expect(versions?.length).toBe(3)
+    expect(Number.parseInt(versions![0]) >= 16).toBe(true)
+    expect(browser?.os?.toLowerCase().startsWith('mac os')).toBe(true)
+  })
   it('Edge Windows 10: latest', () => {
     const browser = parseUserAgent(
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.31',
