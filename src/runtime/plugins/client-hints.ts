@@ -9,7 +9,7 @@ export interface ClientHintsRequest extends ClientHintRequestFeatures {
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
-  viewPortWidth?: number
+  viewportWidth?: number
   colorSchemeFromCookie?: string
   colorSchemeCookie?: string
 }

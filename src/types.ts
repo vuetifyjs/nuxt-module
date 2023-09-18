@@ -321,7 +321,7 @@ export interface SSRClientHints {
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
-  viewPortWidth?: number
+  viewportWidth?: number
   /**
    * The theme name from the cookie.
    */

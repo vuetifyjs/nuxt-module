@@ -44,7 +44,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       // on client, we update the display to avoid hydration mismatch on page refresh
       // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
       if (viewportSize) {
-        const clientWidth = state.value.ssrClientHints.viewPortWidth
+        const clientWidth = state.value.ssrClientHints.viewportWidth
         const clientHeight = state.value.ssrClientHints.viewportHeight
         vuetifyOptions.ssr = typeof clientWidth === 'number'
           ? {

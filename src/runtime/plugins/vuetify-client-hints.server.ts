@@ -22,13 +22,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     : null
   // 2. prepare client hints request
   const clientHintsRequest = collectClientHints(userAgent, clientHints, requestHeaders)
-  // 3. write client hints request
+  // 3. write client hints response headers
   writeClientHintsResponseHeaders(clientHintsRequest, clientHints, response)
   state.value = {
     ssrClientHints: clientHintsRequest,
   }
   // 4. send the theme cookie to the client when required
-  if (shouldWriteCookie(clientHintsRequest, clientHints)) {
+  if (shouldWriteThemeCookie(clientHintsRequest, clientHints)) {
     state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
       clientHints.prefersColorSchemeOptions!.cookieName,
       clientHintsRequest.colorSchemeFromCookie ?? clientHints.prefersColorSchemeOptions!.defaultTheme,
@@ -37,7 +37,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
-    const clientWidth = clientHintsRequest.viewPortWidth
+    const clientWidth = clientHintsRequest.viewportWidth
     const clientHeight = clientHintsRequest.viewportHeight
     vuetifyOptions.ssr = typeof clientWidth === 'number'
       ? {
@@ -68,7 +68,7 @@ const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
   prefersReducedMotion: 'Sec-CH-Prefers-Reduced-Motion',
   viewportHeight: 'Sec-CH-Viewport-Height',
-  viewPortWidth: 'Sec-CH-Viewport-Width',
+  viewportWidth: 'Sec-CH-Viewport-Width',
 }
 
 type AcceptClientHintsHeadersKey = keyof typeof AcceptClientHintsHeaders
@@ -83,7 +83,7 @@ const chromiumBasedBrowserFeatures: BrowserFeatures = {
   prefersColorScheme: (_, v) => v[0] >= 93,
   prefersReducedMotion: (_, v) => v[0] >= 108,
   viewportHeight: (_, v) => v[0] >= 108,
-  viewPortWidth: (_, v) => v[0] >= 108,
+  viewportWidth: (_, v) => v[0] >= 108,
 }
 const allowedBrowsers: [browser: Browser, features: BrowserFeatures][] = [
   // 'edge',
@@ -95,7 +95,7 @@ const allowedBrowsers: [browser: Browser, features: BrowserFeatures][] = [
     prefersColorScheme: (android, v) => v[0] >= (android ? 66 : 79),
     prefersReducedMotion: (android, v) => v[0] >= (android ? 73 : 94),
     viewportHeight: (android, v) => v[0] >= (android ? 73 : 94),
-    viewPortWidth: (android, v) => v[0] >= (android ? 73 : 94),
+    viewportWidth: (android, v) => v[0] >= (android ? 73 : 94),
   }],
 ]
 
@@ -114,7 +114,7 @@ function readClientHeader(name: string, headers: IncomingHttpHeaders) {
   return value
 }
 
-function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>, feature: AcceptClientHintsHeadersKey) {
+function browserFeatureAvailable(userAgent: ReturnType<typeof parseUserAgent>, feature: AcceptClientHintsHeadersKey) {
   if (userAgent == null || userAgent.type !== 'browser')
     return false
 
@@ -139,7 +139,7 @@ function browserAvailable(userAgent: ReturnType<typeof parseUserAgent>, feature:
   }
 }
 
-function findClientHints(
+function lookupClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
   clientHints: ClientHints,
 ) {
@@ -155,14 +155,14 @@ function findClientHints(
     return features
 
   if (clientHints.prefersColorScheme)
-    features.prefersColorSchemeAvailable = browserAvailable(userAgent, 'prefersColorScheme')
+    features.prefersColorSchemeAvailable = browserFeatureAvailable(userAgent, 'prefersColorScheme')
 
   if (clientHints.prefersReducedMotion)
-    features.prefersReducedMotionAvailable = browserAvailable(userAgent, 'prefersReducedMotion')
+    features.prefersReducedMotionAvailable = browserFeatureAvailable(userAgent, 'prefersReducedMotion')
 
   if (clientHints.viewportSize) {
-    features.viewportHeightAvailable = browserAvailable(userAgent, 'viewportHeight')
-    features.viewportWidthAvailable = browserAvailable(userAgent, 'viewPortWidth')
+    features.viewportHeightAvailable = browserFeatureAvailable(userAgent, 'viewportHeight')
+    features.viewportWidthAvailable = browserFeatureAvailable(userAgent, 'viewportWidth')
   }
 
   return features
@@ -174,7 +174,7 @@ function collectClientHints(
   headers: IncomingHttpHeaders,
 ) {
   // collect client hints
-  const hints: ClientHintsRequest = findClientHints(userAgent, clientHints)
+  const hints: ClientHintsRequest = lookupClientHints(userAgent, clientHints)
 
   if (clientHints.prefersColorScheme) {
     if (clientHints.prefersColorSchemeOptions) {
@@ -222,13 +222,13 @@ function collectClientHints(
   if (hints.viewportHeightAvailable && clientHints.viewportSize) {
     const header = readClientHeader(AcceptClientHintsRequestHeaders.viewportHeight, headers)
     if (header) {
+      hints.firstRequest = false
       try {
         hints.viewportHeight = Number.parseInt(header)
       }
       catch {
         hints.viewportHeight = clientHints.clientHeight
       }
-      hints.firstRequest = false
     }
   }
   else {
@@ -236,19 +236,19 @@ function collectClientHints(
   }
 
   if (hints.viewportWidthAvailable && clientHints.viewportSize) {
-    const header = readClientHeader(AcceptClientHintsRequestHeaders.viewPortWidth, headers)
+    const header = readClientHeader(AcceptClientHintsRequestHeaders.viewportWidth, headers)
     if (header) {
+      hints.firstRequest = false
       try {
-        hints.viewPortWidth = Number.parseInt(header)
+        hints.viewportWidth = Number.parseInt(header)
       }
       catch {
-        hints.viewPortWidth = clientHints.clientWidth
+        hints.viewportWidth = clientHints.clientWidth
       }
-      hints.firstRequest = false
     }
   }
   else {
-    hints.viewPortWidth = clientHints.clientWidth
+    hints.viewportWidth = clientHints.clientWidth
   }
 
   return hints
@@ -278,7 +278,7 @@ function writeClientHintsResponseHeaders(
 
   if (clientHints.viewportSize && clientHintsRequest.viewportHeightAvailable && clientHintsRequest.viewportWidthAvailable) {
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportHeight, headers)
-    writeClientHintHeaders(AcceptClientHintsHeaders.viewPortWidth, headers)
+    writeClientHintHeaders(AcceptClientHintsHeaders.viewportWidth, headers)
   }
 
   if (Object.keys(headers).length === 0)
@@ -291,7 +291,7 @@ function writeClientHintsResponseHeaders(
   })
 }
 
-function shouldWriteCookie(
+function shouldWriteThemeCookie(
   clientHintsRequest: ClientHintsRequest,
   clientHints: ClientHints,
 ) {
