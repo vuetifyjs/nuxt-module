@@ -1,9 +1,19 @@
 import type { IncomingHttpHeaders, ServerResponse } from 'node:http'
-import { type SSRClientHintsConfiguration, ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import {
+  type SSRClientHintsConfiguration,
+  ssrClientHintsConfiguration,
+} from 'virtual:vuetify-ssr-client-hints-configuration'
+import { reactive } from 'vue'
 import type { ClientHintsRequest, SSRClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
 import { VuetifyHTTPClientHints } from './client-hints'
-import { defineNuxtPlugin, useNuxtApp } from '#imports'
+import {
+  defineNuxtPlugin,
+  useCookie,
+  useNuxtApp,
+  useRequestEvent,
+  useState,
+} from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const event = useRequestEvent()
@@ -257,6 +267,15 @@ function writeClientHintHeaders(key: string, headers: Record<string, string[]>) 
   })
 }
 
+function withNuxtAppRendered(callback: () => void) {
+  const nuxtApp = useNuxtApp()
+  const unhook = nuxtApp.hooks.hookOnce('app:rendered', callback)
+  nuxtApp.hooks.hookOnce('app:error', () => {
+    unhook()
+    return callback()
+  })
+}
+
 function writeClientHintsResponseHeaders(
   clientHintsRequest: ClientHintsRequest,
   ssrClientHintsConfiguration: SSRClientHintsConfiguration,
@@ -285,15 +304,6 @@ function writeClientHintsResponseHeaders(
     Object.entries(headers).forEach(([key, value]) => {
       response.setHeader(key, value)
     })
-  })
-}
-
-function withNuxtAppRendered(callback: () => void) {
-  const nuxtApp = useNuxtApp()
-  const unhook = nuxtApp.hooks.hookOnce('app:rendered', callback)
-  nuxtApp.hooks.hookOnce('app:error', () => {
-    unhook()
-    return callback()
   })
 }
 
