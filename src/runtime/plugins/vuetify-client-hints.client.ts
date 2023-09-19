@@ -1,9 +1,8 @@
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
-import type { createVuetify } from 'vuetify'
+import { reactive, watch } from 'vue'
 import type { SSRClientHints } from './client-hints'
 import { VuetifyHTTPClientHints } from './client-hints'
-import { defineNuxtPlugin } from '#imports'
-import { useNuxtApp } from '#app'
+import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
@@ -90,9 +89,9 @@ export default defineNuxtPlugin((nuxtApp) => {
           if (prefersColorSchemeOptions.useBrowserThemeOnly) {
             const { darkThemeName, lightThemeName } = prefersColorSchemeOptions
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
-            const prefersLight = window.matchMedia('(prefers-color-scheme: light)')
-            prefersDark.addEventListener('change', e => switchTheme(e, darkThemeName, vuetify))
-            prefersLight.addEventListener('change', e => switchTheme(e, lightThemeName, vuetify))
+            prefersDark.addEventListener('change', (e) => {
+              vuetify.theme.global.name.value = e.matches ? darkThemeName : lightThemeName
+            })
           }
         })
       }
@@ -105,11 +104,3 @@ export default defineNuxtPlugin((nuxtApp) => {
     }),
   }
 })
-
-function switchTheme(
-  e: MediaQueryListEvent,
-  newThemeName: string,
-  vuetify: ReturnType<typeof createVuetify>,
-) {
-  e.matches && (vuetify.theme.global.name.value = newThemeName)
-}
