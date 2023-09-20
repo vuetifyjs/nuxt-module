@@ -205,7 +205,7 @@ export interface MOptions {
   /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
    *
-   * @default false
+   * @default true
    */
   includeTransformAssetsUrls?: boolean
   /**
