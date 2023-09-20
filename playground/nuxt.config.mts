@@ -16,9 +16,12 @@ export default defineNuxtConfig({
     locales: availableLocales,
     lazy: true,
     strategy: 'no_prefix',
-    detectBrowserLanguage: false, /* {      fallbackLocale: 'en-US',
-      useCookie: false,
-    } */
+    detectBrowserLanguage: false, /* {
+      fallbackLocale: 'en-US',
+      useCookie: true,
+    },
+    useCookie: true,
+    cookieKey: 'custom-locale', */
     langDir,
     defaultLocale: 'en-US',
     // types: 'composition',
@@ -26,7 +29,7 @@ export default defineNuxtConfig({
     dynamicRouteParams: false,
     skipSettingLocaleOnNavigate: false,
     // debug: true,
-    vueI18n: './config/i18n.config.ts',
+    vueI18n: '/config/i18n.config.ts',
   },
   vuetify: {
     moduleOptions: {
