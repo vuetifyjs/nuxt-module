@@ -1,6 +1,8 @@
 {
   "xxx": "Favourite",
   "$vuetify": {
+    "open": "Open",
+    "close": "Close",
     "datePicker": {
       "title": "Select date",
       "header": "Enter date",

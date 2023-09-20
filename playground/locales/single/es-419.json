@@ -1,6 +1,8 @@
 {
   "xxx": "Favorito (es-419)",
   "$vuetify": {
+    "open": "Abrir",
+    "close": "Cerrar",
     "datePicker": {
       "title": "Seleccione día",
       "header": "Introduzca día",

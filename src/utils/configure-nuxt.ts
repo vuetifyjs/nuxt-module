@@ -13,7 +13,7 @@ export function configureNuxt(
     importComposables,
     prefixComposables,
     styles,
-    includeTransformAssetsUrls = false,
+    includeTransformAssetsUrls = true,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
@@ -34,8 +34,6 @@ export function configureNuxt(
     nuxt.options.vite.vue.template ??= {}
     if (typeof nuxt.options.vite.vue.template.transformAssetUrls === 'undefined')
       nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
-    else
-      ctx.logger.warn('[vuetify-nuxt-module] `includeTransformAssetsUrls` is enabled but `vite.vue.template.transformAssetUrls` is already configured, ignored!')
   }
 
   extendWebpackConfig(() => {
