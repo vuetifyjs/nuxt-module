@@ -25,7 +25,7 @@ import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:created', (vuetify) => {
-    // update vuetifyOptions
+    // your logic here
   })
 })
 ```
