@@ -1,4 +1,4 @@
-import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
+import type { LocaleOptions, RtlOptions, createVuetify, VuetifyOptions } from 'vuetify'
 import type { UnwrapNestedRefs } from 'vue'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
@@ -380,6 +380,7 @@ declare module '#app' {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
     }) => Promise<void> | void
+    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => Promise<void> | void
     'vuetify:ssr-client-hints': (options: {
       vuetifyOptions: VuetifyOptions
       ssrClientHints: SSRClientHints

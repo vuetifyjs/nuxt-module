@@ -18,3 +18,14 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 })
 ```
+
+If you need the Vuetify instance after creating it, you can use the `vuetify:ready` hook in your Nuxt Plugin:
+```ts
+import { defineNuxtPlugin } from '#imports'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.hook('vuetify:ready', (vuetify) => {
+    // your logic here
+  })
+})
+```
