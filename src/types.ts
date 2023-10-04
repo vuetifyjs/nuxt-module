@@ -380,7 +380,7 @@ declare module '#app' {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
     }) => Promise<void> | void
-    'vuetify:created': (vuetify: ReturnType<typeof createVuetify>) => Promise<void> | void
+    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => Promise<void> | void
     'vuetify:ssr-client-hints': (options: {
       vuetifyOptions: VuetifyOptions
       ssrClientHints: SSRClientHints
