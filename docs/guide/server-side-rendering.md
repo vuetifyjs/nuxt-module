@@ -10,7 +10,7 @@ The module includes support for the following [HTTP Client hints](https://develo
 - [Sec-CH-Prefers-Color-Scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme)
 - [Sec-CH-Prefers-Reduced-Motion](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
-- [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
+- [Sec-CH-Viewport-Height](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
 
 ::: warning
 The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
@@ -142,9 +142,10 @@ To enable this feature, add the following module options:
 - `ssrClientHints.prefersColorSchemeOptions`: can be an empty object
 
 where `ssrClientHints.prefersColorSchemeOptions` is an object with the following properties:
+- `baseUrl`: the cookie path (defaults to `/`)
+- `cookieName`: the cookie name to store the theme name (defaults to `color-scheme`)
 - `darkThemeName`: the theme name to be used when the user's preference is `dark` (defaults to `dark`)
 - `lightThemeName`: the theme name to be used when the user's preference is `light` (defaults to `light`)
-- `cookieName`: the cookie name to store the theme name (defaults to `color-scheme`)
 - `useBrowserThemeOnly`: this flag can be used when your application provides a custom dark and light themes, but will not provide a theme selector, i.e., the theme selector will be the one provided by the browser (defaults to `false`)
 
 You also need to configure the default Vuetify theme in the `vuetifyOptions` module option, should be `darkThemeName` or `lightThemeName`, otherwise you will get an error.

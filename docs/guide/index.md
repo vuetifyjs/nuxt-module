@@ -125,6 +125,78 @@ export interface MOptions {
    * @default true
    */
   includeTransformAssetsUrls?: boolean
+  /**
+   * Vuetify SSR client hints.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints
+   */
+  ssrClientHints?: {
+    /**
+     * Should the module reload the page on first request?
+     *
+     * @default false
+     */
+    reloadOnFirstRequest?: boolean
+    /**
+     * Enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers?
+     *
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width
+     * @see https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height
+     *
+     * @default false
+     */
+    viewportSize?: boolean
+    /**
+     * Enable `Sec-CH-Prefers-Color-Scheme` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme
+     *
+     * @default false
+     */
+    prefersColorScheme?: boolean
+    /**
+     * The options for `prefersColorScheme`, `prefersColorScheme` must be enabled.
+     *
+     * If you want the module to handle the color scheme for you, you should configure this option, otherwise you'll need to add your custom implementation.
+     */
+    prefersColorSchemeOptions?: {
+      /**
+       * The name for the cookie.
+       *
+       * @default 'color-scheme'
+       */
+      cookieName?: string
+      /**
+       * The name for the dark theme.
+       *
+       * @default 'dark'
+       */
+      darkThemeName?: string
+      /**
+       * The name for the light theme.
+       *
+       * @default 'light'
+       */
+      lightThemeName?: string
+      /**
+       * Use the browser theme only?
+       *
+       * This flag can be used when your application provides a custom dark and light themes,
+       * but will not provide a theme switcher, that's, using by default the browser theme.
+       *
+       * @default false
+       */
+      useBrowserThemeOnly?: boolean
+    }
+    /**
+     * Enable `Sec-CH-Prefers-Reduced-Motion` header?
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion
+     *
+     * @default false
+     */
+    prefersReducedMotion?: boolean
+  }  
 }
 ```
 </details>
@@ -134,6 +206,16 @@ export interface MOptions {
 
 ```ts
 export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
+  /**
+   * Configure the SSR options.
+   *
+   * This option is only used when SSR is enabled in your Nuxt configuration.
+   */
+  ssr?: {
+    clientWidth: number
+    clientHeight?: number
+  }
+
   aliases?: Record<string, ComponentName>
   /**
    * Do you need to configure some global components?.
