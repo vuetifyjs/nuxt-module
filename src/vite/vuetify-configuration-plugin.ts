@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite'
 import type { ComponentName, LabComponentName } from '../types'
 import type { VuetifyNuxtContext } from '../utils/config'
+import { toKebabCase } from '../utils'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 
 interface ImportsResult {
@@ -115,8 +116,8 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
       config.directives = 'options.directives = directives'
     }
     else {
-      const useDirectives = Array.isArray(directives) ? [...new Set(...directives)] : [directives]
-      config.imports.push(useDirectives.map(d => `import { ${d} } from 'vuetify/directives/${d}'`).join('\n'))
+      const useDirectives = Array.isArray(directives) ? [...new Set(directives)] : [directives]
+      config.imports.push(useDirectives.map(d => `import {${d}} from 'vuetify/directives/${toKebabCase(d)}'`).join('\n'))
       config.directives = `options.directives = {${useDirectives.join(',')}}`
     }
   }
