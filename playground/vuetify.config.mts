@@ -8,7 +8,7 @@ export default defineVuetifyConfiguration({
   aliases: {
     MyBadge: 'VBadge',
   },
-  directives: true,
+  directives: ['ClickOutside', 'Resize', 'Ripple'],
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
   labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
   blueprint: md3,
