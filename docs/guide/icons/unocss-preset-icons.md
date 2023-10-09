@@ -104,7 +104,7 @@ export default defineNuxtConfig({
 })
 ```
 
-You can also add additional icons using the `icons.unocssAdditionalIcons` option in your Vuetify options, don't forget to add the prefix and the collection name to the icon name. Additional icons will override the default icons, you should try to avoid overriding defaults using this option.
+You can also add additional icons using the `icons.unocssAdditionalIcons` option in your Vuetify options, don't forget to add the prefix and the collection name to the icon name. Additional icons will override the default icons, you should try to avoid overriding them using this option.
 
 ## Adding a new Vuetify icon set
 
