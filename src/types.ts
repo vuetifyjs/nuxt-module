@@ -72,10 +72,10 @@ export interface FontIconSet {
 export interface UnoCCSMdiIconSet {
   collapse?: string
   complete?: string
-  cancel: string
-  close: string
-  delete: string
-  clear: string
+  cancel?: string
+  close?: string
+  delete?: string
+  clear?: string
   success?: string
   info?: string
   warning?: string
