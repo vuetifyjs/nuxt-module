@@ -81,6 +81,31 @@ export default defineNuxtConfig({
 })
 ```
 
+If you want to change the default `unocss-mdi` icon set icons, you can override any icon using the `icons.unocssIcons` option in your Vuetify options, and so, you don't need to write a custom plugin, don't forget to add the prefix and the collection name to the icon name:
+```ts
+// Nuxt config file
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: ['@unocss/nuxt', 'vuetify-nuxt-module'],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'unocss-mdi',
+        unocssIcons: {
+          // default is i-mdi:close-circle  
+          delete: 'i-mdi:close-circle-outline',
+          // even from another collection, default is i-mdi:chevron-up
+          collapse: 'i-tabler:chevron-up'
+        }
+      }
+    }
+  }
+})
+```
+
+You can also add additional icons using the `icons.unocssAdditionalIcons` option in your Vuetify options, don't forget to add the prefix and the collection name to the icon name. Additional icons will override the default icons, you should try to avoid overriding them using this option.
+
 ## Adding a new Vuetify icon set
 
 This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` icon set will use the [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection, but you can use another icon set by installing the corresponding `@iconify-json/*` packages and configuring Vuetify to use it:
