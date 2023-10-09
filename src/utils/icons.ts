@@ -1,11 +1,13 @@
 import { isPackageExists } from 'local-pkg'
-import type { FontIconSet, IconFontName, IconSetName, IconsOptions, VOptions } from '../types'
+import type { FontIconSet, IconFontName, IconSetName, IconsOptions, UnoCCSMdiIconSet, VOptions } from '../types'
 
 export interface ResolvedIcons {
   enabled: boolean
   unocss: boolean
   unocssAliases: boolean
   unocssIconPrefix: string
+  unocssIcons: UnoCCSMdiIconSet
+  unocssAdditionalIcons: Record<string, string>
   defaultSet?: IconSetName
   sets: string[]
   cdn: [key: string, cdn: string][]
@@ -42,6 +44,8 @@ const disabledResolvedIcons: ResolvedIcons = Object.freeze({
   unocss: false,
   unocssAliases: false,
   unocssIconPrefix: 'i-',
+  unocssIcons: <UnoCCSMdiIconSet>{},
+  unocssAdditionalIcons: {},
   imports: [],
   aliases: [],
   aliasesImportPresent: false,
@@ -76,6 +80,8 @@ export function prepareIcons(
     unocss: unocssPresent && (defaultSet === 'unocss-mdi' || sets.some(s => s.name === 'unocss-mdi')),
     unocssAliases: defaultSet === 'unocss-mdi',
     unocssIconPrefix: icons.unocssIconPrefix ?? 'i-',
+    unocssIcons: icons.unocssIcons ?? <UnoCCSMdiIconSet>{},
+    unocssAdditionalIcons: icons.unocssAdditionalIcons ?? {},
     defaultSet,
     sets: [],
     aliases: [],

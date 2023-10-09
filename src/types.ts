@@ -1,4 +1,4 @@
-import type { LocaleOptions, RtlOptions, createVuetify, VuetifyOptions } from 'vuetify'
+import type { LocaleOptions, RtlOptions, VuetifyOptions, createVuetify } from 'vuetify'
 import type { UnwrapNestedRefs } from 'vue'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
@@ -69,6 +69,45 @@ export interface FontIconSet {
   cdn?: string
 }
 
+export interface UnoCCSMdiIconSet {
+  collapse?: string
+  complete?: string
+  cancel: string
+  close: string
+  delete: string
+  clear: string
+  success?: string
+  info?: string
+  warning?: string
+  error?: string
+  prev?: string
+  next?: string
+  checkboxOn?: string
+  checkboxOff?: string
+  checkboxIndeterminate?: string
+  delimiter?: string
+  sortAsc?: string
+  sortDesc?: string
+  expand?: string
+  menu?: string
+  subgroup?: string
+  dropdown?: string
+  radioOn?: string
+  radioOff?: string
+  edit?: string
+  ratingEmpty?: string
+  ratingFull?: string
+  ratingHalf?: string
+  loading?: string
+  first?: string
+  last?: string
+  unfold?: string
+  file?: string
+  plus?: string
+  minus?: string
+  calendar?: string
+}
+
 export interface IconsOptions {
   /**
    * @default 'mdi'
@@ -80,6 +119,14 @@ export interface IconsOptions {
    * @default 'i-'
    */
   unocssIconPrefix?: string
+  /**
+   * Override the default mdi icons.
+   *
+   * Icon names should include the prefix and the collection, for example:
+   * - home: i-<collection>:<icon>
+   */
+  unocssIcons?: UnoCCSMdiIconSet
+  unocssAdditionalIcons?: Record<string, string>
   sets?: IconFontName | IconFontName[] | FontIconSet[]
   svg?: {
     mdi?: JSSVGIconSet
