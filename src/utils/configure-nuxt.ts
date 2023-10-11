@@ -18,8 +18,10 @@ export function configureNuxt(
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
 
-  nuxt.options.build.transpile.push(configKey)
-  nuxt.options.build.transpile.push(runtimeDir)
+  if (!nuxt.options.ssr) {
+    nuxt.options.build.transpile.push(configKey)
+    nuxt.options.build.transpile.push(runtimeDir)
+  }
 
   nuxt.options.css ??= []
   if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
@@ -29,11 +31,10 @@ export function configureNuxt(
   else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
     nuxt.options.css.unshift(styles.configFile)
 
-  if (includeTransformAssetsUrls) {
+  if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
     nuxt.options.vite.vue ??= {}
     nuxt.options.vite.vue.template ??= {}
-    if (typeof nuxt.options.vite.vue.template.transformAssetUrls === 'undefined')
-      nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
+    nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
   }
 
   extendWebpackConfig(() => {
@@ -99,16 +100,9 @@ export function configureNuxt(
     })
   }
 
-  if (nuxt.options.dev) {
+  if (nuxt.options.dev || ctx.dateAdapter) {
     addPlugin({
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
     })
-  }
-  else {
-    if (ctx.dateAdapter) {
-      addPlugin({
-        src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
-      })
-    }
   }
 }

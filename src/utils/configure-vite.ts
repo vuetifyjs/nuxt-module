@@ -17,11 +17,18 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
 
     viteInlineConfig.optimizeDeps = defu(viteInlineConfig.optimizeDeps, { exclude: ['vuetify'] })
 
-    viteInlineConfig.ssr ||= {}
-    viteInlineConfig.ssr.noExternal = [
-      ...(Array.isArray(viteInlineConfig.ssr.noExternal) ? viteInlineConfig.ssr.noExternal : []),
-      configKey,
-    ]
+    if (nuxt.options.ssr) {
+      viteInlineConfig.ssr ||= {}
+      viteInlineConfig.ssr.noExternal = [
+        ...(Array.isArray(viteInlineConfig.ssr.noExternal)
+          ? viteInlineConfig.ssr.noExternal
+          : viteInlineConfig.ssr.noExternal && typeof viteInlineConfig.ssr.noExternal !== 'boolean'
+            ? [viteInlineConfig.ssr.noExternal]
+            : []
+        ),
+        configKey,
+      ]
+    }
 
     viteInlineConfig.plugins.push(vuetify({ styles: true, autoImport: true }))
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
