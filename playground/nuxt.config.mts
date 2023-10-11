@@ -5,7 +5,7 @@ import LayerModule from './layer-module'
 
 export default defineNuxtConfig({
   extends: ['layers/vuetify-layer'],
-  ssr: true,
+  // ssr: false,
   sourcemap: true,
   imports: {
     autoImport: true,
