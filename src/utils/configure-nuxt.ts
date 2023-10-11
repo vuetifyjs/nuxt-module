@@ -31,12 +31,10 @@ export function configureNuxt(
   else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
     nuxt.options.css.unshift(styles.configFile)
 
-  if (includeTransformAssetsUrls) {
-    if (typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
-      nuxt.options.vite.vue ??= {}
-      nuxt.options.vite.vue.template ??= {}
-      nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
-    }
+  if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
+    nuxt.options.vite.vue ??= {}
+    nuxt.options.vite.vue.template ??= {}
+    nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
   }
 
   extendWebpackConfig(() => {
