@@ -76,13 +76,13 @@ export function normalizeTransformAssetUrls(transformAssetUrls: Record<string, s
   return transformAssetUrls
 }
 
-function normalizeTransformAssetUrlsAttrs(entries: string[]) {
+function normalizeTransformAssetUrlsAttrs(attrs: string[]) {
   const result = new Set<string>()
   let kebab: string
   let camel: string
   let bind: boolean
   let idx: number
-  for (const attr of entries) {
+  for (const attr of attrs) {
     result.add(attr)
     idx = attr.indexOf(':')
     if (idx > 0)
