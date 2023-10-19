@@ -38,9 +38,6 @@ export default defineNuxtConfig({
           'image',
           'prepend-avatar',
           'append-avatar',
-          ':image',
-          ':prepend-avatar',
-          ':append-avatar',
         ],
       },
       ssrClientHints: {
