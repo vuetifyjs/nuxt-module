@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // import { useLocale, useRtl } from 'vuetify'
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
+import prependAvatar from '~/assets/logo.svg'
 
 const value = reactive<{
   name1?: string
@@ -53,7 +54,7 @@ watch(current, () => {
   <div>
     <v-img src="~/assets/logo.svg" width="48" height="48" />
     <v-card prepend-avatar="~/assets/logo.svg" width="48" height="48" />
-    <v-card prepend-avatar="~/assets/logo.svg" width="48" height="48" />
+    <v-card :prepend-avatar="prependAvatar" width="48" height="48" />
     <div>
       <h2>SSR Client Hints Headers:</h2>
       <pre class="text-body-2">{{ ssrClientHints }}</pre>
