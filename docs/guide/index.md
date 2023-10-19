@@ -121,10 +121,12 @@ export interface MOptions {
   }
   /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
+   * 
+   * You can extend the Vuetify `transformAssetsUrls`.
    *
    * @default true
    */
-  includeTransformAssetsUrls?: boolean
+  includeTransformAssetsUrls?: boolean | Record<string, string[]>
   /**
    * Vuetify SSR client hints.
    *

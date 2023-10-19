@@ -52,6 +52,8 @@ watch(current, () => {
 <template>
   <div>
     <v-img src="~/assets/logo.svg" width="48" height="48" />
+    <v-card prepend-avatar="~/assets/logo.svg" width="48" height="48" />
+    <v-card prepend-avatar="~/assets/logo.svg" width="48" height="48" />
     <div>
       <h2>SSR Client Hints Headers:</h2>
       <pre class="text-body-2">{{ ssrClientHints }}</pre>

@@ -49,3 +49,53 @@ export function pascalize(str: string): string {
 }
 
 pascalize.cache = new Map<string, string>()
+
+export function normalizeTransformAssetUrls(transformAssetUrls: Record<string, string[]>) {
+  /*
+  We need to cover these 4 cases:
+
+<VCard :appendAvatar="~/assets/logo.svg"/>
+<v-card :append-avatar="~/assets/logo.svg" />
+<VCard appendAvatar="~/assets/logo.svg"/>
+<v-card append-avatar="~/assets/logo.svg" />
+   */
+  const names = new Set(Object.keys(transformAssetUrls))
+  let kebab: string
+  let pascal: string
+  for (const name of names) {
+    transformAssetUrls[name] = normalizeTransformAssetUrlsAttrs(transformAssetUrls[name])
+    kebab = toKebabCase(name)
+    pascal = pascalize(name)
+    if (!names.has(kebab))
+      transformAssetUrls[kebab] = [...transformAssetUrls[name]]
+
+    if (!names.has(pascal))
+      transformAssetUrls[pascal] = [...transformAssetUrls[name]]
+  }
+
+  return transformAssetUrls
+}
+
+function normalizeTransformAssetUrlsAttrs(attrs: string[]) {
+  const result = new Set<string>()
+  let kebab: string
+  let camel: string
+  let bind: boolean
+  let idx: number
+  for (const attr of attrs) {
+    result.add(attr)
+    idx = attr.indexOf(':')
+    if (idx > 0)
+      continue
+
+    bind = idx === 0
+    kebab = toKebabCase(bind ? attr.slice(1) : attr)
+    camel = camelize(bind ? attr.slice(1) : attr)
+    result.add(kebab)
+    result.add(camel)
+    result.add(`:${kebab}`)
+    result.add(`:${camel}`)
+  }
+
+  return [...result]
+}

@@ -33,7 +33,13 @@ export default defineNuxtConfig({
   },
   vuetify: {
     moduleOptions: {
-      includeTransformAssetsUrls: true,
+      includeTransformAssetsUrls: {
+        'v-card': [
+          'image',
+          'prepend-avatar',
+          'append-avatar',
+        ],
+      },
       ssrClientHints: {
         reloadOnFirstRequest: false,
         prefersColorScheme: true,

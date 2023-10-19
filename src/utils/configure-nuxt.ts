@@ -1,8 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
+import defu from 'defu'
 import type { VuetifyNuxtContext } from './config'
-import { toKebabCase } from './index'
+import { normalizeTransformAssetUrls, toKebabCase } from './index'
 
 export function configureNuxt(
   configKey: string,
@@ -34,7 +35,11 @@ export function configureNuxt(
   if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
     nuxt.options.vite.vue ??= {}
     nuxt.options.vite.vue.template ??= {}
-    nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
+    nuxt.options.vite.vue.template.transformAssetUrls = normalizeTransformAssetUrls(
+      typeof includeTransformAssetsUrls === 'object'
+        ? defu(includeTransformAssetsUrls, transformAssetUrls)
+        : transformAssetUrls,
+    )
   }
 
   extendWebpackConfig(() => {

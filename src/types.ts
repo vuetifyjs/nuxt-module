@@ -254,7 +254,7 @@ export interface MOptions {
    *
    * @default true
    */
-  includeTransformAssetsUrls?: boolean
+  includeTransformAssetsUrls?: boolean | Record<string, string[]>
   /**
    * Vuetify SSR client hints.
    *
