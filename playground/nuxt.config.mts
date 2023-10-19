@@ -36,11 +36,11 @@ export default defineNuxtConfig({
       includeTransformAssetsUrls: {
         'v-card': [
           'image',
-          'prependAvatar',
-          'appendAvatar',
+          'prepend-avatar',
+          'append-avatar',
           ':image',
-          ':prependAvatar',
-          ':appendAvatar',
+          ':prepend-avatar',
+          ':append-avatar',
         ],
       },
       ssrClientHints: {
