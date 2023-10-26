@@ -13,7 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     prefersReducedMotionAvailable,
     viewportHeightAvailable,
     viewportWidthAvailable,
-  } = state.value.ssrClientHints
+  } = state.value
 
   const {
     reloadOnFirstRequest,
@@ -26,13 +26,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   // reload the page when it is the first request, explicitly configured, and any feature available
   if (firstRequest && reloadOnFirstRequest) {
     if (prefersColorScheme) {
-      const themeCookie = state.value.ssrClientHints.colorSchemeCookie
+      const themeCookie = state.value.colorSchemeCookie
       // write the cookie and refresh the page if configured
       if (prefersColorSchemeOptions && themeCookie) {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
         const cookieName = prefersColorSchemeOptions.cookieName
         const parseCookieName = `${cookieName}=`
-        const cookieEntry = `${parseCookieName}${state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
+        const cookieEntry = `${parseCookieName}${state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
         const newThemeName = prefersDark ? prefersColorSchemeOptions.darkThemeName : prefersColorSchemeOptions.lightThemeName
         document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
         window.location.reload()
@@ -58,8 +58,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       // on client, we update the display to avoid hydration mismatch on page refresh
       // there will be some hydration mismatch since the headers sent by the user agent may not be accurate
       if (viewportSize) {
-        const clientWidth = state.value.ssrClientHints.viewportWidth
-        const clientHeight = state.value.ssrClientHints.viewportHeight
+        const clientWidth = state.value.viewportWidth
+        const clientHeight = state.value.viewportHeight
         vuetifyOptions.ssr = typeof clientWidth === 'number'
           ? {
               clientWidth,
@@ -70,19 +70,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       // update the theme
       if (prefersColorScheme && prefersColorSchemeOptions)
-        vuetifyOptions.theme.defaultTheme = state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
+        vuetifyOptions.theme.defaultTheme = state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
     })
 
     // update theme logic
     if (prefersColorScheme && prefersColorSchemeOptions) {
-      const themeCookie = state.value.ssrClientHints.colorSchemeCookie
+      const themeCookie = state.value.colorSchemeCookie
       if (themeCookie) {
         nuxtApp.hook('app:beforeMount', () => {
           const vuetify = useNuxtApp().$vuetify
           // update the theme
           const cookieName = prefersColorSchemeOptions.cookieName
           const parseCookieName = `${cookieName}=`
-          const cookieEntry = `${parseCookieName}${state.value.ssrClientHints.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
+          const cookieEntry = `${parseCookieName}${state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme};`
           watch(vuetify.theme.global.name, (newThemeName) => {
             document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
           })

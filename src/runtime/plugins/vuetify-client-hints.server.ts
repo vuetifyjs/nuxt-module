@@ -4,7 +4,7 @@ import {
   ssrClientHintsConfiguration,
 } from 'virtual:vuetify-ssr-client-hints-configuration'
 import { reactive } from 'vue'
-import type { ClientHintsRequest, SSRClientHints } from './client-hints'
+import type { SSRClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
 import { VuetifyHTTPClientHints } from './client-hints'
 import {
@@ -34,11 +34,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   const clientHintsRequest = collectClientHints(userAgent, ssrClientHintsConfiguration, requestHeaders)
   // 3. write client hints response headers
   writeClientHintsResponseHeaders(clientHintsRequest, ssrClientHintsConfiguration, response)
-  state.value = {
-    ssrClientHints: clientHintsRequest,
-  }
+  state.value = clientHintsRequest
   // 4. send the theme cookie to the client when required
-  state.value.ssrClientHints.colorSchemeCookie = writeThemeCookie(
+  state.value.colorSchemeCookie = writeThemeCookie(
     clientHintsRequest,
     ssrClientHintsConfiguration,
   )
@@ -150,7 +148,7 @@ function lookupClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
   ssrClientHintsConfiguration: SSRClientHintsConfiguration,
 ) {
-  const features: ClientHintsRequest = {
+  const features: SSRClientHints = {
     firstRequest: true,
     prefersColorSchemeAvailable: false,
     prefersReducedMotionAvailable: false,
@@ -181,7 +179,7 @@ function collectClientHints(
   headers: IncomingHttpHeaders,
 ) {
   // collect client hints
-  const hints: ClientHintsRequest = lookupClientHints(userAgent, ssrClientHintsConfiguration)
+  const hints: SSRClientHints = lookupClientHints(userAgent, ssrClientHintsConfiguration)
 
   if (ssrClientHintsConfiguration.prefersColorScheme) {
     if (ssrClientHintsConfiguration.prefersColorSchemeOptions) {
@@ -277,7 +275,7 @@ function withNuxtAppRendered(callback: () => void) {
 }
 
 function writeClientHintsResponseHeaders(
-  clientHintsRequest: ClientHintsRequest,
+  clientHintsRequest: SSRClientHints,
   ssrClientHintsConfiguration: SSRClientHintsConfiguration,
   response: ServerResponse,
 ) {
@@ -308,7 +306,7 @@ function writeClientHintsResponseHeaders(
 }
 
 function writeThemeCookie(
-  clientHintsRequest: ClientHintsRequest,
+  clientHintsRequest: SSRClientHints,
   ssrClientHintsConfiguration: SSRClientHintsConfiguration,
 ) {
   if (!ssrClientHintsConfiguration.prefersColorScheme || !ssrClientHintsConfiguration.prefersColorSchemeOptions)
