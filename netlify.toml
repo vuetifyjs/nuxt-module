@@ -5,21 +5,6 @@
   publish = "docs/.vitepress/dist"
   command = "pnpm run docs:build"
 
-[[redirects]]
-  from = "/guide/globals/"
-  to = "/guide/globals/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/guide/icons/"
-  to = "/guide/icons/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/guide/"
-  to = "/guide/index.html"
-  status = 200
-
 [[headers]]
   for = "/manifest.webmanifest"
   [headers.values]
