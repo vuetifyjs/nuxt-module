@@ -55,8 +55,11 @@ export const pwa = {
       label: 'Screenshot of the Vuetify Nuxt Module home page in dark mode',
     }],
   },
+  experimental: {
+    includeAllowlist: true,
+  },
   workbox: {
-    globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2}'],
+    globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2,json}'],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
