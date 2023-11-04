@@ -1,11 +1,11 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import vuetify from 'vite-plugin-vuetify'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configuration-plugin'
 import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-plugin'
+import { vuetifyImportPlugin } from '../vite/vuetify-import-plugin'
 import { checkVuetifyPlugins } from './module'
 import type { VuetifyNuxtContext } from './config'
 
@@ -30,7 +30,8 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       ]
     }
 
-    viteInlineConfig.plugins.push(vuetify({ styles: true, autoImport: true }))
+    // viteInlineConfig.plugins.push(vuetify({ styles: true, autoImport: true }))
+    viteInlineConfig.plugins.push(vuetifyImportPlugin())
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))
