@@ -54,7 +54,7 @@
     "dev:generate:multiple-json": "MULTIPLE_LANG_FILES=true nuxi generate playground",
     "dev:preview": "nuxi preview playground",
     "docs:dev": "pnpm -C docs run dev",
-    "docs:build": "nuxt-module-build && pnpm -C docs run build",
+    "docs:build": "nuxt-module-build prepare && pnpm -C docs run build",
     "docs:serve": "pnpm -C docs run serve",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
