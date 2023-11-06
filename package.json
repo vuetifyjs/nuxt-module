@@ -60,7 +60,6 @@
     "lint:fix": "nr lint --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish"
   },
   "dependencies": {
