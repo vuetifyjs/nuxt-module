@@ -69,8 +69,15 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
 
       // update the theme
-      if (prefersColorScheme && prefersColorSchemeOptions)
-        vuetifyOptions.theme.defaultTheme = state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
+      if (prefersColorScheme && prefersColorSchemeOptions) {
+        if (vuetifyOptions.theme === false) {
+          vuetifyOptions.theme = { defaultTheme: state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme }
+        }
+        else {
+          vuetifyOptions.theme = vuetifyOptions.theme ?? {}
+          vuetifyOptions.theme.defaultTheme = state.value.colorSchemeFromCookie ?? prefersColorSchemeOptions.defaultTheme
+        }
+      }
     })
 
     // update theme logic

@@ -11,6 +11,7 @@ import {
   defineNuxtPlugin,
   useCookie,
   useNuxtApp,
+  useRequestEvent,
   useRequestHeaders,
   useState,
 } from '#imports'
@@ -64,12 +65,22 @@ export default defineNuxtPlugin((nuxtApp) => {
       : true
 
     // update theme from cookie
-    if (clientHintsRequest.colorSchemeFromCookie)
-      vuetifyOptions.theme.defaultTheme = clientHintsRequest.colorSchemeFromCookie
+    if (clientHintsRequest.colorSchemeFromCookie) {
+      if (vuetifyOptions.theme === false) {
+        vuetifyOptions.theme = { defaultTheme: clientHintsRequest.colorSchemeFromCookie }
+      }
+      else {
+        vuetifyOptions.theme ??= {}
+        vuetifyOptions.theme.defaultTheme = clientHintsRequest.colorSchemeFromCookie
+      }
+    }
 
     await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
       vuetifyOptions,
-      ssrClientHintsConfiguration,
+      ssrClientHintsConfiguration: {
+        ...ssrClientHintsConfiguration,
+        enabled: true,
+      },
       ssrClientHints: state.value,
     })
   })
