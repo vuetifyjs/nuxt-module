@@ -154,7 +154,7 @@ export function prepareIcons(
       resolvedIcons.imports.push(`import {${defaultSet === 'fa-svg' ? 'aliases,' : ''}fa} from \'vuetify/iconsets/fa-svg\'`)
       resolvedIcons.imports.push('import { library } from \'@fortawesome/fontawesome-svg-core\'')
       resolvedIcons.imports.push('import { FontAwesomeIcon } from \'@fortawesome/vue-fontawesome\'')
-      resolvedIcons.imports.push('import { useNuxtApp } from \'#app\'')
+      resolvedIcons.imports.push('import { useNuxtApp } from \'#imports\'')
       resolvedIcons.svg.fa = ['useNuxtApp().vueApp.component(\'font-awesome-icon\', FontAwesomeIcon)']
       faSvg.libraries!.forEach(([defaultExport, name, library]) => {
         resolvedIcons.imports.push(`import ${defaultExport ? name : `{${name}}`} from \'${library}\'`)

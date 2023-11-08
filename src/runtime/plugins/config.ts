@@ -1,6 +1,6 @@
 import { createVuetify } from 'vuetify'
 import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
-import { useNuxtApp } from '#app'
+import { useNuxtApp } from '#imports'
 
 export async function configureVuetify() {
   const nuxtApp = useNuxtApp()

@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
 import type { Locale } from 'vue-i18n'
 import { useI18n } from 'vue-i18n'
-import { useNuxtApp } from '#app'
+import { useNuxtApp } from '#imports'
 
 export function createAdapter(vuetifyOptions: VuetifyOptions) {
   vuetifyOptions.locale = {}
