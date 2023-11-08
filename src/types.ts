@@ -409,8 +409,7 @@ declare module '@nuxt/schema' {
   }
 }
 
-declare module '#app' {
-  // TODO: fix this issue upstream in nuxt/module-builder
+declare module '#app/nuxt' {
   interface NuxtApp {
     $vuetify: ReturnType<typeof import('vuetify')['createVuetify']>
     /**

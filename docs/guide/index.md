@@ -121,7 +121,7 @@ export interface MOptions {
   }
   /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
-   * 
+   *
    * You can extend the Vuetify `transformAssetsUrls`.
    *
    * @default true
@@ -198,7 +198,7 @@ export interface MOptions {
      * @default false
      */
     prefersReducedMotion?: boolean
-  }  
+  }
 }
 ```
 </details>

@@ -48,67 +48,9 @@ export default defineNuxtConfig({
         },
         viewportSize: true,
       },
-      // styles: { configFile: '/settings.scss' },
+      // styles: { configFile: 'assets/settings.scss' },
     },
   },
-  // vuetify: {
-  /* moduleOptions: {
-      styles: { configFile: '/settings.scss' },
-    }, */
-  // vuetifyOptions: './vuetify.config.mts',
-  /* vuetifyOptions: {
-      ssr: {
-        clientWidth: 100,
-      },
-      aliases: {
-        MyBadge: 'VBadge',
-      },
-      directives: true,
-      components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
-      labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
-      blueprint: md3,
-      /!*locale: {
-        messages: {
-          en: {
-            hello: 'Hi',
-            question: {
-              one: 'One',
-              two: 'Two',
-            },
-          },
-          es: {
-            hello: 'Hola',
-            question: {
-              one: 'Uno',
-              two: 'Dos',
-              three: 'Tres',
-            },
-          },
-        },
-      },
-      localeMessages: ['en', 'es', 'ar'],*!/
-      theme: {
-        defaultTheme: 'light',
-      },
-      date: {
-        adapter: 'luxon',
-        // adapter: 'vuetify',
-      },
-      icons: {
-        // remember to comment the v-icon in playground/pages/index.vue when switching
-        // defaultSet: 'fa-svg',
-        defaultSet: 'unocss-mdi',
-        // defaultSet: 'mdi-svg',
-        /!*svg: {
-          mdi: {
-            aliases: {
-              account: 'mdiAccount',
-            },
-          },
-        },*!/
-      },
-    }, */
-  // },
   vite: {
     clearScreen: false,
     define: {
@@ -140,7 +82,7 @@ export default defineNuxtConfig({
     },
   },
   // css: ['vuetify/styles'],
-  // css: ['/main.scss'],
+  // css: ['~/assets/main.scss'],
   experimental: {
     inlineSSRStyles: false,
     payloadExtraction: false,

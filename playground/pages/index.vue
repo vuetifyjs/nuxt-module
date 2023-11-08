@@ -16,6 +16,7 @@ const { locales, t } = useI18n()
 const { current } = useLocale()
 const { isRtl } = useRtl()
 
+// eslint-disable-next-line n/prefer-global/process
 if (process.client) {
   // eslint-disable-next-line no-console
   console.log(useNuxtApp().$vuetify.icons)
