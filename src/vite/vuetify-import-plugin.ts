@@ -22,12 +22,12 @@ function parseId(id: string) {
   }
 }
 
-export function vuetifyImportPlugin(): Plugin {
-  return {
-    name: 'vuetify:import',
+export function vuetifyImportPlugin() {
+  return <Plugin>{
+    name: 'vuetify:import:nuxt',
     configResolved(config) {
-      if (config.plugins.findIndex(plugin => plugin.name === 'vuetify:import') < config.plugins.findIndex(plugin => plugin.name === 'vite:vue'))
-        throw new Error('Vuetify plugin must be loaded after the vue plugin')
+      if (config.plugins.findIndex(plugin => plugin.name === 'vuetify:import') > -1)
+        throw new Error('Remove vite-plugin-vuetify from your Nuxt config file, this module registers a modified version.')
     },
     async transform(code, id) {
       const { query, path } = parseId(id)

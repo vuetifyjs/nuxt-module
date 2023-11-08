@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       /* vuetify options */
-    }  
+    }
   },
   experimental: {
     inlineSSRStyles: false

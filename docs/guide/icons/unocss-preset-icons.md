@@ -93,7 +93,7 @@ export default defineNuxtConfig({
       icons: {
         defaultSet: 'unocss-mdi',
         unocssIcons: {
-          // default is i-mdi:close-circle  
+          // default is i-mdi:close-circle
           delete: 'i-mdi:close-circle-outline',
           // even from another collection, default is i-mdi:chevron-up
           collapse: 'i-tabler:chevron-up'

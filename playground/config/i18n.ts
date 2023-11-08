@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { DateTimeFormats, NumberFormats, PluralizationRules } from '@intlify/core-base'
 import type { LocaleObject } from '#i18n'
 

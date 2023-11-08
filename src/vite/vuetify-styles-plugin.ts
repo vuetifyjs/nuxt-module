@@ -17,7 +17,7 @@ const styleImportRegexp = /(@use |meta\.load-css\()['"](vuetify(?:\/lib)?(?:\/st
 export function vuetifyStylesPlugin(
   options: Options,
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
-): Plugin {
+) {
   const vuetifyBase = resolveVuetifyBase()
   const files = new Set<string>()
 
@@ -146,6 +146,9 @@ export function vuetifyStylesPlugin(
       }
     },
     configResolved(config) {
+      if (config.plugins.findIndex(plugin => plugin.name === 'vuetify:styles') > -1)
+        throw new Error('Remove vite-plugin-vuetify from your Nuxt config file, this module registers a modified version.')
+
       if (typeof options.styles === 'object') {
         if (isAbsolute(options.styles.configFile))
           configFile = options.styles.configFile
