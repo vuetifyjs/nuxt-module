@@ -1,6 +1,5 @@
 import { configureVuetify } from './config'
-import { defineNuxtPlugin } from '#imports'
-import { useNuxtApp } from '#imports'
+import { defineNuxtPlugin, useNuxtApp } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'vuetify:configuration:plugin',
