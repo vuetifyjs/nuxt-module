@@ -90,6 +90,11 @@ export function configureNuxt(
       mode: 'server',
     })
   }
+  else {
+    addPlugin({
+      src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-no-client-hints'),
+    })
+  }
 
   addPlugin({
     src: ctx.resolver.resolve(runtimeDir, `plugins/vuetify${ctx.i18n ? '-sync' : ''}`),

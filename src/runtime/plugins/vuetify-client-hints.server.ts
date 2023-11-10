@@ -3,6 +3,7 @@ import {
   type SSRClientHintsConfiguration,
   ssrClientHintsConfiguration,
 } from 'virtual:vuetify-ssr-client-hints-configuration'
+import type { UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
 import type { SSRClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
@@ -15,6 +16,7 @@ import {
   useRequestHeaders,
   useState,
 } from '#imports'
+import type { Plugin } from '#app/nuxt'
 
 const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
@@ -32,7 +34,9 @@ const AcceptClientHintsRequestHeaders = Object.entries(AcceptClientHintsHeaders)
 
 const HttpRequestHeaders = Array.from(Object.values(AcceptClientHintsRequestHeaders)).concat('user-agent', 'cookie')
 
-export default defineNuxtPlugin((nuxtApp) => {
+const plugin: Plugin<{
+  ssrClientHints: UnwrapNestedRefs<SSRClientHints>
+}> = defineNuxtPlugin((nuxtApp) => {
   const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
 
   const requestHeaders = useRequestHeaders<string>(HttpRequestHeaders)
@@ -325,3 +329,5 @@ function writeThemeCookie(
 
   return `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
 }
+
+export default plugin

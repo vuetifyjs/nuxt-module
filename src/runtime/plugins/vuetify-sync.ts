@@ -1,7 +1,11 @@
+import type { createVuetify } from 'vuetify'
 import { configureVuetify } from './config'
 import { defineNuxtPlugin, useNuxtApp } from '#imports'
+import type { Plugin } from '#app/nuxt'
 
-export default defineNuxtPlugin({
+const plugin: Plugin<{
+  vuetify: ReturnType<typeof createVuetify>
+}> = defineNuxtPlugin({
   name: 'vuetify:configuration:plugin',
   enforce: 'post',
   // i18n runtime plugin is async
@@ -10,3 +14,5 @@ export default defineNuxtPlugin({
     useNuxtApp().hook('app:created', configureVuetify)
   },
 })
+
+export default plugin
