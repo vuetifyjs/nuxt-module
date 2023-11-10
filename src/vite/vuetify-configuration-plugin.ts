@@ -182,7 +182,8 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
     if (typeof labComponents === 'boolean') {
       config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
       config.labComponents.add('*')
-      addDatePicker = false
+      if (ctx.vuetify3_4 === false)
+        addDatePicker = false
     }
     else if (typeof labComponents === 'string') {
       useLabComponents.push(labComponents)
@@ -217,25 +218,38 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
         config.labComponents.add(component)
       })
 
-      if (dateOptions && !config.labComponents.has('VDatePicker')) {
+      if (ctx.vuetify3_4 === false && dateOptions && !addDatePicker) {
         const entry = componentsToImport.get('VDatePicker')
         if (entry) {
           entry.push('VDatePicker')
           config.labComponents.add('VDatePicker')
+          addDatePicker = false
         }
       }
 
       componentsToImport.forEach((componentsArray, from) => {
         config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/labs/${from}'`)
       })
-      addDatePicker = !config.labComponents.has('VDatePicker')
     }
   }
 
   // include date picker only when needed
   if (dateOptions && addDatePicker) {
-    config.imports.push('import {VDatePicker} from \'vuetify/labs/VDatePicker\'')
-    config.labComponents.add('VDatePicker')
+    let warn = true
+    if (typeof ctx.vuetify3_4 === 'boolean') {
+      warn = false
+      if (ctx.vuetify3_4) {
+        // @ts-expect-error VDatePicker is on labs when version < 3.4
+        config.components.add('VDatePicker')
+        config.imports.push('import {VDatePicker} from \'vuetify/components/VDatePicker\'')
+      }
+      else {
+        config.labComponents.add('VDatePicker')
+        config.imports.push('import {VDatePicker} from \'vuetify/labs/VDatePicker\'')
+      }
+    }
+
+    warn && logger.warn('Unable to load Vuetify version from package.json, add VDatePicker to components or labComponents')
   }
 
   // components entry

@@ -25,6 +25,7 @@ export interface VuetifyNuxtContext {
   ssrClientHints: ResolvedClientHints
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
+  vuetify3_4?: boolean
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>(

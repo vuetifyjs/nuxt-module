@@ -6,6 +6,7 @@ import {
   isNuxt3,
   useLogger,
 } from '@nuxt/kit'
+import { getPackageInfo } from 'local-pkg'
 import { version } from '../package.json'
 import type { ModuleOptions } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
@@ -40,6 +41,10 @@ export default defineNuxtModule<ModuleOptions>({
     if (!isNuxt3(nuxt))
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
 
+    const vuetifyPkg = await getPackageInfo('vuetify')
+    const versions = vuetifyPkg?.version?.split('.').map(v => Number.parseInt(v))
+    const vuetify3_4 = versions && versions.length > 1 && versions[0] >= 3 && versions[1] >= 4
+
     const ctx: VuetifyNuxtContext = {
       logger,
       resolver: createResolver(import.meta.url),
@@ -55,6 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
       ssrClientHints: undefined!,
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
+      vuetify3_4,
     }
 
     await load(options, nuxt, ctx)

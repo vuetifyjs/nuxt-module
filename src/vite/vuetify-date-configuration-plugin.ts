@@ -27,7 +27,9 @@ export function dateConfiguration() {
         const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
 
         const imports = ctx.dateAdapter === 'vuetify'
-          ? 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
+          ? ctx.vuetify3_4 === true
+            ? ''
+            : 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
           : ctx.dateAdapter === 'custom'
             ? ''
             : `import Adapter from '@date-io/${ctx.dateAdapter}'`
@@ -48,7 +50,7 @@ export function dateConfiguration() {
   }
 
   function buildAdapter() {
-    if (ctx.dateAdapter === 'custom')
+    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetify3_4 === true))
       return ''
 
     if (ctx.dateAdapter === 'vuetify')
