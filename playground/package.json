@@ -14,7 +14,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@iconify-json/mdi": "^1.1.53",
     "@mdi/js": "^7.2.96",
-    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge",
+    "@nuxtjs/i18n": "8.0.0-rc.5",
     "@unocss/nuxt": "^0.53.6",
     "luxon": "^3.3.0"
   },

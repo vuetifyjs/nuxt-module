@@ -1,5 +1,5 @@
 import type { LocaleOptions, RtlOptions, VuetifyOptions, createVuetify } from 'vuetify'
-import type { UnwrapNestedRefs } from 'vue'
+import type { HookResult } from '@nuxt/schema'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -400,37 +400,35 @@ export interface SSRClientHintsConfiguration {
   }
 }
 
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    vuetify?: ModuleOptions
-  }
-  interface NuxtHooks {
-    'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => void
-  }
+export interface ModuleHooks {
+  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
 }
 
 declare module '#app/nuxt' {
-  interface NuxtApp {
-    $vuetify: ReturnType<typeof import('vuetify')['createVuetify']>
-    /**
-     * Request headers received from the client in SSR.
-     */
-    $ssrClientHints: UnwrapNestedRefs<SSRClientHints>
-  }
   interface RuntimeNuxtHooks {
     'vuetify:configuration': (options: {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
-    }) => Promise<void> | void
+    }) => HookResult
     'vuetify:before-create': (options: {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
-    }) => Promise<void> | void
-    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => Promise<void> | void
+    }) => HookResult
+    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
     'vuetify:ssr-client-hints': (options: {
       vuetifyOptions: VuetifyOptions
       ssrClientHints: SSRClientHints
       ssrClientHintsConfiguration: SSRClientHintsConfiguration
-    }) => Promise<void> | void
+    }) => HookResult
   }
+}
+
+declare module '@nuxt/schema' {
+  interface NuxtConfig {
+    ['vuetify']?: Partial<ModuleOptions>
+  }
+  interface NuxtOptions {
+    ['vuetify']?: ModuleOptions
+  }
+  interface NuxtHooks extends ModuleHooks {}
 }
