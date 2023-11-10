@@ -50,11 +50,11 @@ export function dateConfiguration() {
   }
 
   function buildAdapter() {
-    if (ctx.dateAdapter === 'custom')
+    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetify3_4 === true))
       return ''
 
     if (ctx.dateAdapter === 'vuetify')
-      return ctx.vuetify3_4 === true ? '' : 'options.adapter = VuetifyDateAdapter'
+      return 'options.adapter = VuetifyDateAdapter'
 
     return 'options.adapter = Adapter'
   }
