@@ -71,7 +71,10 @@ export function configureNuxt(
   }) */
 
   if (importComposables) {
-    const composables = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
+    const composables: string[] = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
+    if (ctx.vuetify3_4)
+      composables.push('useDate')
+
     addImports(composables.map(name => ({
       name,
       from: 'vuetify',
