@@ -1,3 +1,5 @@
+import type { UnwrapNestedRefs } from 'vue'
+
 export interface ClientHintRequestFeatures {
   firstRequest: boolean
   prefersColorSchemeAvailable: boolean
@@ -15,3 +17,9 @@ export interface SSRClientHints extends ClientHintRequestFeatures {
 }
 
 export const VuetifyHTTPClientHints = 'vuetify:nuxt:ssr-client-hints'
+
+declare module '#app' {
+  interface NuxtApp {
+    $ssrClientHints: UnwrapNestedRefs<SSRClientHints>
+  }
+}

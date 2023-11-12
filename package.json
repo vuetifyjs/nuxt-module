@@ -22,19 +22,20 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "require": "./dist/module.cjs",
-      "import": "./dist/module.mjs"
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
     },
     "./custom-configuration": {
       "types": "./custom-configuration.d.ts",
-      "require": "./custom-configuration.cjs",
-      "import": "./custom-configuration.mjs"
+      "import": "./custom-configuration.mjs",
+      "require": "./custom-configuration.cjs"
     },
     "./configuration": {
       "types": "./configuration.d.ts"
     }
   },
   "main": "./dist/module.cjs",
+  "module": "./dist/module.mjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist",

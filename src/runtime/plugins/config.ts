@@ -12,7 +12,6 @@ export async function configureVuetify() {
 
   const vuetify = createVuetify(vuetifyOptions)
 
-  // @ts-expect-error Vuetify using App<any> instead of App<Element>
   nuxtApp.vueApp.use(vuetify)
 
   nuxtApp.provide('vuetify', vuetify)
@@ -23,5 +22,11 @@ export async function configureVuetify() {
   if (process.client) {
     // eslint-disable-next-line no-console
     isDev && console.log('Vuetify 3 initialized', vuetify)
+  }
+}
+
+declare module '#app' {
+  interface NuxtApp {
+    $vuetify: ReturnType<typeof createVuetify>
   }
 }

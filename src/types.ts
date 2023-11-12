@@ -1,5 +1,4 @@
-import type { LocaleOptions, RtlOptions, VuetifyOptions, createVuetify } from 'vuetify'
-import type { HookResult } from '@nuxt/schema'
+import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -398,25 +397,4 @@ export interface SSRClientHintsConfiguration {
     darkThemeName: string
     lightThemeName: string
   }
-}
-
-export interface ModuleHooks {
-  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
-}
-
-export interface RuntimeModuleHooks {
-  'vuetify:configuration': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:before-create': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
-  'vuetify:ssr-client-hints': (options: {
-    vuetifyOptions: VuetifyOptions
-    ssrClientHints: SSRClientHints
-    ssrClientHintsConfiguration: SSRClientHintsConfiguration
-  }) => HookResult
 }
