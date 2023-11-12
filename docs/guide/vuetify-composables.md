@@ -12,10 +12,11 @@ No more Vuetify composables manual imports, auto import is enabled by default:
 You can disable auto-import using `moduleOptions.importComposables: false`.
 
 If you are using another composables that collide with the Vuetify ones, enable `moduleOptions.prefixComposables: true` to prefix them with `V`:
-- `useLocale` => `useVLocale`
+- `useDate` => `useVDate`
 - `useDefaults` => `useVDefaults`
-- `useDisplay` => `useVDisplay`
 - `useLayout` => `useVLayout`
+- `useDisplay` => `useVDisplay`
+- `useLocale` => `useVLocale`
 - `useRtl` => `useVRtl`
 - `useTheme` => `useVTheme`
 
