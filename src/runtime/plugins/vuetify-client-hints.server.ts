@@ -16,7 +16,7 @@ import {
   useRequestHeaders,
   useState,
 } from '#imports'
-import type { Plugin } from '#app/nuxt'
+import type { Plugin } from '#app'
 
 const AcceptClientHintsHeaders = {
   prefersColorScheme: 'Sec-CH-Prefers-Color-Scheme',
@@ -91,7 +91,7 @@ const plugin: Plugin<{
 
   return {
     provide: reactive({
-      ssrClientHints: state,
+      ssrClientHints: state.value,
     }),
   }
 })

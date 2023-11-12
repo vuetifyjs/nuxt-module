@@ -11,7 +11,7 @@
     "generate-pwa-icons": "pwa-assets-generator"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.8"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.21",
@@ -19,7 +19,7 @@
     "@vite-pwa/assets-generator": "^0.0.10",
     "@vite-pwa/vitepress": "^0.2.3",
     "sitemap": "^7.1.1",
-    "unocss": "^0.53.5",
-    "vitepress": "1.0.0-rc.24"
+    "unocss": "^0.57.3",
+    "vitepress": "1.0.0-rc.25"
   }
 }

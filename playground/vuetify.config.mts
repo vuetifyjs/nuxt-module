@@ -10,7 +10,7 @@ export default defineVuetifyConfiguration({
   },
   directives: ['ClickOutside', 'Resize', 'Ripple'],
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
-  labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
+  // labComponents: ['VDataTable', 'VDatePickerControls', 'VDatePickerHeader'],
   blueprint: md3,
   /* locale: {
     messages: {

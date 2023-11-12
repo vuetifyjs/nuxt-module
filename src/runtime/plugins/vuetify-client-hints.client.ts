@@ -4,7 +4,7 @@ import { reactive, watch } from 'vue'
 import type { SSRClientHints } from './client-hints'
 import { VuetifyHTTPClientHints } from './client-hints'
 import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
-import type { Plugin } from '#app/nuxt'
+import type { Plugin } from '#app'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
@@ -111,7 +111,7 @@ const plugin: Plugin<{
 
   return {
     provide: reactive({
-      ssrClientHints: state,
+      ssrClientHints: state.value,
     }),
   }
 })
