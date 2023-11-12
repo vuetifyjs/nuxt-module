@@ -71,13 +71,10 @@ export function configureNuxt(
   }) */
 
   if (importComposables) {
-    const composables: string[] = ['useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
-    if (ctx.vuetify3_4)
-      composables.push('useDate')
-
+    const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
     addImports(composables.map(name => ({
       name,
-      from: 'vuetify',
+      from: ctx.vuetify3_4 || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
       as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
       meta: { docsUrl: `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
     })))

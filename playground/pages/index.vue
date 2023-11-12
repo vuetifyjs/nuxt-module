@@ -15,6 +15,9 @@ const value = reactive<{
 const { locales, t } = useI18n()
 const { current } = useLocale()
 const { isRtl } = useRtl()
+const x = useDate()
+// eslint-disable-next-line no-console
+console.log(x.date)
 
 // eslint-disable-next-line n/prefer-global/process
 if (process.client) {
