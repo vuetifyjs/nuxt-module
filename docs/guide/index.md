@@ -7,9 +7,7 @@ outline: deep
 Welcome to the Vuetify Nuxt Module documentation.
 
 ::: warning Breaking Changes
-From `v0.7.0` version, this module requires `Nuxt v3.8.1+` and `Vuetify 3.4.0+`.
-
-If you are using `Nuxt v3.8.0` or lower, you should use `v0.6.7` version.
+From `v0.7.0` version, this module requires `Nuxt v3.6.5+`.
 :::
 
 You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing with the playground:

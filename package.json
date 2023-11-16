@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "0.6.7",
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@8.10.5",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
@@ -21,22 +21,21 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/module.d.mts",
+      "default": "./dist/module.mjs"
     },
     "./custom-configuration": {
       "types": "./custom-configuration.d.ts",
-      "import": "./custom-configuration.mjs",
-      "require": "./custom-configuration.cjs"
+      "default": "./custom-configuration.mjs"
     },
     "./configuration": {
       "types": "./configuration.d.ts"
-    }
+    },
+    "./*": "./*"
   },
-  "main": "./dist/module.cjs",
+  "main": "./dist/module.mjs",
   "module": "./dist/module.mjs",
-  "types": "./dist/types.d.ts",
+  "types": "./dist/module.d.mts",
   "files": [
     "dist",
     "*.cjs",
@@ -44,7 +43,7 @@
     "*.mjs"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build prepare && nuxt-module-build",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
@@ -59,6 +58,7 @@
     "docs:serve": "pnpm -C docs run serve",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
+    "publint": "publint",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "release": "bumpp && npm publish"
@@ -97,6 +97,7 @@
     "eslint": "^8.53.0",
     "luxon": "^3.4.3",
     "nuxt": "^3.8.1",
+    "publint": "^0.2.5",
     "sass": "^1.63.6",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",

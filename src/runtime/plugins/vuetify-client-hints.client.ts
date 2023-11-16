@@ -111,7 +111,7 @@ const plugin: Plugin<{
 
   return {
     provide: reactive({
-      ssrClientHints: state.value,
+      ssrClientHints: state,
     }),
   }
 })

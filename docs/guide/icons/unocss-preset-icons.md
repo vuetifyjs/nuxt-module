@@ -118,7 +118,7 @@ This module provides the `mdi` icons via `unocss-mdi` icon set. `unocss-mdi` ico
 This is a Nuxt Plugin example using [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/) collection (manual `unocss-mdi` icon set replacement), replace the icons using your new collection:
 ```ts
 // @unocss-include DON'T FORGET TO ADD THIS COMMENT
-import { mdi } from 'vuetify/lib/iconsets/mdi'
+import { mdi } from 'vuetify/iconsets/mdi'
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {

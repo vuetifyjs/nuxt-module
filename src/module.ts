@@ -7,15 +7,8 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { getPackageInfo } from 'local-pkg'
-import type { VuetifyOptions, createVuetify } from 'vuetify'
-import type { HookResult } from '@nuxt/schema'
 import { version } from '../package.json'
-import type {
-  InlineModuleOptions,
-  ModuleOptions,
-  SSRClientHints,
-  SSRClientHintsConfiguration,
-} from './types'
+import type { ModuleOptions } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
 import { load, registerWatcher } from './utils/loader'
 import { configureVite } from './utils/configure-vite'
@@ -30,7 +23,10 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'vuetify-nuxt-module',
     configKey: 'vuetify',
-    compatibility: { nuxt: '^3.8.1' },
+    compatibility: {
+      nuxt: '^3.6.5',
+      bridge: false,
+    },
     version,
   },
   // Default configuration options of the Nuxt module
@@ -50,7 +46,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     const vuetifyPkg = await getPackageInfo('vuetify')
     const versions = vuetifyPkg?.version?.split('.').map(v => Number.parseInt(v))
-    const vuetify3_4 = versions && versions.length > 1 && versions[0] >= 3 && versions[1] >= 4
+    const vuetify3_4 = versions
+      && versions.length > 1
+      && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 4))
 
     const ctx: VuetifyNuxtContext = {
       logger,
@@ -79,38 +77,3 @@ export default defineNuxtModule<ModuleOptions>({
     configureVite(CONFIG_KEY, nuxt, ctx)
   },
 })
-
-export interface ModuleHooks {
-  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
-}
-
-export interface RuntimeModuleHooks {
-  'vuetify:configuration': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:before-create': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
-  'vuetify:ssr-client-hints': (options: {
-    vuetifyOptions: VuetifyOptions
-    ssrClientHints: SSRClientHints
-    ssrClientHintsConfiguration: SSRClientHintsConfiguration
-  }) => HookResult
-}
-
-declare module '#app/nuxt' {
-  interface RuntimeNuxtHooks extends RuntimeModuleHooks {}
-}
-
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    ['vuetify']?: Partial<ModuleOptions>
-  }
-  interface NuxtOptions {
-    ['vuetify']?: ModuleOptions
-  }
-  interface NuxtHooks extends ModuleHooks {}
-}
