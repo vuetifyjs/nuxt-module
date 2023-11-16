@@ -403,33 +403,3 @@ export interface SSRClientHintsConfiguration {
 export interface ModuleHooks {
   'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
 }
-/*
-declare module '#app' {
-  interface RuntimeNuxtHooks {
-    'vuetify:configuration': (options: {
-      isDev: boolean
-      vuetifyOptions: VuetifyOptions
-    }) => HookResult
-    'vuetify:before-create': (options: {
-      isDev: boolean
-      vuetifyOptions: VuetifyOptions
-    }) => HookResult
-    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
-    'vuetify:ssr-client-hints': (options: {
-      vuetifyOptions: VuetifyOptions
-      ssrClientHints: SSRClientHints
-      ssrClientHintsConfiguration: SSRClientHintsConfiguration
-    }) => HookResult
-  }
-}
-
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    ['vuetify']?: Partial<ModuleOptions>
-  }
-  interface NuxtOptions {
-    ['vuetify']?: ModuleOptions
-  }
-  interface NuxtHooks extends ModuleHooks {}
-}
-*/
