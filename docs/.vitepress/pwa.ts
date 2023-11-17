@@ -59,6 +59,7 @@ export const pwa = {
     includeAllowlist: true,
   },
   workbox: {
+    dontCacheBustURLsMatching: /^assets\//,
     globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2,json}'],
     runtimeCaching: [
       {
