@@ -24,9 +24,3 @@ export async function configureVuetify() {
     isDev && console.log('Vuetify 3 initialized', vuetify)
   }
 }
-
-declare module '#app' {
-  interface NuxtApp {
-    $vuetify: ReturnType<typeof createVuetify>
-  }
-}

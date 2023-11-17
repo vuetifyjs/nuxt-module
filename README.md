@@ -28,12 +28,12 @@
 
 - 📖 [**Documentation & guides**](https://vuetify-nuxt-module.netlify.app/)
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
-- 🔌 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Plugin Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
+- 🔌 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Runtime Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
 - ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
 - 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
 - ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
 - 💥 **SSR**: automatic SSR detection and configuration including [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints)
-- 🔩 **Nuxt Layers and Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
+- 🔩 **Nuxt Layers and Module Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Module Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
 - 📥 **Vuetify Configuration File**: configure your Vuetify options using a custom `vuetify.config` file, no dev server restart needed
 - 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocss-mdi` icon set or build your own with UnoCSS Preset Icons
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies

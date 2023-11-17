@@ -120,14 +120,14 @@ export default withPwa(defineConfig({
         text: 'Getting Started',
         link: '/guide/',
       }, {
-        text: 'Nuxt Layers and Hooks',
-        link: '/guide/nuxt-layers-and-hooks',
+        text: 'Nuxt Layers and Module Hooks',
+        link: '/guide/nuxt-layers-and-module-hooks',
       }, {
         text: 'Vuetify Configuration File',
         link: '/guide/vuetify-configuration-file',
       }, {
-        text: 'Nuxt Plugin Hooks',
-        link: '/guide/nuxt-plugin-hooks',
+        text: 'Nuxt Runtime Hooks',
+        link: '/guide/nuxt-runtime-hooks',
       }, {
         text: 'Server Side Rendering (SSR)',
         link: '/guide/server-side-rendering',

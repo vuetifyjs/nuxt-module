@@ -19,7 +19,7 @@
     "luxon": "^3.4.3"
   },
   "devDependencies": {
-    "nuxt": "latest",
+    "nuxt": "^3.8.1",
     "sass": "^1.63.6"
   }
 }

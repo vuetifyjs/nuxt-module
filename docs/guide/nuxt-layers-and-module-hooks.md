@@ -2,9 +2,13 @@
 outline: deep
 ---
 
-# Nuxt Layers and Hooks
+# Nuxt Layers and Module Hooks
 
-You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Module Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+
+::: warning
+If you're **NOT** using Nuxt `^3.8.1+`, you should use `// @ts-expect-error` when using the `vuetify:registerModule` nuxt module hook, TypeScript will complain.
+:::
 
 ## Nuxt Layers
 
@@ -19,7 +23,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## Nuxt Hook
+## Nuxt Module Hook
 
 You can use a custom module to load your Vuetify configuration:
 ```ts
@@ -36,6 +40,7 @@ and your module will load your configuration via `vuetify:registerModule` Nuxt h
 // modules/my-vuetify-module
 export default defineNuxtModule({
   setup(_options, nuxt) {
+    // If you're using Nuxt < 3.8.1, you should add a ts-expect-error here  
     nuxt.hook('vuetify:registerModule', register => register({
       moduleOptions: {
         /* module specific options */

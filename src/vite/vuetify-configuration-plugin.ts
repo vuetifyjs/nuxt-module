@@ -222,6 +222,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
         const entry = componentsToImport.get('VDatePicker')
         if (entry) {
           entry.push('VDatePicker')
+          // @ts-expect-error VDatePicker is on labs when version < 3.4
           config.labComponents.add('VDatePicker')
           addDatePicker = false
         }
@@ -239,11 +240,11 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
     if (typeof ctx.vuetify3_4 === 'boolean') {
       warn = false
       if (ctx.vuetify3_4) {
-        // @ts-expect-error VDatePicker is on labs when version < 3.4
         config.components.add('VDatePicker')
         config.imports.push('import {VDatePicker} from \'vuetify/components/VDatePicker\'')
       }
       else {
+        // @ts-expect-error VDatePicker is on labs when version < 3.4
         config.labComponents.add('VDatePicker')
         config.imports.push('import {VDatePicker} from \'vuetify/labs/VDatePicker\'')
       }

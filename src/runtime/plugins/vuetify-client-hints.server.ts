@@ -5,7 +5,7 @@ import {
 } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
-import type { SSRClientHints } from './client-hints'
+import type { SSRClientHints } from './types'
 import { type Browser, parseUserAgent } from './detect-browser'
 import { VuetifyHTTPClientHints } from './client-hints'
 import {

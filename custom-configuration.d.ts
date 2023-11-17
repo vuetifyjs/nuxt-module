@@ -1,3 +1,3 @@
-import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module';
+import type { ExternalVuetifyOptions } from './dist/module.js'
 declare function defineVuetifyConfiguration(vuetifyOptions: ExternalVuetifyOptions): ExternalVuetifyOptions;
 export { defineVuetifyConfiguration };

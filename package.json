@@ -21,7 +21,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/module.d.mts",
+      "types": "./types.d.ts",
       "default": "./dist/module.mjs"
     },
     "./custom-configuration": {
@@ -33,9 +33,16 @@
     },
     "./*": "./*"
   },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "main": "./dist/module.mjs",
-  "module": "./dist/module.mjs",
-  "types": "./dist/module.d.mts",
+  "types": "./types.d.ts",
   "files": [
     "dist",
     "*.cjs",
@@ -43,7 +50,8 @@
     "*.mjs"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build && rimraf dist/types.d.ts dist/types.d.mts",
+    "xprepack": "nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
@@ -98,10 +106,12 @@
     "luxon": "^3.4.3",
     "nuxt": "^3.8.1",
     "publint": "^0.2.5",
+    "rimraf": "^5.0.5",
     "sass": "^1.63.6",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "vue-tsc": "^1.8.22"
   },
   "build": {
     "externals": [

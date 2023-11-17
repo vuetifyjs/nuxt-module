@@ -3,7 +3,7 @@ import defu from 'defu'
 import { debounce } from 'perfect-debounce'
 import { addVitePlugin } from '@nuxt/kit'
 import type { ModuleNode } from 'vite'
-import type { ModuleOptions, VOptions } from '../types'
+import type { VOptions, VuetifyModuleOptions } from '../types'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { mergeVuetifyModules } from './layers'
 import { cleanupBlueprint, detectDate, resolveVuetifyComponents } from './module'
@@ -12,7 +12,7 @@ import type { VuetifyNuxtContext } from './config'
 import { prepareSSRClientHints } from './ssr-client-hints'
 
 export async function load(
-  options: ModuleOptions,
+  options: VuetifyModuleOptions,
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
 ) {
@@ -100,7 +100,7 @@ export async function load(
   }
 }
 
-export function registerWatcher(options: ModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
+export function registerWatcher(options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   if (nuxt.options.dev) {
     let pageReload: (() => Promise<void>) | undefined
 

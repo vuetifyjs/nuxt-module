@@ -1,5 +1,4 @@
 import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
-import type { HookResult } from '@nuxt/schema'
 
 export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
@@ -329,7 +328,7 @@ export interface MOptions {
   }
 }
 
-export interface ModuleOptions {
+export interface VuetifyModuleOptions {
   moduleOptions?: MOptions
   /**
    * Vuetify options.
@@ -342,7 +341,7 @@ export interface ModuleOptions {
   vuetifyOptions?: string | VOptions
 }
 
-export interface InlineModuleOptions extends Omit<ModuleOptions, 'vuetifyOptions'> {
+export interface InlineModuleOptions extends Omit<VuetifyModuleOptions, 'vuetifyOptions'> {
   vuetifyOptions: VOptions
 }
 
@@ -398,8 +397,4 @@ export interface SSRClientHintsConfiguration {
     darkThemeName: string
     lightThemeName: string
   }
-}
-
-export interface ModuleHooks {
-  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
 }
