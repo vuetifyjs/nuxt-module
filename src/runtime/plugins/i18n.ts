@@ -24,7 +24,6 @@ export function createAdapter(vuetifyOptions: VuetifyOptions) {
       i18n.setLocale(val)
   }, { immediate: true, flush: 'post' })
 
-  // @ts-expect-error i18n missing
   nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
     currentLocale.value = newLocale
   })
@@ -60,7 +59,6 @@ function createProvideFunction(data: {
 
     watch(currentLocale, (val, oldVal) => {
       if (oldVal)
-        // @ts-expect-error i18n missing
         i18n.setLocale(val)
     }, { immediate: true, flush: 'post' })
 
@@ -70,7 +68,6 @@ function createProvideFunction(data: {
       fallback: data.fallback,
       messages: data.messages,
       // todo: fix this, we should check the options
-      // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
       t: (key, ...params) => i18n.t(key, params),
       n: i18n.n,
       provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
