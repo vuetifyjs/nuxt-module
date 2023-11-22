@@ -21,7 +21,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
+      "types": "./dist/types.d.mts",
       "default": "./dist/module.mjs"
     },
     "./custom-configuration": {
