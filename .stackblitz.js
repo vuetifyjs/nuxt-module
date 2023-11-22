@@ -1,6 +1,6 @@
 import { promises as fsPromises } from 'node:fs'
 
-removeParcel('./playground/nuxt.config.mts')
+removeParcel('./playground/nuxt.config.ts')
 
 async function removeParcel(filename) {
   try {

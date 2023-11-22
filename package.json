@@ -21,7 +21,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./types.d.ts",
+      "types": "./dist/types.d.ts",
       "default": "./dist/module.mjs"
     },
     "./custom-configuration": {
@@ -33,16 +33,9 @@
     },
     "./*": "./*"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
-    }
-  },
   "main": "./dist/module.mjs",
-  "types": "./types.d.ts",
+  "module": "./dist/module.mjs",
+  "types": "./dist/types.d.ts",
   "files": [
     "dist",
     "*.cjs",
@@ -50,8 +43,7 @@
     "*.mjs"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build prepare && nuxt-module-build build && rimraf dist/types.d.ts dist/types.d.mts",
-    "xprepack": "nuxt-module-build prepare && nuxt-module-build build",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
