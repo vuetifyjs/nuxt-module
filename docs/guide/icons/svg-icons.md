@@ -88,7 +88,7 @@ export default defineNuxtConfig({
         svg: {
           fa: {
             libraries: [
-              [/* default export? */ false, /* export name */ 'fas', /* library */ '@fortawesome/free-solid-svg-icons']
+              [/* default export? */false, /* export name */ 'fas', /* library */ '@fortawesome/free-solid-svg-icons']
             ]
           }
         }
@@ -114,7 +114,7 @@ export default defineNuxtConfig({
         svg: {
           fa: {
             libraries: [
-              [/* default export? */ false, /* export name */ 'fad', /* library */ '@fortawesome/pro-duotone-svg-icons']
+              [/* default export? */false, /* export name */ 'fad', /* library */ '@fortawesome/pro-duotone-svg-icons']
             ]
           }
         }
