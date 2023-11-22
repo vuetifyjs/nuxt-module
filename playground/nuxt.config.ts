@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     autoImport: true,
     injectAtEnd: true,
   },
-  modules: ['@unocss/nuxt', '@nuxtjs/i18n', LayerModule, '../src/module'],
+  modules: ['@unocss/nuxt', '@nuxtjs/i18n', LayerModule, 'vuetify-nuxt-module'],
   i18n: {
     locales: availableLocales,
     lazy: true,

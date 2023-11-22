@@ -1,4 +1,4 @@
-import type { ExternalVuetifyOptions } from '../../../src/types'
+import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
 
 /*
 import { defineVuetifyConfiguration } from '../../../custom-configuration'
