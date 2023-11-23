@@ -9,6 +9,7 @@ export function configureDate(vuetifyOptions: VuetifyOptions) {
   const dateOptions = dateConfiguration()
 
   if (i18n) {
+    // @ts-expect-error i18n is missing since it is not a dependency here
     const locales: import('#i18n').LocaleObject[] | undefined = useNuxtApp().$i18n.locales.value
     if (locales) {
       dateOptions.locale = locales.reduce((acc, locale) => {
