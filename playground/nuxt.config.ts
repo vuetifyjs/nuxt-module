@@ -87,7 +87,7 @@ export default defineNuxtConfig({
     inlineSSRStyles: false,
     payloadExtraction: false,
     typedPages: false,
-    typescriptBundlerResolution: true,
+    typescriptBundlerResolution: false,
     watcher: 'parcel',
   },
   devtools: {
