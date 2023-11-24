@@ -6,6 +6,10 @@ outline: deep
 
 Welcome to the Vuetify Nuxt Module documentation.
 
+::: warning Breaking Changes
+From `v0.7.0` version, this module requires `Nuxt v3.6.5+`.
+:::
+
 You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing with the playground:
 
 <a href="https://stackblitz.com/github/userquin/vuetify-nuxt-module" target="_blank" rel="noopener noreferrer">

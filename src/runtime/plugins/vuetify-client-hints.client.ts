@@ -1,10 +1,10 @@
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { UnwrapNestedRefs } from 'vue'
 import { reactive, watch } from 'vue'
-import type { SSRClientHints } from './client-hints'
+import type { SSRClientHints } from './types'
 import { VuetifyHTTPClientHints } from './client-hints'
 import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
-import type { Plugin } from '#app/nuxt'
+import type { Plugin } from '#app'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>

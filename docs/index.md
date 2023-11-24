@@ -25,9 +25,9 @@ features:
     details: Sensible built-in default Vuetify configuration for common use cases
   - icon: 🔌
     title: Extensible
-    details: Expose the ability to customize the Vuetify configuration via Nuxt Plugin Hooks
-    link: /guide/nuxt-plugin-hooks
-    linkText: Nuxt Plugin Hooks
+    details: Expose the ability to customize the Vuetify configuration via Nuxt Runtime Hooks
+    link: /guide/nuxt-runtime-hooks
+    linkText: Nuxt Runtime Hooks
   - icon: ⚡
     title: Fully tree shakable
     details: By default, only the needed Vuetify components are imported
@@ -43,10 +43,10 @@ features:
     link: /guide/server-side-rendering
     linkText: Server Side Rendering
   - icon: 🔩
-    title: Nuxt Layers and Hooks
-    details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Hook
-    link: /guide/nuxt-layers-and-hooks
-    linkText: Nuxt Layers and Hooks
+    title: Nuxt Layers and Module Hooks
+    details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Module Hook
+    link: /guide/nuxt-layers-and-module-hooks
+    linkText: Nuxt Layers and Module Hooks
   - icon: 📥
     title: Vuetify Configuration File
     details: Configure your Vuetify options using a custom <strong>vuetify.config</strong> file, no dev server restart needed

@@ -1,6 +1,6 @@
-# Nuxt Plugin Hooks
+# Nuxt Runtime Hooks
 
-This module configures and registers Vuetify using Nuxt plugins via `vuetify:configuration` hook.
+This module configures and registers Vuetify using Nuxt plugins via `vuetify:configuration` runtime hook.
 
 `vuetify:configuration` hook is for internal use and not meant to be used by third-party plugins or directly from your application.
 This module will expose only the necessary Nuxt plugins to configure Vuetify using the options you've configured in your application:

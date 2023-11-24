@@ -1,7 +1,7 @@
 import type { createVuetify } from 'vuetify'
 import { configureVuetify } from './config'
 import { defineNuxtPlugin, useNuxtApp } from '#imports'
-import type { Plugin } from '#app/nuxt'
+import type { Plugin } from '#app'
 
 const plugin: Plugin<{
   vuetify: ReturnType<typeof createVuetify>

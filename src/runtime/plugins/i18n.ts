@@ -24,6 +24,7 @@ export function createAdapter(vuetifyOptions: VuetifyOptions) {
       i18n.setLocale(val)
   }, { immediate: true, flush: 'post' })
 
+  // @ts-expect-error i18n missing
   nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
     currentLocale.value = newLocale
   })
@@ -59,6 +60,7 @@ function createProvideFunction(data: {
 
     watch(currentLocale, (val, oldVal) => {
       if (oldVal)
+        // @ts-expect-error i18n missing
         i18n.setLocale(val)
     }, { immediate: true, flush: 'post' })
 

@@ -1,12 +1,12 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import type { InlineModuleOptions, ModuleOptions } from '../types'
+import type { InlineModuleOptions, VuetifyModuleOptions } from '../types'
 import { loadVuetifyConfiguration } from './config'
 
 /**
  * Merges project layer with registered vuetify modules
  */
-export async function mergeVuetifyModules(options: ModuleOptions, nuxt: Nuxt) {
+export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: Nuxt) {
   const moduleOptions: InlineModuleOptions[] = []
   const vuetifyConfigurationFilesToWatch = new Set<string>()
 

@@ -1,7 +1,7 @@
 import type { UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
-import type { SSRClientHints } from './client-hints'
-import type { Plugin } from '#app/nuxt'
+import type { SSRClientHints } from './types'
+import type { Plugin } from '#app'
 import { defineNuxtPlugin } from '#imports'
 
 const plugin: Plugin<{

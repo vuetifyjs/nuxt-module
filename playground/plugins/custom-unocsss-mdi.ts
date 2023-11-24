@@ -1,5 +1,5 @@
 // @unocss-include DON'T FORGET TO ADD THIS COMMENT
-import { mdi } from 'vuetify/lib/iconsets/mdi'
+import { mdi } from 'vuetify/iconsets/mdi'
 import { iconsConfiguration } from 'virtual:vuetify-icons-configuration'
 
 export default defineNuxtPlugin((nuxtApp) => {

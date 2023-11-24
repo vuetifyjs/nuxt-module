@@ -12,7 +12,6 @@ export async function configureVuetify() {
 
   const vuetify = createVuetify(vuetifyOptions)
 
-  // @ts-expect-error Vuetify using App<any> instead of App<Element>
   nuxtApp.vueApp.use(vuetify)
 
   nuxtApp.provide('vuetify', vuetify)
