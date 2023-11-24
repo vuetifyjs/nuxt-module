@@ -140,3 +140,15 @@ declare module '@nuxt/schema' {
     'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
   }
 }
+
+declare module 'nuxt/schema' {
+  interface NuxtConfig {
+    ['vuetify']?: Partial<ModuleOptions>
+  }
+  interface NuxtOptions {
+    ['vuetify']?: ModuleOptions
+  }
+  interface NuxtHooks {
+    'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
+  }
+}

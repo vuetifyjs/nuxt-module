@@ -1,0 +1,78 @@
+import { defineBuildConfig } from 'unbuild'
+
+export default defineBuildConfig([{
+  entries: [
+    { input: 'src/module', outDir: 'dist', ext: 'js', declaration: true },
+    { input: 'src/runtime/', outDir: 'dist/runtime', ext: 'mjs' },
+  ],
+  failOnWarn: false,
+  clean: true,
+  declaration: true,
+  esbuild: {
+    target: 'esnext',
+  },
+  rollup: {
+    emitCJS: true,
+    dts: {
+      respectExternal: true,
+    },
+  },
+  externals: [
+    '@vuetify/loader-shared',
+    'node:child_process',
+    'node:fs',
+    'consola',
+    'destr',
+    'esbuild',
+    'local-pkg',
+    'pathe',
+    'perfect-debounce',
+    'rollup',
+    'upath',
+    'ufo',
+    'unconfig',
+    'unbuild',
+    'vite',
+    'vite-plugin-vuetify',
+    'vuetify',
+    // from module-builder
+    '@nuxt/schema',
+    '@nuxt/schema-edge',
+    '@nuxt/kit',
+    '@nuxt/kit-edge',
+    'nuxt',
+    'nuxt-edge',
+    'nuxt3',
+    'vue',
+    'vue-demi',
+  ],
+}, /* , {
+  entries: [{ input: 'src/module', format: 'cjs', ext: 'cjs' }],
+  clean: false,
+  declaration: true,
+  rollup: {
+    dts: {
+      respectExternal: true,
+    },
+  },
+  emitCJS: false,
+  externals: [
+    '@vuetify/loader-shared',
+    'node:child_process',
+    'node:fs',
+    'consola',
+    'destr',
+    'esbuild',
+    'local-pkg',
+    'pathe',
+    'perfect-debounce',
+    'rollup',
+    'upath',
+    'ufo',
+    'unconfig',
+    'unbuild',
+    'vite',
+    'vite-plugin-vuetify',
+    'vuetify',
+  ],
+} */])
