@@ -33,7 +33,7 @@
     },
     "./*": "./*"
   },
-  "main": "./dist/module.cjs",
+  "main": "./dist/module.mjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist",
@@ -42,7 +42,7 @@
     "*.mjs"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build && jiti scripts/postbuild.ts",
     "dev": "nuxi dev playground",
     "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
