@@ -50,8 +50,7 @@ export function configureNuxt(
     references.push({ types: 'vuetify' })
     references.push({ types: 'vuetify-nuxt-module/custom-configuration' })
     references.push({ types: 'vuetify-nuxt-module/configuration' })
-    const types = ctx.resolver.resolve(runtimeDir, 'plugins/types')
-    references.push({ path: ctx.resolver.resolve(nuxt.options.buildDir, types) })
+    references.push({ path: ctx.resolver.resolve(runtimeDir, 'plugins/types') })
   })
 
   /* nuxt.hook('components:extend', async (c) => {
