@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       date: {
-        adapter: 'js-joda',
+        adapter: 'date-fns-jalali',
       },
       locale: {
         locale: 'es',

@@ -129,6 +129,9 @@ importers:
       '@date-io/date-fns':
         specifier: ^2.17.0
         version: 2.17.0(date-fns@2.30.0)
+      '@date-io/date-fns-jalali':
+        specifier: ^2.17.0
+        version: 2.17.0(date-fns-jalali@2.19.0-2)
       '@date-io/dayjs':
         specifier: ^2.17.0
         version: 2.17.0(dayjs@1.11.10)
@@ -162,6 +165,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      date-fns-jalali:
+        specifier: ^2.19.0-2
+        version: 2.19.0-2
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -1777,6 +1783,18 @@ packages:
 
   /@date-io/core@2.17.0:
     resolution: {integrity: sha512-+EQE8xZhRM/hsY0CDTVyayMDDY5ihc4MqXCrPxooKw19yAzUIC6uUqsZeaOFNL9YKTNxYKrJP5DFgE8o5xRCOw==}
+
+  /@date-io/date-fns-jalali@2.17.0(date-fns-jalali@2.19.0-2):
+    resolution: {integrity: sha512-KpnYctxafW9lgILD6fE1qsacT3EnNkii9fIDiIAJ+9hXL0GcobQUB3KrTAsEQjMKSMP1WhsvwgJ0JNRdW5Zc8g==}
+    peerDependencies:
+      date-fns-jalali: ^2.13.0-0
+    peerDependenciesMeta:
+      date-fns-jalali:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      date-fns-jalali: 2.19.0-2
+    dev: true
 
   /@date-io/date-fns@2.17.0(date-fns@2.30.0):
     resolution: {integrity: sha512-L0hWZ/mTpy3Gx/xXJ5tq5CzHo0L7ry6KEO9/w/JWiFWFLZgiNVo3ex92gOl3zmzjHqY/3Ev+5sehAr8UnGLEng==}
@@ -5992,6 +6010,11 @@ packages:
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+
+  /date-fns-jalali@2.19.0-2:
+    resolution: {integrity: sha512-ajgQt3lNFKPN7+mkXpWRJP+NyTVyHRJFVXUV8uc7d9pduVrDn/eeRMT5w1PemXqQRoNqQmuHyKWcrmNPmTRoPA==}
+    engines: {node: '>=0.11'}
+    dev: true
 
   /date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
