@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       date: {
-        adapter: 'date-fns-jalali',
+        adapter: 'jalaali',
       },
       locale: {
         locale: 'es',
