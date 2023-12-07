@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       date: {
-        adapter: 'jalaali',
+        adapter: 'hijri',
       },
       locale: {
         locale: 'es',
@@ -44,11 +44,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-  // telemetry: false,
-  // typescript: {
-  //   shim: false,
-  //   typeCheck: false,
-  // },
   experimental: {
     inlineSSRStyles: false,
     payloadExtraction: false,
