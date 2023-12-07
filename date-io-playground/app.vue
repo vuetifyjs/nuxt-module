@@ -10,10 +10,13 @@ watch(dateString, (x) => {
 })
 
 onMounted(() => {
+  const date = useVDate()
   if (adapter === 'date-fns') {
     // Missing type is a Vuetify error (https://github.com/vuetifyjs/vuetify/issues/18710)
-    const date = useVDate() as DateFnsAdapter
-    dateString.value = date.formatByString(new Date(), 'dd MMMM yyyy')
+    dateString.value = (date as DateFnsAdapter).formatByString(new Date(), 'dd MMMM yyyy')
+  }
+  else {
+    dateString.value = date.format(date.parseISO(new Date().toISOString()), 'fullDate')
   }
 })
 </script>

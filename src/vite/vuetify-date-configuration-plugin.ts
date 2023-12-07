@@ -48,10 +48,9 @@ export function dateConfiguration() {
     if (ctx.dateAdapter === 'vuetify')
       return 'options.adapter = VuetifyDateAdapter'
 
-    if (ctx.dateAdapter === 'date-fns') {
-      const locale = ctx.vuetifyOptions.locale?.locale ?? 'en'
+    const locale = ctx.vuetifyOptions.locale?.locale ?? 'en'
+    if (ctx.dateAdapter === 'date-fns')
       return `options.adapter = new Adapter({ locale: ${locale} })`
-    }
 
     return 'options.adapter = Adapter'
   }

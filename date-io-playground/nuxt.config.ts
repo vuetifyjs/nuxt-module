@@ -12,12 +12,12 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       date: {
-        adapter: 'date-fns',
+        adapter: 'moment',
       },
       locale: {
-        locale: 'nl',
+        locale: 'es',
       },
-      localeMessages: ['nl'],
+      localeMessages: ['es'],
     },
   },
   vite: {
