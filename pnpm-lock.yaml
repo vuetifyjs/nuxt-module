@@ -34,10 +34,10 @@ importers:
         version: 0.3.11
       vite-plugin-vuetify:
         specifier: ^1.0.2
-        version: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3)
+        version: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6)
       vuetify:
-        specifier: ^3.4.3
-        version: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+        specifier: ^3.4.6
+        version: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.43.1
@@ -124,6 +124,90 @@ importers:
         specifier: ^1.8.22
         version: 1.8.22(typescript@5.3.2)
 
+  date-io-playground:
+    devDependencies:
+      '@date-io/date-fns':
+        specifier: ^2.17.0
+        version: 2.17.0(date-fns@2.30.0)
+      '@date-io/date-fns-jalali':
+        specifier: ^2.17.0
+        version: 2.17.0(date-fns-jalali@2.19.0-2)
+      '@date-io/dayjs':
+        specifier: ^2.17.0
+        version: 2.17.0(dayjs@1.11.10)
+      '@date-io/hijri':
+        specifier: ^2.17.0
+        version: 2.17.0(moment-hijri@2.1.2)(moment@2.29.4)
+      '@date-io/js-joda':
+        specifier: ^2.17.0
+        version: 2.17.0(@js-joda/core@3.2.0)(@js-joda/locale_en-us@3.2.2)
+      '@date-io/luxon':
+        specifier: ^2.17.0
+        version: 2.17.0(luxon@3.4.3)
+      '@date-io/moment':
+        specifier: ^2.17.0
+        version: 2.17.0(moment@2.29.4)
+      '@js-joda/core':
+        specifier: ^3.2.0
+        version: 3.2.0
+      '@js-joda/locale_en-us':
+        specifier: ^3.2.2
+        version: 3.2.2(@js-joda/core@3.2.0)(@js-joda/timezone@2.18.2)
+      '@js-joda/locale_es':
+        specifier: ^3.2.2
+        version: 3.2.2(@js-joda/core@3.2.0)(@js-joda/timezone@2.18.2)
+      '@types/date-fns':
+        specifier: ^2.6.0
+        version: 2.6.0
+      '@types/moment':
+        specifier: ^2.13.0
+        version: 2.13.0
+      '@types/moment-hijri':
+        specifier: ^2.1.0
+        version: 2.1.3
+      '@types/moment-jalaali':
+        specifier: ^0.7.6
+        version: 0.7.9
+      '@unocss/nuxt':
+        specifier: ^0.57.7
+        version: 0.57.7(postcss@8.4.31)(rollup@3.29.4)(vite@4.5.0)(webpack@5.88.2)
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      date-fns-jalali:
+        specifier: ^2.19.0-2
+        version: 2.19.0-2
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
+      luxon:
+        specifier: ^3.4.3
+        version: 3.4.3
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      moment-hijri:
+        specifier: ^2.1.2
+        version: 2.1.2
+      moment-jalaali:
+        specifier: 0.9.2
+        version: 0.9.2
+      nuxt:
+        specifier: ^3.8.2
+        version: 3.8.2(@parcel/watcher@2.3.0)(@types/node@18.0.0)(eslint@8.54.0)(rollup@3.29.4)(sass@1.63.6)(typescript@5.3.2)(vite@4.5.0)(vue-tsc@1.8.22)
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      typescript:
+        specifier: ^5.3.2
+        version: 5.3.2
+      vue-tsc:
+        specifier: ^1.8.22
+        version: 1.8.22(typescript@5.3.2)
+      vuetify-nuxt-module:
+        specifier: workspace:*
+        version: link:..
+
   docs:
     dependencies:
       vue:
@@ -176,8 +260,8 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3
       vuetify:
-        specifier: ^3.4.3
-        version: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+        specifier: ^3.4.6
+        version: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     devDependencies:
       '@nuxtjs/i18n':
         specifier: npm:@nuxtjs/i18n-edge
@@ -1715,6 +1799,75 @@ packages:
   /@date-io/core@2.17.0:
     resolution: {integrity: sha512-+EQE8xZhRM/hsY0CDTVyayMDDY5ihc4MqXCrPxooKw19yAzUIC6uUqsZeaOFNL9YKTNxYKrJP5DFgE8o5xRCOw==}
 
+  /@date-io/date-fns-jalali@2.17.0(date-fns-jalali@2.19.0-2):
+    resolution: {integrity: sha512-KpnYctxafW9lgILD6fE1qsacT3EnNkii9fIDiIAJ+9hXL0GcobQUB3KrTAsEQjMKSMP1WhsvwgJ0JNRdW5Zc8g==}
+    peerDependencies:
+      date-fns-jalali: ^2.13.0-0
+    peerDependenciesMeta:
+      date-fns-jalali:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      date-fns-jalali: 2.19.0-2
+    dev: true
+
+  /@date-io/date-fns@2.17.0(date-fns@2.30.0):
+    resolution: {integrity: sha512-L0hWZ/mTpy3Gx/xXJ5tq5CzHo0L7ry6KEO9/w/JWiFWFLZgiNVo3ex92gOl3zmzjHqY/3Ev+5sehAr8UnGLEng==}
+    peerDependencies:
+      date-fns: ^2.0.0
+    peerDependenciesMeta:
+      date-fns:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      date-fns: 2.30.0
+    dev: true
+
+  /@date-io/dayjs@2.17.0(dayjs@1.11.10):
+    resolution: {integrity: sha512-Iq1wjY5XzBh0lheFA0it6Dsyv94e8mTiNR8vuTai+KopxDkreL3YjwTmZHxkgB7/vd0RMIACStzVgWvPATnDCA==}
+    peerDependencies:
+      dayjs: ^1.8.17
+    peerDependenciesMeta:
+      dayjs:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      dayjs: 1.11.10
+    dev: true
+
+  /@date-io/hijri@2.17.0(moment-hijri@2.1.2)(moment@2.29.4):
+    resolution: {integrity: sha512-mR1nbHQ2HPISOfFEO/fvtOsjL34iVdMUDK4dEAs/QAblPgukadLQp3Mb/5tDooIl9NhYIhT+yoO6mRtFp9cX2A==}
+    peerDependencies:
+      moment-hijri: ^2.1.2
+    peerDependenciesMeta:
+      moment-hijri:
+        optional: true
+    dependencies:
+      '@date-io/moment': 2.17.0(moment@2.29.4)
+      moment-hijri: 2.1.2
+    transitivePeerDependencies:
+      - moment
+    dev: true
+
+  /@date-io/js-joda@2.17.0(@js-joda/core@3.2.0)(@js-joda/locale_en-us@3.2.2):
+    resolution: {integrity: sha512-ZDz373SsHnGxgoapEdFCNZQ0U6HWIA55+UJLPxmk4rB0hfZry+yxI4ekt1HjWI5uuRdbInzAZA8DL1I/rlGybQ==}
+    peerDependencies:
+      '@js-joda/core': ^3.2.0
+      '@js-joda/locale': ^3.2.2
+      '@js-joda/locale_en-us': ^3.2.2
+    peerDependenciesMeta:
+      '@js-joda/core':
+        optional: true
+      '@js-joda/locale':
+        optional: true
+      '@js-joda/locale_en-us':
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      '@js-joda/core': 3.2.0
+      '@js-joda/locale_en-us': 3.2.2(@js-joda/core@3.2.0)(@js-joda/timezone@2.18.2)
+    dev: true
+
   /@date-io/luxon@2.17.0(luxon@3.4.3):
     resolution: {integrity: sha512-l712Vdm/uTddD2XWt9TlQloZUiTiRQtY5TCOG45MQ/8u0tu8M17BD6QYHar/3OrnkGybALAMPzCy1r5D7+0HBg==}
     peerDependencies:
@@ -1725,6 +1878,18 @@ packages:
     dependencies:
       '@date-io/core': 2.17.0
       luxon: 3.4.3
+
+  /@date-io/moment@2.17.0(moment@2.29.4):
+    resolution: {integrity: sha512-e4nb4CDZU4k0WRVhz1Wvl7d+hFsedObSauDHKtZwU9kt7gdYEAzKgnrSCTHsEaXrDumdrkCYTeZ0Tmyk7uV4tw==}
+    peerDependencies:
+      moment: ^2.24.0
+    peerDependenciesMeta:
+      moment:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      moment: 2.29.4
+    dev: true
 
   /@docsearch/css@3.5.2:
     resolution: {integrity: sha512-SPiDHaWKQZpwR2siD0KQUwlStvIAnEyK6tAE2h2Wuoq8ue9skzhlyVQ1ddzOxX6khULnAALDiR/isSF3bnuciA==}
@@ -2459,6 +2624,38 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
+
+  /@js-joda/core@3.2.0:
+    resolution: {integrity: sha512-PMqgJ0sw5B7FKb2d5bWYIoxjri+QlW/Pys7+Rw82jSH0QN3rB05jZ/VrrsUdh1w4+i2kw9JOejXGq/KhDOX7Kg==}
+    dev: true
+
+  /@js-joda/locale_en-us@3.2.2(@js-joda/core@3.2.0)(@js-joda/timezone@2.18.2):
+    resolution: {integrity: sha512-/3KCf1BD0V9N5ffFCm7Q4VpWHty8hABAdtkIoyCf2VjxAYelTebw7Vq6L1rtrMyWU2Ltb7n00S1FWb5dewNjHg==}
+    peerDependencies:
+      '@js-joda/core': '>=3.2.0'
+      '@js-joda/timezone': ^2.3.0
+    dependencies:
+      '@js-joda/core': 3.2.0
+      '@js-joda/timezone': 2.18.2(@js-joda/core@3.2.0)
+    dev: true
+
+  /@js-joda/locale_es@3.2.2(@js-joda/core@3.2.0)(@js-joda/timezone@2.18.2):
+    resolution: {integrity: sha512-uYjjSyiUp5myetIkhgvcl7DoM3+EYcM94srnFK3IBY+KXXw/fXc+bhXmLskO0ovpgidiHv7mz0v+EQeeUtKdIQ==}
+    peerDependencies:
+      '@js-joda/core': '>=3.2.0'
+      '@js-joda/timezone': ^2.3.0
+    dependencies:
+      '@js-joda/core': 3.2.0
+      '@js-joda/timezone': 2.18.2(@js-joda/core@3.2.0)
+    dev: true
+
+  /@js-joda/timezone@2.18.2(@js-joda/core@3.2.0):
+    resolution: {integrity: sha512-4binOw4XBO4H6nbw0tPg1IOIrf3MF7gPeXkNiPuK1QAHPaBC0YsvtRt8BiJTqhEaBqh/Kbqp6MChlnbJ8dxQ5Q==}
+    peerDependencies:
+      '@js-joda/core': '>=1.11.0'
+    dependencies:
+      '@js-joda/core': 3.2.0
+    dev: true
 
   /@jsdevtools/ez-spawn@3.0.4:
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
@@ -3741,6 +3938,13 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: true
 
+  /@types/date-fns@2.6.0:
+    resolution: {integrity: sha512-9DSw2ZRzV0Tmpa6PHHJbMcZn79HHus+BBBohcOaDzkK/G3zMjDUDYjJIWBFLbkh+1+/IOS0A59BpQfdr37hASg==}
+    deprecated: This is a stub types definition for date-fns (https://github.com/date-fns/date-fns). date-fns provides its own type definitions, so you don't need @types/date-fns installed!
+    dependencies:
+      date-fns: 2.30.0
+    dev: true
+
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
@@ -3791,6 +3995,25 @@ packages:
 
   /@types/mdurl@1.0.4:
     resolution: {integrity: sha512-ARVxjAEX5TARFRzpDRVC6cEk0hUIXCCwaMhz8y7S1/PxU6zZS1UMjyobz7q4w/D/R552r4++EhwmXK1N2rAy0A==}
+    dev: true
+
+  /@types/moment-hijri@2.1.3:
+    resolution: {integrity: sha512-q0nJaMbVzz8sJVl/B18gPQGadfGd5SplK/7XtTrNVC4XgSjM7RGMzxuAfR0N7RQu4mao84jJwivSuAijVA0TeQ==}
+    dependencies:
+      moment: 2.29.4
+    dev: true
+
+  /@types/moment-jalaali@0.7.9:
+    resolution: {integrity: sha512-gsDOoAzRnCfQTbfdlUrCvX6R0wIto6CvwfvV2C3j4qJLK+DEiTK8Rl/xlOCBO9C6qeUfX8oyZ2UfjnXJTOvHSA==}
+    dependencies:
+      moment: 2.29.4
+    dev: true
+
+  /@types/moment@2.13.0:
+    resolution: {integrity: sha512-DyuyYGpV6r+4Z1bUznLi/Y7HpGn4iQ4IVcGn8zrr1P4KotKLdH0sbK1TFR6RGyX6B+G8u83wCzL+bpawKU/hdQ==}
+    deprecated: This is a stub types definition for Moment (https://github.com/moment/moment). Moment provides its own type definitions, so you don't need @types/moment installed!
+    dependencies:
+      moment: 2.29.4
     dev: true
 
   /@types/node@17.0.45:
@@ -4668,7 +4891,7 @@ packages:
   /@vue/shared@3.3.8:
     resolution: {integrity: sha512-8PGwybFwM4x8pcfgqEQFy70NaQxASvOC5DJwLQfpArw1UDfUXrJkdxD3BhVTMS+0Lef/TU7YO0Jvr0jJY8T+mw==}
 
-  /@vuetify/loader-shared@1.7.1(vue@3.3.8)(vuetify@3.4.3):
+  /@vuetify/loader-shared@1.7.1(vue@3.3.8)(vuetify@3.4.6):
     resolution: {integrity: sha512-kLUvuAed6RCvkeeTNJzuy14pqnkur8lTuner7v7pNE/kVhPR97TuyXwBSBMR1cJeiLiOfu6SF5XlCYbXByEx1g==}
     peerDependencies:
       vue: ^3.0.0
@@ -4677,7 +4900,7 @@ packages:
       find-cache-dir: 3.3.2
       upath: 2.0.1
       vue: 3.3.8(typescript@5.3.2)
-      vuetify: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+      vuetify: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     dev: false
 
   /@vueuse/core@10.6.1(vue@3.3.8):
@@ -5828,6 +6051,22 @@ packages:
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+
+  /date-fns-jalali@2.19.0-2:
+    resolution: {integrity: sha512-ajgQt3lNFKPN7+mkXpWRJP+NyTVyHRJFVXUV8uc7d9pduVrDn/eeRMT5w1PemXqQRoNqQmuHyKWcrmNPmTRoPA==}
+    engines: {node: '>=0.11'}
+    dev: true
+
+  /date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.22.6
+    dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: true
 
   /de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -7829,6 +8068,10 @@ packages:
       minimatch: 3.1.2
     dev: true
 
+  /jalaali-js@1.2.6:
+    resolution: {integrity: sha512-io974va+Qyu+UfuVX3UIAgJlxLhAMx9Y8VMfh+IG00Js7hXQo1qNQuwSiSa0xxco0SVgx5HWNkaiCcV+aZ8WPw==}
+    dev: true
+
   /jest-worker@26.6.2:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
@@ -8409,6 +8652,31 @@ packages:
       pathe: 1.1.1
       pkg-types: 1.0.3
       ufo: 1.3.2
+
+  /moment-hijri@2.1.2:
+    resolution: {integrity: sha512-p5ZOA1UzBHAAXiePh37XRjjwuyH78+1ShYZ7R6jogxketewG7kTCUjUmcP9c4Qsx8D8cqxwUWrESjtgdT6tNoA==}
+    dependencies:
+      moment: 2.29.4
+    dev: true
+
+  /moment-jalaali@0.9.2:
+    resolution: {integrity: sha512-Z7dgu6NFnq9MhbAtwj0x7tHFXm+rzSu5Ju7Fc3RloqFQ/3zSJh8kuzxNdAp7cgMF/s/ydob+fAEJvQds/hz25g==}
+    dependencies:
+      jalaali-js: 1.2.6
+      moment: 2.29.4
+      moment-timezone: 0.5.43
+      rimraf: 2.7.1
+    dev: true
+
+  /moment-timezone@0.5.43:
+    resolution: {integrity: sha512-72j3aNyuIsDxdF1i7CEgV2FfxM1r6aaqJyLB2vwb33mXYyoyLly+F1zbWqhA3/bVIoJ4szlUoMbUnVdid32NUQ==}
+    dependencies:
+      moment: 2.29.4
+    dev: true
+
+  /moment@2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: true
 
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -9847,6 +10115,13 @@ packages:
   /reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
+
+  /rimraf@2.7.1:
+    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.3
+    dev: true
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -11493,18 +11768,18 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vuetify@1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3):
+  /vite-plugin-vuetify@1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6):
     resolution: {integrity: sha512-MubIcKD33O8wtgQXlbEXE7ccTEpHZ8nPpe77y9Wy3my2MWw/PgehP9VqTp92BLqr0R1dSL970Lynvisx3UxBFw==}
     engines: {node: '>=12'}
     peerDependencies:
       vite: ^2.7.0 || ^3.0.0 || ^4.0.0
       vuetify: ^3.0.0-beta.4
     dependencies:
-      '@vuetify/loader-shared': 1.7.1(vue@3.3.8)(vuetify@3.4.3)
+      '@vuetify/loader-shared': 1.7.1(vue@3.3.8)(vuetify@3.4.6)
       debug: 4.3.4
       upath: 2.0.1
       vite: 4.5.0(@types/node@18.0.0)(sass@1.63.6)
-      vuetify: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+      vuetify: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     transitivePeerDependencies:
       - supports-color
       - vue
@@ -11931,8 +12206,8 @@ packages:
       '@vue/shared': 3.3.8
       typescript: 5.3.2
 
-  /vuetify@3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8):
-    resolution: {integrity: sha512-b8yi87Zv4bn2JbaVkkV9uzSRw0fdY/v3ieWne0OTI29w/CNSyLyfHGBCrmx7eD74i562M1j+AwSSRJCX3wF0+Q==}
+  /vuetify@3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8):
+    resolution: {integrity: sha512-Zp6BjKkNcnyHlOmr01Y/Rc4d686PORO+hcpfM76qRaDMIU4H1GnP0JIF3jwxI1q3Uj/2bHKLwn81oCLJZd+8sg==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
       typescript: '>=4.7'
@@ -11951,7 +12226,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.3.2
-      vite-plugin-vuetify: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3)
+      vite-plugin-vuetify: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6)
       vue: 3.3.8(typescript@5.3.2)
     dev: false
 

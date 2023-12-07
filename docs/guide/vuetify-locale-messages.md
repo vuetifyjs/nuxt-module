@@ -1,9 +1,9 @@
 # Vuetify Locale Messages
 
-You can load [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) using the `vuetifyOptions.loadMessages` module configuration option, you don't need to configure a Nuxt Plugin with the `vuetify:before-create` hook, the module will import them for you, it has been declared properly to have better DX.
+You can load [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) using the `vuetifyOptions.localeMessages` module configuration option, you don't need to configure a Nuxt Plugin with the `vuetify:before-create` hook, the module will import them for you, it has been declared properly to have better DX.
 
 ::: warning
-When `@nuxtjs/i18n` Nuxt module is present, `vuetifyOptions.loadMessages` module configuration option will be ignored.
+When `@nuxtjs/i18n` Nuxt module is present, `vuetifyOptions.localeMessages` module configuration option will be ignored.
 :::
 
 Using the example in [Vuetify I18n](https://vuetifyjs.com/en/features/internationalization/#getting-started) documentation:
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
         locale: 'zhHans',
         fallback: 'sv',
       },
-      loadMessages: ['zhHans', 'pl'],
+      localeMessages: ['zhHans', 'pl'],
       /* other vuetify options */
     }
   }
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
           }
         }
       },
-      loadMessages: ['zhHans', 'pl'],
+      localeMessages: ['zhHans', 'pl'],
       /* other vuetify options */
     }
   }

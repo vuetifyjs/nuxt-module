@@ -44,6 +44,7 @@ export default defineVuetifyConfiguration({
     },
   },
   date: {
+    // adapter: 'date-fns',
     adapter: 'luxon',
     // adapter: 'vuetify',
   },

@@ -52,6 +52,8 @@
     "dev:build:multiple-json": "MULTIPLE_LANG_FILES=true nuxi build playground",
     "dev:generate:multiple-json": "MULTIPLE_LANG_FILES=true nuxi generate playground",
     "dev:preview": "nuxi preview playground",
+    "dev:prepare:date-io": "nuxt-module-build build --stub && nuxt-module-build prepare && pnpm nuxt prepare date-io-playground",
+    "dev:date-io": "nuxi dev date-io-playground",
     "docs:dev": "pnpm -C docs run dev",
     "docs:build": "nuxt-module-build prepare && pnpm -C docs run build",
     "docs:serve": "pnpm -C docs run serve",
@@ -72,7 +74,7 @@
     "ufo": "^1.3.1",
     "unconfig": "^0.3.11",
     "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.4.3"
+    "vuetify": "^3.4.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.43.1",
