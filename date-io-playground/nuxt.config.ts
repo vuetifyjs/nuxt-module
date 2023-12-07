@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       date: {
-        adapter: 'moment',
+        adapter: 'dayjs',
       },
       locale: {
         locale: 'es',

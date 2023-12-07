@@ -129,6 +129,9 @@ importers:
       '@date-io/date-fns':
         specifier: ^2.17.0
         version: 2.17.0(date-fns@2.30.0)
+      '@date-io/dayjs':
+        specifier: ^2.17.0
+        version: 2.17.0(dayjs@1.11.10)
       '@date-io/luxon':
         specifier: ^2.17.0
         version: 2.17.0(luxon@3.4.3)
@@ -147,6 +150,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
       luxon:
         specifier: ^3.4.3
         version: 3.4.3
@@ -1770,6 +1776,18 @@ packages:
     dependencies:
       '@date-io/core': 2.17.0
       date-fns: 2.30.0
+    dev: true
+
+  /@date-io/dayjs@2.17.0(dayjs@1.11.10):
+    resolution: {integrity: sha512-Iq1wjY5XzBh0lheFA0it6Dsyv94e8mTiNR8vuTai+KopxDkreL3YjwTmZHxkgB7/vd0RMIACStzVgWvPATnDCA==}
+    peerDependencies:
+      dayjs: ^1.8.17
+    peerDependenciesMeta:
+      dayjs:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      dayjs: 1.11.10
     dev: true
 
   /@date-io/luxon@2.17.0(luxon@3.4.3):
@@ -5917,6 +5935,10 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.22.6
+    dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: true
 
   /de-indent@1.0.2:

@@ -23,6 +23,16 @@ onMounted(() => {
 
 <template>
   <div>
-    <div>@date-io/{{ adapter }}: {{ dateString }}</div>
+    <div class="adapter">
+      @date-io/{{ adapter }}: {{ dateString }}
+    </div>
+    <br>
+    <v-date-picker />
   </div>
 </template>
+
+<style>
+.adapter {
+  padding: 1rem;
+}
+</style>
