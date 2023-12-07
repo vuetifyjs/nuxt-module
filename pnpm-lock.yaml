@@ -34,10 +34,10 @@ importers:
         version: 0.3.11
       vite-plugin-vuetify:
         specifier: ^1.0.2
-        version: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3)
+        version: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6)
       vuetify:
-        specifier: ^3.4.3
-        version: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+        specifier: ^3.4.6
+        version: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.43.1
@@ -124,6 +124,42 @@ importers:
         specifier: ^1.8.22
         version: 1.8.22(typescript@5.3.2)
 
+  date-io-playground:
+    devDependencies:
+      '@date-io/date-fns':
+        specifier: ^2.17.0
+        version: 2.17.0(date-fns@2.30.0)
+      '@date-io/luxon':
+        specifier: ^2.17.0
+        version: 2.17.0(luxon@3.4.3)
+      '@types/date-fns':
+        specifier: ^2.6.0
+        version: 2.6.0
+      '@unocss/nuxt':
+        specifier: ^0.57.7
+        version: 0.57.7(postcss@8.4.31)(rollup@3.29.4)(vite@4.5.0)(webpack@5.88.2)
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      luxon:
+        specifier: ^3.4.3
+        version: 3.4.3
+      nuxt:
+        specifier: ^3.8.2
+        version: 3.8.2(@parcel/watcher@2.3.0)(@types/node@18.0.0)(eslint@8.54.0)(rollup@3.29.4)(sass@1.63.6)(typescript@5.3.2)(vite@4.5.0)(vue-tsc@1.8.22)
+      sass:
+        specifier: ^1.63.6
+        version: 1.63.6
+      typescript:
+        specifier: ^5.3.2
+        version: 5.3.2
+      vue-tsc:
+        specifier: ^1.8.22
+        version: 1.8.22(typescript@5.3.2)
+      vuetify-nuxt-module:
+        specifier: workspace:*
+        version: link:..
+
   docs:
     dependencies:
       vue:
@@ -176,8 +212,8 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3
       vuetify:
-        specifier: ^3.4.3
-        version: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+        specifier: ^3.4.6
+        version: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     devDependencies:
       '@nuxtjs/i18n':
         specifier: npm:@nuxtjs/i18n-edge
@@ -1714,6 +1750,18 @@ packages:
 
   /@date-io/core@2.17.0:
     resolution: {integrity: sha512-+EQE8xZhRM/hsY0CDTVyayMDDY5ihc4MqXCrPxooKw19yAzUIC6uUqsZeaOFNL9YKTNxYKrJP5DFgE8o5xRCOw==}
+
+  /@date-io/date-fns@2.17.0(date-fns@2.30.0):
+    resolution: {integrity: sha512-L0hWZ/mTpy3Gx/xXJ5tq5CzHo0L7ry6KEO9/w/JWiFWFLZgiNVo3ex92gOl3zmzjHqY/3Ev+5sehAr8UnGLEng==}
+    peerDependencies:
+      date-fns: ^2.0.0
+    peerDependenciesMeta:
+      date-fns:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      date-fns: 2.30.0
+    dev: true
 
   /@date-io/luxon@2.17.0(luxon@3.4.3):
     resolution: {integrity: sha512-l712Vdm/uTddD2XWt9TlQloZUiTiRQtY5TCOG45MQ/8u0tu8M17BD6QYHar/3OrnkGybALAMPzCy1r5D7+0HBg==}
@@ -3741,6 +3789,13 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: true
 
+  /@types/date-fns@2.6.0:
+    resolution: {integrity: sha512-9DSw2ZRzV0Tmpa6PHHJbMcZn79HHus+BBBohcOaDzkK/G3zMjDUDYjJIWBFLbkh+1+/IOS0A59BpQfdr37hASg==}
+    deprecated: This is a stub types definition for date-fns (https://github.com/date-fns/date-fns). date-fns provides its own type definitions, so you don't need @types/date-fns installed!
+    dependencies:
+      date-fns: 2.30.0
+    dev: true
+
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
@@ -4668,7 +4723,7 @@ packages:
   /@vue/shared@3.3.8:
     resolution: {integrity: sha512-8PGwybFwM4x8pcfgqEQFy70NaQxASvOC5DJwLQfpArw1UDfUXrJkdxD3BhVTMS+0Lef/TU7YO0Jvr0jJY8T+mw==}
 
-  /@vuetify/loader-shared@1.7.1(vue@3.3.8)(vuetify@3.4.3):
+  /@vuetify/loader-shared@1.7.1(vue@3.3.8)(vuetify@3.4.6):
     resolution: {integrity: sha512-kLUvuAed6RCvkeeTNJzuy14pqnkur8lTuner7v7pNE/kVhPR97TuyXwBSBMR1cJeiLiOfu6SF5XlCYbXByEx1g==}
     peerDependencies:
       vue: ^3.0.0
@@ -4677,7 +4732,7 @@ packages:
       find-cache-dir: 3.3.2
       upath: 2.0.1
       vue: 3.3.8(typescript@5.3.2)
-      vuetify: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+      vuetify: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     dev: false
 
   /@vueuse/core@10.6.1(vue@3.3.8):
@@ -5828,6 +5883,13 @@ packages:
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+
+  /date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.22.6
+    dev: true
 
   /de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -11493,18 +11555,18 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vuetify@1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3):
+  /vite-plugin-vuetify@1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6):
     resolution: {integrity: sha512-MubIcKD33O8wtgQXlbEXE7ccTEpHZ8nPpe77y9Wy3my2MWw/PgehP9VqTp92BLqr0R1dSL970Lynvisx3UxBFw==}
     engines: {node: '>=12'}
     peerDependencies:
       vite: ^2.7.0 || ^3.0.0 || ^4.0.0
       vuetify: ^3.0.0-beta.4
     dependencies:
-      '@vuetify/loader-shared': 1.7.1(vue@3.3.8)(vuetify@3.4.3)
+      '@vuetify/loader-shared': 1.7.1(vue@3.3.8)(vuetify@3.4.6)
       debug: 4.3.4
       upath: 2.0.1
       vite: 4.5.0(@types/node@18.0.0)(sass@1.63.6)
-      vuetify: 3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
+      vuetify: 3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8)
     transitivePeerDependencies:
       - supports-color
       - vue
@@ -11931,8 +11993,8 @@ packages:
       '@vue/shared': 3.3.8
       typescript: 5.3.2
 
-  /vuetify@3.4.3(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8):
-    resolution: {integrity: sha512-b8yi87Zv4bn2JbaVkkV9uzSRw0fdY/v3ieWne0OTI29w/CNSyLyfHGBCrmx7eD74i562M1j+AwSSRJCX3wF0+Q==}
+  /vuetify@3.4.6(typescript@5.3.2)(vite-plugin-vuetify@1.0.2)(vue@3.3.8):
+    resolution: {integrity: sha512-Zp6BjKkNcnyHlOmr01Y/Rc4d686PORO+hcpfM76qRaDMIU4H1GnP0JIF3jwxI1q3Uj/2bHKLwn81oCLJZd+8sg==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
       typescript: '>=4.7'
@@ -11951,7 +12013,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.3.2
-      vite-plugin-vuetify: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.3)
+      vite-plugin-vuetify: 1.0.2(vite@4.5.0)(vue@3.3.8)(vuetify@3.4.6)
       vue: 3.3.8(typescript@5.3.2)
     dev: false
 

@@ -15,7 +15,7 @@
     "@iconify-json/mdi": "^1.1.55",
     "@mdi/js": "^7.3.67",
     "luxon": "^3.4.3",
-    "vuetify": "^3.4.3"
+    "vuetify": "^3.4.6"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge",

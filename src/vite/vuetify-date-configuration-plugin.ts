@@ -26,15 +26,7 @@ export function dateConfiguration() {
 
         const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
 
-        const imports = ctx.dateAdapter === 'vuetify'
-          ? ctx.vuetify3_4 === true
-            ? ''
-            : 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
-          : ctx.dateAdapter === 'custom'
-            ? ''
-            : `import Adapter from '@date-io/${ctx.dateAdapter}'`
-
-        return `${imports}
+        return `${buildImports()}
 export const enabled = true
 export const isDev = ${ctx.isDev}
 export const i18n = ${ctx.i18n}
@@ -56,6 +48,25 @@ export function dateConfiguration() {
     if (ctx.dateAdapter === 'vuetify')
       return 'options.adapter = VuetifyDateAdapter'
 
+    if (ctx.dateAdapter === 'date-fns') {
+      const locale = ctx.vuetifyOptions.locale?.locale ?? 'en'
+      return `options.adapter = new Adapter({ locale: ${locale} })`
+    }
+
     return 'options.adapter = Adapter'
+  }
+
+  function buildImports() {
+    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetify3_4 === true))
+      return ''
+
+    if (ctx.dateAdapter === 'vuetify')
+      return 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
+
+    const imports = [`import Adapter from '@date-io/${ctx.dateAdapter}'`]
+    if (ctx.dateAdapter === 'date-fns')
+      imports.push(`import { ${ctx.vuetifyOptions.locale?.locale ?? 'en'} } from 'date-fns/locale'`)
+
+    return imports.join('\n')
   }
 }

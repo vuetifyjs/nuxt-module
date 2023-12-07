@@ -1,0 +1,24 @@
+{
+  "name": "vuetify-nuxt-module-date-io-playground",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prepare": "nuxt prepare",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "devDependencies": {
+    "@date-io/date-fns": "^2.17.0",
+    "@date-io/luxon": "^2.17.0",
+    "@types/date-fns": "^2.6.0",
+    "@unocss/nuxt": "^0.57.7",
+    "date-fns": "^2.30.0",
+    "luxon": "^3.4.3",
+    "nuxt": "^3.8.2",
+    "sass": "^1.63.6",
+    "typescript": "^5.3.2",
+    "vue-tsc": "^1.8.22",
+    "vuetify-nuxt-module": "workspace:*"
+  }
+}
