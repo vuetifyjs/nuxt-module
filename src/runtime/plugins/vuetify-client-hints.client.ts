@@ -19,12 +19,17 @@ const plugin: Plugin<{
     prefersColorSchemeOptions,
   } = ssrClientHintsConfiguration
 
-  // TODO: check what can we do with switchers, maybe we need some payload?
+  // TODO: check what can we do with switchers
   // fix issue #169
   if (typeof state.value === 'undefined') {
+    // Maybe we can enable auto-detection:
+    // - window.innerWidth
+    // - window.innerHeight
+    // - extract cookie from browser or use the default theme for colorSchemeFromCookie
+    // If so, we'll need to handle hydration mismatch (?)
     state.value = {
       firstRequest: false,
-      prefersColorSchemeAvailable: 'chrome' in window,
+      prefersColorSchemeAvailable: false,
       prefersReducedMotionAvailable: false,
       viewportHeightAvailable: false,
       viewportWidthAvailable: false,
