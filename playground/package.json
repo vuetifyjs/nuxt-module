@@ -15,7 +15,7 @@
     "@iconify-json/mdi": "^1.1.55",
     "@mdi/js": "^7.3.67",
     "luxon": "^3.4.3",
-    "vuetify": "^3.4.6"
+    "vuetify": "^3.4.7"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge",
@@ -23,7 +23,7 @@
     "nuxt": "^3.8.2",
     "sass": "^1.63.6",
     "typescript": "^5.3.2",
-    "vue-tsc": "^1.8.22",
+    "vue-tsc": "^1.8.25",
     "vuetify-nuxt-module": "workspace:*"
   }
 }

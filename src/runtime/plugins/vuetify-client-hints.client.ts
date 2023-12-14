@@ -12,20 +12,32 @@ const plugin: Plugin<{
   const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
 
   const {
-    firstRequest,
-    prefersColorSchemeAvailable,
-    prefersReducedMotionAvailable,
-    viewportHeightAvailable,
-    viewportWidthAvailable,
-  } = state.value
-
-  const {
     reloadOnFirstRequest,
     viewportSize,
     prefersReducedMotion,
     prefersColorScheme,
     prefersColorSchemeOptions,
   } = ssrClientHintsConfiguration
+
+  // TODO: check what can we do with switchers, maybe we need some payload?
+  // fix issue #169
+  if (typeof state.value === 'undefined') {
+    state.value = {
+      firstRequest: false,
+      prefersColorSchemeAvailable: 'chrome' in window,
+      prefersReducedMotionAvailable: false,
+      viewportHeightAvailable: false,
+      viewportWidthAvailable: false,
+    }
+  }
+
+  const {
+    firstRequest,
+    prefersColorSchemeAvailable,
+    prefersReducedMotionAvailable,
+    viewportHeightAvailable,
+    viewportWidthAvailable,
+  } = state.value
 
   // reload the page when it is the first request, explicitly configured, and any feature available
   if (firstRequest && reloadOnFirstRequest) {
