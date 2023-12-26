@@ -83,11 +83,15 @@ export default defineNuxtConfig({
   },
   // css: ['vuetify/styles'],
   // css: ['~/assets/main.scss'],
+  future: {
+    typescriptBundlerResolution: false,
+  },
+  features: {
+    inlineStyles: false,
+  },
   experimental: {
-    inlineSSRStyles: false,
     payloadExtraction: false,
     typedPages: false,
-    typescriptBundlerResolution: false,
     watcher: 'parcel',
   },
   devtools: {
