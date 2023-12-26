@@ -44,11 +44,15 @@ export default defineNuxtConfig({
       ],
     },
   },
-  experimental: {
+  future: {
+    typescriptBundlerResolution: true,
+  },
+  features: {
     inlineSSRStyles: false,
+  },
+  experimental: {
     payloadExtraction: false,
     typedPages: false,
-    typescriptBundlerResolution: true,
     watcher: 'parcel',
   },
   devtools: {

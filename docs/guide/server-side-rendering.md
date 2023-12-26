@@ -18,7 +18,7 @@ The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client
 
 ## Vuetify SASS Variables
 
-If you are customising Vuetify SASS Variables via [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you have to disable `experimental.inlineSSRStyles` in your Nuxt config file, otherwise you will get an error when building your application:
+If you are customising Vuetify SASS Variables via [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you have to disable `features.inlineStyles` (`experimental.inlineSSRStyles` for Nuxt version prior to `3.9.0`) in your Nuxt config file, otherwise you will get an error when building your application:
 ```ts
 // Nuxt config file
 export default defineNuxtConfig({
@@ -33,9 +33,15 @@ export default defineNuxtConfig({
       /* vuetify options */
     }
   },
+  /* For Nuxt 3.9.0+ */
+  features: {
+    inlineStyles: false
+  },
+  /* For Nuxt prior to 3.9.0
   experimental: {
     inlineSSRStyles: false
   }
+  */
 })
 ```
 
