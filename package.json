@@ -42,7 +42,7 @@
     "*.mjs"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build prepare && nuxt-module-build build && jiti scripts/postbuild.ts",
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:multiple-json": "MULTIPLE_LANG_FILES=true nuxi dev playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
@@ -87,7 +87,7 @@
     "@iconify-json/mdi": "^1.1.55",
     "@mdi/js": "^7.3.67",
     "@nuxt/devtools": "^1.0.6",
-    "@nuxt/module-builder": "^0.5.4",
+    "@nuxt/module-builder": "^0.5.5",
     "@nuxt/schema": "^3.9.0",
     "@nuxt/test-utils": "^3.9.0",
     "@nuxtjs/i18n": "^8.0.0",
