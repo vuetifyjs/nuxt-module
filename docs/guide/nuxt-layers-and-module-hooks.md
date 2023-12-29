@@ -12,14 +12,13 @@ If you're **NOT** using Nuxt `^3.8.1+`, you should use `// @ts-expect-error` whe
 
 ## Nuxt Layers
 
-Add your Vuetify configuration to a layer and then configure the module to use it:
+Follow the [installation instructions](https://vuetify-nuxt-module.netlify.app/guide/) for `vuetify-nuxt-module` in your layer. Then extend that layer in your other project:
 ```ts
 // Nuxt config file
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   extends: ['my-awesome-vuetify-layer'],
-  modules: ['vuetify-nuxt-module']
 })
 ```
 
