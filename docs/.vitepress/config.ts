@@ -85,6 +85,9 @@ export default withPwa(defineConfig({
         }, {
           text: 'SVG Icons',
           link: '/guide/icons/svg-icons',
+        }, {
+          text: 'Integrations',
+          link: '/guide/icons/integrations',
         }],
       },
       {
@@ -166,6 +169,9 @@ export default withPwa(defineConfig({
         }, {
           text: 'SVG Icons',
           link: '/guide/icons/svg-icons',
+        }, {
+          text: 'Integrations',
+          link: '/guide/icons/integrations',
         }],
         collapsed: true,
       }, {
