@@ -1,6 +1,6 @@
 # Integrations
 
-Vuetify supports custom icon sets using Vue icons libraries. This section is about how to integrate the following icon libraries with `vuetify-nuxt-module`:
+Vuetify supports custom icon sets using Vue icon libraries. This section is about how to integrate the following icon libraries with `vuetify-nuxt-module`:
 - [unplugin-icons/nuxt](https://github.com/unplugin/unplugin-icons)
 - [Iconify for Vue](https://iconify.design/docs/icon-components/vue/)
 - [Nuxt Icon](https://github.com/nuxt-modules/icon)
