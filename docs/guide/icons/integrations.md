@@ -51,7 +51,7 @@ Iconify for Vue is client side only, the icons will be rendered only on the clie
 
 You can check this [repository using material design icons](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/):
 - default icon set in [vuetify.config.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/vuetify.config.ts) configuration file
-- custom Vue web component registration [nuxt.config.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/nuxt.config.ts) configuration file, check vue option
+- custom Vue web component registration in [nuxt.config.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/nuxt.config.ts) configuration file, check vue option
 - custom icon set in [iconify/index.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/iconify/index.ts) icon set
 - custom icon set registration in [plugins/custom-icons.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/plugins/custom-icons.ts) plugin
 - custom icon component registration in [plugins/custom-icons.ts](https://github.com/userquin/vuetify-nuxt-iconify-icon-integration/blob/main/iconify/index.ts) plugin (`import 'iconify-icon'`)
