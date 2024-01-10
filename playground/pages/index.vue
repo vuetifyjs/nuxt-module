@@ -3,6 +3,10 @@
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import prependAvatar from '~/assets/logo.svg'
 
+definePageMeta({
+  middleware: 'vuetify',
+})
+
 const value = reactive<{
   name1?: string
   name2?: string
