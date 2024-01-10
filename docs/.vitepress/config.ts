@@ -12,8 +12,8 @@ export default withPwa(defineConfig({
   description: 'Zero-config Nuxt Module for Vuetify',
   head: [
     ['meta', { name: 'theme-color', content: '#ffffff' }],
-    ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
-    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon.ico', sizes: '48x48' }],
+    ['link', { rel: 'icon', href: '/logo.svg', sizes: 'any', type: 'image/svg+xml' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
     ['meta', { name: 'author', content: 'Joaquín Sánchez' }],
@@ -85,6 +85,9 @@ export default withPwa(defineConfig({
         }, {
           text: 'SVG Icons',
           link: '/guide/icons/svg-icons',
+        }, {
+          text: 'Integrations',
+          link: '/guide/icons/integrations',
         }],
       },
       {
@@ -166,6 +169,9 @@ export default withPwa(defineConfig({
         }, {
           text: 'SVG Icons',
           link: '/guide/icons/svg-icons',
+        }, {
+          text: 'Integrations',
+          link: '/guide/icons/integrations',
         }],
         collapsed: true,
       }, {

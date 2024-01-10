@@ -30,8 +30,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       ]
     }
 
-    // viteInlineConfig.plugins.push(vuetify({ styles: true, autoImport: true }))
-    viteInlineConfig.plugins.push(vuetifyImportPlugin())
+    viteInlineConfig.plugins.push(vuetifyImportPlugin({}))
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))

@@ -1,7 +1,7 @@
 import { extname } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { Plugin } from 'vite'
-import { generateImports } from '@vuetify/loader-shared'
+import { type Options, generateImports } from '@vuetify/loader-shared'
 import { parseQuery, parseURL } from 'ufo'
 import { isAbsolute } from 'pathe'
 import destr from 'destr'
@@ -22,7 +22,7 @@ function parseId(id: string) {
   }
 }
 
-export function vuetifyImportPlugin() {
+export function vuetifyImportPlugin(options: Options) {
   return <Plugin>{
     name: 'vuetify:import:nuxt',
     configResolved(config) {
@@ -36,7 +36,7 @@ export function vuetifyImportPlugin() {
         ((!query || !('vue' in query)) && extname(path) === '.vue' && !/^import { render as _sfc_render } from ".*"$/m.test(code))
         || (query && 'vue' in query && (query.type === 'template' || (query.type === 'script' && query.setup === 'true')))
       ) {
-        const { code: imports, source } = generateImports(code)
+        const { code: imports, source } = generateImports(code, options)
         return {
           code: source + imports,
           map: null,
