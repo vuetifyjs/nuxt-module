@@ -1,6 +1,6 @@
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import type { UnwrapNestedRefs } from 'vue'
-import { reactive, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import type { SSRClientHints } from './types'
 import { VuetifyHTTPClientHints } from './client-hints'
 import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
@@ -8,33 +8,8 @@ import type { Plugin } from '#app'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
-}> = defineNuxtPlugin((nuxtApp) => {
-  const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
-
-  const {
-    reloadOnFirstRequest,
-    viewportSize,
-    prefersReducedMotion,
-    prefersColorScheme,
-    prefersColorSchemeOptions,
-  } = ssrClientHintsConfiguration
-
-  // TODO: check what can we do with switchers
-  // fix issue #169
-  if (typeof state.value === 'undefined') {
-    // Maybe we can enable auto-detection:
-    // - window.innerWidth
-    // - window.innerHeight
-    // - extract cookie from browser or use the default theme for colorSchemeFromCookie
-    // If so, we'll need to handle hydration mismatch (?)
-    state.value = {
-      firstRequest: false,
-      prefersColorSchemeAvailable: false,
-      prefersReducedMotionAvailable: false,
-      viewportHeightAvailable: false,
-      viewportWidthAvailable: false,
-    }
-  }
+}> = defineNuxtPlugin(async (nuxtApp) => {
+  const state = await useSSRClientHints()
 
   const {
     firstRequest,
@@ -43,6 +18,14 @@ const plugin: Plugin<{
     viewportHeightAvailable,
     viewportWidthAvailable,
   } = state.value
+
+  const {
+    reloadOnFirstRequest,
+    viewportSize,
+    prefersReducedMotion,
+    prefersColorScheme,
+    prefersColorSchemeOptions,
+  } = ssrClientHintsConfiguration
 
   // reload the page when it is the first request, explicitly configured, and any feature available
   if (firstRequest && reloadOnFirstRequest) {
@@ -134,3 +117,110 @@ const plugin: Plugin<{
 })
 
 export default plugin
+
+function defaultValues() {
+  return <SSRClientHints>{
+    firstRequest: false,
+    prefersColorSchemeAvailable: false,
+    prefersReducedMotionAvailable: false,
+    viewportHeightAvailable: true,
+    viewportWidthAvailable: true,
+    viewportHeight: window.innerHeight,
+    viewportWidth: window.innerWidth,
+    prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'no-preference',
+  }
+}
+
+async function useSSRClientHints() {
+  const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
+  if (state.value)
+    return state
+
+  const initial = ref(defaultValues())
+
+  // avoid error in Safari 10, IE9- and other old browsers
+  if (!window.performance || !('getEntriesByType' in performance))
+    return initial
+
+  const entryList = performance.getEntriesByType('navigation')
+  // still not supported as of Safari 14...
+  if (!entryList.length)
+    return initial
+
+  const entry = entryList[0] instanceof PerformanceResourceTiming ? entryList[0] : undefined
+  if (!entry || !entry.serverTiming?.length)
+    return initial
+
+  const entries = Array.from(entry.serverTiming)
+    .filter(e => e.name.startsWith('vtfy-'))
+    .reduce((acc, value) => {
+      acc[value.name] = value.description
+      return acc
+    }, {} as Record<string, string>)
+  console.log(entries)
+  /*
+  initial.firstRequest = entries['vtfy-0'] === '1'
+  initial.prefersColorSchemeAvailable = entries['vtfy-1'] === '1'
+  initial.prefersReducedMotionAvailable = entries['vtfy-2'] === '1'
+  initial.viewportHeightAvailable = entries['vtfy-3'] === '1'
+  initial.viewportWidthAvailable = entries['vtfy-4'] === '1'
+  if (initial.prefersColorSchemeAvailable) {
+    const prefersColorScheme = entries['vtfy-5']
+    initial.prefersColorScheme = prefersColorScheme === '0'
+      ? 'light'
+      : prefersColorScheme === '1'
+        ? 'dark'
+        : prefersColorScheme === '2'
+          ? 'no-preference'
+          : undefined
+  }
+
+  if (initial.prefersReducedMotionAvailable) {
+    const prefersReducedMotion = entries['vtfy-6']
+    initial.prefersReducedMotion = prefersReducedMotion === '0'
+      ? 'no-preference'
+      : prefersReducedMotion === '1'
+        ? 'reduce'
+        : undefined
+  }
+
+  if (initial.viewportHeightAvailable) {
+    const viewportHeight = entries['vtfy-7']
+    try {
+      initial.viewportHeight = parseInt(viewportHeight, 10)
+      if (Number.isNaN(initial.viewportHeight))
+        initial.viewportHeight = undefined
+    }
+    catch {
+      initial.viewportHeight = undefined
+    }
+  }
+
+  if (initial.viewportWidthAvailable) {
+    const viewportWidth = entries['vtfy-8']
+    try {
+      initial.viewportWidth = parseInt(viewportWidth, 10)
+      if (Number.isNaN(initial.viewportWidth))
+        initial.viewportWidth = undefined
+    }
+    catch {
+      initial.viewportWidth = undefined
+    }
+  }
+  initial.colorSchemeFromCookie = entries['vtfy-9']
+
+  const firstRequest: boolean
+  prefersColorSchemeAvailable: boolean
+  prefersReducedMotionAvailable: boolean
+  viewportHeightAvailable: boolean
+  viewportWidthAvailable: boolean
+  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
+  prefersReducedMotion?: 'no-preference' | 'reduce'
+  viewportHeight?: number
+  viewportWidth?: number
+  colorSchemeFromCookie?: string
+  colorSchemeCookie?: string
+*/
+  return initial
+}
