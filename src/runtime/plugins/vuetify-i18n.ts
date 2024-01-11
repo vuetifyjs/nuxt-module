@@ -3,6 +3,7 @@ import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'vuetify:i18n:plugin',
+  order: -25,
   // @ts-expect-error i18n plugin missing on build time
   dependsOn: ['i18n:plugin'],
   parallel: true,

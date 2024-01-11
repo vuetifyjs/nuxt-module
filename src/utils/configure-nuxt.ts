@@ -152,6 +152,7 @@ const plugin: Plugin<{
   vuetify: ReturnType<typeof createVuetify>
 }> = defineNuxtPlugin({
   name: 'vuetify:configuration:plugin',
+  order: 25,
   dependsOn,
   parallel: true,
   async setup() {
@@ -179,6 +180,7 @@ const plugin: Plugin<{
   vuetify: ReturnType<typeof createVuetify>
 }> = defineNuxtPlugin({
   name: 'vuetify:configuration:plugin',
+  order: 25,
   dependsOn: ${JSON.stringify(dependsOn)},
   parallel: true,
   async setup() {

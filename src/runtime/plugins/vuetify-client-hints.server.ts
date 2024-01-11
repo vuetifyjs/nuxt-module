@@ -38,6 +38,7 @@ const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
 }> = defineNuxtPlugin({
   name: 'vuetify:client-hints:server:plugin',
+  order: -25,
   parallel: true,
   setup(nuxtApp) {
     const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
