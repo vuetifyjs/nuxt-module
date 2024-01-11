@@ -143,19 +143,10 @@ async function useSSRClientHints() {
   const {
     baseUrl,
     cookieName,
-    darkThemeName,
     defaultTheme,
-    lightThemeName,
   } = ssrClientHintsConfiguration.prefersColorSchemeOptions
   const cookieNamePrefix = `${cookieName}=`
-  const colorSchemeFromCookie = document.cookie?.split(';').find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1]
-  if (colorSchemeFromCookie === 'dark')
-    initial.value.colorSchemeFromCookie = darkThemeName
-  else if (colorSchemeFromCookie === 'light')
-    initial.value.colorSchemeFromCookie = lightThemeName
-  else
-    initial.value.colorSchemeFromCookie = defaultTheme
-
+  initial.value.colorSchemeFromCookie = document.cookie?.split(';')?.find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1] ?? defaultTheme
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
   initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=Lax`
