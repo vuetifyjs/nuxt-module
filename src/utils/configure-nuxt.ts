@@ -81,10 +81,10 @@ export function configureNuxt(
     })))
   }
 
-  let addClientHintsPlugin = ''
+  let addHttpClientHintsPlugin = ''
 
   if (ctx.ssrClientHints.enabled) {
-    addClientHintsPlugin = `
+    addHttpClientHintsPlugin = `
 if (import.meta.client) {
   dependsOn.push('vuetify:client-hints:client:plugin')
   console.log('client:dependsOn', dependsOn)
@@ -146,7 +146,7 @@ import { defineNuxtPlugin } from '#imports'
 import type { Plugin } from '#app'
 
 const dependsOn = ${JSON.stringify(dependsOn)}
-${addClientHintsPlugin}
+${addHttpClientHintsPlugin}
 
 const plugin: Plugin<{
   vuetify: ReturnType<typeof createVuetify>
