@@ -48,7 +48,7 @@ export default defineNuxtConfig({
     typescriptBundlerResolution: true,
   },
   features: {
-    inlineSSRStyles: false,
+    inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,
