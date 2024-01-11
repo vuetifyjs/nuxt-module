@@ -98,8 +98,8 @@ export function configureNuxt(
         if (enable) {
           nuxt.hook('nitro:config', async (nitroConfig) => {
             const ssrClientHintsConfiguration = {
-              prefersColorScheme: ctx.ssrClientHints.prefersColorScheme,
-              prefersColorSchemeOptions: ctx.ssrClientHints.prefersColorSchemeOptions,
+              prefersColorScheme,
+              prefersColorSchemeOptions,
             }
             nitroConfig.virtual = nitroConfig.virtual ?? {}
             nitroConfig.virtual['#internal/vuetify-no-ssr-page/conf.mjs'] = () => `export default ${JSON.stringify(ssrClientHintsConfiguration)}`
