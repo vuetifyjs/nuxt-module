@@ -8,8 +8,8 @@ import type { Plugin } from '#app'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
-}> = defineNuxtPlugin(async (nuxtApp) => {
-  const state = await useSSRClientHints()
+}> = defineNuxtPlugin((nuxtApp) => {
+  const state = useSSRClientHints()
 
   const {
     firstRequest,
@@ -130,7 +130,7 @@ function defaultClientValues() {
   }
 }
 
-async function useSSRClientHints() {
+function useSSRClientHints() {
   const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
   if (state.value)
     return state
