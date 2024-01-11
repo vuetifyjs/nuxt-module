@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
+import { addImports, addPlugin, addServerPlugin, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
 import type { VuetifyNuxtContext } from './config'
@@ -90,6 +90,24 @@ export function configureNuxt(
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-client-hints.server'),
       mode: 'server',
     })
+    const { prefersColorScheme, prefersColorSchemeOptions } = ctx.ssrClientHints
+    if (ctx.moduleOptions.ssrClientHints?.includeNonSSRPageNitroPlugin && prefersColorScheme && prefersColorSchemeOptions) {
+      const routeRules = nuxt.options.routeRules
+      if (routeRules) {
+        const enable = Object.values(routeRules).some(rule => rule.ssr === false)
+        if (enable) {
+          nuxt.hook('nitro:config', async (nitroConfig) => {
+            const ssrClientHintsConfiguration = {
+              prefersColorScheme: ctx.ssrClientHints.prefersColorScheme,
+              prefersColorSchemeOptions: ctx.ssrClientHints.prefersColorSchemeOptions,
+            }
+            nitroConfig.virtual = nitroConfig.virtual ?? {}
+            nitroConfig.virtual['#internal/vuetify-no-ssr-page/conf.mjs'] = () => `export default ${JSON.stringify(ssrClientHintsConfiguration)}`
+          })
+          addServerPlugin(ctx.resolver.resolve(runtimeDir, 'server/plugin.ts'))
+        }
+      }
+    }
   }
   else {
     addPlugin({

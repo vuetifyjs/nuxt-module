@@ -118,7 +118,19 @@ const plugin: Plugin<{
 
 export default plugin
 
-function defaultValues() {
+function defaultClientValues() {
+  let colorSchemeFromCookie: string | undefined
+  if (ssrClientHintsConfiguration.prefersColorScheme && ssrClientHintsConfiguration.prefersColorSchemeOptions) {
+    const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
+    colorSchemeFromCookie = document.cookie?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))?.split('=')[1]
+    if (colorSchemeFromCookie === 'dark')
+      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.darkThemeName
+    else if (colorSchemeFromCookie === 'light')
+      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.lightThemeName
+    else
+      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
+  }
+
   return <SSRClientHints>{
     firstRequest: false,
     prefersColorSchemeAvailable: false,
@@ -127,6 +139,7 @@ function defaultValues() {
     viewportWidthAvailable: true,
     viewportHeight: window.innerHeight,
     viewportWidth: window.innerWidth,
+    colorSchemeFromCookie,
     prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
     prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'no-preference',
   }
@@ -137,7 +150,10 @@ async function useSSRClientHints() {
   if (state.value)
     return state
 
-  const initial = ref(defaultValues())
+  const initial = ref(defaultClientValues())
+
+  if (!ssrClientHintsConfiguration.prefersColorScheme || !ssrClientHintsConfiguration.prefersColorSchemeOptions)
+    return initial
 
   // avoid error in Safari 10, IE9- and other old browsers
   if (!window.performance || !('getEntriesByType' in performance))
@@ -152,75 +168,9 @@ async function useSSRClientHints() {
   if (!entry || !entry.serverTiming?.length)
     return initial
 
-  const entries = Array.from(entry.serverTiming)
-    .filter(e => e.name.startsWith('vtfy-'))
-    .reduce((acc, value) => {
-      acc[value.name] = value.description
-      return acc
-    }, {} as Record<string, string>)
-  console.log(entries)
-  /*
-  initial.firstRequest = entries['vtfy-0'] === '1'
-  initial.prefersColorSchemeAvailable = entries['vtfy-1'] === '1'
-  initial.prefersReducedMotionAvailable = entries['vtfy-2'] === '1'
-  initial.viewportHeightAvailable = entries['vtfy-3'] === '1'
-  initial.viewportWidthAvailable = entries['vtfy-4'] === '1'
-  if (initial.prefersColorSchemeAvailable) {
-    const prefersColorScheme = entries['vtfy-5']
-    initial.prefersColorScheme = prefersColorScheme === '0'
-      ? 'light'
-      : prefersColorScheme === '1'
-        ? 'dark'
-        : prefersColorScheme === '2'
-          ? 'no-preference'
-          : undefined
-  }
+  const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
+  initial.value.colorSchemeCookie = Array.from(entry.serverTiming)
+    .find(e => e.name === cookieName)?.description
 
-  if (initial.prefersReducedMotionAvailable) {
-    const prefersReducedMotion = entries['vtfy-6']
-    initial.prefersReducedMotion = prefersReducedMotion === '0'
-      ? 'no-preference'
-      : prefersReducedMotion === '1'
-        ? 'reduce'
-        : undefined
-  }
-
-  if (initial.viewportHeightAvailable) {
-    const viewportHeight = entries['vtfy-7']
-    try {
-      initial.viewportHeight = parseInt(viewportHeight, 10)
-      if (Number.isNaN(initial.viewportHeight))
-        initial.viewportHeight = undefined
-    }
-    catch {
-      initial.viewportHeight = undefined
-    }
-  }
-
-  if (initial.viewportWidthAvailable) {
-    const viewportWidth = entries['vtfy-8']
-    try {
-      initial.viewportWidth = parseInt(viewportWidth, 10)
-      if (Number.isNaN(initial.viewportWidth))
-        initial.viewportWidth = undefined
-    }
-    catch {
-      initial.viewportWidth = undefined
-    }
-  }
-  initial.colorSchemeFromCookie = entries['vtfy-9']
-
-  const firstRequest: boolean
-  prefersColorSchemeAvailable: boolean
-  prefersReducedMotionAvailable: boolean
-  viewportHeightAvailable: boolean
-  viewportWidthAvailable: boolean
-  prefersColorScheme?: 'dark' | 'light' | 'no-preference'
-  prefersReducedMotion?: 'no-preference' | 'reduce'
-  viewportHeight?: number
-  viewportWidth?: number
-  colorSchemeFromCookie?: string
-  colorSchemeCookie?: string
-*/
   return initial
 }

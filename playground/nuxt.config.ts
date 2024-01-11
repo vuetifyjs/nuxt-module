@@ -47,6 +47,7 @@ export default defineNuxtConfig({
           useBrowserThemeOnly: false,
         },
         viewportSize: true,
+        includeNonSSRPageNitroPlugin: true,
       },
       // styles: { configFile: 'assets/settings.scss' },
     },
