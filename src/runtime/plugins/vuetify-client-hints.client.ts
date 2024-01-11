@@ -119,18 +119,6 @@ const plugin: Plugin<{
 export default plugin
 
 function defaultClientValues() {
-  let colorSchemeFromCookie: string | undefined
-  if (ssrClientHintsConfiguration.prefersColorScheme && ssrClientHintsConfiguration.prefersColorSchemeOptions) {
-    const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
-    colorSchemeFromCookie = document.cookie?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))?.split('=')[1]
-    if (colorSchemeFromCookie === 'dark')
-      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.darkThemeName
-    else if (colorSchemeFromCookie === 'light')
-      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.lightThemeName
-    else
-      colorSchemeFromCookie = ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
-  }
-
   return <SSRClientHints>{
     firstRequest: false,
     prefersColorSchemeAvailable: false,
@@ -139,9 +127,6 @@ function defaultClientValues() {
     viewportWidthAvailable: true,
     viewportHeight: window.innerHeight,
     viewportWidth: window.innerWidth,
-    colorSchemeFromCookie,
-    prefersColorScheme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-    prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'no-preference',
   }
 }
 
@@ -155,22 +140,25 @@ async function useSSRClientHints() {
   if (!ssrClientHintsConfiguration.prefersColorScheme || !ssrClientHintsConfiguration.prefersColorSchemeOptions)
     return initial
 
-  // avoid error in Safari 10, IE9- and other old browsers
-  if (!window.performance || !('getEntriesByType' in performance))
-    return initial
+  const {
+    baseUrl,
+    cookieName,
+    darkThemeName,
+    defaultTheme,
+    lightThemeName,
+  } = ssrClientHintsConfiguration.prefersColorSchemeOptions
+  const cookieNamePrefix = `${cookieName}=`
+  const colorSchemeFromCookie = document.cookie?.split(';').find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1]
+  if (colorSchemeFromCookie === 'dark')
+    initial.value.colorSchemeFromCookie = darkThemeName
+  else if (colorSchemeFromCookie === 'light')
+    initial.value.colorSchemeFromCookie = lightThemeName
+  else
+    initial.value.colorSchemeFromCookie = defaultTheme
 
-  const entryList = performance.getEntriesByType('navigation')
-  // still not supported as of Safari 14...
-  if (!entryList.length)
-    return initial
-
-  const entry = entryList[0] instanceof PerformanceResourceTiming ? entryList[0] : undefined
-  if (!entry || !entry.serverTiming?.length)
-    return initial
-
-  const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
-  initial.value.colorSchemeCookie = Array.from(entry.serverTiming)
-    .find(e => e.name === cookieName)?.description
+  const date = new Date()
+  const expires = new Date(date.setDate(date.getDate() + 365))
+  initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=Lax`
 
   return initial
 }

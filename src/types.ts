@@ -325,19 +325,6 @@ export interface MOptions {
      * @default false
      */
     prefersReducedMotion?: boolean
-    /**
-     * When your application is an SSR application and some page configured with `ssr: false` in the route rules, we need to restore/simulate the SSR state in the client page.
-     *
-     * This module provides a Nitro plugin to restore/simulate the SSR state, but you need to enable this option explicitly: the plugin will refresh or configure the theme-color cookie and send to the client the cookie to enable theme color switcher.
-     *
-     * The Nitro plugin will be added only when required, that is:
-     * - includeNonSSRPageNitroPlugin option enabled
-     * - SSR enabled and some page with `ssr: false` in the route rules
-     * - prefersColorScheme option enabled and prefersColorSchemeOptions option configured
-     *
-     * @default false
-     */
-    includeNonSSRPageNitroPlugin?: boolean
   }
 }
 
