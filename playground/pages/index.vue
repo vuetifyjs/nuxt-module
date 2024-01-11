@@ -60,6 +60,9 @@ watch(current, () => {
 
 <template>
   <div>
+    <NuxtLink to="/no-ssr">
+      Go To No-SSR Page
+    </NuxtLink>
     <v-img src="~/assets/logo.svg" width="48" height="48" />
     <v-card prepend-avatar="~/assets/logo.svg" width="48" height="48" />
     <v-card :prepend-avatar="prependAvatar" width="48" height="48" />

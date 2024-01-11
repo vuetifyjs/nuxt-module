@@ -66,6 +66,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    '/no-ssr': { ssr: false },
+  },
   nitro: {
     esbuild: {
       options: {
