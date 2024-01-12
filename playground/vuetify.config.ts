@@ -45,8 +45,8 @@ export default defineVuetifyConfiguration({
   },
   date: {
     // adapter: 'date-fns',
-    adapter: 'luxon',
-    // adapter: 'vuetify',
+    // adapter: 'luxon',
+    adapter: 'vuetify',
   },
   icons: {
     // remember to comment the v-icon in playground/pages/index.vue when switching

@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
+import { addImports, addPlugin, addPluginTemplate, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
 import type { VuetifyNuxtContext } from './config'
@@ -81,7 +81,15 @@ export function configureNuxt(
     })))
   }
 
+  let addHttpClientHintsPlugin = ''
+
   if (ctx.ssrClientHints.enabled) {
+    addHttpClientHintsPlugin = `
+if (import.meta.client)
+dependsOn.push('vuetify:client-hints:client:plugin')
+if (import.meta.server)
+dependsOn.push('vuetify:client-hints:server:plugin')
+`
     addPlugin({
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-client-hints.client'),
       mode: 'client',
@@ -97,23 +105,61 @@ export function configureNuxt(
     })
   }
 
-  addPlugin({
-    src: ctx.resolver.resolve(runtimeDir, `plugins/vuetify${ctx.i18n ? '-sync' : ''}`),
-  })
+  const dependsOn = ['vuetify:icons:plugin']
 
   addPlugin({
     src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-icons'),
   })
 
   if (ctx.i18n) {
+    dependsOn.push('vuetify:i18n:plugin')
     addPlugin({
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-i18n'),
     })
   }
 
   if (nuxt.options.dev || ctx.dateAdapter) {
-    addPlugin({
-      src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
-    })
+    if (ctx.i18n) {
+      dependsOn.push('vuetify:date-i18n:plugin')
+      addPlugin({
+        src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-i18n-date'),
+      })
+    }
+    else {
+      dependsOn.push('vuetify:date:plugin')
+      addPlugin({
+        src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
+      })
+    }
   }
+
+  addPluginTemplate({
+    filename: 'vuetify-nuxt-plugin.ts',
+    write: false,
+    getContents() {
+      return `
+import type { createVuetify } from 'vuetify'
+import { configureVuetify } from 'vuetify-nuxt-module/dist/runtime/plugins/config'
+import { defineNuxtPlugin } from '#imports'
+import type { Plugin } from '#app'
+
+const dependsOn = ${JSON.stringify(dependsOn)}
+${addHttpClientHintsPlugin}
+
+const plugin: Plugin<{
+  vuetify: ReturnType<typeof createVuetify>
+}> = defineNuxtPlugin({
+  name: 'vuetify:configuration:plugin',
+  order: 25,
+  dependsOn,
+  parallel: true,
+  async setup() {
+    await configureVuetify()
+  },
+})
+
+export default plugin
+`
+    },
+  })
 }

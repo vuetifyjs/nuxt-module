@@ -36,64 +36,69 @@ const HttpRequestHeaders = Array.from(Object.values(AcceptClientHintsRequestHead
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
-}> = defineNuxtPlugin((nuxtApp) => {
-  const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
+}> = defineNuxtPlugin({
+  name: 'vuetify:client-hints:server:plugin',
+  order: -25,
+  parallel: true,
+  setup(nuxtApp) {
+    const state = useState<SSRClientHints>(VuetifyHTTPClientHints)
 
-  const requestHeaders = useRequestHeaders<string>(HttpRequestHeaders)
+    const requestHeaders = useRequestHeaders<string>(HttpRequestHeaders)
 
-  const userAgentHeader = requestHeaders['user-agent']
+    const userAgentHeader = requestHeaders['user-agent']
 
-  // 1. extract browser info
-  const userAgent = userAgentHeader
-    ? parseUserAgent(userAgentHeader)
-    : null
-  // 2. prepare client hints request
-  const clientHintsRequest = collectClientHints(userAgent, ssrClientHintsConfiguration, requestHeaders)
-  // 3. write client hints response headers
-  writeClientHintsResponseHeaders(clientHintsRequest, ssrClientHintsConfiguration)
-  state.value = clientHintsRequest
-  // 4. send the theme cookie to the client when required
-  state.value.colorSchemeCookie = writeThemeCookie(
-    clientHintsRequest,
-    ssrClientHintsConfiguration,
-  )
+    // 1. extract browser info
+    const userAgent = userAgentHeader
+      ? parseUserAgent(userAgentHeader)
+      : null
+    // 2. prepare client hints request
+    const clientHintsRequest = collectClientHints(userAgent, ssrClientHintsConfiguration, requestHeaders)
+    // 3. write client hints response headers
+    writeClientHintsResponseHeaders(clientHintsRequest, ssrClientHintsConfiguration)
+    state.value = clientHintsRequest
+    // 4. send the theme cookie to the client when required
+    state.value.colorSchemeCookie = writeThemeCookie(
+      clientHintsRequest,
+      ssrClientHintsConfiguration,
+    )
 
-  nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
-    const clientWidth = clientHintsRequest.viewportWidth
-    const clientHeight = clientHintsRequest.viewportHeight
-    vuetifyOptions.ssr = typeof clientWidth === 'number'
-      ? {
-          clientWidth,
-          clientHeight,
+    nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
+      const clientWidth = clientHintsRequest.viewportWidth
+      const clientHeight = clientHintsRequest.viewportHeight
+      vuetifyOptions.ssr = typeof clientWidth === 'number'
+        ? {
+            clientWidth,
+            clientHeight,
+          }
+        : true
+
+      // update theme from cookie
+      if (clientHintsRequest.colorSchemeFromCookie) {
+        if (vuetifyOptions.theme === false) {
+          vuetifyOptions.theme = { defaultTheme: clientHintsRequest.colorSchemeFromCookie }
         }
-      : true
-
-    // update theme from cookie
-    if (clientHintsRequest.colorSchemeFromCookie) {
-      if (vuetifyOptions.theme === false) {
-        vuetifyOptions.theme = { defaultTheme: clientHintsRequest.colorSchemeFromCookie }
+        else {
+          vuetifyOptions.theme ??= {}
+          vuetifyOptions.theme.defaultTheme = clientHintsRequest.colorSchemeFromCookie
+        }
       }
-      else {
-        vuetifyOptions.theme ??= {}
-        vuetifyOptions.theme.defaultTheme = clientHintsRequest.colorSchemeFromCookie
-      }
-    }
 
-    await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
-      vuetifyOptions,
-      ssrClientHintsConfiguration: {
-        ...ssrClientHintsConfiguration,
-        enabled: true,
-      },
-      ssrClientHints: state.value,
+      await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
+        vuetifyOptions,
+        ssrClientHintsConfiguration: {
+          ...ssrClientHintsConfiguration,
+          enabled: true,
+        },
+        ssrClientHints: state.value,
+      })
     })
-  })
 
-  return {
-    provide: reactive({
-      ssrClientHints: state,
-    }),
-  }
+    return {
+      provide: reactive({
+        ssrClientHints: state,
+      }),
+    }
+  },
 })
 
 type BrowserFeatureAvailable = (android: boolean, versions: number[]) => boolean
