@@ -135,7 +135,7 @@ dependsOn.push('vuetify:client-hints:server:plugin')
 
   addPluginTemplate({
     filename: 'vuetify-nuxt-plugin.ts',
-    write: true,
+    write: false,
     getContents() {
       return `
 import type { createVuetify } from 'vuetify'
