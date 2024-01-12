@@ -134,31 +134,34 @@ dependsOn.push('vuetify:client-hints:server:plugin')
   }
 
   addPluginTemplate({
-    filename: 'vuetify-nuxt-plugin.ts',
+    filename: 'vuetify-nuxt-plugin.mjs',
     write: false,
     getContents() {
       return `
-import type { createVuetify } from 'vuetify'
-import { configureVuetify } from 'vuetify-nuxt-module/dist/runtime/plugins/config'
 import { defineNuxtPlugin } from '#imports'
-import type { Plugin } from '#app'
+import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
+import { createVuetify } from 'vuetify'
 
 const dependsOn = ${JSON.stringify(dependsOn)}
 ${addHttpClientHintsPlugin}
 
-const plugin: Plugin<{
-  vuetify: ReturnType<typeof createVuetify>
-}> = defineNuxtPlugin({
-  name: 'vuetify:configuration:plugin',
+export default defineNuxtPlugin({
+  name: 'vuetify:nuxt:plugin',
   order: 25,
   dependsOn,
   parallel: true,
-  async setup() {
-    await configureVuetify()
+  async setup(nuxtApp) {
+    const vuetifyOptions = vuetifyConfiguration()
+    await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
+    await nuxtApp.hooks.callHook('vuetify:before-create', { isDev, vuetifyOptions })
+    const vuetify = createVuetify(vuetifyOptions)
+    nuxtApp.vueApp.use(vuetify)
+    nuxtApp.provide('vuetify', vuetify)
+    await nuxtApp.hooks.callHook('vuetify:ready', vuetify)
+    if (process.client)
+      isDev && console.log('Vuetify 3 initialized', vuetify)
   },
 })
-
-export default plugin
 `
     },
   })

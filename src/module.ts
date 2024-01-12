@@ -91,9 +91,7 @@ export interface ModuleHooks {
   'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
 }
 
-// rename this to ModuleRuntimeHooks when released:
-// https://github.com/nuxt/module-builder/pull/194
-export interface RuntimeModuleHooks {
+export interface ModuleRuntimeHooks {
   'vuetify:configuration': (options: {
     isDev: boolean
     vuetifyOptions: VuetifyOptions
