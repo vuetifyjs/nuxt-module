@@ -7,6 +7,8 @@ outline: deep
 Welcome to the Vuetify Nuxt Module documentation.
 
 ::: warning Breaking Changes
+From `v0.10.0` version, this module requires `Nuxt v3.9.0+`.
+
 From `v0.7.0` version, this module requires `Nuxt v3.6.5+`.
 :::
 
