@@ -1,8 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, addPluginTemplate, extendWebpackConfig } from '@nuxt/kit'
+import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
 import type { VuetifyNuxtContext } from './config'
+import { addVuetifyPluginTemplates } from './vuetify-plugin-template'
 import { normalizeTransformAssetUrls, toKebabCase } from './index'
 
 export function configureNuxt(
@@ -81,15 +82,7 @@ export function configureNuxt(
     })))
   }
 
-  let addHttpClientHintsPlugin = ''
-
   if (ctx.ssrClientHints.enabled) {
-    addHttpClientHintsPlugin = `
-if (import.meta.client)
-dependsOn.push('vuetify:client-hints:client:plugin')
-if (import.meta.server)
-dependsOn.push('vuetify:client-hints:server:plugin')
-`
     addPlugin({
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-client-hints.client'),
       mode: 'client',
@@ -105,14 +98,11 @@ dependsOn.push('vuetify:client-hints:server:plugin')
     })
   }
 
-  const dependsOn = ['vuetify:icons:plugin']
-
   addPlugin({
     src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-icons'),
   })
 
   if (ctx.i18n) {
-    dependsOn.push('vuetify:i18n:plugin')
     addPlugin({
       src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-i18n'),
     })
@@ -120,49 +110,16 @@ dependsOn.push('vuetify:client-hints:server:plugin')
 
   if (nuxt.options.dev || ctx.dateAdapter) {
     if (ctx.i18n) {
-      dependsOn.push('vuetify:date-i18n:plugin')
       addPlugin({
         src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-i18n-date'),
       })
     }
     else {
-      dependsOn.push('vuetify:date:plugin')
       addPlugin({
         src: ctx.resolver.resolve(runtimeDir, 'plugins/vuetify-date'),
       })
     }
   }
 
-  addPluginTemplate({
-    filename: 'vuetify-nuxt-plugin.mjs',
-    write: false,
-    getContents() {
-      return `
-import { defineNuxtPlugin } from '#imports'
-import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
-import { createVuetify } from 'vuetify'
-
-const dependsOn = ${JSON.stringify(dependsOn)}
-${addHttpClientHintsPlugin}
-
-export default defineNuxtPlugin({
-  name: 'vuetify:nuxt:plugin',
-  order: 25,
-  dependsOn,
-  parallel: true,
-  async setup(nuxtApp) {
-    const vuetifyOptions = vuetifyConfiguration()
-    await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
-    await nuxtApp.hooks.callHook('vuetify:before-create', { isDev, vuetifyOptions })
-    const vuetify = createVuetify(vuetifyOptions)
-    nuxtApp.vueApp.use(vuetify)
-    nuxtApp.provide('vuetify', vuetify)
-    await nuxtApp.hooks.callHook('vuetify:ready', vuetify)
-    if (process.client)
-      isDev && console.log('Vuetify 3 initialized', vuetify)
-  },
-})
-`
-    },
-  })
+  addVuetifyPluginTemplates(nuxt, ctx)
 }
