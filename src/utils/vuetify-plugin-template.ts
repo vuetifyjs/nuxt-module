@@ -1,7 +1,6 @@
 import { addPluginTemplate } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
-import type { PluginMeta } from '#app'
 
 export function addVuetifyPluginTemplates(
   nuxt: Nuxt,
@@ -18,10 +17,10 @@ function addVuetifyPlugin(
 ) {
   addPluginTemplate({
     filename: `vuetify-nuxt-plugin.${client ? 'client' : 'server'}.mjs`,
-    write: true,
+    write: false,
     mode: client ? 'client' : 'server',
     getContents() {
-      const dependsOn: PluginMeta['dependsOn'] = ['vuetify:icons:plugin']
+      const dependsOn = ['vuetify:icons:plugin'] as import('#app').NuxtAppLiterals['pluginName'][]
       if (ctx.ssrClientHints.enabled) {
         if (client)
           // @ts-expect-error missing at build time
