@@ -17,6 +17,7 @@ function addVuetifyPlugin(
 ) {
   addPluginTemplate({
     filename: `vuetify-nuxt-plugin.${client ? 'client' : 'server'}.mjs`,
+    name: `vuetify:nuxt:${client ? 'client' : 'server'}:plugin`,
     write: false,
     mode: client ? 'client' : 'server',
     getContents() {
@@ -49,7 +50,7 @@ import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
 import { createVuetify } from 'vuetify'
 
 export default defineNuxtPlugin({
-  name: 'vuetify:nuxt:plugin',
+  name: 'vuetify:nuxt:${client ? 'client' : 'server'}:plugin',
   order: 25,
   dependsOn: ${JSON.stringify(dependsOn)},
   parallel: true,
