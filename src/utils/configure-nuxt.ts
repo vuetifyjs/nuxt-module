@@ -3,7 +3,7 @@ import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
 import type { VuetifyNuxtContext } from './config'
-import { addVuetifyPluginTemplates } from './vuetify-plugin-template'
+import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 import { normalizeTransformAssetUrls, toKebabCase } from './index'
 
 export function configureNuxt(
@@ -121,5 +121,5 @@ export function configureNuxt(
     }
   }
 
-  addVuetifyPluginTemplates(nuxt, ctx)
+  addVuetifyNuxtPlugins(nuxt, ctx)
 }

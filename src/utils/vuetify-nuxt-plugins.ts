@@ -2,28 +2,28 @@ import { addPluginTemplate } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
 
-export function addVuetifyPluginTemplates(
+export function addVuetifyNuxtPlugins(
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
 ) {
-  addVuetifyPlugin(nuxt, ctx, true)
-  addVuetifyPlugin(nuxt, ctx, false)
+  addVuetifyNuxtPlugin(nuxt, ctx, 'client')
+  addVuetifyNuxtPlugin(nuxt, ctx, 'server')
 }
 
-function addVuetifyPlugin(
+function addVuetifyNuxtPlugin(
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
-  client: boolean,
+  mode: 'client' | 'server',
 ) {
   addPluginTemplate({
-    filename: `vuetify-nuxt-plugin.${client ? 'client' : 'server'}.mjs`,
-    name: `vuetify:nuxt:${client ? 'client' : 'server'}:plugin`,
+    filename: `vuetify-nuxt-plugin.${mode}.mjs`,
+    name: `vuetify:nuxt:${mode}:plugin`,
     write: false,
-    mode: client ? 'client' : 'server',
+    mode,
     getContents() {
       const dependsOn = ['vuetify:icons:plugin'] as import('#app').NuxtAppLiterals['pluginName'][]
       if (ctx.ssrClientHints.enabled) {
-        if (client)
+        if (mode === 'client')
           // @ts-expect-error missing at build time
           dependsOn.push('vuetify:client-hints:client:plugin')
         else
@@ -50,7 +50,7 @@ import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
 import { createVuetify } from 'vuetify'
 
 export default defineNuxtPlugin({
-  name: 'vuetify:nuxt:${client ? 'client' : 'server'}:plugin',
+  name: 'vuetify:nuxt:${mode}:plugin',
   order: 25,
   dependsOn: ${JSON.stringify(dependsOn)},
   parallel: true,
