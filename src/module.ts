@@ -31,7 +31,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
     name: 'vuetify-nuxt-module',
     configKey: 'vuetify',
     compatibility: {
-      nuxt: '^3.9.0',
+      nuxt: '^3.6.5',
       bridge: false,
     },
     version,
