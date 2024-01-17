@@ -109,7 +109,7 @@ export interface ModuleRuntimeHooks {
 }
 
 declare module '#app' {
-  interface RuntimeNuxtHooks {
+  interface ModuleRuntimeHooks {
     'vuetify:configuration': (options: {
       isDev: boolean
       vuetifyOptions: VuetifyOptions
