@@ -74,7 +74,7 @@
     "ufo": "^1.3.2",
     "unconfig": "^0.3.11",
     "vite-plugin-vuetify": "^2.0.1",
-    "vuetify": "^3.4.10"
+    "vuetify": "^3.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.43.1",
