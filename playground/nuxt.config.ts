@@ -48,7 +48,7 @@ export default defineNuxtConfig({
         },
         viewportSize: true,
       },
-      // styles: { configFile: 'assets/settings.scss' },
+      // styles: { configFile: 'assets/custom-vuetify.scss' },
     },
   },
   vite: {

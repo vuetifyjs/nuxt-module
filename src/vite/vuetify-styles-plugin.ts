@@ -11,7 +11,7 @@ function isSubdir(root: string, test: string) {
 
 export function vuetifyStylesPlugin(
   options: Options,
-  logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
+  _logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
 ) {
   const vuetifyBase = resolveVuetifyBase()
 
@@ -80,6 +80,9 @@ export function vuetifyStylesPlugin(
         const file = /^\/@fs\/plugin-vuetify\/lib\/(.*?)(\?.*)?$/.exec(id)![1]
         return tempFiles.get(file)
       }
+
+      if (id.includes('plugin-vuetify/lib'))
+        return ''
     },
   }
 }
