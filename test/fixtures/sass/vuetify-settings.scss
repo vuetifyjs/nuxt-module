@@ -1,18 +1,4 @@
-@use "sass:map";
-
-$font-family: 'Open Sans', sans-serif;
-
-// 👉 Shadow opacities
-$shadow-key-umbra-opacity-custom: var(--v-shadow-key-umbra-opacity, rgba(0 0 0 / 10%)) !default;
-$shadow-key-penumbra-opacity-custom: var(--v-shadow-key-penumbra-opacity, rgba(0 0 0 / 1%)) !default;
-$shadow-key-ambient-opacity-custom: var(--v-shadow-key-ambient-opacity, rgba(0 0 0 / 10%)) !default;
-
 @use 'vuetify/settings' with (
-  $body-font-family: $font-family,
-  $heading-font-family: $font-family,
-
-  // 👉 Shadow opacity
-  $shadow-key-umbra-opacity: $shadow-key-umbra-opacity-custom,
-  $shadow-key-penumbra-opacity: $shadow-key-penumbra-opacity-custom,
-  $shadow-key-ambient-opacity: $shadow-key-ambient-opacity-custom,
+  $button-height: 80px,
+  $button-font-weight: 700,
 );
