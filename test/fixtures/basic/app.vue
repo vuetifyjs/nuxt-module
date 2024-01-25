@@ -1,3 +1,3 @@
 <template>
-  <div>basic</div>
+  <v-app>basic</v-app>
 </template>
