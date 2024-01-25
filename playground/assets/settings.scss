@@ -1,5 +1,5 @@
 /* DON'T USE @use here */
-@forward 'vuetify/settings' with (
-  $utilities: false,
-  $button-height: 40px,
+@use 'vuetify/settings' with (
+  $button-height: 80px,
+  $button-font-weight: 700,
 );

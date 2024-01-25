@@ -1,3 +1,5 @@
 <template>
-  <v-app>basic</v-app>
+  <v-app>
+    <v-btn>Hi</v-btn>
+  </v-app>
 </template>
