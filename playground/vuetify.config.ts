@@ -5,6 +5,9 @@ export default defineVuetifyConfiguration({
   ssr: {
     clientWidth: 100,
   },
+  defaults: {
+    VBtn: { color: 'blue' },
+  },
   aliases: {
     MyBadge: 'VBadge',
   },
