@@ -8,6 +8,10 @@ This module will watch Vuetify configuration files in development and only confi
 
 When any Vuetify configuration file is changed in development, this module will invalidate all virtual configuration modules. The current version of the module will send 2 or 3 full page reloads in a row, not very optimal but much better than restarting the development server, we will try to fix it in future versions.
 
+::: warning
+When using external configuration files with SSR enabled, the module will restart the Nuxt dev server since Nuxt doesn't support HMR on the server: Vite 5.1 comes with the new `Vite Runtime API` as an experimental feature but Nuxt still not ready.
+:::
+
 For example, you can configure:
 ```ts
 // Nuxt config file
