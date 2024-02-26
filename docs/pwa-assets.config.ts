@@ -7,7 +7,7 @@ export default defineConfig({
   overrideAssets: false,
   logLevel: 'info',
   headLinkOptions: {
-    preset: '2023'
+    preset: '2023',
   },
   preset: {
     ...minimal2023Preset,
