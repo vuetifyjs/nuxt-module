@@ -2,6 +2,8 @@ import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
 import { transformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
+
+import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 import { normalizeTransformAssetUrls, toKebabCase } from './index'
@@ -20,10 +22,17 @@ export function configureNuxt(
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
 
-  if (!nuxt.options.ssr) {
-    nuxt.options.build.transpile.push(configKey)
-    nuxt.options.build.transpile.push(runtimeDir)
-  }
+  // transpile always vuetify and runtime folder
+  nuxt.options.build.transpile.push(configKey)
+  nuxt.options.build.transpile.push(runtimeDir)
+  // transpile vuetify nuxt plugin
+  nuxt.options.build.transpile.push(/\/vuetify-nuxt-plugin\.(client|server)\.mjs$/)
+  // transpile all virtual configuration modules
+  // check nuxt:imports-transform unplugin: packages/nuxt/src/imports/transform.ts
+  nuxt.options.imports.transform ??= {}
+  nuxt.options.imports.transform.include ??= []
+  for (const virtual of RESOLVED_VIRTUAL_MODULES)
+    nuxt.options.imports.transform.include.push(new RegExp(`${virtual}$`))
 
   nuxt.options.css ??= []
   if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
