@@ -23,6 +23,7 @@ const AcceptClientHintsHeaders = {
   prefersReducedMotion: 'Sec-CH-Prefers-Reduced-Motion',
   viewportHeight: 'Sec-CH-Viewport-Height',
   viewportWidth: 'Sec-CH-Viewport-Width',
+  devicePixelRatio: 'Sec-CH-DPR',
 }
 
 type AcceptClientHintsHeadersKey = keyof typeof AcceptClientHintsHeaders
@@ -107,23 +108,29 @@ type BrowserFeatures = Record<AcceptClientHintsHeadersKey, BrowserFeatureAvailab
 // Tests for Browser compatibility
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion#browser_compatibility
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme#browser_compatibility
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DPR#browser_compatibility
 const chromiumBasedBrowserFeatures: BrowserFeatures = {
   prefersColorScheme: (_, v) => v[0] >= 93,
   prefersReducedMotion: (_, v) => v[0] >= 108,
   viewportHeight: (_, v) => v[0] >= 108,
   viewportWidth: (_, v) => v[0] >= 108,
+  devicePixelRatio: (_, v) => v[0] >= 46,
 }
 const allowedBrowsers: [browser: Browser, features: BrowserFeatures][] = [
   // 'edge',
   // 'edge-ios',
   ['chrome', chromiumBasedBrowserFeatures],
-  ['edge-chromium', chromiumBasedBrowserFeatures],
+  ['edge-chromium', {
+    ...chromiumBasedBrowserFeatures,
+    devicePixelRatio: (_, v) => v[0] >= 79,
+  }],
   ['chromium-webview', chromiumBasedBrowserFeatures],
   ['opera', {
     prefersColorScheme: (android, v) => v[0] >= (android ? 66 : 79),
     prefersReducedMotion: (android, v) => v[0] >= (android ? 73 : 94),
     viewportHeight: (android, v) => v[0] >= (android ? 73 : 94),
     viewportWidth: (android, v) => v[0] >= (android ? 73 : 94),
+    devicePixelRatio: (_, v) => v[0] >= 33,
   }],
 ]
 
@@ -164,6 +171,7 @@ function lookupClientHints(
     prefersReducedMotionAvailable: false,
     viewportHeightAvailable: false,
     viewportWidthAvailable: false,
+    devicePixelRatioAvailable: false,
   }
 
   if (userAgent == null || userAgent.type !== 'browser')
@@ -178,6 +186,7 @@ function lookupClientHints(
   if (ssrClientHintsConfiguration.viewportSize) {
     features.viewportHeightAvailable = browserFeatureAvailable(userAgent, 'viewportHeight')
     features.viewportWidthAvailable = browserFeatureAvailable(userAgent, 'viewportWidth')
+    features.devicePixelRatioAvailable = browserFeatureAvailable(userAgent, 'devicePixelRatio')
   }
 
   return features
@@ -266,6 +275,25 @@ function collectClientHints(
     hints.viewportWidth = ssrClientHintsConfiguration.clientWidth
   }
 
+  if (hints.devicePixelRatioAvailable && ssrClientHintsConfiguration.viewportSize) {
+    const header = headers[AcceptClientHintsRequestHeaders.devicePixelRatio]
+    if (header) {
+      hints.firstRequest = false
+      try {
+        hints.devicePixelRatio = Number.parseFloat(header)
+        if (!Number.isNaN(hints.devicePixelRatio) && hints.devicePixelRatio > 0) {
+          if (typeof hints.viewportWidth === 'number')
+            hints.viewportWidth = Math.round(hints.viewportWidth / hints.devicePixelRatio)
+          if (typeof hints.viewportHeight === 'number')
+            hints.viewportHeight = Math.round(hints.viewportHeight / hints.devicePixelRatio)
+        }
+      }
+      catch {
+        // just ignore
+      }
+    }
+  }
+
   return hints
 }
 
@@ -292,6 +320,8 @@ function writeClientHintsResponseHeaders(
   if (ssrClientHintsConfiguration.viewportSize && clientHintsRequest.viewportHeightAvailable && clientHintsRequest.viewportWidthAvailable) {
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportHeight, headers)
     writeClientHintHeaders(AcceptClientHintsHeaders.viewportWidth, headers)
+    if (clientHintsRequest.devicePixelRatioAvailable)
+      writeClientHintHeaders(AcceptClientHintsHeaders.devicePixelRatio, headers)
   }
 
   if (Object.keys(headers).length === 0)

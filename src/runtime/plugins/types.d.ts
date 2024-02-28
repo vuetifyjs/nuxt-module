@@ -7,12 +7,14 @@ export interface ClientHintRequestFeatures {
   prefersReducedMotionAvailable: boolean
   viewportHeightAvailable: boolean
   viewportWidthAvailable: boolean
+  devicePixelRatioAvailable: boolean
 }
 export interface SSRClientHints extends ClientHintRequestFeatures {
   prefersColorScheme?: 'dark' | 'light' | 'no-preference'
   prefersReducedMotion?: 'no-preference' | 'reduce'
   viewportHeight?: number
   viewportWidth?: number
+  devicePixelRatio?: number
   colorSchemeFromCookie?: string
   colorSchemeCookie?: string
 }
