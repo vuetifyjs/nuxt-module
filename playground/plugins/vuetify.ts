@@ -1,6 +1,5 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('vuetify:before-create', ({ isDev, vuetifyOptions }) => {
-    // eslint-disable-next-line n/prefer-global/process
     if (import.meta.client && isDev) {
       // eslint-disable-next-line no-console
       console.log('vuetify:plugin:hook', vuetifyOptions)

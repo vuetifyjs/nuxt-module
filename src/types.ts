@@ -233,6 +233,7 @@ export interface MOptions {
    * - `useLayout` -> `useVLayout`
    * - `useRtl` -> `useVRtl`
    * - `useTheme` -> `useVTheme`
+   * - `useGoTo` -> `useVGoTo`
    *
    * @default false
    */

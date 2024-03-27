@@ -180,6 +180,9 @@ export default withPwa(defineConfig({
       }, {
         text: 'Date Support',
         link: '/guide/date',
+      }, {
+        text: 'FAQ',
+        link: '/guide/faq',
       }],
     }],
   },
