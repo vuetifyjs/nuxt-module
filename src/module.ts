@@ -56,6 +56,9 @@ export default defineNuxtModule<VuetifyModuleOptions>({
     const vuetify3_4 = versions
       && versions.length > 1
       && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 4))
+    const vuetify3_5 = versions
+      && versions.length > 1
+      && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 5))
 
     const ctx: VuetifyNuxtContext = {
       logger,
@@ -73,6 +76,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
       vuetify3_4,
+      vuetify3_5,
     }
 
     await load(options, nuxt, ctx)
