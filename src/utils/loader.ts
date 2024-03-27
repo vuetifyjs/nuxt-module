@@ -1,3 +1,4 @@
+import { relative, resolve } from 'node:path'
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import { debounce } from 'perfect-debounce'
@@ -105,6 +106,7 @@ export function registerWatcher(options: VuetifyModuleOptions, nuxt: Nuxt, ctx: 
     let pageReload: (() => Promise<void>) | undefined
 
     nuxt.hooks.hook('builder:watch', (_event, path) => {
+      path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
       if (!pageReload && ctx.vuetifyFilesToWatch.includes(path))
         return nuxt.callHook('restart')
     })
