@@ -11,5 +11,5 @@ export default defineNuxtConfig({
 })
 ```
 
-This PR [fix(nuxt): support serialising rich server logs](https://github.com/nuxt/nuxt/pull/26503) should fix the error in the next Nuxt release (`v3.12.0 or `v4.0.0`).
+This PR [fix(nuxt): support serialising rich server logs](https://github.com/nuxt/nuxt/pull/26503) should fix the error in the next Nuxt release (`v3.12.0` or `v4.0.0`).
 

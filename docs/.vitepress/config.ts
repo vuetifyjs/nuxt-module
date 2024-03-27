@@ -112,6 +112,10 @@ export default withPwa(defineConfig({
                 text: 'Contributing',
                 link: 'https://github.com/userquin/vuetify-nuxt-module/blob/main/CONTRIBUTING.md',
               },
+              {
+                text: 'FAQ',
+                link: '/guide/faq',
+              },
             ],
           },
         ],
