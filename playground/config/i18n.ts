@@ -1,6 +1,6 @@
 import process from 'node:process'
 import type { DateTimeFormats, NumberFormats, PluralizationRules } from '@intlify/core-base'
-import type { LocaleObject } from '#i18n'
+import type { LocaleObject } from '@nuxtjs/i18n'
 
 const multipleJson = process.env.MULTIPLE_LANG_FILES === 'true'
 
@@ -90,7 +90,7 @@ function buildLocales() {
             ...data,
             code: l.code,
             name: l.name,
-            files: [data.file!, `${l.code}.json`],
+            files: [data.file as string, `${l.code}.json`],
           }
           delete entry.file
         }
