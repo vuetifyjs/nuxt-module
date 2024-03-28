@@ -8,6 +8,7 @@ const hint = ref('')
 const persistentHint = computed(() => hint.value.trim().length > 0)
 
 const dir = computed(() => isRtl.value ? 'rtl' : undefined)
+// const dir = computed(() => localeProperties.value.dir)
 
 function onChanged(name?: string) {
   if (name && name.trim().length > 0)
@@ -16,7 +17,7 @@ function onChanged(name?: string) {
     hint.value = ''
 }
 
-// cannot use current
+// don't use current, dir will not be updated
 watch([locale, name], ([, nn]) => {
   onChanged(nn)
 }, { immediate: true, flush: 'post' })
@@ -24,7 +25,7 @@ watch([locale, name], ([, nn]) => {
 
 <template>
   <v-container>
-    <v-col cols="12">
+    <v-col>
       <v-row>
         <div dir="auto">
           <dl>

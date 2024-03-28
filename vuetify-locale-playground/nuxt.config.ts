@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    // if not using RTL, you can replace locales the codes only: ['en', 'es'....]
+    // if not using RTL, you can replace locales with codes only
+    // locales: ['en', 'es', 'ar'],
     locales: [{
       code: 'en',
       name: 'English',
