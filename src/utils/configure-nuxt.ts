@@ -35,12 +35,9 @@ export function configureNuxt(
     nuxt.options.imports.transform.include.push(new RegExp(`${virtual}$`))
 
   nuxt.options.css ??= []
-  if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
-    nuxt.options.css.unshift('vuetify/styles/main.sass')
-  else if (styles === true)
-    nuxt.options.css.unshift('vuetify/styles')
-  else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
-    nuxt.options.css.unshift(styles.configFile)
+
+  //should always add vuetify/styles.
+  nuxt.options.css.unshift('vuetify/styles')
 
   if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
     nuxt.options.vite.vue ??= {}
