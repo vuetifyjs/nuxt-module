@@ -23,18 +23,9 @@ You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing 
 ::: warning
 Requires Vite, will not work with Webpack
 :::
-
-::: code-group
-  ```bash [pnpm]
-  pnpm add -D vuetify-nuxt-module
-  ```
-  ```bash [yarn]
-  yarn add -D vuetify-nuxt-module
-  ```
-  ```bash [npm]
-  npm install -D vuetify-nuxt-module
-  ```
-:::
+```bash
+npx nuxi@latest module add vuetify-nuxt-module
+```
 
 ## Usage
 
