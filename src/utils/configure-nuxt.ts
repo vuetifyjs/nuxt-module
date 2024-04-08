@@ -16,7 +16,6 @@ export function configureNuxt(
   const {
     importComposables,
     prefixComposables,
-    styles,
     includeTransformAssetsUrls = true,
   } = ctx.moduleOptions
 
@@ -36,7 +35,7 @@ export function configureNuxt(
 
   nuxt.options.css ??= []
 
-  //should always add vuetify/styles.
+  // always add vuetify/styles
   nuxt.options.css.unshift('vuetify/styles')
 
   if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {

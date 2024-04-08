@@ -23,7 +23,6 @@ const x = useDate()
 // eslint-disable-next-line no-console
 console.log(x.date)
 
-// eslint-disable-next-line n/prefer-global/process
 if (import.meta.client) {
   // eslint-disable-next-line no-console
   console.log(useNuxtApp().$vuetify.icons)
