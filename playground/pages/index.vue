@@ -103,7 +103,7 @@ watch(current, () => {
     />
     <v-btn>{{ t('xxx') }}</v-btn>
     <v-locale-provider locale="es-ES">
-      <v-btn>{{ $vuetify.locale.t('xxx') }}</v-btn>
+      <v-btn>{{ $t('xxx') }}</v-btn>
     </v-locale-provider>
     <!--    <v-icon icon="fas fa-home" /> -->
     <!--    <v-icon icon="$account" /> -->

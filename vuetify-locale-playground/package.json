@@ -1,0 +1,19 @@
+{
+  "name": "vuetify-nuxt-module-date-io-playground",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev:prepare": "nuxt prepare",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "^8.2.0",
+    "nuxt": "^3.11.1",
+    "sass": "^1.63.6",
+    "typescript": "^5.4.3",
+    "vue-tsc": "^2.0.7",
+    "vuetify-nuxt-module": "workspace:*"
+  }
+}
