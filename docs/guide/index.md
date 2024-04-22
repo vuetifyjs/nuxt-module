@@ -276,7 +276,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
   /**
    * Include the icons?
    *
-   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi.
+   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css.
    *
    * @see https://vuetifyjs.com/en/features/icon-fonts/
    */
