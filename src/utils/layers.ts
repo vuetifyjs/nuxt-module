@@ -59,30 +59,7 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
     // modules are reversed, so the last one has the highest priority (app)
     const configuration = <InlineModuleOptions>defu(base, ...rest)
     // dedupe icons sets: fix #217
-    const vuetifyOptions = configuration.vuetifyOptions
-    if (vuetifyOptions.icons) {
-      if (vuetifyOptions.icons.sets) {
-        const sets = new Map<string, FontIconSet>()
-        // modules are reversed, so the last one has the highest priority (app)
-        for (const { vuetifyOptions } of moduleOptions) {
-          if (vuetifyOptions.icons && vuetifyOptions.icons.sets) {
-            const mSets = vuetifyOptions.icons.sets
-            if (typeof mSets === 'string') {
-              sets.set(mSets, { name: mSets as IconFontName })
-            }
-            else {
-              for (const set of mSets) {
-                if (typeof set === 'string')
-                  sets.set(set, { name: set as IconFontName })
-                else
-                  sets.set(set.name, set)
-              }
-            }
-          }
-        }
-        vuetifyOptions.icons.sets = Array.from(sets.values())
-      }
-    }
+    dedupeIcons(configuration, moduleOptions)
     return {
       configuration,
       vuetifyConfigurationFilesToWatch,
@@ -95,6 +72,34 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
         vuetifyOptions: resolvedOptions.config,
       } satisfies InlineModuleOptions,
       vuetifyConfigurationFilesToWatch,
+    }
+  }
+}
+
+// dedupe icons sets: fix #217
+function dedupeIcons(configuration: InlineModuleOptions, moduleOptions: InlineModuleOptions[]) {
+  const vuetifyOptions = configuration.vuetifyOptions
+  if (vuetifyOptions.icons) {
+    if (vuetifyOptions.icons.sets) {
+      const sets = new Map<string, FontIconSet>()
+      // modules are reversed, so the last one has the highest priority (app)
+      for (const { vuetifyOptions } of moduleOptions) {
+        if (vuetifyOptions.icons && vuetifyOptions.icons.sets) {
+          const mSets = vuetifyOptions.icons.sets
+          if (typeof mSets === 'string') {
+            sets.set(mSets, { name: mSets as IconFontName })
+          }
+          else {
+            for (const set of mSets) {
+              if (typeof set === 'string')
+                sets.set(set, { name: set as IconFontName })
+              else
+                sets.set(set.name, set)
+            }
+          }
+        }
+      }
+      vuetifyOptions.icons.sets = Array.from(sets.values())
     }
   }
 }
