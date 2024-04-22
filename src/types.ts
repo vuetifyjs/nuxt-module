@@ -58,7 +58,7 @@ export interface FontIconSet {
   /**
    * Use CDN?
    *
-   * - mdi: https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons
+   * - mdi: https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css
    * - md:  https://fonts.googleapis.com/css?family=Material+Icons
    * - fa:  https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css
    * - fa4: https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css
@@ -212,7 +212,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliase
   /**
    * Include the icons?
    *
-   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css.
+   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css.
    *
    * @see https://vuetifyjs.com/en/features/icon-fonts/
    */
