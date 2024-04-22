@@ -1,6 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import type { InlineModuleOptions, VuetifyModuleOptions } from '../types'
+import type { FontIconSet, IconFontName, InlineModuleOptions, VuetifyModuleOptions } from '../types'
 import { loadVuetifyConfiguration } from './config'
 
 /**
@@ -54,18 +54,46 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
   })
 
   if (moduleOptions.length > 1) {
-    const [base, ...rest] = moduleOptions
+    // reverse to allow override configuration from app: fix #218
+    const [base, ...rest] = moduleOptions.reverse()
+    // modules are reversed, so the last one has the highest priority (app)
+    const configuration = <InlineModuleOptions>defu(base, ...rest)
+    // dedupe icons sets: fix #217
+    const vuetifyOptions = configuration.vuetifyOptions
+    if (vuetifyOptions.icons) {
+      if (vuetifyOptions.icons.sets) {
+        const sets = new Map<string, FontIconSet>()
+        // modules are reversed, so the last one has the highest priority (app)
+        for (const { vuetifyOptions } of moduleOptions) {
+          if (vuetifyOptions.icons && vuetifyOptions.icons.sets) {
+            const mSets = vuetifyOptions.icons.sets
+            if (typeof mSets === 'string') {
+              sets.set(mSets, { name: mSets as IconFontName })
+            }
+            else {
+              for (const set of mSets) {
+                if (typeof set === 'string')
+                  sets.set(set, { name: set as IconFontName })
+                else
+                  sets.set(set.name, set)
+              }
+            }
+          }
+        }
+        vuetifyOptions.icons.sets = Array.from(sets.values())
+      }
+    }
     return {
-      configuration: <InlineModuleOptions>defu(base, ...rest),
+      configuration,
       vuetifyConfigurationFilesToWatch,
     }
   }
   else {
     return {
-      configuration: <InlineModuleOptions>{
+      configuration: {
         moduleOptions: options.moduleOptions,
         vuetifyOptions: resolvedOptions.config,
-      },
+      } satisfies InlineModuleOptions,
       vuetifyConfigurationFilesToWatch,
     }
   }
