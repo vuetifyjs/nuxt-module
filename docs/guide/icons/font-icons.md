@@ -12,7 +12,7 @@ By default, the module will use the `mdi` font icon library. You can change it b
 - `fa4` for [Font Awesome 4](https://fontawesome.com/v4.7.0/)
 - `fa` for [Font Awesome 5](https://fontawesome.com)
 
-To configure a font icon you only need to specify the default set:
+To configure a font icon, you only need to specify the default set:
 ```ts
 // Nuxt config file
 import { defineNuxtConfig } from 'nuxt/config'
@@ -37,7 +37,7 @@ The CDN used for each font icon library, you can use the `cdn` option to change 
 - [CDN for Font Awesome 4 (fa4)](https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css)
 - [CDN for Font Awesome 5 (fa)](https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css)
 
-To change the CDN for a font icon library you only need to specify the `cdn` option:
+To change the CDN for a font icon library, you only need to specify the `cdn` option:
 ```ts
 // Nuxt config file
 import { defineNuxtConfig } from 'nuxt/config'
@@ -50,7 +50,7 @@ export default defineNuxtConfig({
         defaultSet: 'mdi',
         sets: [{
           name: 'mdi',
-          cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons'
+          cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css'
         }]
       }
     }
