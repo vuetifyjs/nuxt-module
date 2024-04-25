@@ -1,8 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
-import { transformAssetUrls } from 'vite-plugin-vuetify'
+import { transformAssetUrls as vuetifyTransformAssetUrls } from 'vite-plugin-vuetify'
 import defu from 'defu'
-
+import type { AssetURLOptions } from '@vue/compiler-sfc'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
@@ -38,14 +38,35 @@ export function configureNuxt(
   // always add vuetify/styles
   nuxt.options.css.unshift('vuetify/styles')
 
-  if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
+  if (includeTransformAssetsUrls) {
     nuxt.options.vite.vue ??= {}
     nuxt.options.vite.vue.template ??= {}
-    nuxt.options.vite.vue.template.transformAssetUrls = normalizeTransformAssetUrls(
+    let existingTransformAssetUrls = nuxt.options.vite.vue?.template?.transformAssetUrls ?? {}
+    let useURLOptions: AssetURLOptions | undefined
+    if (typeof existingTransformAssetUrls === 'boolean') {
+      existingTransformAssetUrls = {}
+    }
+    else if ('base' in existingTransformAssetUrls || 'includeAbsolute' in existingTransformAssetUrls || 'tags' in existingTransformAssetUrls) {
+      useURLOptions = {
+        base: existingTransformAssetUrls.base as string | undefined,
+        includeAbsolute: existingTransformAssetUrls.includeAbsolute as boolean | undefined,
+      }
+      existingTransformAssetUrls = (existingTransformAssetUrls.tags ?? {}) as Record<string, string[]>
+    }
+
+    const transformAssetUrls = normalizeTransformAssetUrls(
       typeof includeTransformAssetsUrls === 'object'
-        ? defu(includeTransformAssetsUrls, transformAssetUrls)
-        : transformAssetUrls,
+        ? defu(existingTransformAssetUrls, vuetifyTransformAssetUrls, includeTransformAssetsUrls)
+        : defu(existingTransformAssetUrls, vuetifyTransformAssetUrls),
     )
+
+    if (useURLOptions) {
+      useURLOptions.tags = transformAssetUrls
+      nuxt.options.vite.vue.template.transformAssetUrls = useURLOptions
+    }
+    else {
+      nuxt.options.vite.vue.template.transformAssetUrls = transformAssetUrls
+    }
   }
 
   extendWebpackConfig(() => {
