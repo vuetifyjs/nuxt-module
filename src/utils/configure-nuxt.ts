@@ -1,12 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
-import { transformAssetUrls } from 'vite-plugin-vuetify'
-import defu from 'defu'
-
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
-import { normalizeTransformAssetUrls, toKebabCase } from './index'
+import { toKebabCase } from './index'
 
 export function configureNuxt(
   configKey: string,
@@ -16,7 +13,6 @@ export function configureNuxt(
   const {
     importComposables,
     prefixComposables,
-    includeTransformAssetsUrls = true,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
@@ -37,16 +33,6 @@ export function configureNuxt(
 
   // always add vuetify/styles
   nuxt.options.css.unshift('vuetify/styles')
-
-  if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
-    nuxt.options.vite.vue ??= {}
-    nuxt.options.vite.vue.template ??= {}
-    nuxt.options.vite.vue.template.transformAssetUrls = normalizeTransformAssetUrls(
-      typeof includeTransformAssetsUrls === 'object'
-        ? defu(includeTransformAssetsUrls, transformAssetUrls)
-        : transformAssetUrls,
-    )
-  }
 
   extendWebpackConfig(() => {
     throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
