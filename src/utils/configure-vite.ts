@@ -37,7 +37,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
     if (includeTransformAssetsUrls) {
       viteInlineConfig.vue ??= {}
       viteInlineConfig.vue.template ??= {}
-      let existingTransformAssetUrls = viteInlineConfig.vue?.template?.transformAssetUrls ?? {}
+      let existingTransformAssetUrls = viteInlineConfig.vue.template.transformAssetUrls ?? {}
       let useURLOptions: AssetURLOptions | undefined
       if (typeof existingTransformAssetUrls === 'boolean') {
         existingTransformAssetUrls = {}
