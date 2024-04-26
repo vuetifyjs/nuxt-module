@@ -13,7 +13,6 @@ import type { VuetifyNuxtContext } from './config'
 import { normalizeTransformAssetUrls } from './index'
 
 export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
-  const { includeTransformAssetsUrls } = ctx.moduleOptions
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
   nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
     viteInlineConfig.plugins = viteInlineConfig.plugins || []
@@ -34,41 +33,40 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       ]
     }
 
+    const { includeTransformAssetsUrls, styles } = ctx.moduleOptions
     if (includeTransformAssetsUrls) {
-      nuxt.hook('vite:extendConfig', (config) => {
-        config.vue ??= {}
-        config.vue.template ??= {}
-        let existingTransformAssetUrls = config.vue?.template?.transformAssetUrls ?? {}
-        let useURLOptions: AssetURLOptions | undefined
-        if (typeof existingTransformAssetUrls === 'boolean') {
-          existingTransformAssetUrls = {}
+      viteInlineConfig.vue ??= {}
+      viteInlineConfig.vue.template ??= {}
+      let existingTransformAssetUrls = viteInlineConfig.vue?.template?.transformAssetUrls ?? {}
+      let useURLOptions: AssetURLOptions | undefined
+      if (typeof existingTransformAssetUrls === 'boolean') {
+        existingTransformAssetUrls = {}
+      }
+      else if ('base' in existingTransformAssetUrls || 'includeAbsolute' in existingTransformAssetUrls || 'tags' in existingTransformAssetUrls) {
+        useURLOptions = {
+          base: existingTransformAssetUrls.base as string | undefined,
+          includeAbsolute: existingTransformAssetUrls.includeAbsolute as boolean | undefined,
         }
-        else if ('base' in existingTransformAssetUrls || 'includeAbsolute' in existingTransformAssetUrls || 'tags' in existingTransformAssetUrls) {
-          useURLOptions = {
-            base: existingTransformAssetUrls.base as string | undefined,
-            includeAbsolute: existingTransformAssetUrls.includeAbsolute as boolean | undefined,
-          }
-          existingTransformAssetUrls = (existingTransformAssetUrls.tags ?? {}) as Record<string, string[]>
-        }
+        existingTransformAssetUrls = (existingTransformAssetUrls.tags ?? {}) as Record<string, string[]>
+      }
 
-        const transformAssetUrls = normalizeTransformAssetUrls(
-          typeof includeTransformAssetsUrls === 'object'
-            ? defu(existingTransformAssetUrls, vuetifyTransformAssetUrls, includeTransformAssetsUrls)
-            : defu(existingTransformAssetUrls, vuetifyTransformAssetUrls),
-        )
+      const transformAssetUrls = normalizeTransformAssetUrls(
+        typeof includeTransformAssetsUrls === 'object'
+          ? defu(existingTransformAssetUrls, vuetifyTransformAssetUrls, includeTransformAssetsUrls)
+          : defu(existingTransformAssetUrls, vuetifyTransformAssetUrls),
+      )
 
-        if (useURLOptions) {
-          useURLOptions.tags = transformAssetUrls
-          config.vue.template.transformAssetUrls = useURLOptions
-        }
-        else {
-          config.vue.template.transformAssetUrls = transformAssetUrls
-        }
-      })
+      if (useURLOptions) {
+        useURLOptions.tags = transformAssetUrls
+        viteInlineConfig.vue.template.transformAssetUrls = useURLOptions
+      }
+      else {
+        viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
+      }
     }
 
     viteInlineConfig.plugins.push(vuetifyImportPlugin({}))
-    viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
+    viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyDateConfigurationPlugin(ctx))
