@@ -49,7 +49,7 @@ export function vuetifyConfigurationPlugin(ctx: VuetifyNuxtContext) {
 
 export const isDev = ${ctx.isDev}
 export function vuetifyConfiguration() {
-  const options = JSON.parse('${JSON.stringify(newVuetifyOptions)}')
+  const options = ${JSON.stringify(newVuetifyOptions)}
   ${result.directives}
   ${result.aliases}
   ${result.components}
