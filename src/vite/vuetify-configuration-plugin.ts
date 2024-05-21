@@ -171,7 +171,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   })
 
   componentsToImport.forEach((componentsArray, from) => {
-    config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/components/${from}'`)
+    config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/components/${from}'`)
   })
 
   // lab components
@@ -229,7 +229,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
       }
 
       componentsToImport.forEach((componentsArray, from) => {
-        config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/labs/${from}'`)
+        config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/labs/${from}'`)
       })
     }
   }

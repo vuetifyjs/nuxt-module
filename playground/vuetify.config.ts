@@ -10,6 +10,7 @@ export default defineVuetifyConfiguration({
   },
   aliases: {
     MyBadge: 'VBadge',
+    MyBadge2: 'VBadge',
   },
   directives: ['ClickOutside', 'Resize', 'Ripple'],
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
