@@ -11,6 +11,8 @@ export default defineVuetifyConfiguration({
   aliases: {
     MyBadge: 'VBadge',
     MyBadge2: 'VBadge',
+    VDatePicker2: 'VDatePicker',
+    VDatePicker3: 'VDatePicker',
   },
   directives: ['ClickOutside', 'Resize', 'Ripple'],
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],

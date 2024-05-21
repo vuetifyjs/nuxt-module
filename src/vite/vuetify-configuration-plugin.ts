@@ -175,7 +175,9 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   })
 
   // lab components
-  let addDatePicker = true
+  let addDatePicker = ctx.vuetify3_4 === true
+    ? !Array.from(componentsToImport.values()).some(components => components.includes('VDatePicker'))
+    : true
 
   if (labComponents) {
     const useLabComponents: LabComponentName[] = []
