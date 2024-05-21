@@ -171,11 +171,13 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   })
 
   componentsToImport.forEach((componentsArray, from) => {
-    config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/components/${from}'`)
+    config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/components/${from}'`)
   })
 
   // lab components
-  let addDatePicker = true
+  let addDatePicker = ctx.vuetify3_4 === true
+    ? !Array.from(componentsToImport.values()).some(components => components.includes('VDatePicker'))
+    : true
 
   if (labComponents) {
     const useLabComponents: LabComponentName[] = []
@@ -229,7 +231,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
       }
 
       componentsToImport.forEach((componentsArray, from) => {
-        config.imports.push(`import {${componentsArray.join(',')}} from 'vuetify/labs/${from}'`)
+        config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/labs/${from}'`)
       })
     }
   }
