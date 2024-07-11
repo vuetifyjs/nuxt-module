@@ -48,7 +48,8 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
       resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
   }
 
-  moduleOptions.push({
+  // unshift since we're reversing the layers in L59: fix #231
+  moduleOptions.unshift({
     moduleOptions: options.moduleOptions,
     vuetifyOptions: resolvedOptions.config,
   })
