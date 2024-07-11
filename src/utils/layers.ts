@@ -48,18 +48,24 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
       resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
   }
 
-  moduleOptions.push({
+  // unshift since we need to use the app configuration as base in defu call (L64 below): fix #231
+  moduleOptions.unshift({
     moduleOptions: options.moduleOptions,
     vuetifyOptions: resolvedOptions.config,
   })
 
+  // this can be complex and may require dedupe a few more entries:
+  // - we don't know if the vuetify configuration is merged:
+  //   for example, adding a layer with inlined vuetify options:
+  //   nuxt will merge the conf for us (see issue #214 and #217)
+  // - if the layer is configured using an external file, then we need to merge the configuration
   if (moduleOptions.length > 1) {
-    // reverse to allow override configuration from app: fix #218
-    const [base, ...rest] = moduleOptions.reverse()
-    // modules are reversed, so the last one has the highest priority (app)
-    const configuration = <InlineModuleOptions>defu(base, ...rest)
-    // dedupe icons sets: fix #217
-    dedupeIcons(configuration, moduleOptions)
+    const [app, ...rest] = moduleOptions
+    // we don't need to reverse (defu second arg are the defaults): fix #218
+    const configuration = <InlineModuleOptions>defu(app, ...rest)
+    // dedupe icons sets: fix #214 and #217
+    // we need to reverse the modules to override the icons from bottom to top layer
+    dedupeIcons(configuration, moduleOptions.reverse())
     return {
       configuration,
       vuetifyConfigurationFilesToWatch,
@@ -76,7 +82,7 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
   }
 }
 
-// dedupe icons sets: fix #217
+// dedupe icons sets: fix #214 and #217
 function dedupeIcons(configuration: InlineModuleOptions, moduleOptions: InlineModuleOptions[]) {
   const vuetifyOptions = configuration.vuetifyOptions
   if (vuetifyOptions.icons) {
