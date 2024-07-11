@@ -70,3 +70,10 @@ catalogs:
     nuxt: 3.12.3
     vite: 5.3.3
     vue: 3.4.31
+  docs:
+    "@types/node": ^20.6.0
+    "@vite-pwa/assets-generator": ^0.2.2
+    "@vite-pwa/vitepress": ^0.3.1
+    sitemap: ^7.1.1
+    unocss: ^0.58.0
+    vitepress: ^1.0.1
