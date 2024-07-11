@@ -26,9 +26,11 @@ export async function load(
   if (typeof ctx.componentsPromise === 'undefined') {
     const {
       componentsPromise,
+      directivesPromise,
       labComponentsPromise,
-    } = resolveVuetifyComponents(ctx.resolver)
+    } = resolveVuetifyComponents(ctx)
     ctx.componentsPromise = componentsPromise
+    ctx.directivesPromise = directivesPromise
     ctx.labComponentsPromise = labComponentsPromise
   }
 

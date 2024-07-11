@@ -79,10 +79,13 @@ ${deepCopy
 async function buildConfiguration(ctx: VuetifyNuxtContext) {
   const {
     componentsPromise,
+    directivesPromise,
     labComponentsPromise,
     logger,
+    moduleOptions,
     vuetifyOptions,
   } = ctx
+  const { useOldDirectivesBehavior = false } = moduleOptions
   const {
     aliases,
     components,
@@ -109,17 +112,13 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
     messages: '',
   }
 
-  // directives
-  if (directives) {
-    if (typeof directives === 'boolean') {
-      config.imports.push('import * as directives from \'vuetify/directives\'')
-      config.directives = 'options.directives = directives'
-    }
-    else {
-      const useDirectives = Array.isArray(directives) ? [...new Set(directives)] : [directives]
-      config.imports.push(useDirectives.map(d => `import {${d}} from 'vuetify/directives/${toKebabCase(d)}'`).join('\n'))
-      config.directives = `options.directives = {${useDirectives.join(',')}}`
-    }
+  const resolvedDirectives = await directivesPromise
+  const configuredDirectives = resolvedDirectives
+    .filter(([_, ignored]) => !ignored)
+    .map(([name]) => name)
+  if (configuredDirectives.length) {
+    config.imports.push(configuredDirectives.map(d => `import {${d}} from 'vuetify/directives/${toKebabCase(d)}'`).join('\n'))
+    config.directives = `options.directives = {${configuredDirectives.join(',')}}`
   }
 
   // components

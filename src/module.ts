@@ -40,9 +40,10 @@ export default defineNuxtModule<VuetifyModuleOptions>({
   defaults: () => ({
     vuetifyOptions: {
       labComponents: false,
-      directives: false,
+      directives: true,
     },
     moduleOptions: {
+      useOldDirectivesBehavior: false,
       importComposables: true,
       styles: true,
     },
@@ -73,6 +74,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       i18n: hasNuxtModule('@nuxtjs/i18n', nuxt),
       icons: undefined!,
       ssrClientHints: undefined!,
+      directivesPromise: undefined!,
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
       vuetify3_4,

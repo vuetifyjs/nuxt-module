@@ -1,10 +1,38 @@
 import { extname } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { Plugin } from 'vite'
-import { type Options, generateImports } from '@vuetify/loader-shared'
+import type { Options } from '@vuetify/loader-shared'
+import { generateImports } from '@vuetify/loader-shared'
 import { parseQuery, parseURL } from 'ufo'
 import { isAbsolute } from 'pathe'
 import destr from 'destr'
+import type { VuetifyNuxtContext } from '~/src/utils/config'
+
+export function vuetifyImportPlugin(ctx: VuetifyNuxtContext) {
+  return <Plugin>{
+    name: 'vuetify:import:nuxt',
+    configResolved(config) {
+      if (config.plugins.findIndex(plugin => plugin.name === 'vuetify:import') > -1)
+        throw new Error('Remove vite-plugin-vuetify from your Nuxt config file, this module registers a modified version.')
+    },
+    async transform(code, id) {
+      const { query, path } = parseId(id)
+
+      if (
+        ((!query || !('vue' in query)) && extname(path) === '.vue' && !/^import { render as _sfc_render } from ".*"$/m.test(code))
+        || (query && 'vue' in query && (query.type === 'template' || (query.type === 'script' && query.setup === 'true')))
+      ) {
+        const { code: imports, source } = generateImports(code, await prepareVuetifyOptions(ctx))
+        return {
+          code: source + imports,
+          map: null,
+        }
+      }
+
+      return null
+    },
+  }
+}
 
 function parseId2(id: string) {
   id = id.replace(/^(virtual:nuxt:|virtual:)/, '')
@@ -22,28 +50,11 @@ function parseId(id: string) {
   }
 }
 
-export function vuetifyImportPlugin(options: Options) {
-  return <Plugin>{
-    name: 'vuetify:import:nuxt',
-    configResolved(config) {
-      if (config.plugins.findIndex(plugin => plugin.name === 'vuetify:import') > -1)
-        throw new Error('Remove vite-plugin-vuetify from your Nuxt config file, this module registers a modified version.')
+async function prepareVuetifyOptions(ctx: VuetifyNuxtContext) {
+  const directives = await ctx.directivesPromise
+  return {
+    autoImport: {
+      ignore: directives.filter(([_, ignore]) => ignore).map(([name]) => name),
     },
-    async transform(code, id) {
-      const { query, path } = parseId(id)
-
-      if (
-        ((!query || !('vue' in query)) && extname(path) === '.vue' && !/^import { render as _sfc_render } from ".*"$/m.test(code))
-        || (query && 'vue' in query && (query.type === 'template' || (query.type === 'script' && query.setup === 'true')))
-      ) {
-        const { code: imports, source } = generateImports(code, options)
-        return {
-          code: source + imports,
-          map: null,
-        }
-      }
-
-      return null
-    },
-  }
+  } satisfies Options
 }

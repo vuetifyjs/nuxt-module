@@ -197,7 +197,12 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliase
    *
    * You can provide an array with the names of the directives to include.
    *
-   * @default false
+   * From v0.15.0, the module will include all the Vuetify directives by default.
+   * If you want the old behavior, you can enable `useOldDirectivesBehavior` in the module options.
+   *
+   * Any directive not included in the list will be ignored by the Vuetify Vite Plugin.
+   *
+   * @default true
    */
   directives?: Directives
   /**
@@ -220,6 +225,14 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliase
 }
 
 export interface MOptions {
+  /**
+   * From v0.15.0, the module will include all the Vuetify directives by default.
+   *
+   * Check `directives` in Vuetify Options.
+   *
+   * @default false
+   */
+  useOldDirectivesBehavior?: boolean
   /**
    * @default true
    */

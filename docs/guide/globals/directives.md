@@ -4,7 +4,16 @@ outline: deep
 
 # Directives
 
-By default, the module will not register any Vuetify directive. If you need to register some directive, use `vuetifyOptions.directives` module option, it has been declared properly to have better DX.
+
+From `v0.15.0`, the module will register all Vuetify directives. If you need to register only some directive, use `vuetifyOptions.directives` module option, it has been declared properly to have better DX.
+
+Any directive not registered will be ignored by the Vuetify Vite Plugin.
+
+::: info
+If you want the old directives behavior, enable `useOldDirectivesBehavior` in the module options.
+
+Check [issue #236](https://github.com/userquin/vuetify-nuxt-module/issues/236).
+:::
 
 You can register all the directives or only the ones you need: check the [directives definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L91-L92).
 
@@ -12,7 +21,7 @@ You can register all the directives or only the ones you need: check the [direct
 
 ### Registering all the directives
 
-Example registering all the Vuetify directives:
+Example ignoring any Vuetify directive:
 
 ```ts
 // Nuxt config file
@@ -20,7 +29,7 @@ export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
     vuetifyOptions: {
-      directives: true
+      directives: false
     }
   }
 })

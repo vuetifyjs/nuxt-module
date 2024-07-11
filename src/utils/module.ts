@@ -1,14 +1,15 @@
 import { readFile } from 'node:fs/promises'
 import { isPackageExists } from 'local-pkg'
 import { resolveVuetifyBase } from '@vuetify/loader-shared'
-import type { Resolver } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
-import type { DateAdapter, VOptions } from '../types'
+import type { DateAdapter, DirectiveName, VOptions } from '../types'
+import type { VuetifyNuxtContext } from '~/src/utils/config'
 
 export interface VuetifyImportMap {
   from: string
 }
 export type VuetifyComponentsImportMap = Record<string, VuetifyImportMap>
+export type VuetifyDirective = [name: DirectiveName, ignore: boolean]
 
 export function detectDate() {
   const result: DateAdapter[] = []
@@ -53,21 +54,48 @@ export function checkVuetifyPlugins(config: ViteConfig) {
     throw new Error('Remove vite-plugin-vuetify plugin from Vite Plugins entry in Nuxt config file!')
 }
 
-export function resolveVuetifyComponents(resolver: Resolver) {
+export function resolveVuetifyComponents(ctx: VuetifyNuxtContext) {
   const vuetifyBase = resolveVuetifyBase()
   const componentsPromise = importMapResolver()
+  const directivesPromise = importDirectivesResolver()
   const labComponentsPromise = importMapLabResolver()
 
   return {
     vuetifyBase,
     componentsPromise,
+    directivesPromise,
     labComponentsPromise,
   }
 
   async function importMapResolver(): Promise<VuetifyComponentsImportMap> {
-    return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).components!
+    return JSON.parse(await readFile(ctx.resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).components!
+  }
+  async function importDirectivesResolver(): Promise<VuetifyDirective[]> {
+    const existingDirectives: DirectiveName[] = JSON.parse(await readFile(ctx.resolver.resolve(vuetifyBase, 'dist/json/importMap.json'), 'utf-8')).directives!
+    const useOldDirectivesBehavior = ctx.moduleOptions.useOldDirectivesBehavior === true
+    const directives: VuetifyDirective[] = existingDirectives.map(name => ([name, false]))
+    const configuredDirectives = ctx.vuetifyOptions.directives
+    // all directives enabled by default: old behavior will not add ignored directives
+    if (!useOldDirectivesBehavior && configuredDirectives !== undefined) {
+      // ignore all directives by default
+      if (configuredDirectives === false) {
+        directives.forEach(directive => (directive[1] = true))
+      }
+      else if (typeof configuredDirectives !== 'boolean') {
+        const checkDirectives = Array.isArray(configuredDirectives)
+          ? configuredDirectives
+          : [configuredDirectives]
+        // ignore directives not added to the list
+        for (const directive of directives) {
+          if (!(directive[0] in checkDirectives))
+            directive[1] = true
+        }
+      }
+    }
+
+    return directives
   }
   async function importMapLabResolver(): Promise<VuetifyComponentsImportMap> {
-    return JSON.parse(await readFile(resolver.resolve(vuetifyBase, 'dist/json/importMap-labs.json'), 'utf-8')).components!
+    return JSON.parse(await readFile(ctx.resolver.resolve(vuetifyBase, 'dist/json/importMap-labs.json'), 'utf-8')).components!
   }
 }
