@@ -3,7 +3,7 @@ import {
   defineNuxtModule,
   getNuxtVersion,
   hasNuxtModule,
-  isNuxt3,
+  isNuxt2,
   useLogger,
 } from '@nuxt/kit'
 import { getPackageInfo } from 'local-pkg'
@@ -48,7 +48,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
     },
   }),
   async setup(options, nuxt) {
-    if (!isNuxt3(nuxt))
+    if (isNuxt2(nuxt))
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
 
     const vuetifyPkg = await getPackageInfo('vuetify')
