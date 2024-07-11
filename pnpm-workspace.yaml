@@ -3,3 +3,4 @@ packages:
   - docs/
   - playground/
   - vuetify-io-playground/
+  - vuetify-locale-playground/
