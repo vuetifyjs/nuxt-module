@@ -256,6 +256,12 @@ export interface MOptions {
    */
   includeTransformAssetsUrls?: boolean | Record<string, string[]>
   /**
+   * Directives Vuetify Vite Plugin should ignore.
+   *
+   * @since v0.15.1
+   */
+  ignoreDirectives?: DirectiveName | DirectiveName[]
+  /**
    * Vuetify SSR client hints.
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints

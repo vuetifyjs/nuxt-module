@@ -1,4 +1,5 @@
-import Theme from 'vitepress/theme'
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
 import { inBrowser } from 'vitepress'
 import VuetifyLayout from './VuetifyLayout.vue'
 
@@ -11,6 +12,6 @@ if (inBrowser)
   import('./pwa')
 
 export default {
-  ...Theme,
+  extends: DefaultTheme,
   Layout: VuetifyLayout,
-}
+} satisfies Theme

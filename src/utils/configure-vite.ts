@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
+import type { Options } from '@vuetify/loader-shared'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -41,7 +42,17 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
     }
 
-    viteInlineConfig.plugins.push(vuetifyImportPlugin({}))
+    // fix #236
+    const vuetifyImportOptions: Options = {}
+    const ignoreDirectives = ctx.moduleOptions.ignoreDirectives
+    if (ignoreDirectives) {
+      const ignore = Array.isArray(ignoreDirectives)
+        ? ignoreDirectives
+        : [ignoreDirectives]
+      vuetifyImportOptions.autoImport = { ignore }
+    }
+
+    viteInlineConfig.plugins.push(vuetifyImportPlugin(vuetifyImportOptions))
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))
