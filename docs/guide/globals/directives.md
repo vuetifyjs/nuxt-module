@@ -8,6 +8,10 @@ By default, the module will not register any Vuetify directive. If you need to r
 
 You can register all the directives or only the ones you need: check the [directives definition](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts#L91-L92).
 
+## Ignore directives <Badge type="tip" text="from v0.15.1" />
+
+If you want to ignore some directives, you can use the `moduleOptions.ignoreDirectives` option. The module will configure the Vuetify Vite Plugin to [ignore](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#ignoring-components-or-directives) the directives you specify.
+
 ## Examples
 
 ### Registering all the directives
