@@ -127,6 +127,9 @@ export default withPwa(defineConfig({
         text: 'Getting Started',
         link: '/guide/',
       }, {
+        text: 'Compatibility Matrix',
+        link: '/guide/compatibility-matrix',
+      }, {
         text: 'Nuxt Layers and Module Hooks',
         link: '/guide/nuxt-layers-and-module-hooks',
       }, {

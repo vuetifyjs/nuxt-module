@@ -112,6 +112,8 @@ export interface MOptions {
    *
    * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
    * @see https://github.com/userquin/vuetify-nuxt-module/issues/78 and https://github.com/userquin/vuetify-nuxt-module/issues/74
+   *
+   * @default true
    */
   styles?: true | 'none' | 'sass' | {
     configFile: string
