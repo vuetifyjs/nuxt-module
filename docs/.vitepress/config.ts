@@ -148,6 +148,9 @@ export default withPwa(defineConfig({
         text: 'Vuetify Blueprints',
         link: '/guide/vuetify-blueprints',
       }, {
+        text: 'Transform Asset URLs',
+        link: '/guide/transform-asset-urls',
+      }, {
         text: 'Globals',
         link: '/guide/globals/',
         items: [{
