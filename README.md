@@ -39,7 +39,7 @@
 - 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
 - 🎭 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
 - 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
-- 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://v8.i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
+- 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
 - 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
 - 💬 **Auto-Import Vuetify Locale Messages**: add [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) adding just the locales you want to use, no more imports needed
 - ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
@@ -52,13 +52,7 @@
 > Requires Vite, will not work with Webpack
 
 ```bash
-npm i vuetify-nuxt-module -D 
-
-# yarn 
-yarn add vuetify-nuxt-module -D
-
-# pnpm 
-pnpm add vuetify-nuxt-module -D
+npx nuxi@latest module add vuetify-nuxt-module
 ```
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vuetify-nuxt-module)

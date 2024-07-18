@@ -112,6 +112,10 @@ export default withPwa(defineConfig({
                 text: 'Contributing',
                 link: 'https://github.com/userquin/vuetify-nuxt-module/blob/main/CONTRIBUTING.md',
               },
+              {
+                text: 'FAQ',
+                link: '/guide/faq',
+              },
             ],
           },
         ],
@@ -122,6 +126,9 @@ export default withPwa(defineConfig({
       items: [{
         text: 'Getting Started',
         link: '/guide/',
+      }, {
+        text: 'Compatibility Matrix',
+        link: '/guide/compatibility-matrix',
       }, {
         text: 'Nuxt Layers and Module Hooks',
         link: '/guide/nuxt-layers-and-module-hooks',
@@ -143,6 +150,9 @@ export default withPwa(defineConfig({
       }, {
         text: 'Vuetify Blueprints',
         link: '/guide/vuetify-blueprints',
+      }, {
+        text: 'Transform Asset URLs',
+        link: '/guide/transform-asset-urls',
       }, {
         text: 'Globals',
         link: '/guide/globals/',
@@ -180,6 +190,9 @@ export default withPwa(defineConfig({
       }, {
         text: 'Date Support',
         link: '/guide/date',
+      }, {
+        text: 'FAQ',
+        link: '/guide/faq',
       }],
     }],
   },

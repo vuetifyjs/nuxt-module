@@ -26,6 +26,7 @@ export interface VuetifyNuxtContext {
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
   vuetify3_4?: boolean
+  vuetify3_5?: boolean
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>(

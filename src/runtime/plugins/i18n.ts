@@ -64,16 +64,24 @@ function createProvideFunction(data: {
         i18n.setLocale(val)
     }, { immediate: true, flush: 'post' })
 
+    // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
+    const t = wrapI18n(i18n.t)
+    const n = wrapI18n(i18n.n)
+
     return <LocaleInstance>{
       name: 'nuxt-vue-i18n',
       current: currentLocale,
       fallback: data.fallback,
       messages: data.messages,
-      // todo: fix this, we should check the options
-      // @ts-expect-error Type instantiation is excessively deep and possibly infinite.ts(2589)
-      t: (key, ...params) => i18n.t(key, params),
-      n: i18n.n,
+      t,
+      n,
       provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
     }
   }
+}
+
+function wrapI18n<T extends (...args: any[]) => any>(t: T): T {
+  return <T>((...args: any[]) => {
+    return t(...args)
+  })
 }

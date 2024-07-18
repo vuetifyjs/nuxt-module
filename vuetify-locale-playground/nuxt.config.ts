@@ -5,20 +5,29 @@ export default defineNuxtConfig({
     autoImport: true,
     injectAtEnd: true,
   },
-  modules: ['vuetify-nuxt-module'],
+  modules: ['@nuxtjs/i18n', 'vuetify-nuxt-module'],
   vuetify: {
     moduleOptions: {
       prefixComposables: true,
     },
-    vuetifyOptions: {
-      date: {
-        adapter: 'hijri',
-      },
-      locale: {
-        locale: 'es',
-      },
-      localeMessages: ['es'],
-    },
+  },
+  i18n: {
+    // if not using RTL, you can replace locales with codes only
+    // locales: ['en', 'es', 'ar'],
+    locales: [{
+      code: 'en',
+      name: 'English',
+    }, {
+      code: 'es',
+      name: 'Español',
+    }, {
+      code: 'ar',
+      name: 'العربية',
+      dir: 'rtl',
+    }],
+    defaultLocale: 'en',
+    strategy: 'no_prefix', // or 'prefix_except_default'
+    vueI18n: './i18n.config.ts',
   },
   vite: {
     clearScreen: false,

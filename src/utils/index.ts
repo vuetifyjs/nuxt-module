@@ -1,3 +1,9 @@
+import type { AssetURLOptions, AssetURLTagConfig } from '@vue/compiler-sfc'
+import defu from 'defu'
+import { transformAssetUrls as vuetifyTransformAssetUrls } from 'vite-plugin-vuetify'
+import type { ViteConfig } from '@nuxt/schema'
+import type { VuetifyNuxtContext } from './config'
+
 /**
  * Convert string to kebap-case
  */
@@ -50,7 +56,39 @@ export function pascalize(str: string): string {
 
 pascalize.cache = new Map<string, string>()
 
-export function normalizeTransformAssetUrls(transformAssetUrls: Record<string, string[]>) {
+export function createTransformAssetUrls(ctx: VuetifyNuxtContext, viteInlineConfig: ViteConfig) {
+  const { includeTransformAssetsUrls } = ctx.moduleOptions
+  if (!includeTransformAssetsUrls)
+    return undefined
+
+  let existingTransformAssetUrls = viteInlineConfig.vue?.template?.transformAssetUrls ?? {}
+
+  let useURLOptions: AssetURLOptions | undefined
+  if (typeof existingTransformAssetUrls === 'boolean') {
+    existingTransformAssetUrls = {}
+  }
+  else if ('base' in existingTransformAssetUrls || 'includeAbsolute' in existingTransformAssetUrls || 'tags' in existingTransformAssetUrls) {
+    useURLOptions = {
+      base: existingTransformAssetUrls.base as string | undefined,
+      includeAbsolute: existingTransformAssetUrls.includeAbsolute as boolean | undefined,
+    }
+    existingTransformAssetUrls = (existingTransformAssetUrls.tags ?? {}) as Record<string, string[]>
+  }
+
+  const transformAssetUrls = normalizeTransformAssetUrls(
+    typeof includeTransformAssetsUrls === 'object'
+      ? defu(existingTransformAssetUrls, vuetifyTransformAssetUrls, includeTransformAssetsUrls)
+      : defu(existingTransformAssetUrls, vuetifyTransformAssetUrls),
+  )
+
+  if (!useURLOptions)
+    return transformAssetUrls satisfies AssetURLTagConfig
+
+  useURLOptions.tags = transformAssetUrls
+  return useURLOptions
+}
+
+function normalizeTransformAssetUrls(transformAssetUrls: Record<string, string[]>) {
   /*
   We need to cover these 4 cases:
 

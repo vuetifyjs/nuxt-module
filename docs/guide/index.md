@@ -23,18 +23,9 @@ You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing 
 ::: warning
 Requires Vite, will not work with Webpack
 :::
-
-::: code-group
-  ```bash [pnpm]
-  pnpm add -D vuetify-nuxt-module
-  ```
-  ```bash [yarn]
-  yarn add -D vuetify-nuxt-module
-  ```
-  ```bash [npm]
-  npm install -D vuetify-nuxt-module
-  ```
-:::
+```bash
+npx nuxi@latest module add vuetify-nuxt-module
+```
 
 ## Usage
 
@@ -121,6 +112,8 @@ export interface MOptions {
    *
    * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
    * @see https://github.com/userquin/vuetify-nuxt-module/issues/78 and https://github.com/userquin/vuetify-nuxt-module/issues/74
+   *
+   * @default true
    */
   styles?: true | 'none' | 'sass' | {
     configFile: string
@@ -133,6 +126,12 @@ export interface MOptions {
    * @default true
    */
   includeTransformAssetsUrls?: boolean | Record<string, string[]>
+  /**
+   * Directives Vuetify Vite Plugin should ignore.
+   *
+   * @since v0.15.1
+   */
+  ignoreDirectives?: DirectiveName | DirectiveName[]
   /**
    * Vuetify SSR client hints.
    *
@@ -285,7 +284,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
   /**
    * Include the icons?
    *
-   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css.
+   * By default, `mdi` icons will be used via cdn: https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css.
    *
    * @see https://vuetifyjs.com/en/features/icon-fonts/
    */

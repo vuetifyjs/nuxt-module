@@ -90,6 +90,7 @@ export default defineNuxtConfig({
     typescriptBundlerResolution: false,
   },
   features: {
+    devLogs: false,
     inlineStyles: false,
   },
   experimental: {

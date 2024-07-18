@@ -10,6 +10,9 @@ export default defineVuetifyConfiguration({
   },
   aliases: {
     MyBadge: 'VBadge',
+    MyBadge2: 'VBadge',
+    VDatePicker2: 'VDatePicker',
+    VDatePicker3: 'VDatePicker',
   },
   directives: ['ClickOutside', 'Resize', 'Ripple'],
   components: ['VDialog', 'VExpansionPanel', 'VExpansionPanelText', 'VExpansionPanelTitle'],
@@ -55,8 +58,13 @@ export default defineVuetifyConfiguration({
     // remember to comment the v-icon in playground/pages/index.vue when switching
     // defaultSet: 'fa-svg',
     // custom unocss-mdi icon set implementation: check custom-unocss-mdi.ts plugin
-    // defaultSet: 'custom',
-    defaultSet: 'unocss-mdi',
+    defaultSet: 'custom',
+    /* defaultSet: 'mdi',
+    sets: [{
+      name: 'mdi',
+      cdn: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css',
+    }], */
+    // defaultSet: 'unocss-mdi',
     // defaultSet: 'mdi-svg',
     /* svg: {
       mdi: {

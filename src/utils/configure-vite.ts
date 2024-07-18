@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
+import type { Options } from '@vuetify/loader-shared'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -8,6 +9,7 @@ import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-pl
 import { vuetifyImportPlugin } from '../vite/vuetify-import-plugin'
 import { checkVuetifyPlugins } from './module'
 import type { VuetifyNuxtContext } from './config'
+import { createTransformAssetUrls } from './index'
 
 export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
@@ -30,7 +32,27 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       ]
     }
 
-    viteInlineConfig.plugins.push(vuetifyImportPlugin({}))
+    const transformAssetUrls = createTransformAssetUrls(
+      ctx,
+      viteInlineConfig,
+    )
+    if (transformAssetUrls) {
+      viteInlineConfig.vue ??= {}
+      viteInlineConfig.vue.template ??= {}
+      viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
+    }
+
+    // fix #236
+    const vuetifyImportOptions: Options = {}
+    const ignoreDirectives = ctx.moduleOptions.ignoreDirectives
+    if (ignoreDirectives) {
+      const ignore = Array.isArray(ignoreDirectives)
+        ? ignoreDirectives
+        : [ignoreDirectives]
+      vuetifyImportOptions.autoImport = { ignore }
+    }
+
+    viteInlineConfig.plugins.push(vuetifyImportPlugin(vuetifyImportOptions))
     viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.logger))
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx))
     viteInlineConfig.plugins.push(vuetifyIconsPlugin(ctx))

@@ -1,12 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
-import { transformAssetUrls } from 'vite-plugin-vuetify'
-import defu from 'defu'
-
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
-import { normalizeTransformAssetUrls, toKebabCase } from './index'
+import { toKebabCase } from './index'
 
 export function configureNuxt(
   configKey: string,
@@ -16,8 +13,6 @@ export function configureNuxt(
   const {
     importComposables,
     prefixComposables,
-    styles,
-    includeTransformAssetsUrls = true,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
@@ -35,22 +30,9 @@ export function configureNuxt(
     nuxt.options.imports.transform.include.push(new RegExp(`${virtual}$`))
 
   nuxt.options.css ??= []
-  if (typeof styles === 'string' && ['sass', 'expose'].includes(styles))
-    nuxt.options.css.unshift('vuetify/styles/main.sass')
-  else if (styles === true)
-    nuxt.options.css.unshift('vuetify/styles')
-  else if (typeof styles === 'object' && typeof styles?.configFile === 'string')
-    nuxt.options.css.unshift(styles.configFile)
 
-  if (includeTransformAssetsUrls && typeof nuxt.options.vite.vue?.template?.transformAssetUrls === 'undefined') {
-    nuxt.options.vite.vue ??= {}
-    nuxt.options.vite.vue.template ??= {}
-    nuxt.options.vite.vue.template.transformAssetUrls = normalizeTransformAssetUrls(
-      typeof includeTransformAssetsUrls === 'object'
-        ? defu(includeTransformAssetsUrls, transformAssetUrls)
-        : transformAssetUrls,
-    )
-  }
+  // always add vuetify/styles
+  nuxt.options.css.unshift('vuetify/styles')
 
   extendWebpackConfig(() => {
     throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
@@ -83,6 +65,9 @@ export function configureNuxt(
 
   if (importComposables) {
     const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
+    if (ctx.vuetify3_5)
+      composables.push('useGoTo')
+
     addImports(composables.map(name => ({
       name,
       from: ctx.vuetify3_4 || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
