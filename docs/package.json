@@ -14,12 +14,12 @@
     "vue": "^3.4.21"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.27",
-    "@types/node": "^20.6.0",
-    "@vite-pwa/assets-generator": "^0.2.2",
-    "@vite-pwa/vitepress": "^0.3.1",
-    "sitemap": "^7.1.1",
-    "unocss": "^0.58.0",
-    "vitepress": "^1.0.1"
+    "@iconify-json/carbon": "catalog:",
+    "@types/node": "catalog:docs",
+    "@vite-pwa/assets-generator": "catalog:docs",
+    "@vite-pwa/vitepress": "catalog:docs",
+    "sitemap": "catalog:docs",
+    "unocss": "catalog:docs",
+    "vitepress": "catalog:docs"
   }
 }
