@@ -33,7 +33,8 @@ const AcceptClientHintsRequestHeaders = Object.entries(AcceptClientHintsHeaders)
   return acc
 }, {} as Record<AcceptClientHintsHeadersKey, Lowercase<string>>)
 
-const HttpRequestHeaders = Array.from(Object.values(AcceptClientHintsRequestHeaders)).concat('user-agent', 'cookie')
+const SecChUaMobile = 'Sec-CH-UA-Mobile'.toLowerCase() as Lowercase<string>
+const HttpRequestHeaders = Array.from(Object.values(AcceptClientHintsRequestHeaders)).concat('user-agent', 'cookie', SecChUaMobile)
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
@@ -164,6 +165,7 @@ function browserFeatureAvailable(userAgent: ReturnType<typeof parseUserAgent>, f
 function lookupClientHints(
   userAgent: ReturnType<typeof parseUserAgent>,
   ssrClientHintsConfiguration: SSRClientHintsConfiguration,
+  headers: { [key in Lowercase<string>]?: string | undefined },
 ) {
   const features: SSRClientHints = {
     firstRequest: true,
@@ -186,7 +188,13 @@ function lookupClientHints(
   if (ssrClientHintsConfiguration.viewportSize) {
     features.viewportHeightAvailable = browserFeatureAvailable(userAgent, 'viewportHeight')
     features.viewportWidthAvailable = browserFeatureAvailable(userAgent, 'viewportWidth')
-    features.devicePixelRatioAvailable = browserFeatureAvailable(userAgent, 'devicePixelRatio')
+    // We don't need to include DPR on desktop browsers.
+    // Since sec-ch-ua-mobile is a low entropy header, we don't need to include it in Accept-CH
+    // the user agent will send it always unless blocked by a user agent permission policy, check:
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-UA-Mobile
+    const mobileHeader = headers[SecChUaMobile]
+    if (mobileHeader === '?1')
+      features.devicePixelRatioAvailable = browserFeatureAvailable(userAgent, 'devicePixelRatio')
   }
 
   return features
@@ -198,7 +206,7 @@ function collectClientHints(
   headers: { [key in Lowercase<string>]?: string | undefined },
 ) {
   // collect client hints
-  const hints: SSRClientHints = lookupClientHints(userAgent, ssrClientHintsConfiguration)
+  const hints: SSRClientHints = lookupClientHints(userAgent, ssrClientHintsConfiguration, headers)
 
   if (ssrClientHintsConfiguration.prefersColorScheme) {
     if (ssrClientHintsConfiguration.prefersColorSchemeOptions) {
