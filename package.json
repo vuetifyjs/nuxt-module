@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "0.15.0",
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
