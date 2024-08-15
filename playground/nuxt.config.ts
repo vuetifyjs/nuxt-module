@@ -4,6 +4,7 @@ import LayerModule from './layer-module'
 // import { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
+  compatibilityDate: '2024-08-15',
   extends: ['layers/vuetify-layer'],
   // ssr: false,
   sourcemap: true,

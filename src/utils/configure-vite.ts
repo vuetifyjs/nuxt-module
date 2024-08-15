@@ -1,6 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import type { Options } from '@vuetify/loader-shared'
+import { isPackageExists } from 'local-pkg'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -41,6 +42,27 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       viteInlineConfig.vue.template ??= {}
       viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
     }
+
+    viteInlineConfig.css ??= {}
+    viteInlineConfig.css.preprocessorOptions ??= {}
+    viteInlineConfig.css.preprocessorOptions.sass ??= {}
+    if (ctx.moduleOptions.disableModernSassCompiler) {
+      viteInlineConfig.css.preprocessorOptions.sass.api = 'legacy'
+    }
+    else {
+      const sassEmbedded = isPackageExists('sass-embedded')
+      if (sassEmbedded) {
+        viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
+        viteInlineConfig.css.preprocessorMaxWorkers = true
+      }
+      else {
+        viteInlineConfig.css.preprocessorOptions.sass.api = 'modern'
+        if (!('preprocessorMaxWorkers' in viteInlineConfig.css))
+          viteInlineConfig.css.preprocessorMaxWorkers = true
+      }
+    }
+
+    console.log(viteInlineConfig.css)
 
     // fix #236
     const vuetifyImportOptions: Options = {}

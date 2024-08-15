@@ -252,6 +252,17 @@ export interface MOptions {
     configFile: string
   }
   /**
+   * Disable the modern SASS compiler and API.
+   *
+   * The module will check for `sass` and `sass-embedded` dev dependencies:
+   * - if `sass` and `sass-embedded` dev dependencies are installed, the module will configure the modern SASS compiler.
+   * - if only `sass` dev dependency is installed, the module will configure the modern SASS API and will enable []().
+   * - otherwise will configure the legacy SASS compiler.
+   *
+   * @default false
+   */
+  disableModernSassCompiler?: boolean
+  /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
    *
    * @default true

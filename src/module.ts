@@ -46,6 +46,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       importComposables: true,
       includeTransformAssetsUrls: true,
       styles: true,
+      disableModernSassCompiler: false,
     },
   }),
   async setup(options, nuxt) {

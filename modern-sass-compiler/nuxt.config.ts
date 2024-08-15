@@ -1,24 +1,22 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-08-15',
-  // ssr: false,
   sourcemap: true,
   imports: {
     autoImport: true,
     injectAtEnd: true,
   },
-  modules: ['vuetify-nuxt-module'],
+  modules: ['@unocss/nuxt', 'vuetify-nuxt-module'],
   vuetify: {
     moduleOptions: {
-      prefixComposables: true,
-    },
-    vuetifyOptions: {
-      date: {
-        adapter: 'hijri',
+      ssrClientHints: {
+        reloadOnFirstRequest: false,
+        prefersColorScheme: true,
+        prefersColorSchemeOptions: {
+          useBrowserThemeOnly: false,
+        },
+        viewportSize: true,
       },
-      locale: {
-        locale: 'es',
-      },
-      localeMessages: ['es'],
+      styles: { configFile: 'assets/custom-vuetify.scss' },
     },
   },
   vite: {
@@ -29,6 +27,14 @@ export default defineNuxtConfig({
     build: {
       target: 'esnext',
     },
+    vue: {
+      script: {
+        propsDestructure: true,
+      },
+    },
+  },
+  routeRules: {
+    '/no-ssr': { ssr: false },
   },
   nitro: {
     esbuild: {
@@ -45,9 +51,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  future: {
-    typescriptBundlerResolution: true,
-  },
+  css: ['~/assets/main.scss'],
   features: {
     devLogs: false,
     inlineStyles: false,
