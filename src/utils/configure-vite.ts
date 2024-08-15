@@ -53,7 +53,6 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       const sassEmbedded = isPackageExists('sass-embedded')
       if (sassEmbedded) {
         viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
-        viteInlineConfig.css.preprocessorMaxWorkers = true
       }
       else {
         viteInlineConfig.css.preprocessorOptions.sass.api = 'modern'
@@ -61,8 +60,6 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
           viteInlineConfig.css.preprocessorMaxWorkers = true
       }
     }
-
-    console.log(viteInlineConfig.css)
 
     // fix #236
     const vuetifyImportOptions: Options = {}
