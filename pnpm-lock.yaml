@@ -230,16 +230,22 @@ importers:
         version: 0.2.4
       '@vite-pwa/vitepress':
         specifier: ^0.5.0
-        version: 0.5.0(@vite-pwa/assets-generator@0.2.4)(vite-plugin-pwa@0.17.4(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.0.0))
+        version: 0.5.0(@vite-pwa/assets-generator@0.2.4)(vite-plugin-pwa@0.20.1(@vite-pwa/assets-generator@0.2.4)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.1.0))
       sitemap:
         specifier: ^8.0.0
         version: 8.0.0
       unocss:
         specifier: ^0.62.1
         version: 0.62.1(@unocss/webpack@0.62.1(rollup@2.79.1)(webpack@5.88.2(esbuild@0.23.0)))(postcss@8.4.41)(rollup@2.79.1)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))
+      vite-plugin-pwa:
+        specifier: ^0.20.1
+        version: 0.20.1(@vite-pwa/assets-generator@0.2.4)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.1.0)
       vitepress:
         specifier: ^1.3.2
         version: 1.3.2(@algolia/client-search@4.19.1)(@types/node@20.6.0)(postcss@8.4.41)(sass-embedded@1.77.8)(sass@1.77.8)(search-insights@2.7.0)(terser@5.19.2)(typescript@5.5.4)
+      workbox-window:
+        specifier: ^7.1.0
+        version: 7.1.0
 
   modern-sass-compiler:
     dependencies:
@@ -253,9 +259,6 @@ importers:
       '@nuxt/devtools':
         specifier: latest
         version: 1.3.9(rollup@4.18.1)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))
-      '@nuxtjs/i18n':
-        specifier: ^8.3.3
-        version: 8.3.3(magicast@0.3.4)(rollup@4.18.1)(vue@3.4.31(typescript@5.5.4))
       '@unocss/nuxt':
         specifier: ^0.62.1
         version: 0.62.1(magicast@0.3.4)(postcss@8.4.39)(rollup@4.18.1)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(webpack@5.88.2(esbuild@0.23.0))
@@ -6784,13 +6787,17 @@ packages:
       '@nuxt/kit':
         optional: true
 
-  vite-plugin-pwa@0.17.4:
-    resolution: {integrity: sha512-j9iiyinFOYyof4Zk3Q+DtmYyDVBDAi6PuMGNGq6uGI0pw7E+LNm9e+nQ2ep9obMP/kjdWwzilqUrlfVRj9OobA==}
+  vite-plugin-pwa@0.20.1:
+    resolution: {integrity: sha512-M6Pk4b18i5ryrhKgiIF8Zud0HGphYiCbEfLsCdlvmwn/CEnS6noVwfIDG/+3V7r6yxpPV/gLiKw+rIlCCiCCoQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
+      '@vite-pwa/assets-generator': ^0.2.4
       vite: 5.4.1
-      workbox-build: ^7.0.0
-      workbox-window: ^7.0.0
+      workbox-build: ^7.1.0
+      workbox-window: ^7.1.0
+    peerDependenciesMeta:
+      '@vite-pwa/assets-generator':
+        optional: true
 
   vite-plugin-vue-inspector@5.1.2:
     resolution: {integrity: sha512-M+yH2LlQtVNzJAljQM+61CqDXBvHim8dU5ImGaQuwlo13tMDHue5D7IC20YwDJuWDODiYc/cZBUYspVlyPf2vQ==}
@@ -7044,6 +7051,9 @@ packages:
   workbox-core@7.0.0:
     resolution: {integrity: sha512-81JkAAZtfVP8darBpfRTovHg8DGAVrKFgHpOArZbdFd78VqHr5Iw65f2guwjE2NlCFbPFDoez3D3/6ZvhI/rwQ==}
 
+  workbox-core@7.1.0:
+    resolution: {integrity: sha512-5KB4KOY8rtL31nEF7BfvU7FMzKT4B5TkbYa2tzkS+Peqj0gayMT9SytSFtNzlrvMaWgv6y/yvP9C0IbpFjV30Q==}
+
   workbox-expiration@7.0.0:
     resolution: {integrity: sha512-MLK+fogW+pC3IWU9SFE+FRStvDVutwJMR5if1g7oBJx3qwmO69BNoJQVaMXq41R0gg3MzxVfwOGKx3i9P6sOLQ==}
 
@@ -7077,6 +7087,9 @@ packages:
 
   workbox-window@7.0.0:
     resolution: {integrity: sha512-j7P/bsAWE/a7sxqTzXo3P2ALb1reTfZdvVp6OJ/uLr/C2kZAMvjeWGm8V4htQhor7DOvYg0sSbFN2+flT5U0qA==}
+
+  workbox-window@7.1.0:
+    resolution: {integrity: sha512-ZHeROyqR+AS5UPzholQRDttLFqGMwP0Np8MKWAdyxsDETxq3qOAyXvqessc3GniohG6e0mAqSQyKOHmT8zPF7g==}
 
   wrap-ansi@7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
@@ -7362,7 +7375,7 @@ snapshots:
       '@babel/traverse': 7.24.8
       '@babel/types': 7.24.8
       convert-source-map: 2.0.0
-      debug: 4.3.5
+      debug: 4.3.6
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -7382,7 +7395,7 @@ snapshots:
       '@babel/traverse': 7.25.3
       '@babel/types': 7.25.2
       convert-source-map: 2.0.0
-      debug: 4.3.5
+      debug: 4.3.6
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8271,7 +8284,7 @@ snapshots:
       '@babel/parser': 7.25.3
       '@babel/template': 7.25.0
       '@babel/types': 7.25.2
-      debug: 4.3.5
+      debug: 4.3.6
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -8728,7 +8741,7 @@ snapshots:
   '@eslint/eslintrc@2.1.3':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.5
+      debug: 4.3.6
       espree: 9.6.1
       globals: 13.20.0
       ignore: 5.3.1
@@ -8761,7 +8774,7 @@ snapshots:
   '@humanwhocodes/config-array@0.11.13':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.1
-      debug: 4.3.5
+      debug: 4.3.6
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -8785,7 +8798,7 @@ snapshots:
       '@antfu/install-pkg': 0.1.1
       '@antfu/utils': 0.7.10
       '@iconify/types': 2.0.0
-      debug: 4.3.5
+      debug: 4.3.6
       kolorist: 1.8.0
       local-pkg: 0.5.0
       mlly: 1.7.1
@@ -8943,7 +8956,7 @@ snapshots:
 
   '@kwsites/file-exists@1.1.1':
     dependencies:
-      debug: 4.3.5
+      debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
 
@@ -8958,7 +8971,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.6.2
+      semver: 7.6.3
       tar: 6.2.0
     transitivePeerDependencies:
       - encoding
@@ -9995,7 +10008,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.10.0(typescript@5.5.4)
       '@typescript-eslint/utils': 6.10.0(eslint@8.54.0)(typescript@5.5.4)
-      debug: 4.3.5
+      debug: 4.3.6
       eslint: 8.54.0
       ts-api-utils: 1.0.1(typescript@5.5.4)
     optionalDependencies:
@@ -10025,10 +10038,10 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.10.0
       '@typescript-eslint/visitor-keys': 6.10.0
-      debug: 4.3.5
+      debug: 4.3.6
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.6.2
+      semver: 7.6.3
       ts-api-utils: 1.0.1(typescript@5.5.4)
     optionalDependencies:
       typescript: 5.5.4
@@ -10059,7 +10072,7 @@ snapshots:
       '@typescript-eslint/types': 6.10.0
       '@typescript-eslint/typescript-estree': 6.10.0(typescript@5.5.4)
       eslint: 8.54.0
-      semver: 7.6.2
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -10520,9 +10533,9 @@ snapshots:
       sharp-ico: 0.1.5
       unconfig: 0.3.13
 
-  '@vite-pwa/vitepress@0.5.0(@vite-pwa/assets-generator@0.2.4)(vite-plugin-pwa@0.17.4(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.0.0))':
+  '@vite-pwa/vitepress@0.5.0(@vite-pwa/assets-generator@0.2.4)(vite-plugin-pwa@0.20.1(@vite-pwa/assets-generator@0.2.4)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.1.0))':
     dependencies:
-      vite-plugin-pwa: 0.17.4(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.0.0)
+      vite-plugin-pwa: 0.20.1(@vite-pwa/assets-generator@0.2.4)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.1.0)
     optionalDependencies:
       '@vite-pwa/assets-generator': 0.2.4
 
@@ -11157,7 +11170,7 @@ snapshots:
 
   builtins@5.0.1:
     dependencies:
-      semver: 7.6.2
+      semver: 7.6.3
 
   bumpp@9.2.0(magicast@0.3.4):
     dependencies:
@@ -12574,7 +12587,7 @@ snapshots:
     dependencies:
       '@ioredis/commands': 1.2.0
       cluster-key-slot: 1.1.2
-      debug: 4.3.5
+      debug: 4.3.6
       denque: 2.1.0
       lodash.defaults: 4.2.0
       lodash.isarguments: 3.1.0
@@ -15147,7 +15160,7 @@ snapshots:
   vite-node@1.6.0(@types/node@18.0.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.6
       pathe: 1.1.2
       picocolors: 1.0.1
       vite: 5.4.1(@types/node@18.0.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2)
@@ -15165,7 +15178,7 @@ snapshots:
   vite-node@2.0.5(@types/node@18.0.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.4.1(@types/node@18.0.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2)
@@ -15183,7 +15196,7 @@ snapshots:
   vite-node@2.0.5(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2)
@@ -15280,14 +15293,16 @@ snapshots:
       - rollup
       - supports-color
 
-  vite-plugin-pwa@0.17.4(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.0.0):
+  vite-plugin-pwa@0.20.1(@vite-pwa/assets-generator@0.2.4)(vite@5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2))(workbox-build@7.0.0)(workbox-window@7.1.0):
     dependencies:
       debug: 4.3.6
-      fast-glob: 3.3.2
       pretty-bytes: 6.1.1
+      tinyglobby: 0.2.2
       vite: 5.4.1(@types/node@20.6.0)(sass-embedded@1.77.8)(sass@1.77.8)(terser@5.19.2)
       workbox-build: 7.0.0
-      workbox-window: 7.0.0
+      workbox-window: 7.1.0
+    optionalDependencies:
+      '@vite-pwa/assets-generator': 0.2.4
     transitivePeerDependencies:
       - supports-color
 
@@ -15507,14 +15522,14 @@ snapshots:
 
   vue-eslint-parser@9.3.1(eslint@8.54.0):
     dependencies:
-      debug: 4.3.5
+      debug: 4.3.6
       eslint: 8.54.0
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.6.2
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -15703,6 +15718,8 @@ snapshots:
 
   workbox-core@7.0.0: {}
 
+  workbox-core@7.1.0: {}
+
   workbox-expiration@7.0.0:
     dependencies:
       idb: 7.1.1
@@ -15757,6 +15774,11 @@ snapshots:
     dependencies:
       '@types/trusted-types': 2.0.3
       workbox-core: 7.0.0
+
+  workbox-window@7.1.0:
+    dependencies:
+      '@types/trusted-types': 2.0.3
+      workbox-core: 7.1.0
 
   wrap-ansi@7.0.0:
     dependencies:
