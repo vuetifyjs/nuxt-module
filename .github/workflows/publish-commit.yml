@@ -63,6 +63,6 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build
+        run: pnpm prepack
 
       - run: pnpm dlx pkg-pr-new publish --compact --pnpm
