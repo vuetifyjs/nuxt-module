@@ -1,9 +1,13 @@
+<script setup lang="ts">
+//
+</script>
+
 <template>
   <v-container>
     <v-row>
       <v-col>
-        <NuxtLink to="/no-ssr">
-          Go To No-SSR Page
+        <NuxtLink to="/">
+          Back To Home Page
         </NuxtLink>
       </v-col>
       <v-col>
