@@ -39,14 +39,14 @@ export default withPwa(defineConfig({
   },
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/userquin/vuetify-nuxt-module/edit/main/docs/:path',
+      pattern: 'https://github.com/vuetifyjs/nuxt-module/edit/main/docs/:path',
       text: 'Suggest changes to this page',
     },
     search: {
       provider: 'local',
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/userquin/vuetify-nuxt-module' },
+      { icon: 'github', link: 'https://github.com/vuetifyjs/nuxt-module' },
     ],
     footer: {
       message: 'Released under the MIT License.',
@@ -106,11 +106,11 @@ export default withPwa(defineConfig({
             items: [
               {
                 text: 'Release Notes',
-                link: 'https://github.com/userquin/vuetify-nuxt-module/releases',
+                link: 'https://github.com/vuetifyjs/nuxt-module/releases',
               },
               {
                 text: 'Contributing',
-                link: 'https://github.com/userquin/vuetify-nuxt-module/blob/main/CONTRIBUTING.md',
+                link: 'https://github.com/vuetifyjs/nuxt-module/blob/main/CONTRIBUTING.md',
               },
               {
                 text: 'FAQ',
