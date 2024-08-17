@@ -6,12 +6,12 @@
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/userquin/vuetify-nuxt-module#readme",
+  "homepage": "https://github.com/vuetifyjs/nuxt-module#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/userquin/vuetify-nuxt-module.git"
+    "url": "https://github.com/vuetifyjs/nuxt-module.git"
   },
-  "bugs": "https://github.com/userquin/vuetify-nuxt-module/issues",
+  "bugs": "https://github.com/vuetifyjs/nuxt-module/issues",
   "keywords": [
     "nuxt",
     "nuxt 3",
