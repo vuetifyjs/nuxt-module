@@ -62,7 +62,7 @@ export default defineNuxtConfig({
 
 ## Module Options
 
-Check out the type declaration [src/types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts).
+Check out the type declaration [src/types.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts).
 
 <details>
 <summary><strong>Vuetify Nuxt Module Options</strong></summary>
@@ -111,7 +111,7 @@ export interface MOptions {
    * If you want to use configFile on SSR, you have to disable `experimental.inlineSSRStyles` in nuxt.config.
    *
    * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
-   * @see https://github.com/userquin/vuetify-nuxt-module/issues/78 and https://github.com/userquin/vuetify-nuxt-module/issues/74
+   * @see https://github.com/vuetifyjs/nuxt-module/issues/78 and https://github.com/vuetifyjs/nuxt-module/issues/74
    *
    * @default true
    */
