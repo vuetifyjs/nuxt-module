@@ -16,7 +16,7 @@ export default defineNuxtConfig({
         },
         viewportSize: true,
       },
-      styles: { configFile: 'assets/settings.scss' },
+      // styles: { configFile: 'assets/settings.scss' },
     },
   },
   vite: {
@@ -56,7 +56,7 @@ export default defineNuxtConfig({
 */
   features: {
     devLogs: false,
-    inlineStyles: false,
+    // inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,
