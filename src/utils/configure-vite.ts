@@ -43,13 +43,10 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
     }
 
-    viteInlineConfig.css ??= {}
-    viteInlineConfig.css.preprocessorOptions ??= {}
-    viteInlineConfig.css.preprocessorOptions.sass ??= {}
-    if (ctx.moduleOptions.disableModernSassCompiler) {
-      viteInlineConfig.css.preprocessorOptions.sass.api = 'legacy'
-    }
-    else {
+    if (!ctx.moduleOptions.disableModernSassCompiler) {
+      viteInlineConfig.css ??= {}
+      viteInlineConfig.css.preprocessorOptions ??= {}
+      viteInlineConfig.css.preprocessorOptions.sass ??= {}
       const sassEmbedded = isPackageExists('sass-embedded')
       if (sassEmbedded) {
         viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
