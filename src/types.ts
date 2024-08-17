@@ -252,6 +252,20 @@ export interface MOptions {
     configFile: string
   }
   /**
+   * Disable the modern SASS compiler and API.
+   *
+   * The module will check for `sass-embedded` dev dependency:
+   * - if `disableModernSassCompiler` is enabled, the module will configure the legacy SASS compiler.
+   * - if `sass-embedded` dependency is installed, the module will configure the modern SASS compiler.
+   * - otherwise, the module will configure the modern SASS API and will enable [preprocessorMaxWorkers](https://vitejs.dev/config/shared-options.html#css-preprocessormaxworkers), only if not configured from user land.
+   *
+   * @https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
+   * @see https://vitejs.dev/config/shared-options.html#css-preprocessormaxworkers
+   *
+   * @default false
+   */
+  disableModernSassCompiler?: boolean
+  /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
    *
    * @default true

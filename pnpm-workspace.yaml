@@ -1,6 +1,7 @@
 packages:
   - date-io-playground/
   - docs/
+  - modern-sass-compiler/
   - playground/
   - vuetify-io-playground/
   - vuetify-locale-playground/

@@ -11,6 +11,7 @@ The module includes support for the following [HTTP Client hints](https://develo
 - [Sec-CH-Prefers-Reduced-Motion](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
 - [Sec-CH-Viewport-Height](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height)
+- [Sec-CH-DPR](https://wicg.github.io/responsive-image-client-hints/#sec-ch-dpr)
 
 ::: warning
 The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
@@ -98,7 +99,7 @@ Check [SSR HTTP Client hints](#ssr-http-client-hints) for more details.
 ## SSR HTTP Client hints
 
 You can enable SSR **HTTP Client hints** using the `ssrClientHints` module option:
-- `viewportSize`: enable `Sec-CH-Viewport-Width` and `Sec-CH-Viewport-Height` headers (defaults to `false`)?
+- `viewportSize`: enable `Sec-CH-Viewport-Width`, `Sec-CH-Viewport-Height` and `Sec-CH-DPR` headers (defaults to `false`)?
 - `prefersColorScheme`: enable `Sec-CH-Prefers-Color-Scheme` header (defaults to `false`)? Check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details
 - `prefersReducedMotion`: `Sec-CH-Prefers-Reduced-Motion` header (defaults to `false`)?
 

@@ -1,6 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import type { Options } from '@vuetify/loader-shared'
+import { isPackageExists } from 'local-pkg'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -40,6 +41,21 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       viteInlineConfig.vue ??= {}
       viteInlineConfig.vue.template ??= {}
       viteInlineConfig.vue.template.transformAssetUrls = transformAssetUrls
+    }
+
+    if (!ctx.moduleOptions.disableModernSassCompiler) {
+      viteInlineConfig.css ??= {}
+      viteInlineConfig.css.preprocessorOptions ??= {}
+      viteInlineConfig.css.preprocessorOptions.sass ??= {}
+      const sassEmbedded = isPackageExists('sass-embedded')
+      if (sassEmbedded) {
+        viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
+      }
+      else {
+        viteInlineConfig.css.preprocessorOptions.sass.api = 'modern'
+        if (!('preprocessorMaxWorkers' in viteInlineConfig.css))
+          viteInlineConfig.css.preprocessorMaxWorkers = true
+      }
     }
 
     // fix #236

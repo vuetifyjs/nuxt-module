@@ -12,19 +12,19 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.5",
-    "@iconify-json/mdi": "^1.1.55",
-    "@mdi/js": "^7.3.67",
+    "@iconify-json/mdi": "^1.1.68",
+    "@mdi/js": "^7.4.47",
     "luxon": "^3.4.3",
-    "vuetify": "^3.6.12"
+    "vuetify": "^3.7.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxtjs/i18n": "^8.2.0",
-    "@unocss/nuxt": "^0.61.3",
-    "nuxt": "^3.12.3",
-    "sass": "^1.63.6",
-    "typescript": "^5.4.3",
-    "vue-tsc": "^2.0.26",
+    "@nuxtjs/i18n": "^8.3.3",
+    "@unocss/nuxt": "^0.62.1",
+    "nuxt": "^3.12.4",
+    "sass": "^1.77.8",
+    "typescript": "^5.5.4",
+    "vue-tsc": "^2.0.29",
     "vuetify-nuxt-module": "workspace:*"
   }
 }
