@@ -13,7 +13,7 @@
 <a href="https://www.npmjs.com/package/vuetify-nuxt-module" target="__blank">
     <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/vuetify-nuxt-module?color=476582&label=">
 </a>
-<a href="https://vuetify-nuxt-module.netlify.app/" target="__blank">
+<a href="https://nuxt.vuetifyjs.com/" target="__blank">
     <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides">
 </a>
 <br>
@@ -26,7 +26,7 @@
 
 ## 🚀 Features
 
-- 📖 [**Documentation & guides**](https://vuetify-nuxt-module.netlify.app/)
+- 📖 [**Documentation & guides**](https://nuxt.vuetifyjs.com/)
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
 - 🔌 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Runtime Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
 - ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
 })
 ```
 
-Read the [📖 documentation](https://vuetify-nuxt-module.netlify.app/) for a complete guide on how to configure and use this module.
+Read the [📖 documentation](https://nuxt.vuetifyjs.com/) for a complete guide on how to configure and use this module.
 
 ## 👀 Full config
 
