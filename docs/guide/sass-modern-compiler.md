@@ -5,3 +5,5 @@ From version `0.17.0`, this module will configure Nuxt to use the new SASS moder
 - replace your `sass` dependency with `sass-embedded`
 
 If the `sass-embedded` dependency is not installed, the module will configure the `modern` compiler for you. In case you get errors, enable the `disableModernSassCompiler` option in the module configuration to fall back to the `legacy` compiler.
+
+Check [Build Performance](https://vuetifyjs.com/en/features/sass-variables/#build-performance) in Vuetify docs for more details.
