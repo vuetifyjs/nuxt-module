@@ -3,7 +3,7 @@
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/vuetifyjs/nuxt-module/raw/main/hero-dark.svg" />
   <img alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify" src='https://github.com/vuetifyjs/nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify"><br>
 </picture>
-<p>Zero-config Nuxt Module for Vuetify</p>
+<p>Zero-config Nuxt Module for VuetifyX</p>
 </div>
 
 <p align='center'>
