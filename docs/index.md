@@ -17,7 +17,7 @@ hero:
       link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/userquin/vuetify-nuxt-module/
+      link: https://github.com/vuetifyjs/nuxt-module/
 
 features:
   - icon: 👌

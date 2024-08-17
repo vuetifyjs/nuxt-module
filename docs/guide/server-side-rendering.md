@@ -117,10 +117,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 where:
 - `vuetifyOptions` is the configuration for the Vuetify instance (if you need to update some option)
-- `ssrClientHints` are the client hints extracted from the request headers (the full definition can be found in the [types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts) in the `#app` module augmentation)
-- `ssrClientHintsConfiguration` is the client hints configuration (the full definition can be found in the `virtual:vuetify-ssr-client-hints-configuration` declaration in the [configuration.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/configuration.d.ts) module)
+- `ssrClientHints` are the client hints extracted from the request headers (the full definition can be found in the [types.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts) in the `#app` module augmentation)
+- `ssrClientHintsConfiguration` is the client hints configuration (the full definition can be found in the `virtual:vuetify-ssr-client-hints-configuration` declaration in the [configuration.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/configuration.d.ts) module)
 
-This module will expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that are not enabled in the module option will be `undefined`), check the module augmentation for `#app` in the [types.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts) module for the full definition.
+This module will expose the `$ssrClientHints` property in the Nuxt App instance (`useNuxtApp().$ssrClientHints`) for the headers received from the client (all the properties that are not enabled in the module option will be `undefined`), check the module augmentation for `#app` in the [types.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts) module for the full definition.
 
 ### Reload on First Request
 

@@ -22,4 +22,4 @@ If you want to use a custom date adapter, you can configure it using `vuetifyOpt
   import { adapter, dateConfiguration, i18n } from 'virtual:vuetify-date-configuration'
   ```
 
-Check out [vuetify-date](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/vuetify-date.ts) plugin and the [date module](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/runtime/plugins/date.ts) for an example of a custom date adapter and how to access to the configuration.
+Check out [vuetify-date](https://github.com/vuetifyjs/nuxt-module/blob/main/src/runtime/plugins/vuetify-date.ts) plugin and the [date module](https://github.com/vuetifyjs/nuxt-module/blob/main/src/runtime/plugins/date.ts) for an example of a custom date adapter and how to access to the configuration.

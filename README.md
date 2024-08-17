@@ -1,7 +1,7 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/userquin/vuetify-nuxt-module/raw/main/hero-dark.svg" />
-  <img alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify" src='https://github.com/userquin/vuetify-nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify"><br>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/vuetifyjs/nuxt-module/raw/main/hero-dark.svg" />
+  <img alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify" src='https://github.com/vuetifyjs/nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify"><br>
 </picture>
 <p>Zero-config Nuxt Module for Vuetify</p>
 </div>
@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides">
 </a>
 <br>
-<a href="https://github.com/userquin/vuetify-nuxt-module" target="__blank">
+<a href="https://github.com/vuetifyjs/nuxt-module" target="__blank">
 <img alt="GitHub stars" src="https://img.shields.io/github/stars/userquin/vuetify-nuxt-module?style=social">
 </a>
 </p>
@@ -86,10 +86,10 @@ Read the [📖 documentation](https://vuetify-nuxt-module.netlify.app/) for a co
 
 ## 👀 Full config
 
-Check out the [types](https://github.com/userquin/vuetify-nuxt-module/blob/main/src/types.ts).
+Check out the [types](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts).
 
-The virtual modules can be found in [configuration.d.ts](https://github.com/userquin/vuetify-nuxt-module/blob/main/configuration.d.ts) file.
+The virtual modules can be found in [configuration.d.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/configuration.d.ts) file.
 
 ## 📄 License
 
-[MIT](https://github.com/userquin/vuetify-nuxt-module/blob/main/LICENSE) License &copy; 2023-PRESENT [Joaquín Sánchez](https://github.com/userquin)
+[MIT](https://github.com/vuetifyjs/nuxt-module/blob/main/LICENSE) License &copy; 2023-PRESENT [Joaquín Sánchez](https://github.com/userquin)
