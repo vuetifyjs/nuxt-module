@@ -20,7 +20,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
 
     viteInlineConfig.optimizeDeps = defu(viteInlineConfig.optimizeDeps, { exclude: ['vuetify'] })
 
-    if (nuxt.options.ssr) {
+    if (ctx.isSSR) {
       viteInlineConfig.ssr ||= {}
       viteInlineConfig.ssr.noExternal = [
         ...(Array.isArray(viteInlineConfig.ssr.noExternal)

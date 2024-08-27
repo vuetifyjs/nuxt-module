@@ -19,6 +19,10 @@ The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client
 
 ## Vuetify SASS Variables
 
+::: tip
+From version `v0.18.0`, when SSR is enabled the module will disable `features.inlineStyles / experimental.inlineSSRStyles`.
+:::
+
 If you are customising Vuetify SASS Variables via [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you have to disable `features.inlineStyles` (`experimental.inlineSSRStyles` for Nuxt version prior to `3.9.0`) in your Nuxt config file, otherwise you will get an error when building your application:
 ```ts
 // Nuxt config file

@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, extendWebpackConfig } from '@nuxt/kit'
+import { addImports, addPlugin, extendWebpackConfig, getNuxtVersion } from '@nuxt/kit'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
@@ -11,11 +11,24 @@ export function configureNuxt(
   ctx: VuetifyNuxtContext,
 ) {
   const {
+    styles,
     importComposables,
     prefixComposables,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
+
+  // disable inline styles when SSR enabled
+  if (ctx.isSSR && !!styles && typeof styles === 'object') {
+    const [major, minor] = getNuxtVersion(nuxt).split('.')
+      .map((v: string) => v.includes('-') ? v.split('-')[0] : v)
+      .map(v => Number.parseInt(v))
+    const features = major > 3 || (major === 3 && minor >= 9)
+    if (features)
+      nuxt.options.features.inlineStyles = false
+    else
+      (nuxt.options.experimental as any)['inlineSSRStyles'] = false
+  }
 
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey)
