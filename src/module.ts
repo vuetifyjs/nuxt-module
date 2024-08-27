@@ -9,6 +9,7 @@ import {
 import { getPackageInfo } from 'local-pkg'
 import type { HookResult } from '@nuxt/schema'
 import type { VuetifyOptions, createVuetify } from 'vuetify'
+import { version as VITE_VERSION } from 'vite'
 import { version } from '../package.json'
 import type {
   InlineModuleOptions,
@@ -62,6 +63,10 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       && versions.length > 1
       && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 5))
 
+    const viteVersion = VITE_VERSION.split('.')
+      .map((v: string) => v.includes('-') ? v.split('-')[0] : v)
+      .map(v => Number.parseInt(v)) as VuetifyNuxtContext['viteVersion']
+
     const ctx: VuetifyNuxtContext = {
       logger,
       resolver: createResolver(import.meta.url),
@@ -79,6 +84,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       labComponentsPromise: undefined!,
       vuetify3_4,
       vuetify3_5,
+      viteVersion,
     }
 
     await load(options, nuxt, ctx)

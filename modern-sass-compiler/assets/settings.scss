@@ -1,5 +1,4 @@
-/* DON'T USE @use here */
-@forward 'vuetify/settings' with (
+@use 'vuetify/settings' with (
   /*$utilities: false,*/
-  $button-height: 40px,
+  $button-border-radius: 8px
 );
