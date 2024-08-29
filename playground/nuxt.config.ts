@@ -92,7 +92,6 @@ export default defineNuxtConfig({
   }, */
   features: {
     devLogs: false,
-    inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,

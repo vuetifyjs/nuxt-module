@@ -56,7 +56,6 @@ export default defineNuxtConfig({
   css: ['~/assets/main.scss'],
   features: {
     devLogs: false,
-    inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,
