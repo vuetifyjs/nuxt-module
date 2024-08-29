@@ -87,12 +87,11 @@ export default defineNuxtConfig({
   },
   // css: ['vuetify/styles'],
   // css: ['~/assets/main.scss'],
-  future: {
+  /* future: {
     typescriptBundlerResolution: false,
-  },
+  }, */
   features: {
     devLogs: false,
-    inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,

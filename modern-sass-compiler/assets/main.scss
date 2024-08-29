@@ -1,4 +1,6 @@
-@use 'vuetify' with (
-  $utilities: false,
-  $color-pack: false,
-);
+.gradient {
+  &.primary {
+    background: linear-gradient(to top right, #2563eb, #4b8efb);
+    color: white;
+  }
+}

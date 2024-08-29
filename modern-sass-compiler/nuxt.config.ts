@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-08-15',
+  ssr: true,
   sourcemap: true,
   imports: {
     autoImport: true,
@@ -16,7 +17,8 @@ export default defineNuxtConfig({
         },
         viewportSize: true,
       },
-      // styles: { configFile: 'assets/settings.scss' },
+      // styles: 'sass',
+      styles: { configFile: 'assets/settings.scss' },
     },
   },
   vite: {
@@ -51,12 +53,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-  /*
   css: ['~/assets/main.scss'],
-*/
   features: {
     devLogs: false,
-    // inlineStyles: false,
   },
   experimental: {
     payloadExtraction: false,

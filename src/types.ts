@@ -252,6 +252,15 @@ export interface MOptions {
     configFile: string
   }
   /**
+   * The module will add `vuetify/styles` in Nuxt `css` by default.
+   *
+   * If you want to add custom styles, you should enable this flag to avoid registering `vuetify/styles`.
+   *
+   * @see https://github.com/vuetifyjs/nuxt-module/pull/213
+   * @default false
+   */
+  disableVuetifyStyles?: boolean
+  /**
    * Disable the modern SASS compiler and API.
    *
    * The module will check for `sass-embedded` dev dependency:

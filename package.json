@@ -73,7 +73,8 @@
     "perfect-debounce": "^1.0.0",
     "ufo": "^1.5.4",
     "unconfig": "^0.5.5",
-    "vite-plugin-vuetify": "^2.0.3",
+    "upath": "^2.0.1",
+    "vite-plugin-vuetify": "^2.0.4",
     "vuetify": "^3.7.0"
   },
   "devDependencies": {
