@@ -118,5 +118,16 @@ watch(current, () => {
         <v-date-picker />
       </v-locale-provider> -->
     </div>
+    <button class="mb-2 ml-2 px-2 my-button text-white bg-primary rounded-lg">
+      Reserve
+    </button>
   </div>
 </template>
+
+<style lang="scss">
+  @use '../assets/settings';
+
+  .my-button {
+    height: settings.$button-height;
+  }
+</style>
