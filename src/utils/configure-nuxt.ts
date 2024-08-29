@@ -14,6 +14,7 @@ export function configureNuxt(
     styles,
     importComposables,
     prefixComposables,
+    disableVuetifyStyles,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
@@ -30,6 +31,12 @@ export function configureNuxt(
       (nuxt.options.experimental as any)['inlineSSRStyles'] = false
   }
 
+  if (!disableVuetifyStyles) {
+    nuxt.options.css ??= []
+    // always add vuetify/styles
+    nuxt.options.css.unshift('vuetify/styles')
+  }
+
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey)
   nuxt.options.build.transpile.push(runtimeDir)
@@ -41,11 +48,6 @@ export function configureNuxt(
   nuxt.options.imports.transform.include ??= []
   for (const virtual of RESOLVED_VIRTUAL_MODULES)
     nuxt.options.imports.transform.include.push(new RegExp(`${virtual}$`))
-
-  nuxt.options.css ??= []
-
-  // always add vuetify/styles
-  nuxt.options.css.unshift('vuetify/styles')
 
   extendWebpackConfig(() => {
     throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')

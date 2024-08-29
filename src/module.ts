@@ -47,6 +47,7 @@ export default defineNuxtModule<VuetifyModuleOptions>({
       importComposables: true,
       includeTransformAssetsUrls: true,
       styles: true,
+      disableVuetifyStyles: false,
       disableModernSassCompiler: false,
     },
   }),
