@@ -24,10 +24,33 @@ import { configureNuxt } from './utils/configure-nuxt'
 
 export * from './types'
 
+export interface ModuleOptions extends VuetifyModuleOptions {}
+
+export interface ModuleHooks {
+  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
+}
+
+export interface ModuleRuntimeHooks {
+  'vuetify:configuration': (options: {
+    isDev: boolean
+    vuetifyOptions: VuetifyOptions
+  }) => HookResult
+  'vuetify:before-create': (options: {
+    isDev: boolean
+    vuetifyOptions: VuetifyOptions
+  }) => HookResult
+  'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
+  'vuetify:ssr-client-hints': (options: {
+    vuetifyOptions: VuetifyOptions
+    ssrClientHints: SSRClientHints
+    ssrClientHintsConfiguration: SSRClientHintsConfiguration
+  }) => HookResult
+}
+
 const CONFIG_KEY = 'vuetify'
 const logger = useLogger(`nuxt:${CONFIG_KEY}`)
 
-export default defineNuxtModule<VuetifyModuleOptions>({
+export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'vuetify-nuxt-module',
     configKey: 'vuetify',
@@ -97,57 +120,3 @@ export default defineNuxtModule<VuetifyModuleOptions>({
     configureVite(CONFIG_KEY, nuxt, ctx)
   },
 })
-
-export interface ModuleOptions extends VuetifyModuleOptions {}
-
-export interface ModuleHooks {
-  'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
-}
-
-export interface ModuleRuntimeHooks {
-  'vuetify:configuration': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:before-create': (options: {
-    isDev: boolean
-    vuetifyOptions: VuetifyOptions
-  }) => HookResult
-  'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
-  'vuetify:ssr-client-hints': (options: {
-    vuetifyOptions: VuetifyOptions
-    ssrClientHints: SSRClientHints
-    ssrClientHintsConfiguration: SSRClientHintsConfiguration
-  }) => HookResult
-}
-
-declare module '#app' {
-  interface ModuleRuntimeHooks {
-    'vuetify:configuration': (options: {
-      isDev: boolean
-      vuetifyOptions: VuetifyOptions
-    }) => HookResult
-    'vuetify:before-create': (options: {
-      isDev: boolean
-      vuetifyOptions: VuetifyOptions
-    }) => HookResult
-    'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
-    'vuetify:ssr-client-hints': (options: {
-      vuetifyOptions: VuetifyOptions
-      ssrClientHints: SSRClientHints
-      ssrClientHintsConfiguration: SSRClientHintsConfiguration
-    }) => HookResult
-  }
-}
-
-declare module '@nuxt/schema' {
-  interface NuxtConfig {
-    ['vuetify']?: Partial<ModuleOptions>
-  }
-  interface NuxtOptions {
-    ['vuetify']?: ModuleOptions
-  }
-  interface NuxtHooks {
-    'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
-  }
-}
