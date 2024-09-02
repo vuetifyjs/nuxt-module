@@ -9,7 +9,7 @@
   "homepage": "https://github.com/vuetifyjs/nuxt-module#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuetifyjs/nuxt-module.git"
+    "url": "git+https://github.com/vuetifyjs/nuxt-module.git"
   },
   "bugs": "https://github.com/vuetifyjs/nuxt-module/issues",
   "keywords": [
