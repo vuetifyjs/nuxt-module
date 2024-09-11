@@ -1,7 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
-import type { Options } from '@vuetify/loader-shared'
 import { isPackageExists } from 'local-pkg'
+import type * as Components from 'vuetify/components'
+import type * as Directives from 'vuetify/directives'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -14,7 +15,7 @@ import { createTransformAssetUrls } from './index'
 
 export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
-  nuxt.hook('vite:extendConfig', (viteInlineConfig) => {
+  nuxt.hook('vite:extendConfig', async (viteInlineConfig) => {
     viteInlineConfig.plugins = viteInlineConfig.plugins || []
     checkVuetifyPlugins(viteInlineConfig)
 
@@ -71,17 +72,23 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       }
     }
 
+    const components = await ctx.componentsPromise
+    const ignore = Array.from(Object.keys(components)) as (keyof typeof Components | keyof typeof Directives)[]
     // fix #236
-    const vuetifyImportOptions: Options = {}
     const ignoreDirectives = ctx.moduleOptions.ignoreDirectives
     if (ignoreDirectives) {
       const ignore = Array.isArray(ignoreDirectives)
         ? ignoreDirectives
         : [ignoreDirectives]
-      vuetifyImportOptions.autoImport = { ignore }
+      ignore.push(...ignore)
     }
 
-    viteInlineConfig.plugins.push(vuetifyImportPlugin(vuetifyImportOptions))
+    viteInlineConfig.plugins.push(vuetifyImportPlugin({
+      autoImport: {
+        ignore,
+        labs: false,
+      },
+    }))
     // exclude styles plugin
     if (typeof ctx.moduleOptions.styles !== 'boolean')
       viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.viteVersion, ctx.logger))

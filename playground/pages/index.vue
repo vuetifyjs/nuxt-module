@@ -7,6 +7,9 @@ definePageMeta({
   middleware: 'vuetify',
 })
 
+const ResolvedVBtn = resolveComponent('v-btn')
+const OtherResolvedVBtn = resolveComponent('VBtn')
+
 const value = reactive<{
   name1?: string
   name2?: string
@@ -121,6 +124,12 @@ watch(current, () => {
     <button class="mb-2 ml-2 px-2 my-button text-white bg-primary rounded-lg">
       Reserve
     </button>
+
+    <ResolvedVBtn>resolveComponent('v-btn')</ResolvedVBtn>
+    <OtherResolvedVBtn>resolveComponent('VBtn')</OtherResolvedVBtn>
+    <LazyVBtn>
+      LazyVBtn
+    </LazyVBtn>
   </div>
 </template>
 

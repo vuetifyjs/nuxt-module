@@ -54,29 +54,42 @@ export function configureNuxt(
   })
 
   nuxt.hook('prepare:types', ({ references }) => {
-    references.push({ types: 'vuetify' })
+    // references.push({ types: 'vuetify' })
     references.push({ types: 'vuetify-nuxt-module/custom-configuration' })
     references.push({ types: 'vuetify-nuxt-module/configuration' })
     references.push({ path: ctx.resolver.resolve(runtimeDir, 'plugins/types') })
   })
 
-  /* nuxt.hook('components:extend', async (c) => {
-    const components = await ctx.componentsPromise
-    Object.keys(components).forEach((component) => {
-      c.push({
-        pascalName: component,
-        kebabName: toKebabCase(component),
-        export: component,
-        filePath: 'vuetify/components',
-        shortPath: 'vuetify/components',
-        chunkName: toKebabCase(component),
-        prefetch: false,
-        preload: false,
-        global: false,
-        mode: 'all',
-      })
+  nuxt.hook('components:extend', async (c) => {
+    // components/XXXX
+    // labs/XXX
+    const [components, labs] = await Promise.all([
+      ctx.componentsPromise,
+      ctx.labComponentsPromise,
+    ])
+    Object.entries(labs).forEach(([component, entry]) => {
+      components[component] = entry
     })
-  }) */
+    Object
+      .entries(components)
+      .forEach(([component, entry]) => {
+        const from = entry.from
+        const name = from.split('/').at(-1)
+        const filePath = `vuetify/lib/${entry.from}`
+        c.push({
+          pascalName: component,
+          kebabName: toKebabCase(component),
+          export: component,
+          filePath,
+          shortPath: filePath,
+          chunkName: toKebabCase(component),
+          prefetch: false,
+          preload: false,
+          global: false, // todo: check global from vuetify options and aliases
+          mode: 'all',
+        })
+      })
+  })
 
   if (importComposables) {
     const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']

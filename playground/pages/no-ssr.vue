@@ -5,6 +5,9 @@ const { locales } = useI18n()
 const { current } = useLocale()
 const theme = useTheme()
 
+const ResolvedVBtn = resolveComponent('v-btn')
+const OtherResolvedVBtn = resolveComponent('VBtn')
+
 const enableToogleTheme = computed(() => {
   if (ssrClientHintsConfiguration.prefersColorScheme && ssrClientHintsConfiguration.prefersColorSchemeOptions)
     return !ssrClientHintsConfiguration.prefersColorSchemeOptions.useBrowserThemeOnly
@@ -27,6 +30,11 @@ function toogleTheme() {
       <v-btn v-if="enableToogleTheme" @click="toogleTheme">
         toogle theme
       </v-btn>
+      <ResolvedVBtn>resolveComponent('v-btn')</ResolvedVBtn>
+      <OtherResolvedVBtn>resolveComponent('VBtn')</OtherResolvedVBtn>
+      <LazyVBtn>
+        LazyVBtn
+      </LazyVBtn>
     </div>
     <v-select
       v-model="current"
