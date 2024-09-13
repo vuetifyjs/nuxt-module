@@ -46,6 +46,11 @@ function toogleTheme() {
   theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
 }
 
+function onClickOutside(e: MouseEvent) {
+  // eslint-disable-next-line no-console
+  console.log('onClickOutside', e)
+}
+
 // const rtl = ref(isRtl.value)
 
 watch(isRtl, (x) => {
@@ -127,7 +132,7 @@ watch(current, () => {
 
     <ResolvedVBtn>resolveComponent('v-btn')</ResolvedVBtn>
     <OtherResolvedVBtn>resolveComponent('VBtn')</OtherResolvedVBtn>
-    <LazyVBtn>
+    <LazyVBtn v-click-outside="onClickOutside" v-ripple>
       LazyVBtn
     </LazyVBtn>
   </div>

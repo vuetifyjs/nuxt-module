@@ -18,6 +18,10 @@ const enableToogleTheme = computed(() => {
 function toogleTheme() {
   theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
 }
+function onClickOutside(e: MouseEvent) {
+  // eslint-disable-next-line no-console
+  console.log('onClickOutside', e)
+}
 </script>
 
 <template>
@@ -30,9 +34,13 @@ function toogleTheme() {
       <v-btn v-if="enableToogleTheme" @click="toogleTheme">
         toogle theme
       </v-btn>
-      <ResolvedVBtn>resolveComponent('v-btn')</ResolvedVBtn>
-      <OtherResolvedVBtn>resolveComponent('VBtn')</OtherResolvedVBtn>
-      <LazyVBtn>
+      <ResolvedVBtn v-click-outside="onClickOutside" v-ripple>
+        resolveComponent('v-btn')
+      </ResolvedVBtn>
+      <OtherResolvedVBtn v-click-outside="onClickOutside" v-ripple>
+        resolveComponent('VBtn')
+      </OtherResolvedVBtn>
+      <LazyVBtn v-click-outside="onClickOutside" v-ripple>
         LazyVBtn
       </LazyVBtn>
     </div>
