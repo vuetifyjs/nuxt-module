@@ -48,8 +48,13 @@ export function vuetifyStylesPlugin(
       }
     },
     async resolveId(source, importer, { custom, ssr }) {
-      if (source.startsWith(PREFIX) || source.startsWith(SSR_PREFIX))
-        return source
+      if (source.startsWith(PREFIX) || source.startsWith(SSR_PREFIX)) {
+        if (source.endsWith('.sass'))
+          return source
+
+        const idx = source.indexOf('?')
+        return idx > -1 ? source.slice(0, idx) : source
+      }
 
       if (
         source === 'vuetify/styles' || (

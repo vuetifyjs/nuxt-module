@@ -50,15 +50,10 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
       if (enableModernSassCompiler) {
         const sassEmbedded = isPackageExists('sass-embedded')
         if (sassEmbedded) {
-          // vite version >= 5.4.2
-          // check https://github.com/vitejs/vite/pull/17754 and https://github.com/vitejs/vite/pull/17728
-          const omit = major > 5 || (major === 5 && minor > 4) || (major === 5 && minor === 4 && patch >= 2)
-          if (!omit) {
-            viteInlineConfig.css ??= {}
-            viteInlineConfig.css.preprocessorOptions ??= {}
-            viteInlineConfig.css.preprocessorOptions.sass ??= {}
-            viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
-          }
+          viteInlineConfig.css ??= {}
+          viteInlineConfig.css.preprocessorOptions ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
         }
         else {
           viteInlineConfig.css ??= {}
