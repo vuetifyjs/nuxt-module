@@ -65,7 +65,7 @@
     "release": "bumpp && npm publish"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.4",
+    "@nuxt/kit": "^3.13.1",
     "defu": "^6.1.4",
     "destr": "^2.0.3",
     "local-pkg": "^0.5.0",
@@ -90,7 +90,7 @@
     "@nuxt/devtools": "latest",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.12.3",
-    "@nuxt/test-utils": "^3.13.1",
+    "@nuxt/test-utils": "^3.14.2",
     "@nuxtjs/i18n": "^8.0.0",
     "@parcel/watcher": "^2.3.0",
     "@types/node": "^18",
@@ -104,7 +104,7 @@
     "sass": "^1.77.8",
     "typescript": "^5.6.2",
     "vite": "^5.0.12",
-    "vitest": "^2.0.5",
+    "vitest": "^2.1.1",
     "vue-tsc": "^2.1.6"
   },
   "pnpm": {
@@ -116,7 +116,7 @@
   },
   "resolutions": {
     "@nuxt/kit": "3.13.1",
-    "vite": "5.4.4",
+    "vite": "5.4.5",
     "vue": "3.5.4"
   },
   "build": {
