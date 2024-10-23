@@ -9,11 +9,11 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "^8.3.3",
-    "nuxt": "^3.12.4",
+    "@nuxtjs/i18n": "^8.5.3",
+    "nuxt": "^3.13.1",
     "sass-embedded": "^1.77.8",
-    "typescript": "^5.5.4",
-    "vue-tsc": "^2.0.29",
+    "typescript": "^5.6.2",
+    "vue-tsc": "^2.1.6",
     "vuetify-nuxt-module": "workspace:*"
   }
 }

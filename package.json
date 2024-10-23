@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "0.18.3",
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "pnpm@9.10.0",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
@@ -65,7 +65,7 @@
     "release": "bumpp && npm publish"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.4",
+    "@nuxt/kit": "^3.13.1",
     "defu": "^6.1.4",
     "destr": "^2.0.3",
     "local-pkg": "^0.5.0",
@@ -75,7 +75,7 @@
     "unconfig": "^0.5.5",
     "upath": "^2.0.1",
     "vite-plugin-vuetify": "^2.0.4",
-    "vuetify": "^3.7.0"
+    "vuetify": "^3.7.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.43.1",
@@ -88,9 +88,9 @@
     "@iconify-json/mdi": "^1.1.68",
     "@mdi/js": "^7.4.47",
     "@nuxt/devtools": "latest",
-    "@nuxt/module-builder": "^0.8.3",
+    "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.12.3",
-    "@nuxt/test-utils": "^3.13.1",
+    "@nuxt/test-utils": "^3.14.2",
     "@nuxtjs/i18n": "^8.0.0",
     "@parcel/watcher": "^2.3.0",
     "@types/node": "^18",
@@ -102,10 +102,10 @@
     "publint": "^0.2.10",
     "rimraf": "^6.0.1",
     "sass": "^1.77.8",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "vite": "^5.0.12",
-    "vitest": "^2.0.5",
-    "vue-tsc": "^2.0.29"
+    "vitest": "^2.1.1",
+    "vue-tsc": "^2.1.6"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -115,9 +115,9 @@
     }
   },
   "resolutions": {
-    "@nuxt/kit": "3.12.4",
-    "vite": "5.4.1",
-    "vue": "3.4.31"
+    "@nuxt/kit": "3.13.1",
+    "vite": "5.4.5",
+    "vue": "3.5.4"
   },
   "build": {
     "externals": [

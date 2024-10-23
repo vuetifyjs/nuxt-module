@@ -7,6 +7,9 @@ definePageMeta({
   middleware: 'vuetify',
 })
 
+const ResolvedVBtn = resolveComponent('v-btn')
+const OtherResolvedVBtn = resolveComponent('VBtn')
+
 const value = reactive<{
   name1?: string
   name2?: string
@@ -41,6 +44,11 @@ const enableToogleTheme = computed(() => {
 
 function toogleTheme() {
   theme.global.name.value = theme.global.name.value === 'light' ? 'dark' : 'light'
+}
+
+function onClickOutside(e: MouseEvent) {
+  // eslint-disable-next-line no-console
+  console.log('onClickOutside', e)
 }
 
 // const rtl = ref(isRtl.value)
@@ -121,6 +129,12 @@ watch(current, () => {
     <button class="mb-2 ml-2 px-2 my-button text-white bg-primary rounded-lg">
       Reserve
     </button>
+
+    <ResolvedVBtn>resolveComponent('v-btn')</ResolvedVBtn>
+    <OtherResolvedVBtn>resolveComponent('VBtn')</OtherResolvedVBtn>
+    <LazyVBtn v-click-outside="onClickOutside" v-ripple>
+      LazyVBtn
+    </LazyVBtn>
   </div>
 </template>
 

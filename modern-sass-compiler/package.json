@@ -9,15 +9,15 @@
   },
   "dependencies": {
     "@iconify-json/mdi": "^1.1.68",
-    "vuetify": "^3.7.0"
+    "vuetify": "^3.7.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@unocss/nuxt": "^0.62.1",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.13.1",
     "sass-embedded": "^1.77.8",
-    "typescript": "^5.5.4",
-    "vue-tsc": "^2.0.29",
+    "typescript": "^5.6.2",
+    "vue-tsc": "^2.1.6",
     "vuetify-nuxt-module": "workspace:*"
   }
 }
