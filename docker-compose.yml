@@ -1,0 +1,8 @@
+services:
+  docs:
+    image: nginx:alpine
+    ports:
+      - ${PORT:-5173}:80
+    volumes:
+      - ./docs/.vitepress/dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
