@@ -11,6 +11,7 @@
     "generate-pwa-icons": "pwa-assets-generator"
   },
   "dependencies": {
+    "swetrix": "^3.4.1",
     "vue": "^3.4.21"
   },
   "devDependencies": {
