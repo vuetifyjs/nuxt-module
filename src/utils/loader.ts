@@ -117,12 +117,13 @@ export function registerWatcher(options: VuetifyModuleOptions, nuxt: Nuxt, ctx: 
         },
       )
 
+      const ssr = nuxt.options.ssr
       watcher.on('all', (event, path) => nuxt.callHook('builder:watch', event, normalize(path)))
       nuxt.hook('close', () => watcher?.close())
       nuxt.hooks.hook('builder:watch', (_event, path) => {
         path = normalize(path)
         if (ctx.vuetifyFilesToWatch.includes(path))
-          return typeof pageReload === 'function' ? pageReload() : nuxt.callHook('restart')
+          return !ssr && typeof pageReload === 'function' ? pageReload() : nuxt.callHook('restart')
       })
     }
     else {
