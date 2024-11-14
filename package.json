@@ -124,6 +124,7 @@
       "@vuetify/loader-shared",
       "node:child_process",
       "node:fs",
+      "chokidar",
       "consola",
       "destr",
       "esbuild",
