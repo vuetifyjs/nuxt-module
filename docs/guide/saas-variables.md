@@ -30,9 +30,8 @@ documentation while using this Nuxt module.
 4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `main.scss` like so:
 ```javascript
 export default defineNuxtConfig({
-/* ... */
   css: ['assets/styles/main.scss']
-/* ... */
+  // other options
 })
 ```
 
@@ -41,7 +40,7 @@ _Note: This will import `main.scss` into ALL of your components by default. If y
 5)  Again in your `nuxt.config.ts`, we'll want to add another entry to the `defineNuxtConfig` configuration object that overrides the default Vuetify Styles imports and instead imports your settings:
 ```javascript
 export default defineNuxtConfig({
-/* ... */
+  // other options
   css: ['assets/styles/main.scss'],
   vuetify: {
     moduleOptions: {
@@ -53,7 +52,7 @@ export default defineNuxtConfig({
       },
     },
   }
-/* ... */
+  // other options
 })
 ```
 
