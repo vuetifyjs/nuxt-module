@@ -45,7 +45,8 @@ export default defineNuxtConfig({
 })
 ```
 
-_Note: This will import `main.scss` into ALL of your components by default. If you would like different behavior, you can create a different file with these overrides and import that instead._
+> [!TIP]
+> This will import `main.scss` into ALL of your components by default. If you would like different behavior, you can create a different file with these overrides and import that instead.
 
 5)  Again in your `nuxt.config.ts`, we'll want to add another entry to the `defineNuxtConfig` configuration object that overrides the default Vuetify Styles imports and instead imports your settings:
 ```javascript
