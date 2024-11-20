@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 })
 ```
 
-For a more detailed example, see the [SASS Modern Compiler doc](https://github.com/vuetifyjs/nuxt-module/blob/main/docs/guide/sass-modern-compiler.md#overriding-sass-variables).
+For a more detailed example, see the [Overriding SASS Variables section of the Modern Compiler doc](/guide/sass-modern-compiler.md#overriding-sass-variables).
 
 ## Vuetify Themes
 
