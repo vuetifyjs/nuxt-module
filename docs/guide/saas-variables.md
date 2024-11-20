@@ -1,6 +1,6 @@
-# Overriding SAAS Variables
+# Overriding SASS Variables
 
-Vuetify allows for [overriding global and component-level SAAS variables](https://vuetifyjs.com/en/features/sass-variables/).  Setting these up requires configuration that is slightly different from the Vuetify
+Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/).  Setting these up requires configuration that is slightly different from the Vuetify
 documentation while using this Nuxt module.
 
 1)  In your styles directory (for this example, we'll use `${workspace}/assets/styles`), create two files - `assets/styles/main.scss` and `assets/styles/settings.scss`
@@ -8,7 +8,7 @@ documentation while using this Nuxt module.
 2)  In the `main.scss` file, we'll want to add
 ```scss
 @use 'vuetify' with (
-    // Global Vuetify SAAS variable overrides.  For example:
+    // Global Vuetify SASS variable overrides.  For example:
     // $utilities: false,
     // $reset: false,
     // $color-pack: false,
@@ -21,7 +21,7 @@ documentation while using this Nuxt module.
 // $button-text-transform-override: capitalize;
 
 @forward 'vuetify/settings' with (
-    // Component Vuetify SAAS variable overrides.
+    // Component Vuetify SASS variable overrides.
     // For example -- overriding button font capitalization (as seen at the bottom of the v-btn guide here https://vuetifyjs.com/en/api/v-btn/):
     // $button-text-transform: $button-text-transform-override,
 );
@@ -57,5 +57,5 @@ export default defineNuxtConfig({
 })
 ```
 
-You should now be able to override your [global Vuetify SAAS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SAAS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api)
+You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api)
 in your respective `settings.scss` and `main.scss` files.
