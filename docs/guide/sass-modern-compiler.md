@@ -31,7 +31,8 @@ documentation while using this Nuxt module.
 // $button-text-transform-override: capitalize;
 
 @forward 'vuetify/settings' with (
-    // Component Vuetify SASS variable overrides.
+    // Component Vuetify SASS variable overrides.  See https://vuetifyjs.com/en/features/sass-variables/#variable-api
+
     // For example -- overriding button font capitalization (as seen at the bottom of the v-btn guide here https://vuetifyjs.com/en/api/v-btn/):
     // $button-text-transform: $button-text-transform-override,
 );
