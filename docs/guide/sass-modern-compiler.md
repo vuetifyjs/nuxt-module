@@ -13,7 +13,7 @@ Check [Build Performance](https://vuetifyjs.com/en/features/sass-variables/#buil
 Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/).  Setting these up requires configuration that is slightly different from the Vuetify
 documentation while using this Nuxt module.
 
-1)  In your styles directory (for this example, we'll use `${workspace}/assets/styles`), create two files - `assets/styles/globals.scss` and `assets/styles/settings.scss`
+1)  In your styles directory (for this example, we'll use `${srcDir}/assets/css`), create two files - `${srcDir}/assets/css/globals.scss` and `${srcDir}/assets/css/settings.scss`
 
 2)  In the `globals.scss` file, we'll want to add
 ```scss
@@ -40,7 +40,7 @@ documentation while using this Nuxt module.
 4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `globals.scss` like so:
 ```javascript
 export default defineNuxtConfig({
-  css: ['@/assets/styles/globals.scss']
+  css: ['@/assets/css/globals.scss']
   // other options
 })
 ```
@@ -51,14 +51,14 @@ export default defineNuxtConfig({
 5)  Again in your `nuxt.config.ts`, we'll want to add another entry to the `defineNuxtConfig` configuration object that overrides the default Vuetify Styles imports and instead imports your settings:
 ```javascript
 export default defineNuxtConfig({
-  css: ['assets/styles/globals.scss'],
+  css: ['assets/css/globals.scss'],
   vuetify: {
     moduleOptions: {
       /* module specific options */
       /* https://www.youtube.com/watch?v=aamWg1TuC3o */
       disableVuetifyStyles: true,
       styles: {
-        configFile: '@/assets/styles/settings.scss'
+        configFile: '@/assets/css/settings.scss'
       },
     },
   }
