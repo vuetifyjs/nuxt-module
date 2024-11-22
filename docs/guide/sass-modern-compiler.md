@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 5)  Again in your `nuxt.config.ts`, under the Vuetify module options, disable the Vuetify Styles import for components and instead import the settings.scss override file:
 ```javascript
 export default defineNuxtConfig({
-  css: ['assets/css/globals.scss'],
+  css: ['@/assets/css/globals.scss'],
   vuetify: {
     moduleOptions: {
       /* module specific options */
