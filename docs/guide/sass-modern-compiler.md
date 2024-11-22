@@ -49,7 +49,7 @@ export default defineNuxtConfig({
 > [!TIP]
 > The [css](https://nuxt.com/docs/getting-started/styling#the-css-property) property within your `defineNuxtConfig` will import all styles from the file that you specify (in our case, `globals.scss`) into all components for convenience. Any styles appended to the `globals.scss` file in addition to the Vuetify Global Variables override will also be imported into all of your components. If you would like more fine-grained control, consider using a different file for your non-Vuetify global styles, like a separate `main.scss` that you import on a component-by-component basis.
 
-5)  Again in your `nuxt.config.ts`, we'll want to add another entry to the `defineNuxtConfig` configuration object that overrides the default Vuetify Styles imports and instead imports your settings:
+5)  Again in your `nuxt.config.ts`, under the Vuetify module options, disable the Vuetify Styles import for components and instead import the settings.scss override file:
 ```javascript
 export default defineNuxtConfig({
   css: ['assets/css/globals.scss'],
