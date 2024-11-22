@@ -67,4 +67,4 @@ export default defineNuxtConfig({
 })
 ```
 
-You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api)
+You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api).  For a full list of variables, check out [all of the imports in the index](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_index.sass).
