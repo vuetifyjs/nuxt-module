@@ -192,7 +192,7 @@ export default withPwa(defineConfig({
         link: '/guide/date',
       }, {
         text: 'SASS Customization',
-        link: '/guide/sass-modern-compiler',
+        link: '/guide/sass-customization',
       }, {
         text: 'FAQ',
         link: '/guide/faq',
