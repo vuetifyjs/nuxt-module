@@ -191,7 +191,7 @@ export default withPwa(defineConfig({
         text: 'Date Support',
         link: '/guide/date',
       }, {
-        text: 'SASS Modern Compiler and SASS Variables',
+        text: 'SASS Customization',
         link: '/guide/sass-modern-compiler',
       }, {
         text: 'FAQ',
