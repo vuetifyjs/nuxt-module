@@ -1,4 +1,4 @@
-# SASS Modern Compiler and SASS Variables
+# SASS Customization
 
 From version `0.17.0`, this module will configure Nuxt to use the new SASS modern compiler (`modern-compiler`). You don't need to change anything in your configuration to use it:
 - update `vite` version to `v5.4.0` or higher (if you're using Nuxt `3.12.4` or higher, you don't need to update `vite`)
