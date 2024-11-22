@@ -40,7 +40,7 @@ documentation while using this Nuxt module.
 4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `main.scss` like so:
 ```javascript
 export default defineNuxtConfig({
-  css: ['assets/styles/main.scss']
+  css: ['@/assets/styles/main.scss']
   // other options
 })
 ```
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
       /* https://www.youtube.com/watch?v=aamWg1TuC3o */
       disableVuetifyStyles: true,
       styles: {
-        configFile: 'assets/styles/settings.scss'
+        configFile: '@/assets/styles/settings.scss'
       },
     },
   }
