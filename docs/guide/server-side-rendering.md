@@ -50,6 +50,8 @@ export default defineNuxtConfig({
 })
 ```
 
+For a more detailed example, see [Overriding SASS Variables](/guide/sass-customization.md#overriding-sass-variables).
+
 ## Vuetify Themes
 
 If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work since there is no way to know which theme to use in the server (the server will use the default theme).
