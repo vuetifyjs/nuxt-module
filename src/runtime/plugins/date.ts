@@ -3,8 +3,8 @@ import type { VuetifyOptions } from 'vuetify'
 import { useNuxtApp } from '#imports'
 
 export function configureDate(vuetifyOptions: VuetifyOptions) {
-  if (adapter === 'custom' || !enabled)
-    return
+  // if (adapter === 'custom' || !enabled)
+  //   return
 
   const dateOptions = dateConfiguration()
 
