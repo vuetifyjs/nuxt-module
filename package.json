@@ -74,7 +74,7 @@
     "ufo": "^1.5.4",
     "unconfig": "^0.5.5",
     "upath": "^2.0.1",
-    "vite-plugin-vuetify": "^2.0.4",
+    "vite-plugin-vuetify": "^2.1.0",
     "vuetify": "^3.7.0"
   },
   "devDependencies": {
