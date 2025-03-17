@@ -18,7 +18,7 @@ This PR [fix(nuxt): support serialising rich server logs](https://github.com/nux
 If your Vuetify styles not being applied when using Nuxt 3.16.0, you can drop this module to your modules folder:
 
 ```ts
-// modules/fix-vuetify-theme.ts
+// modules/fix-vuetify-theme-composable.ts
 import { addVitePlugin, defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
@@ -53,6 +53,6 @@ unhead: {
 }
 ```
 
-The issue should be fixed once next Vuetify version released (fixed in this PR https://github.com/vuetifyjs/vuetify/pull/21106), then:
+The issue should be fixed once next Vuetify version released (`> v3.7.16`) (fixed in this PR https://github.com/vuetifyjs/vuetify/pull/21106), then:
 - add or update the new Vuetify version to your dependencies
 - remove the module or `unhead` configuration
