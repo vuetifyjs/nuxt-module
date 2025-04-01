@@ -1,5 +1,6 @@
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
+import { existsSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import { isObject, normalizePath, resolveVuetifyBase } from '@vuetify/loader-shared'
 import { isAbsolute, relative as relativePath } from 'pathe'
@@ -21,6 +22,7 @@ export function vuetifyStylesPlugin(
   let fileImport = false
   const PREFIX = 'vuetify-styles/'
   const SSR_PREFIX = `/@${PREFIX}`
+  const resolveCss = resolveCssFactory()
 
   return <Plugin>{
     name: 'vuetify:styles:nuxt',
@@ -49,7 +51,7 @@ export function vuetifyStylesPlugin(
     },
     async resolveId(source, importer, { custom, ssr }) {
       if (source.startsWith(PREFIX) || source.startsWith(SSR_PREFIX)) {
-        if (source.endsWith('.sass'))
+        if (source.match(/\.s[ca]ss$/))
           return source
 
         const idx = source.indexOf('?')
@@ -63,16 +65,14 @@ export function vuetifyStylesPlugin(
           && isSubdir(vuetifyBase, path.isAbsolute(source) ? source : importer)
         )
       ) {
-        if (options.styles === 'sass') {
-          const target = source.replace(/\.css$/, '.sass')
-          return this.resolve(target, importer, { skipSelf: true, custom })
-        }
+        if (options.styles === 'sass')
+          return this.resolve(resolveCss(source), importer, { skipSelf: true, custom })
 
         const resolution = await this.resolve(source, importer, { skipSelf: true, custom })
         if (!resolution)
           return undefined
 
-        const target = resolution.id.replace(/\.css$/, '.sass')
+        const target = resolveCss(resolution.id)
         if (isNone) {
           noneFiles.add(target)
           return target
@@ -92,8 +92,9 @@ export function vuetifyStylesPlugin(
             : undefined
 
         if (target) {
+          const suffix = target.match(/\.scss/) ? ';\n' : '\n'
           return {
-            code: `@use "${configFile}"\n@use "${fileImport ? pathToFileURL(target).href : normalizePath(target)}"`,
+            code: `@use "${configFile}"${suffix}@use "${fileImport ? pathToFileURL(target).href : normalizePath(target)}"${suffix}`,
             map: {
               mappings: '',
             },
@@ -102,6 +103,25 @@ export function vuetifyStylesPlugin(
       }
       return isNone && noneFiles.has(id) ? '' : undefined
     },
+  }
+}
+
+function resolveCssFactory() {
+  const mappings = new Map<string, string>()
+  return (source: string) => {
+    let mapping = mappings.get(source)
+    if (!mapping) {
+      try {
+        mapping = source.replace(/\.css$/, '.sass')
+        if (!existsSync(mapping))
+          mapping = source.replace(/\.css$/, '.scss')
+      }
+      catch {
+        mapping = source.replace(/\.css$/, '.scss')
+      }
+      mappings.set(source, mapping)
+    }
+    return mapping
   }
 }
 
