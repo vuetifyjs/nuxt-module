@@ -54,12 +54,16 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
           viteInlineConfig.css.preprocessorOptions ??= {}
           viteInlineConfig.css.preprocessorOptions.sass ??= {}
           viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
+          viteInlineConfig.css.preprocessorOptions.scss ??= {}
+          viteInlineConfig.css.preprocessorOptions.scss.api = 'modern-compiler'
         }
         else {
           viteInlineConfig.css ??= {}
           viteInlineConfig.css.preprocessorOptions ??= {}
           viteInlineConfig.css.preprocessorOptions.sass ??= {}
           viteInlineConfig.css.preprocessorOptions.sass.api = 'modern'
+          viteInlineConfig.css.preprocessorOptions.scss ??= {}
+          viteInlineConfig.css.preprocessorOptions.scss.api = 'modern'
           if (!('preprocessorMaxWorkers' in viteInlineConfig.css))
             viteInlineConfig.css.preprocessorMaxWorkers = true
         }
