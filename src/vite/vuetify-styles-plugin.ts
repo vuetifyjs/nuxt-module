@@ -1,6 +1,7 @@
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
-import { existsSync } from 'node:fs'
+import fs from 'node:fs'
+import fsp from 'node:fs/promises'
 import type { Plugin } from 'vite'
 import { isObject, normalizePath, resolveVuetifyBase } from '@vuetify/loader-shared'
 import { isAbsolute, relative as relativePath } from 'pathe'
@@ -66,13 +67,13 @@ export function vuetifyStylesPlugin(
         )
       ) {
         if (options.styles === 'sass')
-          return this.resolve(resolveCss(source), importer, { skipSelf: true, custom })
+          return this.resolve(await resolveCss(source), importer, { skipSelf: true, custom })
 
         const resolution = await this.resolve(source, importer, { skipSelf: true, custom })
         if (!resolution)
           return undefined
 
-        const target = resolveCss(resolution.id)
+        const target = await resolveCss(resolution.id)
         if (isNone) {
           noneFiles.add(target)
           return target
@@ -108,15 +109,16 @@ export function vuetifyStylesPlugin(
 
 function resolveCssFactory() {
   const mappings = new Map<string, string>()
-  return (source: string) => {
+  return async (source: string) => {
     let mapping = mappings.get(source)
     if (!mapping) {
       try {
         mapping = source.replace(/\.css$/, '.sass')
-        if (!existsSync(mapping))
-          mapping = source.replace(/\.css$/, '.scss')
+        await fsp.access(mapping, fs.constants.R_OK)
       }
-      catch {
+      catch (err) {
+        if (!(err instanceof Error && 'code' in err && err.code === 'ENOENT'))
+          throw err
         mapping = source.replace(/\.css$/, '.scss')
       }
       mappings.set(source, mapping)
