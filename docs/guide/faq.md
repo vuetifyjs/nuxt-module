@@ -15,6 +15,10 @@ This PR [fix(nuxt): support serialising rich server logs](https://github.com/nux
 
 ## Vuetify styles broken with Nuxt 3.16.0
 
+::: info
+Fixed in Vuetify version `v3.8.0` (Andromeda)
+:::
+
 If your Vuetify styles not being applied when using Nuxt 3.16.0, you can drop this module to your modules folder:
 
 ```ts
