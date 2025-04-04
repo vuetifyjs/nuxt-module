@@ -4,6 +4,10 @@ outline: deep
 
 # Lab Components
 
+::: info
+From version `v0.18.6`, the module supports [labs components](https://vuetifyjs.com/en/labs/introduction/) auto-import, you can use them on demand.
+:::
+
 The module provides support to use Vuetify [labs components](https://vuetifyjs.com/en/labs/introduction/) via `vuetifyOptions.labsComponents` module option, it has been declared properly to have better DX.
 
 You can register all the lab components or only the ones you need: check the [lab component definition](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts#L140-L141).
