@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
+import { normalize } from 'pathe'
 import type { FontIconSet, IconFontName, InlineModuleOptions, VuetifyModuleOptions } from '../types'
 import { loadVuetifyConfiguration } from './config'
 
@@ -42,10 +43,22 @@ export async function mergeVuetifyModules(options: VuetifyModuleOptions, nuxt: N
   // handle vuetify configuraton files changes only in dev mode
   if (nuxt.options.dev && resolvedOptions.sources.length) {
     // we need to restart nuxt dev server when SSR is enabled: vite-node doesn't support HMR in server yet
-    if (nuxt.options.ssr)
-      resolvedOptions.sources.forEach(s => nuxt.options.watch.push(s.replace(/\\/g, '/')))
-    else
-      resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/')))
+    if (nuxt.options.ssr) {
+      if (nuxt.options.future?.compatibilityVersion === 4) {
+        if (resolvedOptions.sources.length) {
+          resolvedOptions.sources
+            .map(s => s.replace(/\\/g, '/'))
+            .filter(s => !s.includes('/node_modules/'))
+            .forEach(s => vuetifyConfigurationFilesToWatch.add(s))
+        }
+      }
+      else {
+        resolvedOptions.sources.forEach(s => nuxt.options.watch.push(normalize(s)))
+      }
+    }
+    else {
+      resolvedOptions.sources.forEach(s => vuetifyConfigurationFilesToWatch.add(s))
+    }
   }
 
   // unshift since we need to use the app configuration as base in defu call (L64 below): fix #231
