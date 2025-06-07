@@ -56,7 +56,6 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'vuetify',
     compatibility: {
       nuxt: '>=3.9.0',
-      bridge: false,
     },
     version,
   },
