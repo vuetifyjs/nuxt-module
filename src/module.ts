@@ -98,7 +98,7 @@ export default defineNuxtModule<ModuleOptions>({
       vuetifyFilesToWatch: [],
       isSSR: nuxt.options.ssr,
       isDev: nuxt.options.dev,
-      isNuxtGenerate: nuxt.options._generate,
+      isNuxtGenerate: nuxt.options.nitro.static || (nuxt.options as any)._generate /* TODO: remove in future */,
       unocss: hasNuxtModule('@unocss/nuxt', nuxt),
       i18n: hasNuxtModule('@nuxtjs/i18n', nuxt),
       icons: undefined!,
