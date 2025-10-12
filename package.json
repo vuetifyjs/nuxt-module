@@ -62,7 +62,7 @@
     "publint": "publint",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "release": "bumpp && npm publish"
+    "release": "bumpp"
   },
   "dependencies": {
     "@nuxt/kit": "^3.12.4",
