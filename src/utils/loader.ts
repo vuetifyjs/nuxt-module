@@ -1,9 +1,10 @@
-import { relative, resolve } from 'node:path'
+import { normalize, resolve } from 'node:path'
 import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import { debounce } from 'perfect-debounce'
-import { addVitePlugin } from '@nuxt/kit'
+import { addVitePlugin, isIgnored } from '@nuxt/kit'
 import type { ModuleNode } from 'vite'
+import { watch as chokidarWatch } from 'chokidar'
 import type { VOptions, VuetifyModuleOptions } from '../types'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { mergeVuetifyModules } from './layers'
@@ -82,7 +83,7 @@ export async function load(
   /* handle new stuff */
   ctx.moduleOptions = configuration.moduleOptions!
   ctx.vuetifyOptions = configuration.vuetifyOptions!
-  ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
+  ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch).map(f => normalize(f))
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions)
   ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
 
@@ -105,11 +106,42 @@ export function registerWatcher(options: VuetifyModuleOptions, nuxt: Nuxt, ctx: 
   if (nuxt.options.dev) {
     let pageReload: (() => Promise<void>) | undefined
 
-    nuxt.hooks.hook('builder:watch', (_event, path) => {
-      path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
-      if (!pageReload && ctx.vuetifyFilesToWatch.includes(path))
-        return nuxt.callHook('restart')
-    })
+    // setup watcher when using compatibilityVersion - files outside srcDir are not watched
+    if (nuxt.options.future?.compatibilityVersion === 4) {
+      const watcher = chokidarWatch(
+        ctx.vuetifyFilesToWatch.map(f => normalize(resolve(nuxt.options.srcDir, f))),
+        {
+          awaitWriteFinish: true,
+          ignoreInitial: true,
+          ignored: [isIgnored, 'node_modules'],
+        },
+      )
+
+      const ssr = nuxt.options.ssr
+      watcher.on('all', (event, path) => nuxt.callHook('builder:watch', event, normalize(path)))
+      nuxt.hook('close', () => watcher?.close())
+      nuxt.hooks.hook('builder:watch', (_event, path) => {
+        path = normalize(path)
+        if (ctx.vuetifyFilesToWatch.includes(path))
+          return !ssr && typeof pageReload === 'function' ? pageReload() : nuxt.callHook('restart')
+      })
+    }
+    else {
+      nuxt.hooks.hook('builder:watch', (_event, path) => {
+        path = normalize(resolve(nuxt.options.srcDir, path))
+        if (!pageReload && ctx.vuetifyFilesToWatch.includes(path))
+          return nuxt.callHook('restart')
+      })
+      // on v4 this is not called
+      addVitePlugin({
+        name: 'vuetify:configuration:watch',
+        enforce: 'pre',
+        handleHotUpdate({ file }) {
+          if (pageReload && ctx.vuetifyFilesToWatch.includes(normalize(file)))
+            return pageReload()
+        },
+      })
+    }
 
     nuxt.hook('vite:serverCreated', (server, { isClient }) => {
       if (!server.ws || !isClient)
@@ -129,15 +161,6 @@ export function registerWatcher(options: VuetifyModuleOptions, nuxt: Nuxt, ctx: 
         if (modules.length)
           await Promise.all(modules.map(m => server.reloadModule(m)))
       }, 50, { trailing: false })
-    })
-
-    addVitePlugin({
-      name: 'vuetify:configuration:watch',
-      enforce: 'pre',
-      handleHotUpdate({ file }) {
-        if (pageReload && ctx.vuetifyFilesToWatch.includes(file))
-          return pageReload()
-      },
     })
   }
 }
