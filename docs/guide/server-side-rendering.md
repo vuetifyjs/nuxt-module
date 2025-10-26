@@ -95,6 +95,33 @@ const { isDark } = useCustomTheme()
   </VApp>
 </template>
 ```
+## Vuetify Themes (useCookie)
+Another alternative method to toggle dark and light theme is to use Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) and Nuxt 3 [useCookie]([https://vuetifyjs.com/en/api/use-theme/](https://nuxt.com/docs/api/composables/use-cookie)) together
+```vue
+<script setup>
+  const theme = useTheme()
+  // set cookie name
+  const darkmode = useCookie('darkmode')
+
+  // check if darkmode cookie has a value if none it will use the default theme on your vuetify options
+  if(darkmode.value){
+    theme.global.name.value = darkmode.value
+  }
+
+  // to change theme between dark and light mode
+  function toggleDarkmode () {
+    theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+    darkmode.value = theme.global.name.value
+  }
+</script>
+
+<template>
+<!--Use this to toggle dark mode or light mode theme-->
+<v-btn>
+  Toggle Dark Theme
+</v-btn>
+</template>
+```
 
 ## Vuetify Display
 
