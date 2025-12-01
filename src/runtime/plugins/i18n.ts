@@ -1,9 +1,13 @@
 import type { Ref } from 'vue'
-import { ref, watch } from 'vue'
+import { ref, watch, toRef } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
 import type { Locale } from 'vue-i18n'
 import { useI18n } from 'vue-i18n'
 import { useNuxtApp } from '#imports'
+
+function inferDecimalSeparator(n: ReturnType<typeof useI18n>['n']) {
+  return n(0.1).includes(',') ? ',' : '.'
+}
 
 export function createAdapter(vuetifyOptions: VuetifyOptions) {
   vuetifyOptions.locale = {}
@@ -37,6 +41,7 @@ export function createAdapter(vuetifyOptions: VuetifyOptions) {
     t: (key, ...params) => i18n.t(key, params),
     n: i18n.n,
     provide: createProvideFunction({ current: currentLocale, fallback, messages }),
+    decimalSeparator: toRef(() => inferDecimalSeparator(i18n.n)),
   }
 }
 
@@ -75,6 +80,7 @@ function createProvideFunction(data: {
       messages: data.messages,
       t,
       n,
+      decimalSeparator: toRef(() => props.decimalSeparator ?? inferDecimalSeparator(n)),
       provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
     }
   }
