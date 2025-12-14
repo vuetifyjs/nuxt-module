@@ -1,7 +1,8 @@
 import { configureDate } from './date'
 import { defineNuxtPlugin } from '#imports'
+import type { ObjectPlugin } from '#app'
 
-export default defineNuxtPlugin({
+const plugin: ObjectPlugin<{}> = defineNuxtPlugin({
   name: 'vuetify:date-i18n:plugin',
   order: -25,
   // @ts-expect-error i18n plugin missing on build time
@@ -13,3 +14,5 @@ export default defineNuxtPlugin({
     })
   },
 })
+
+export default plugin
