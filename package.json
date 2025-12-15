@@ -74,7 +74,7 @@
     "ufo": "^1.5.4",
     "unconfig": "^0.5.5",
     "upath": "^2.0.1",
-    "vite-plugin-vuetify": "^2.1.0",
+    "vite-plugin-vuetify": "^2.1.2",
     "vuetify": "^3.7.0"
   },
   "devDependencies": {
@@ -104,7 +104,7 @@
     "sass": "^1.77.8",
     "typescript": "^5.5.4",
     "vite": "^5.0.12",
-    "vitest": "^2.0.5",
+    "vitest": "^3.2.4",
     "vue-tsc": "^2.0.29"
   },
   "pnpm": {
