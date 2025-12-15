@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { ref, watch, toRef } from 'vue'
+import { ref, toRef, watch } from 'vue'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
 import type { Locale } from 'vue-i18n'
 import { useI18n } from 'vue-i18n'
@@ -41,6 +41,7 @@ export function createAdapter(vuetifyOptions: VuetifyOptions) {
     t: (key, ...params) => i18n.t(key, params),
     n: i18n.n,
     provide: createProvideFunction({ current: currentLocale, fallback, messages }),
+    // @ts-expect-error available in vuetify 3.9
     decimalSeparator: toRef(() => inferDecimalSeparator(i18n.n)),
   }
 }
@@ -80,6 +81,7 @@ function createProvideFunction(data: {
       messages: data.messages,
       t,
       n,
+      // @ts-expect-error available in vuetify 3.9
       decimalSeparator: toRef(() => props.decimalSeparator ?? inferDecimalSeparator(n)),
       provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
     }

@@ -287,6 +287,22 @@ export interface MOptions {
    */
   ignoreDirectives?: DirectiveName | DirectiveName[]
   /**
+   * Automatically install rules plugin
+   *
+   * @since v0.19.0
+   * @see https://vuetifyjs.com/en/features/rules/
+   */
+  enableRules?: boolean
+  /**
+   * Rules configuration.
+   *
+   * @since v0.19.0
+   * @default true
+   */
+  rulesConfiguration?: {
+    fromLabs: boolean
+  }
+  /**
    * Vuetify SSR client hints.
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints

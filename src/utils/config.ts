@@ -25,9 +25,10 @@ export interface VuetifyNuxtContext {
   ssrClientHints: ResolvedClientHints
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
-  vuetify3_4?: boolean
-  vuetify3_5?: boolean
+  isVuetifyAtLeast: (major: number, minor: number) => boolean
   viteVersion: [major: number, minor: number, patch: number]
+  enableRules?: boolean
+  rulesConfiguration?: { fromLabs: boolean }
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>(

@@ -175,7 +175,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   })
 
   // lab components
-  let addDatePicker = ctx.vuetify3_4 === true
+  let addDatePicker = ctx.isVuetifyAtLeast(3, 4)
     ? !Array.from(componentsToImport.values()).some(components => components.includes('VDatePicker'))
     : true
 
@@ -184,7 +184,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
     if (typeof labComponents === 'boolean') {
       config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
       config.labComponents.add('*')
-      if (ctx.vuetify3_4 === false)
+      if (!ctx.isVuetifyAtLeast(3, 4))
         addDatePicker = false
     }
     else if (typeof labComponents === 'string') {
@@ -220,7 +220,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
         config.labComponents.add(component)
       })
 
-      if (ctx.vuetify3_4 === false && dateOptions && !addDatePicker) {
+      if (!ctx.isVuetifyAtLeast(3, 4) && dateOptions && !addDatePicker) {
         const entry = componentsToImport.get('VDatePicker')
         if (entry) {
           entry.push('VDatePicker')
@@ -239,9 +239,9 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   // include date picker only when needed
   if (dateOptions && addDatePicker) {
     let warn = true
-    if (typeof ctx.vuetify3_4 === 'boolean') {
+    if (ctx.isVuetifyAtLeast(0, 0)) {
       warn = false
-      if (ctx.vuetify3_4) {
+      if (ctx.isVuetifyAtLeast(3, 4)) {
         config.components.add('VDatePicker')
         config.imports.push('import {VDatePicker} from \'vuetify/components/VDatePicker\'')
       }
@@ -276,7 +276,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   }
 
   if (!ctx.i18n && localeMessages) {
-    const useLocales = Array.isArray(localeMessages) ? [...new Set([...localeMessages])] : [localeMessages]
+    const useLocales = Array.isArray(localeMessages) ? [...new Set(localeMessages)] : [localeMessages]
     config.imports.push(`import {${useLocales.join(',')}} from 'vuetify/locale'`)
     config.messages = `
   options.locale = options.locale || {}

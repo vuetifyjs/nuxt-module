@@ -23,7 +23,7 @@
     "@types/moment": "^2.13.0",
     "@types/moment-hijri": "^2.1.0",
     "@types/moment-jalaali": "^0.7.6",
-    "@unocss/nuxt": "^0.62.1",
+    "@unocss/nuxt": "^66.5.10",
     "date-fns": "^2.30.0",
     "date-fns-jalali": "^2.19.0-2",
     "dayjs": "^1.11.10",
@@ -31,10 +31,10 @@
     "moment": "^2.29.4",
     "moment-hijri": "^2.1.2",
     "moment-jalaali": "0.9.2",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.15.4",
     "sass-embedded": "^1.77.8",
     "typescript": "^5.5.4",
-    "vue-tsc": "^2.0.29",
+    "vue-tsc": "^2.1.10",
     "vuetify-nuxt-module": "workspace:*"
   }
 }

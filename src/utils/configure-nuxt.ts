@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, extendWebpackConfig, getNuxtVersion } from '@nuxt/kit'
+import { addImports, addPlugin, extendWebpackConfig, isNuxtMajorVersion } from '@nuxt/kit'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
@@ -19,17 +19,13 @@ export function configureNuxt(
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
 
+  // Automatically enable rules if not disabled
+  if (typeof ctx.enableRules !== 'undefined')
+    ctx.enableRules = ctx.isVuetifyAtLeast(3, 8)
+
   // disable inline styles when SSR enabled
-  if (ctx.isSSR && !!styles && typeof styles === 'object') {
-    const [major, minor] = getNuxtVersion(nuxt).split('.')
-      .map((v: string) => v.includes('-') ? v.split('-')[0] : v)
-      .map(v => Number.parseInt(v))
-    const features = major > 3 || (major === 3 && minor >= 9)
-    if (features)
-      nuxt.options.features.inlineStyles = false
-    else
-      (nuxt.options.experimental as any)['inlineSSRStyles'] = false
-  }
+  if (ctx.isSSR && !!styles && typeof styles === 'object')
+    nuxt.options.features.inlineStyles = false
 
   if (!disableVuetifyStyles) {
     nuxt.options.css ??= []
@@ -40,6 +36,8 @@ export function configureNuxt(
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey)
   nuxt.options.build.transpile.push(runtimeDir)
+  if (ctx.enableRules)
+    nuxt.options.build.transpile.push(`#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs`)
   // transpile vuetify nuxt plugin
   nuxt.options.build.transpile.push(/\/vuetify-nuxt-plugin\.(client|server)\.mjs$/)
   // transpile all virtual configuration modules
@@ -53,11 +51,22 @@ export function configureNuxt(
     throw new Error('Webpack is not supported: vuetify-nuxt-module module can only be used with Vite!')
   })
 
-  nuxt.hook('prepare:types', ({ references }) => {
+  const v4Available = isNuxtMajorVersion(4, nuxt)
+
+  // @ts-expect-error nodeReferences is not available before 4
+  nuxt.hook('prepare:types', ({ references, nodeReferences }) => {
     references.push({ types: 'vuetify' })
     references.push({ types: 'vuetify-nuxt-module/custom-configuration' })
     references.push({ types: 'vuetify-nuxt-module/configuration' })
     references.push({ path: ctx.resolver.resolve(runtimeDir, 'plugins/types') })
+    if (ctx.enableRules)
+      references.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration` })
+
+    if (v4Available) {
+      nodeReferences.push({ types: 'vuetify-nuxt-module/custom-configuration' })
+      if (ctx.enableRules)
+        nodeReferences.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration` })
+    }
   })
 
   /* nuxt.hook('components:extend', async (c) => {
@@ -80,14 +89,21 @@ export function configureNuxt(
 
   if (importComposables) {
     const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
-    if (ctx.vuetify3_5)
+    if (ctx.isVuetifyAtLeast(3, 5))
       composables.push('useGoTo')
+    if (ctx.isVuetifyAtLeast(3, 8)) {
+      composables.push('useHotkey')
+      if (ctx.enableRules)
+        composables.push('useRules')
+    }
+    if (ctx.isVuetifyAtLeast(3, 10))
+      composables.push('useMask')
 
     addImports(composables.map(name => ({
       name,
-      from: ctx.vuetify3_4 || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
+      from: ctx.isVuetifyAtLeast(3, 4) || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
       as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
-      meta: { docsUrl: `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
+      meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
     })))
   }
 

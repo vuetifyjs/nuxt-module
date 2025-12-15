@@ -10,10 +10,10 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.3.3",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.15.4",
     "sass-embedded": "^1.77.8",
     "typescript": "^5.5.4",
-    "vue-tsc": "^2.0.29",
+    "vue-tsc": "^2.1.10",
     "vuetify-nuxt-module": "workspace:*"
   }
 }

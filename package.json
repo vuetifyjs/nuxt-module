@@ -34,7 +34,17 @@
     "./*": "./*"
   },
   "main": "./dist/module.mjs",
-  "types": "./dist/types.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*",
+        "dist/*",
+        "runtime/*",
+        "runtime/*.d.ts",
+        "types.d.mts"
+      ]
+    }
+  },
   "files": [
     "dist",
     "*.cjs",
@@ -65,7 +75,7 @@
     "release": "bumpp"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.4",
+    "@nuxt/kit": "3.15.4",
     "defu": "^6.1.4",
     "destr": "^2.0.3",
     "local-pkg": "^0.5.0",
@@ -88,24 +98,24 @@
     "@iconify-json/mdi": "^1.1.68",
     "@mdi/js": "^7.4.47",
     "@nuxt/devtools": "latest",
-    "@nuxt/module-builder": "^0.8.3",
-    "@nuxt/schema": "^3.12.3",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^3.15.4",
     "@nuxt/test-utils": "^3.13.1",
     "@nuxtjs/i18n": "^8.0.0",
     "@parcel/watcher": "^2.3.0",
     "@types/node": "^18",
-    "@unocss/nuxt": "^0.62.1",
+    "@unocss/nuxt": "^66.5.10",
     "bumpp": "^9.2.0",
     "eslint": "^8.54.0",
     "luxon": "^3.4.3",
-    "nuxt": "^3.10.2",
+    "nuxt": "^3.15.4",
     "publint": "^0.2.10",
     "rimraf": "^6.0.1",
     "sass": "^1.77.8",
     "typescript": "^5.5.4",
-    "vite": "^5.0.12",
+    "vite": "6.4.1",
     "vitest": "^3.2.4",
-    "vue-tsc": "^2.0.29"
+    "vue-tsc": "^2.1.10"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -115,8 +125,8 @@
     }
   },
   "resolutions": {
-    "@nuxt/kit": "3.12.4",
-    "vite": "5.4.1",
+    "@nuxt/kit": "3.15.4",
+    "vite": "6.4.1",
     "vue": "3.4.31"
   },
   "build": {

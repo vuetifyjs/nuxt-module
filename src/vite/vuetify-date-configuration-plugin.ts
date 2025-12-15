@@ -42,7 +42,7 @@ export function dateConfiguration() {
   }
 
   function buildAdapter() {
-    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetify3_4 === true))
+    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.isVuetifyAtLeast(3, 4)))
       return ''
 
     if (ctx.dateAdapter === 'vuetify')
@@ -56,7 +56,7 @@ export function dateConfiguration() {
   }
 
   function buildImports() {
-    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetify3_4 === true))
+    if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.isVuetifyAtLeast(3, 4)))
       return ''
 
     if (ctx.dateAdapter === 'vuetify')

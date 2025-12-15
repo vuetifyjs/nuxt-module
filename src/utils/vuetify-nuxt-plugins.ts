@@ -44,10 +44,25 @@ function addVuetifyNuxtPlugin(
           dependsOn.push('vuetify:date:plugin')
         }
       }
+
+      let rulesImports = ''
+      let rulesPlugin = ''
+      if (mode === 'client' && ctx.enableRules) {
+        rulesImports = [
+          '',
+          `import { rulesOptions } from '#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs'`,
+          `import { createRulesPlugin } from 'vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs/' : ''}rules'`,
+        ].join('\n')
+        rulesPlugin = [
+          '',
+          '    nuxtApp.vueApp.use(createRulesPlugin(rulesOptions, vuetify.locale))',
+        ].join('\n')
+      }
+
       return `
 import { defineNuxtPlugin } from '#imports'
 import { isDev, vuetifyConfiguration } from 'virtual:vuetify-configuration'
-import { createVuetify } from 'vuetify'
+import { createVuetify } from 'vuetify'${rulesImports}
 
 export default defineNuxtPlugin({
   name: 'vuetify:nuxt:${mode}:plugin',
@@ -59,7 +74,8 @@ export default defineNuxtPlugin({
     await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
     await nuxtApp.hooks.callHook('vuetify:before-create', { isDev, vuetifyOptions })
     const vuetify = createVuetify(vuetifyOptions)
-    nuxtApp.vueApp.use(vuetify)
+    console.log('vuetify', vuetify)
+    nuxtApp.vueApp.use(vuetify)${rulesPlugin}
     nuxtApp.provide('vuetify', vuetify)
     await nuxtApp.hooks.callHook('vuetify:ready', vuetify)
     if (import.meta.client)

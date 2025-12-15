@@ -3,7 +3,7 @@ import {
   defineNuxtModule,
   getNuxtVersion,
   hasNuxtModule,
-  isNuxt2,
+  isNuxtMajorVersion,
   useLogger,
 } from '@nuxt/kit'
 import { getPackageInfo } from 'local-pkg'
@@ -55,7 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'vuetify-nuxt-module',
     configKey: 'vuetify',
     compatibility: {
-      nuxt: '>=3.9.0',
+      nuxt: '>=3.15.0',
     },
     version,
   },
@@ -71,20 +71,21 @@ export default defineNuxtModule<ModuleOptions>({
       styles: true,
       disableVuetifyStyles: false,
       disableModernSassCompiler: false,
+      rulesConfiguration: {
+        fromLabs: true,
+      },
     },
   }),
   async setup(options, nuxt) {
-    if (isNuxt2(nuxt))
+    if (isNuxtMajorVersion(2, nuxt))
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
 
     const vuetifyPkg = await getPackageInfo('vuetify')
     const versions = vuetifyPkg?.version?.split('.').map(v => Number.parseInt(v))
-    const vuetify3_4 = versions
+    const isVuetifyAtLeast = (major: number, minor: number) =>
+      !!versions
       && versions.length > 1
-      && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 4))
-    const vuetify3_5 = versions
-      && versions.length > 1
-      && (versions[0] > 3 || (versions[0] === 3 && versions[1] >= 5))
+      && (versions[0] > major || (versions[0] === major && versions[1] >= minor))
 
     const viteVersion = VITE_VERSION.split('.')
       .map((v: string) => v.includes('-') ? v.split('-')[0] : v)
@@ -105,8 +106,7 @@ export default defineNuxtModule<ModuleOptions>({
       ssrClientHints: undefined!,
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
-      vuetify3_4,
-      vuetify3_5,
+      isVuetifyAtLeast,
       viteVersion,
     }
 

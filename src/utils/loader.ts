@@ -82,6 +82,8 @@ export async function load(
   /* handle new stuff */
   ctx.moduleOptions = configuration.moduleOptions!
   ctx.vuetifyOptions = configuration.vuetifyOptions!
+  ctx.enableRules = ctx.moduleOptions.enableRules
+  ctx.rulesConfiguration = ctx.moduleOptions.rulesConfiguration
   ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions)
   ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
