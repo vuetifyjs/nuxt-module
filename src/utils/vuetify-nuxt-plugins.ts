@@ -74,7 +74,6 @@ export default defineNuxtPlugin({
     await nuxtApp.hooks.callHook('vuetify:configuration', { isDev, vuetifyOptions })
     await nuxtApp.hooks.callHook('vuetify:before-create', { isDev, vuetifyOptions })
     const vuetify = createVuetify(vuetifyOptions)
-    console.log('vuetify', vuetify)
     nuxtApp.vueApp.use(vuetify)${rulesPlugin}
     nuxtApp.provide('vuetify', vuetify)
     await nuxtApp.hooks.callHook('vuetify:ready', vuetify)
