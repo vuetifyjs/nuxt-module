@@ -7,6 +7,7 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { getPackageInfo } from 'local-pkg'
+import semver from 'semver'
 import type { HookResult } from '@nuxt/schema'
 import type { VuetifyOptions, createVuetify } from 'vuetify'
 import { version as VITE_VERSION } from 'vite'
@@ -81,15 +82,11 @@ export default defineNuxtModule<ModuleOptions>({
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
 
     const vuetifyPkg = await getPackageInfo('vuetify')
-    const versions = vuetifyPkg?.version?.split('.').map(v => Number.parseInt(v))
-    const isVuetifyAtLeast = (major: number, minor: number) =>
-      !!versions
-      && versions.length > 1
-      && (versions[0] > major || (versions[0] === major && versions[1] >= minor))
+    const currentVersion = vuetifyPkg?.version
+    const vuetifyGte = (version: string) =>
+      !!currentVersion && semver.gte(currentVersion, version)
 
-    const viteVersion = VITE_VERSION.split('.')
-      .map((v: string) => v.includes('-') ? v.split('-')[0] : v)
-      .map(v => Number.parseInt(v)) as VuetifyNuxtContext['viteVersion']
+    const viteVersion = VITE_VERSION
 
     const ctx: VuetifyNuxtContext = {
       logger,
@@ -106,7 +103,7 @@ export default defineNuxtModule<ModuleOptions>({
       ssrClientHints: undefined!,
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
-      isVuetifyAtLeast,
+      vuetifyGte,
       viteVersion,
     }
 

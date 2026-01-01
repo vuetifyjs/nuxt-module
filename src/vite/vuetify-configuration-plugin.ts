@@ -175,7 +175,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   })
 
   // lab components
-  let addDatePicker = ctx.isVuetifyAtLeast(3, 4)
+  let addDatePicker = ctx.vuetifyGte('3.4.0')
     ? !Array.from(componentsToImport.values()).some(components => components.includes('VDatePicker'))
     : true
 
@@ -184,7 +184,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
     if (typeof labComponents === 'boolean') {
       config.imports.push('import * as labsComponents from \'vuetify/labs/components\'')
       config.labComponents.add('*')
-      if (!ctx.isVuetifyAtLeast(3, 4))
+      if (!ctx.vuetifyGte('3.4.0'))
         addDatePicker = false
     }
     else if (typeof labComponents === 'string') {
@@ -220,7 +220,7 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
         config.labComponents.add(component)
       })
 
-      if (!ctx.isVuetifyAtLeast(3, 4) && dateOptions && !addDatePicker) {
+      if (!ctx.vuetifyGte('3.4.0') && dateOptions && !addDatePicker) {
         const entry = componentsToImport.get('VDatePicker')
         if (entry) {
           entry.push('VDatePicker')
@@ -239,9 +239,9 @@ async function buildConfiguration(ctx: VuetifyNuxtContext) {
   // include date picker only when needed
   if (dateOptions && addDatePicker) {
     let warn = true
-    if (ctx.isVuetifyAtLeast(0, 0)) {
+    if (ctx.vuetifyGte('3.0.0')) {
       warn = false
-      if (ctx.isVuetifyAtLeast(3, 4)) {
+      if (ctx.vuetifyGte('3.4.0')) {
         config.components.add('VDatePicker')
         config.imports.push('import {VDatePicker} from \'vuetify/components/VDatePicker\'')
       }

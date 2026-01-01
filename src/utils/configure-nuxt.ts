@@ -21,7 +21,7 @@ export function configureNuxt(
 
   // Automatically enable rules if not disabled
   if (typeof ctx.enableRules !== 'undefined')
-    ctx.enableRules = ctx.isVuetifyAtLeast(3, 8)
+    ctx.enableRules = ctx.vuetifyGte('3.8.0')
 
   // disable inline styles when SSR enabled
   if (ctx.isSSR && !!styles && typeof styles === 'object')
@@ -89,19 +89,19 @@ export function configureNuxt(
 
   if (importComposables) {
     const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
-    if (ctx.isVuetifyAtLeast(3, 5))
+    if (ctx.vuetifyGte('3.5.0'))
       composables.push('useGoTo')
-    if (ctx.isVuetifyAtLeast(3, 8)) {
+    if (ctx.vuetifyGte('3.8.0')) {
       composables.push('useHotkey')
       if (ctx.enableRules)
         composables.push('useRules')
     }
-    if (ctx.isVuetifyAtLeast(3, 10))
+    if (ctx.vuetifyGte('3.10.0'))
       composables.push('useMask')
 
     addImports(composables.map(name => ({
       name,
-      from: ctx.isVuetifyAtLeast(3, 4) || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
+      from: ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
       as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
       meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
     })))

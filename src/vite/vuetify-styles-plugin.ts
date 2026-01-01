@@ -7,11 +7,12 @@ import { isObject, normalizePath, resolveVuetifyBase } from '@vuetify/loader-sha
 import { isAbsolute, relative as relativePath } from 'pathe'
 import type { Options } from '@vuetify/loader-shared'
 import path from 'upath'
+import semver from 'semver'
 import type { VuetifyNuxtContext } from '../utils/config'
 
 export function vuetifyStylesPlugin(
   options: Options,
-  [major, minor, patch]: VuetifyNuxtContext['viteVersion'],
+  viteVersion: VuetifyNuxtContext['viteVersion'],
   _logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
 ) {
   let configFile: string | undefined
@@ -36,7 +37,7 @@ export function vuetifyStylesPlugin(
         sassVariables = true
         // use file import when vite version > 5.4.2
         // check https://github.com/vitejs/vite/pull/17909
-        fileImport = major > 5 || (major === 5 && minor > 4) || (major === 5 && minor === 4 && patch > 2)
+        fileImport = semver.gt(viteVersion, '5.4.2')
         if (path.isAbsolute(options.styles.configFile))
           configFile = path.resolve(options.styles.configFile)
         else

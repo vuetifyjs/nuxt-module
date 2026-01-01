@@ -2,6 +2,7 @@ import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import type { ObjectImportPluginOptions } from '@vuetify/loader-shared'
 import { isPackageExists } from 'local-pkg'
+import semver from 'semver'
 import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -45,8 +46,7 @@ export function configureVite(configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCon
 
     if (!ctx.moduleOptions.disableModernSassCompiler) {
       // vite version >= 5.4.0
-      const [major, minor, patch] = ctx.viteVersion
-      const enableModernSassCompiler = major > 5 || (major === 5 && minor >= 4)
+      const enableModernSassCompiler = semver.gte(ctx.viteVersion, '5.4.0')
       if (enableModernSassCompiler) {
         const sassEmbedded = isPackageExists('sass-embedded')
         if (sassEmbedded) {

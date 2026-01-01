@@ -25,8 +25,12 @@ export interface VuetifyNuxtContext {
   ssrClientHints: ResolvedClientHints
   componentsPromise: Promise<VuetifyComponentsImportMap>
   labComponentsPromise: Promise<VuetifyComponentsImportMap>
-  isVuetifyAtLeast: (major: number, minor: number) => boolean
-  viteVersion: [major: number, minor: number, patch: number]
+  /**
+   * Check if Vuetify version is greater than or equal to the given version
+   * @example ctx.vuetifyGte('3.4.0') // true if Vuetify version is 3.4.0 or greater
+   */
+  vuetifyGte: (version: string) => boolean
+  viteVersion: string
   enableRules?: boolean
   rulesConfiguration?: { fromLabs: boolean }
 }
