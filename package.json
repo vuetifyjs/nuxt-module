@@ -1,7 +1,7 @@
 {
   "name": "vuetify-nuxt-module",
   "type": "module",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "packageManager": "pnpm@10.11.1",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
