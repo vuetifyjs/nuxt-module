@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     dynamicRouteParams: false,
     skipSettingLocaleOnNavigate: false,
     // debug: true,
-    vueI18n: '/config/i18n.config.ts',
+    vueI18n: './config/i18n.config.ts',
   },
   vuetify: {
     moduleOptions: {
