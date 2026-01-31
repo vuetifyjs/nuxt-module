@@ -356,6 +356,12 @@ export interface MOptions {
        */
       lightThemeName?: string
       /**
+       * The domain for the cookie.
+       *
+       * @default undefined
+       */
+      cookieDomain?: string
+      /**
        * Use the browser theme only?
        *
        * This flag can be used when your application provides a custom dark and light themes,

@@ -6,6 +6,7 @@ import {
   isNuxtMajorVersion,
   useLogger,
 } from '@nuxt/kit'
+import { defu } from 'defu'
 import { getPackageInfo } from 'local-pkg'
 import semver from 'semver'
 import type { HookResult } from '@nuxt/schema'
@@ -108,6 +109,24 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     await load(options, nuxt, ctx)
+
+    const {
+      reloadOnFirstRequest,
+      viewportSize,
+      prefersColorScheme,
+      prefersReducedMotion,
+      prefersColorSchemeOptions,
+    } = ctx.ssrClientHints
+
+    nuxt.options.runtimeConfig.public.vuetify = defu(nuxt.options.runtimeConfig.public.vuetify as any, {
+      ssrClientHints: {
+        reloadOnFirstRequest,
+        viewportSize,
+        prefersColorScheme,
+        prefersReducedMotion,
+        prefersColorSchemeOptions,
+      },
+    })
 
     configureNuxt(CONFIG_KEY, nuxt, ctx)
 

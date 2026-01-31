@@ -3,7 +3,7 @@ import type { UnwrapNestedRefs } from 'vue'
 import { reactive, ref, watch } from 'vue'
 import type { SSRClientHints } from './types'
 import { VuetifyHTTPClientHints } from './client-hints'
-import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
+import { defineNuxtPlugin, useNuxtApp, useRuntimeConfig, useState } from '#imports'
 import type { Plugin } from '#app'
 
 const plugin: Plugin<{
@@ -143,19 +143,32 @@ function useSSRClientHints() {
 
   const initial = ref(defaultClientValues())
 
-  if (!ssrClientHintsConfiguration.prefersColorScheme || !ssrClientHintsConfiguration.prefersColorSchemeOptions)
+  const runtimeConfig = useRuntimeConfig()
+  const ssrClientHints = runtimeConfig.public.vuetify?.ssrClientHints ?? {}
+  const prefersColorScheme = ssrClientHints.prefersColorScheme ?? ssrClientHintsConfiguration.prefersColorScheme
+  const prefersColorSchemeOptions = ssrClientHintsConfiguration.prefersColorSchemeOptions
+    ? {
+        ...ssrClientHintsConfiguration.prefersColorSchemeOptions,
+        ...ssrClientHints.prefersColorSchemeOptions,
+      }
+    : ssrClientHints.prefersColorSchemeOptions
+
+  if (!prefersColorScheme || !prefersColorSchemeOptions)
     return initial
 
   const {
     baseUrl,
     cookieName,
+    cookieDomain,
     defaultTheme,
-  } = ssrClientHintsConfiguration.prefersColorSchemeOptions
+  } = prefersColorSchemeOptions
   const cookieNamePrefix = `${cookieName}=`
   initial.value.colorSchemeFromCookie = document.cookie?.split(';')?.find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1] ?? defaultTheme
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
   initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=Lax`
+  if (cookieDomain)
+    initial.value.colorSchemeCookie += `; Domain=${cookieDomain}`
 
   return initial
 }
