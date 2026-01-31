@@ -13,6 +13,7 @@ export interface ResolvedClientHints {
     cookieName: string
     darkThemeName: string
     lightThemeName: string
+    cookieDomain?: string
     useBrowserThemeOnly: boolean
   }
 }
@@ -75,6 +76,7 @@ export function prepareSSRClientHints(baseUrl: string, ctx: VuetifyNuxtContext) 
       cookieName: ssrClientHintsConfiguration.prefersColorSchemeOptions?.cookieName ?? 'color-scheme',
       darkThemeName,
       lightThemeName,
+      cookieDomain: ssrClientHintsConfiguration.prefersColorSchemeOptions?.cookieDomain,
       useBrowserThemeOnly: ssrClientHintsConfiguration.prefersColorSchemeOptions?.useBrowserThemeOnly ?? false,
     }
   }

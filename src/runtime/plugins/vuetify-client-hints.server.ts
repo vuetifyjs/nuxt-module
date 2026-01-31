@@ -14,6 +14,7 @@ import {
   useNuxtApp,
   useRequestEvent,
   useRequestHeaders,
+  useRuntimeConfig,
   useState,
 } from '#imports'
 import type { Plugin } from '#app'
@@ -53,15 +54,32 @@ const plugin: Plugin<{
     const userAgent = userAgentHeader
       ? parseUserAgent(userAgentHeader)
       : null
+
+    const runtimeConfig = useRuntimeConfig()
+    const ssrClientHints = (runtimeConfig.public.vuetify as any)?.ssrClientHints ?? {}
+    const configuration = {
+      ...ssrClientHintsConfiguration,
+      reloadOnFirstRequest: ssrClientHints.reloadOnFirstRequest ?? ssrClientHintsConfiguration.reloadOnFirstRequest,
+      viewportSize: ssrClientHints.viewportSize ?? ssrClientHintsConfiguration.viewportSize,
+      prefersReducedMotion: ssrClientHints.prefersReducedMotion ?? ssrClientHintsConfiguration.prefersReducedMotion,
+      prefersColorScheme: ssrClientHints.prefersColorScheme ?? ssrClientHintsConfiguration.prefersColorScheme,
+      prefersColorSchemeOptions: ssrClientHintsConfiguration.prefersColorSchemeOptions
+        ? {
+            ...ssrClientHintsConfiguration.prefersColorSchemeOptions,
+            ...ssrClientHints.prefersColorSchemeOptions,
+          }
+        : ssrClientHints.prefersColorSchemeOptions,
+    }
+
     // 2. prepare client hints request
-    const clientHintsRequest = collectClientHints(userAgent, ssrClientHintsConfiguration, requestHeaders)
+    const clientHintsRequest = collectClientHints(userAgent, configuration, requestHeaders)
     // 3. write client hints response headers
-    writeClientHintsResponseHeaders(clientHintsRequest, ssrClientHintsConfiguration)
+    writeClientHintsResponseHeaders(clientHintsRequest, configuration)
     state.value = clientHintsRequest
     // 4. send the theme cookie to the client when required
     state.value.colorSchemeCookie = writeThemeCookie(
       clientHintsRequest,
-      ssrClientHintsConfiguration,
+      configuration,
     )
 
     nuxtApp.hook('vuetify:before-create', async ({ vuetifyOptions }) => {
@@ -88,7 +106,7 @@ const plugin: Plugin<{
       await nuxtApp.hooks.callHook('vuetify:ssr-client-hints', {
         vuetifyOptions,
         ssrClientHintsConfiguration: {
-          ...ssrClientHintsConfiguration,
+          ...configuration,
           enabled: true,
         },
         ssrClientHints: state.value,
@@ -359,18 +377,24 @@ function writeThemeCookie(
   const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
   const themeName = clientHintsRequest.colorSchemeFromCookie ?? ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
   const path = ssrClientHintsConfiguration.prefersColorSchemeOptions.baseUrl
+  const domain = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieDomain
 
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
   if (!clientHintsRequest.firstRequest || !ssrClientHintsConfiguration.reloadOnFirstRequest) {
     useCookie(cookieName, {
       path,
+      domain,
       expires,
       sameSite: 'lax',
     }).value = themeName
   }
 
-  return `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
+  let cookie = `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
+  if (domain)
+    cookie += `; Domain=${domain}`
+
+  return cookie
 }
 
 export default plugin

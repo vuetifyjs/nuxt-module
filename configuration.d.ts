@@ -38,6 +38,7 @@ declare module 'virtual:vuetify-ssr-client-hints-configuration' {
       cookieName: string
       darkThemeName: string
       lightThemeName: string
+      cookieDomain?: string
       useBrowserThemeOnly: boolean
     }
   }
