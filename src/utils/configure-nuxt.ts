@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, extendWebpackConfig, isNuxtMajorVersion } from '@nuxt/kit'
+import { addImports, addPlugin, extendWebpackConfig, isNuxtMajorVersion, resolveAlias } from '@nuxt/kit'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import type { VuetifyNuxtContext } from './config'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
@@ -30,7 +30,11 @@ export function configureNuxt(
   if (!disableVuetifyStyles) {
     nuxt.options.css ??= []
     // always add vuetify/styles
-    nuxt.options.css.unshift('vuetify/styles')
+    if (typeof styles === 'object') {
+      nuxt.options.css.unshift(`virtual:vuetify-custom-styles?settings=${resolveAlias(styles.configFile)}`)
+    } else {
+      nuxt.options.css.unshift('vuetify/styles')
+    }
   }
 
   // transpile always vuetify and runtime folder
