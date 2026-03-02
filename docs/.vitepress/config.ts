@@ -121,83 +121,68 @@ export default withPwa(defineConfig({
         ],
       },
     ],
-    sidebar: [{
-      text: 'Guide',
-      items: [{
-        text: 'Getting Started',
-        link: '/guide/',
-      }, {
-        text: 'Compatibility Matrix',
-        link: '/guide/compatibility-matrix',
-      }, {
-        text: 'Nuxt Layers and Module Hooks',
-        link: '/guide/nuxt-layers-and-module-hooks',
-      }, {
-        text: 'Vuetify Configuration File',
-        link: '/guide/vuetify-configuration-file',
-      }, {
-        text: 'Nuxt Runtime Hooks',
-        link: '/guide/nuxt-runtime-hooks',
-      }, {
-        text: 'Server Side Rendering (SSR)',
-        link: '/guide/server-side-rendering',
-      }, {
-        text: 'Vuetify Locale Messages',
-        link: '/guide/vuetify-locale-messages',
-      }, {
-        text: 'Vuetify Composables',
-        link: '/guide/vuetify-composables',
-      }, {
-        text: 'Vuetify Blueprints',
-        link: '/guide/vuetify-blueprints',
-      }, {
-        text: 'Transform Asset URLs',
-        link: '/guide/transform-asset-urls',
-      }, {
+    sidebar: [
+      {
+        text: 'Guide',
+        items: [
+          { text: 'Getting Started', link: '/guide/' },
+          { text: 'Compatibility Matrix', link: '/guide/compatibility-matrix' },
+        ],
+      },
+      {
+        text: 'Configuration',
+        items: [
+          { text: 'Vuetify Configuration File', link: '/guide/vuetify-configuration-file' },
+          { text: 'SASS Customization', link: '/guide/sass-customization' },
+          { text: 'Transform Asset URLs', link: '/guide/transform-asset-urls' },
+        ],
+      },
+      {
+        text: 'Nuxt Integration',
+        items: [
+          { text: 'Nuxt Layers and Module Hooks', link: '/guide/nuxt-layers-and-module-hooks' },
+          { text: 'Nuxt Runtime Hooks', link: '/guide/nuxt-runtime-hooks' },
+          { text: 'Server Side Rendering (SSR)', link: '/guide/server-side-rendering' },
+        ],
+      },
+      {
+        text: 'Features',
+        items: [
+          { text: 'Vuetify Composables', link: '/guide/vuetify-composables' },
+          { text: 'Vuetify Blueprints', link: '/guide/vuetify-blueprints' },
+          { text: 'Vuetify Locale Messages', link: '/guide/vuetify-locale-messages' },
+          { text: 'Internationalization', link: '/guide/i18n' },
+          { text: 'Date Support', link: '/guide/date' },
+        ],
+      },
+      {
         text: 'Globals',
         link: '/guide/globals/',
-        items: [{
-          text: 'Global Components',
-          link: '/guide/globals/global-components',
-        }, {
-          text: 'Directives',
-          link: '/guide/globals/directives',
-        }, {
-          text: 'Lab Components',
-          link: '/guide/globals/lab-components',
-        }],
+        items: [
+          { text: 'Global Components', link: '/guide/globals/global-components' },
+          { text: 'Directives', link: '/guide/globals/directives' },
+          { text: 'Lab Components', link: '/guide/globals/lab-components' },
+        ],
         collapsed: true,
-      }, {
+      },
+      {
         text: 'Icons',
         link: '/guide/icons/',
-        items: [{
-          text: 'UnoCSS Preset Icons',
-          link: '/guide/icons/unocss-preset-icons',
-        }, {
-          text: 'Font Icons',
-          link: '/guide/icons/font-icons',
-        }, {
-          text: 'SVG Icons',
-          link: '/guide/icons/svg-icons',
-        }, {
-          text: 'Integrations',
-          link: '/guide/icons/integrations',
-        }],
+        items: [
+          { text: 'UnoCSS Preset Icons', link: '/guide/icons/unocss-preset-icons' },
+          { text: 'Font Icons', link: '/guide/icons/font-icons' },
+          { text: 'SVG Icons', link: '/guide/icons/svg-icons' },
+          { text: 'Integrations', link: '/guide/icons/integrations' },
+        ],
         collapsed: true,
-      }, {
-        text: 'Internationalization',
-        link: '/guide/i18n',
-      }, {
-        text: 'Date Support',
-        link: '/guide/date',
-      }, {
-        text: 'SASS Customization',
-        link: '/guide/sass-customization',
-      }, {
-        text: 'FAQ',
-        link: '/guide/faq',
-      }],
-    }],
+      },
+      {
+        text: 'Help',
+        items: [
+          { text: 'FAQ', link: '/guide/faq' },
+        ],
+      },
+    ],
   },
   vite: {
     logLevel: 'info',
