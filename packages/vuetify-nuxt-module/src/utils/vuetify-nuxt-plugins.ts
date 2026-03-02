@@ -77,8 +77,6 @@ export default defineNuxtPlugin({
     nuxtApp.vueApp.use(vuetify)${rulesPlugin}
     nuxtApp.provide('vuetify', vuetify)
     await nuxtApp.hooks.callHook('vuetify:ready', vuetify)
-    if (import.meta.client)
-      isDev && console.log('Vuetify 3 initialized', vuetify)
   },
 })
 `
