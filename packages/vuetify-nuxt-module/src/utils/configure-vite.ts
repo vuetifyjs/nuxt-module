@@ -7,7 +7,6 @@ import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configurati
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
 import { vuetifyImportPlugin } from '../vite/vuetify-import-plugin'
 import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-plugin'
-import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { createTransformAssetUrls } from './index'
 import { checkVuetifyPlugins } from './module'
 
