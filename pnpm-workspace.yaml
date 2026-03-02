@@ -1,7 +1,9 @@
 packages:
-  - date-io-playground/
-  - docs/
-  - modern-sass-compiler/
-  - playground/
-  - vuetify-io-playground/
-  - vuetify-locale-playground/
+  - packages/*
+  - apps/*
+  - docs
+
+catalog:
+  bumpp: ^10.4.1
+
+catalogMode: strict

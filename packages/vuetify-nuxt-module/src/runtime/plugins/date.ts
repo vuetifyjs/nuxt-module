@@ -1,0 +1,24 @@
+import type { VuetifyOptions } from 'vuetify'
+import { useNuxtApp } from '#imports'
+import { adapter, dateConfiguration, enabled, i18n } from 'virtual:vuetify-date-configuration'
+
+export function configureDate (vuetifyOptions: VuetifyOptions) {
+  if (adapter === 'custom' || !enabled) {
+    return
+  }
+
+  const dateOptions = dateConfiguration()
+
+  if (i18n) {
+    // @ts-expect-error i18n is missing since it is not a dependency here
+    const locales: import('#i18n').LocaleObject[] | undefined = useNuxtApp().$i18n.locales.value
+    if (locales) {
+      dateOptions.locale = locales.reduce((acc, locale) => {
+        acc[locale.code] = locale.code
+        return acc
+      }, <Record<string, any>>{})
+    }
+  }
+
+  vuetifyOptions.date = dateOptions
+}

@@ -1,0 +1,146 @@
+{
+  "name": "vuetify-nuxt-module",
+  "type": "module",
+  "version": "1.0.0-alpha.1",
+  "packageManager": "pnpm@10.30.3",
+  "description": "Zero-Config Nuxt Module for Vuetify",
+  "author": "userquin <userquin@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/vuetifyjs/nuxt-module#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuetifyjs/nuxt-module.git"
+  },
+  "bugs": "https://github.com/vuetifyjs/nuxt-module/issues",
+  "keywords": [
+    "nuxt",
+    "nuxt 3",
+    "vuetify",
+    "vuetify 3",
+    "nuxt-module"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "default": "./dist/module.mjs"
+    },
+    "./custom-configuration": {
+      "types": "./custom-configuration.d.ts",
+      "default": "./custom-configuration.mjs"
+    },
+    "./configuration": {
+      "types": "./configuration.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*",
+        "dist/*",
+        "runtime/*",
+        "runtime/*.d.ts",
+        "types.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "*.cjs",
+    "*.d.ts",
+    "*.mjs"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build prepare && nuxt-module-build build",
+    "dev": "pnpm -C ../../apps/playground dev",
+    "dev:multiple-json": "MULTIPLE_LANG_FILES=true pnpm -C ../../apps/playground dev",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare ../../apps/playground",
+    "dev:prepare:multiple-json": "nuxt-module-build build --stub && nuxt-module-build prepare && MULTIPLE_LANG_FILES=true nuxi prepare ../../apps/playground",
+    "dev:build": "pnpm -C ../../apps/playground build",
+    "dev:generate": "pnpm -C ../../apps/playground generate",
+    "dev:build:multiple-json": "MULTIPLE_LANG_FILES=true pnpm -C ../../apps/playground build",
+    "dev:generate:multiple-json": "MULTIPLE_LANG_FILES=true pnpm -C ../../apps/playground generate",
+    "dev:preview": "pnpm -C ../../apps/playground preview",
+    "dev:prepare:date-io": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare ../../apps/date-io-playground",
+    "dev:date-io": "pnpm -C ../../apps/date-io-playground dev",
+    "docs:dev": "pnpm -C ../../docs run dev",
+    "docs:build": "nuxt-module-build prepare && pnpm -C ../../docs run build",
+    "docs:serve": "pnpm -C ../../docs run serve",
+    "lint": "eslint .",
+    "lint:fix": "nr lint --fix",
+    "publint": "publint",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "release": "bumpp"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.3.1",
+    "defu": "^6.1.4",
+    "destr": "^2.0.5",
+    "local-pkg": "^1.1.2",
+    "pathe": "^2.0.3",
+    "perfect-debounce": "^2.1.0",
+    "semver": "^7.7.4",
+    "ufo": "^1.6.3",
+    "unconfig": "^7.5.0",
+    "upath": "^2.0.1",
+    "vite-plugin-vuetify": "^2.1.3",
+    "vuetify": "^4.0.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.6.1",
+    "@antfu/ni": "^28.2.0",
+    "@date-io/luxon": "^3.2.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/vue-fontawesome": "^3.1.3",
+    "@iconify-json/carbon": "^1.2.19",
+    "@iconify-json/mdi": "^1.2.3",
+    "@mdi/js": "^7.4.47",
+    "@nuxt/devtools": "latest",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.3.1",
+    "@nuxt/test-utils": "^4.0.0",
+    "@nuxtjs/i18n": "^10.2.3",
+    "@parcel/watcher": "^2.5.6",
+    "@types/node": "^25.3.3",
+    "@types/semver": "^7.7.1",
+    "@unocss/nuxt": "^66.6.2",
+    "bumpp": "^10.4.1",
+    "eslint": "^10.0.2",
+    "luxon": "^3.7.2",
+    "nuxt": "^4.3.1",
+    "publint": "^0.3.18",
+    "rimraf": "^6.1.3",
+    "sass": "^1.97.3",
+    "typescript": "^5.9.3",
+    "vite": "6.4.1",
+    "vitest": "^4.0.18",
+    "vue-tsc": "^3.2.5"
+  },
+  "build": {
+    "externals": [
+      "@vuetify/loader-shared",
+      "node:child_process",
+      "node:fs",
+      "consola",
+      "destr",
+      "esbuild",
+      "local-pkg",
+      "pathe",
+      "perfect-debounce",
+      "rollup",
+      "upath",
+      "ufo",
+      "unconfig",
+      "vite",
+      "vite-plugin-vuetify",
+      "vuetify"
+    ]
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node ../../.stackblitz.js && pnpm install && pnpm -C ../../ prepack && pnpm -C ../../ dev:prepare && pnpm -C ../../ dev"
+  }
+}

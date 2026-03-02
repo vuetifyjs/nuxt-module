@@ -1,4 +1,0 @@
-typescript.includeWorkspace=true
-typescript.tsConfig.exclude[]=../playground
-typescript.tsConfig.exclude[]=../date-io-playground'
-

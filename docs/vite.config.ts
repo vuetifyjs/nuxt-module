@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   optimizeDeps: {

@@ -1,0 +1,20 @@
+{
+  "name": "vuetify-nuxt-module-locale-playground",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev:prepare": "nuxt prepare",
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "^10.2.3",
+    "nuxt": "^4.3.1",
+    "sass-embedded": "^1.97.3",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.5",
+    "vuetify-nuxt-module": "workspace:*"
+  }
+}
