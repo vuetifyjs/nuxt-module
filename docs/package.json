@@ -19,7 +19,7 @@
     "@types/node": "^25.3.3",
     "@vite-pwa/assets-generator": "^1.0.2",
     "@vite-pwa/vitepress": "^1.1.0",
-    "sitemap": "^8.0.3",
+    "sitemap": "^9.0.1",
     "unocss": "^66.6.2",
     "vite-plugin-pwa": "^1.2.0",
     "vitepress": "^1.6.4",
