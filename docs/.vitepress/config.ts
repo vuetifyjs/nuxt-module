@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitepress'
 import { withPwa } from '@vite-pwa/vitepress'
+import { defineConfig } from 'vitepress'
 import { version } from '../../package.json'
-import { pwa } from './pwa'
-import { transformHead } from './transform-head'
-import { buildEnd, transformHtml } from './sitemap'
 import { ogImage, ogUrl } from './constants'
+import { pwa } from './pwa'
+import { buildEnd, transformHtml } from './sitemap'
+import { transformHead } from './transform-head'
 
 export default withPwa(defineConfig({
   lang: 'en-US',

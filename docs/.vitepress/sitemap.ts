@@ -1,10 +1,10 @@
-import { createWriteStream } from 'node:fs'
-import { resolve } from 'node:path'
-import { writeFile } from 'node:fs/promises'
-import process from 'node:process'
 import type { SiteConfig, TransformContext } from 'vitepress/dist/node'
-import { isCI } from 'std-env'
+import { createWriteStream } from 'node:fs'
+import { writeFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
+import process from 'node:process'
 import { SitemapStream } from 'sitemap'
+import { isCI } from 'std-env'
 import { ogUrl } from './constants'
 
 interface SitemapEntry {
@@ -16,11 +16,12 @@ const links: SitemapEntry[] = []
 
 const hostname: string = isCI ? ogUrl : (process.env.HTTPS ? 'https://localhost/' : 'http://localhost:4173/')
 
-export function transformHtml(code: string, id: string, { pageData }: TransformContext): string | void {
+export function transformHtml (code: string, id: string, { pageData }: TransformContext): string | void {
   if (!/[\\/]404\.html$/.test(id)) {
     let url = pageData.relativePath.replace(/((^|\/)index)?\.md$/, '$2')
-    if (url.length && !url.endsWith('/'))
+    if (url.length > 0 && !url.endsWith('/')) {
       url += '.html'
+    }
 
     links.push({
       url,
@@ -47,18 +48,20 @@ export function transformHtml(code: string, id: string, { pageData }: TransformC
   }
 }
 
-export async function buildEnd({ outDir }: SiteConfig) {
+export async function buildEnd ({ outDir }: SiteConfig) {
   // TODO: include here frequency and priority
   const sitemap = new SitemapStream({
     hostname,
   })
   const writeStream = createWriteStream(resolve(outDir, 'sitemap.xml'))
   sitemap.pipe(writeStream)
-  links.forEach(link => sitemap.write(link))
+  for (const link of links) {
+    sitemap.write(link)
+  }
   sitemap.end()
   await new Promise(resolve => writeStream.on('finish', resolve))
   await writeFile(resolve(outDir, 'robots.txt'), `User-agent: *
 Allow: /
 
-Sitemap: ${hostname}sitemap.xml`.replace(/\\r\\n/g, '\n'), { encoding: 'utf-8' })
+Sitemap: ${hostname}sitemap.xml`.replace(/\\r\\n/g, '\n'), { encoding: 'utf8' })
 }

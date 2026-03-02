@@ -115,7 +115,7 @@ export interface MOptions {
    *
    * @default true
    */
-  styles?: true | 'none' | 'sass' | {
+  styles?: true | 'none' | {
     configFile: string
   }
   /**

@@ -11,14 +11,17 @@ export default defineConfig({
   },
   preset: {
     ...minimal2023Preset,
-    assetName(type, size) {
+    assetName (type, size) {
       switch (type) {
-        case 'transparent':
+        case 'transparent': {
           return `pwa-${size.width}x${size.height}.png`
-        case 'maskable':
+        }
+        case 'maskable': {
           return 'maskable-icon.png'
-        case 'apple':
+        }
+        case 'apple': {
           return 'apple-touch-icon.png'
+        }
       }
     },
   },

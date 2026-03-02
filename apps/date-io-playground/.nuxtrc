@@ -1,0 +1,1 @@
+typescript.tsConfig.exclude[]=../../packages/vuetify-nuxt-module/src/runtime
