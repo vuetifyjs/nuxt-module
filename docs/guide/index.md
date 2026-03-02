@@ -107,11 +107,7 @@ export interface MOptions {
   prefixComposables?: boolean
   /**
    * Vuetify styles.
-   *
-   * If you want to use configFile on SSR, you have to disable `experimental.inlineSSRStyles` in nuxt.config.
-   *
-   * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
-   * @see https://github.com/vuetifyjs/nuxt-module/issues/78 and https://github.com/vuetifyjs/nuxt-module/issues/74
+   * Specify `none` to disable Vuetify styles.
    *
    * @default true
    */
@@ -130,6 +126,7 @@ export interface MOptions {
    * @see https://vitejs.dev/config/shared-options.html#css-preprocessormaxworkers
    *
    * @default false
+   * @deprecated Vite 7 supports only the modern SASS compiler and API.
    */
   disableModernSassCompiler?: boolean
   /**
