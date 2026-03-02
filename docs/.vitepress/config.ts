@@ -56,47 +56,20 @@ export default withPwa(defineConfig({
       {
         text: 'Getting Started',
         link: '/guide/',
-      }, {
-        text: 'Globals',
-        items: [{
-          text: 'Globals',
-          link: '/guide/globals/',
-        }, {
-          text: 'Global Components',
-          link: '/guide/globals/global-components',
-        }, {
-          text: 'Directives',
-          link: '/guide/globals/directives',
-        }, {
-          text: 'Lab Components',
-          link: '/guide/globals/lab-components',
-        }],
-      }, {
-        text: 'Icons',
-        items: [{
-          text: 'Icons',
-          link: '/guide/icons/',
-        }, {
-          text: 'UnoCSS Preset Icons',
-          link: '/guide/icons/unocss-preset-icons',
-        }, {
-          text: 'Font Icons',
-          link: '/guide/icons/font-icons',
-        }, {
-          text: 'SVG Icons',
-          link: '/guide/icons/svg-icons',
-        }, {
-          text: 'Integrations',
-          link: '/guide/icons/integrations',
-        }],
       },
       {
-        text: 'I18N',
-        link: '/guide/i18n',
+        text: 'Configuration',
+        link: '/guide/configuration/vuetify-options',
       },
       {
-        text: 'Date',
-        link: '/guide/date',
+        text: 'Features',
+        items: [
+          { text: 'Globals', link: '/guide/features/globals/' },
+          { text: 'Icons', link: '/guide/features/icons/' },
+          { text: 'I18N', link: '/guide/features/i18n' },
+          { text: 'Date', link: '/guide/features/date' },
+          { text: 'SSR', link: '/guide/features/ssr' },
+        ],
       },
       {
         text: `v${version}`,
@@ -123,58 +96,58 @@ export default withPwa(defineConfig({
     ],
     sidebar: [
       {
-        text: 'Guide',
+        text: 'Getting Started',
         items: [
-          { text: 'Getting Started', link: '/guide/' },
-          { text: 'Compatibility Matrix', link: '/guide/compatibility-matrix' },
+          { text: 'Introduction', link: '/guide/' },
+          { text: 'Compatibility Matrix', link: '/guide/getting-started/compatibility' },
         ],
       },
       {
         text: 'Configuration',
         items: [
-          { text: 'Vuetify Configuration File', link: '/guide/vuetify-configuration-file' },
-          { text: 'SASS Customization', link: '/guide/sass-customization' },
-          { text: 'Transform Asset URLs', link: '/guide/transform-asset-urls' },
-        ],
-      },
-      {
-        text: 'Nuxt Integration',
-        items: [
-          { text: 'Nuxt Layers and Module Hooks', link: '/guide/nuxt-layers-and-module-hooks' },
-          { text: 'Nuxt Runtime Hooks', link: '/guide/nuxt-runtime-hooks' },
-          { text: 'Server Side Rendering (SSR)', link: '/guide/server-side-rendering' },
+          { text: 'Vuetify Options', link: '/guide/configuration/vuetify-options' },
+          { text: 'SASS Customization', link: '/guide/configuration/sass' },
+          { text: 'Blueprints', link: '/guide/configuration/blueprints' },
+          { text: 'Transform Asset URLs', link: '/guide/configuration/transform-assets' },
         ],
       },
       {
         text: 'Features',
         items: [
-          { text: 'Vuetify Composables', link: '/guide/vuetify-composables' },
-          { text: 'Vuetify Blueprints', link: '/guide/vuetify-blueprints' },
-          { text: 'Vuetify Locale Messages', link: '/guide/vuetify-locale-messages' },
-          { text: 'Internationalization', link: '/guide/i18n' },
-          { text: 'Date Support', link: '/guide/date' },
+          {
+            text: 'Globals',
+            collapsed: true,
+            link: '/guide/features/globals/',
+            items: [
+              { text: 'Global Components', link: '/guide/features/globals/global-components' },
+              { text: 'Directives', link: '/guide/features/globals/directives' },
+              { text: 'Lab Components', link: '/guide/features/globals/lab-components' },
+            ],
+          },
+          {
+            text: 'Icons',
+            collapsed: true,
+            link: '/guide/features/icons/',
+            items: [
+              { text: 'UnoCSS Preset Icons', link: '/guide/features/icons/unocss-preset-icons' },
+              { text: 'Font Icons', link: '/guide/features/icons/font-icons' },
+              { text: 'SVG Icons', link: '/guide/features/icons/svg-icons' },
+              { text: 'Integrations', link: '/guide/features/icons/integrations' },
+            ],
+          },
+          { text: 'Internationalization', link: '/guide/features/i18n' },
+          { text: 'Date Support', link: '/guide/features/date' },
+          { text: 'SSR', link: '/guide/features/ssr' },
+          { text: 'Composables', link: '/guide/features/composables' },
         ],
       },
       {
-        text: 'Globals',
-        link: '/guide/globals/',
+        text: 'Advanced',
         items: [
-          { text: 'Global Components', link: '/guide/globals/global-components' },
-          { text: 'Directives', link: '/guide/globals/directives' },
-          { text: 'Lab Components', link: '/guide/globals/lab-components' },
+          { text: 'Layers & Module Hooks', link: '/guide/advanced/layers-and-hooks' },
+          { text: 'Runtime Hooks', link: '/guide/advanced/runtime-hooks' },
+          { text: 'Locale Messages', link: '/guide/advanced/locale-messages' },
         ],
-        collapsed: true,
-      },
-      {
-        text: 'Icons',
-        link: '/guide/icons/',
-        items: [
-          { text: 'UnoCSS Preset Icons', link: '/guide/icons/unocss-preset-icons' },
-          { text: 'Font Icons', link: '/guide/icons/font-icons' },
-          { text: 'SVG Icons', link: '/guide/icons/svg-icons' },
-          { text: 'Integrations', link: '/guide/icons/integrations' },
-        ],
-        collapsed: true,
       },
       {
         text: 'Help',

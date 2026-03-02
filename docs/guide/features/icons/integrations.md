@@ -16,7 +16,7 @@ Once the custom icon set is implemented, you need to configure `vuetify-nuxt-mod
 
 If you want to use another icon set library, you should change the corresponding icon set implementation in the examples below: `unplugin-icons`, Iconify Vue and Nuxt Icon using material design icons from Iconify icons.
 
-You can also use multiple icon sets, check [multiple-icon-sets](/guide/icons/#multiple-icon-sets) and [Vuetify documentation](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets).
+You can also use multiple icon sets, check [multiple-icon-sets](/guide/features/icons/#multiple-icon-sets) and [Vuetify documentation](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets).
 
 ## unplugin-icons/nuxt
 
