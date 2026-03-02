@@ -2,6 +2,8 @@ import type { Nuxt } from '@nuxt/schema'
 import type { ObjectImportPluginOptions } from '@vuetify/loader-shared'
 import type { VuetifyNuxtContext } from './config'
 import defu from 'defu'
+import { isPackageExists } from 'local-pkg'
+import semver from 'semver'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -15,6 +17,32 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
   nuxt.hook('vite:extendConfig', viteInlineConfig => {
     viteInlineConfig.plugins = viteInlineConfig.plugins || []
     checkVuetifyPlugins(viteInlineConfig)
+
+    if (!ctx.moduleOptions.disableModernSassCompiler) {
+      // vite version >= 5.4.0 && < 7.0.0
+      const enableModernSassCompiler = semver.gte(ctx.viteVersion, '5.4.0') && semver.lt(ctx.viteVersion, '7.0.0-0')
+      if (enableModernSassCompiler) {
+        const sassEmbedded = isPackageExists('sass-embedded')
+        if (sassEmbedded) {
+          viteInlineConfig.css ??= {}
+          viteInlineConfig.css.preprocessorOptions ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass.api = 'modern-compiler'
+          viteInlineConfig.css.preprocessorOptions.scss ??= {}
+          viteInlineConfig.css.preprocessorOptions.scss.api = 'modern-compiler'
+        } else {
+          viteInlineConfig.css ??= {}
+          viteInlineConfig.css.preprocessorOptions ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass ??= {}
+          viteInlineConfig.css.preprocessorOptions.sass.api = 'modern'
+          viteInlineConfig.css.preprocessorOptions.scss ??= {}
+          viteInlineConfig.css.preprocessorOptions.scss.api = 'modern'
+          if (!('preprocessorMaxWorkers' in viteInlineConfig.css)) {
+            viteInlineConfig.css.preprocessorMaxWorkers = true
+          }
+        }
+      }
+    }
 
     viteInlineConfig.optimizeDeps = defu(viteInlineConfig.optimizeDeps, { exclude: ['vuetify'] })
 

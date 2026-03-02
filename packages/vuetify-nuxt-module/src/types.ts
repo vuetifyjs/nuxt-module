@@ -249,14 +249,20 @@ export interface MOptions {
     configFile: string
   }
   /**
-   * The module will add `vuetify/styles` in Nuxt `css` by default.
+   * Disable the modern SASS compiler and API.
    *
-   * If you want to add custom styles, you should enable this flag to avoid registering `vuetify/styles`.
+   * The module will check for `sass-embedded` dev dependency:
+   * - if `disableModernSassCompiler` is enabled, the module will configure the legacy SASS compiler.
+   * - if `sass-embedded` dependency is installed, the module will configure the modern SASS compiler.
+   * - otherwise, the module will configure the modern SASS API and will enable [preprocessorMaxWorkers](https://vitejs.dev/config/shared-options.html#css-preprocessormaxworkers), only if not configured from user land.
    *
-   * @see https://github.com/vuetifyjs/nuxt-module/pull/213
+   * @https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
+   * @see https://vitejs.dev/config/shared-options.html#css-preprocessormaxworkers
+   *
    * @default false
+   * @deprecated Vite 7 supports only the modern SASS compiler and API.
    */
-  disableVuetifyStyles?: boolean
+  disableModernSassCompiler?: boolean
   /**
    * Add Vuetify Vite Plugin `transformAssetsUrls`?
    *
