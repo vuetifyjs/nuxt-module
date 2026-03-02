@@ -3,16 +3,12 @@
 </script>
 
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <v-sheet
-          class="pa-4 d-flex align-center flex-column"
-          rounded="lg"
-        >
-          <NuxtPage />
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-app>
+    <v-app-bar title="Vuetify Nuxt Module Playground" />
+    <v-main>
+      <v-container>
+        <slot />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
