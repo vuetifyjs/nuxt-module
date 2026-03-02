@@ -1,4 +1,4 @@
-# Vuetify Configuration File
+# Vuetify Options
 
 You can register Vuetify options using a file, the file path **must** be relative to the root folder.
 

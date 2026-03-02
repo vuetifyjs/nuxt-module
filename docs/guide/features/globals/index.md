@@ -8,6 +8,6 @@ You don't need to install any Vuetify Vite Plugin (the module will throw an erro
 - from version `v0.18.6`, the module supports [Component Labs](https://vuetifyjs.com/en/labs/introduction/) auto-import.
 
 You can register the following Vuetify components globally:
-- [Global Components](/guide/globals/global-components)
-- [Directives](/guide/globals/directives)
-- [Lab Components](/guide/globals/lab-components)
+- [Global Components](/guide/features/globals/global-components)
+- [Directives](/guide/features/globals/directives)
+- [Lab Components](/guide/features/globals/lab-components)
