@@ -18,7 +18,6 @@ export async function configureNuxt (
     styles,
     importComposables,
     prefixComposables,
-    disableVuetifyStyles,
   } = ctx.moduleOptions
 
   const runtimeDir = ctx.resolver.resolve('./runtime')
@@ -28,7 +27,7 @@ export async function configureNuxt (
     ctx.enableRules = ctx.vuetifyGte('3.8.0')
   }
 
-  if (!disableVuetifyStyles) {
+  if (styles !== 'none' && (styles as any) !== false) {
     nuxt.options.css ??= []
     if (typeof styles === 'object' && styles?.configFile) {
       const a = addTemplate({
