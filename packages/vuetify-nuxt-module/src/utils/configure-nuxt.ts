@@ -34,9 +34,9 @@ export async function configureNuxt (
         filename: 'vuetify.settings.scss',
         getContents: async () => getTemplate('vuetify/styles', await resolvePath(styles.configFile)),
       })
-      nuxt.options.css.unshift(a.dst)
+      nuxt.options.css.push(a.dst)
     } else {
-      nuxt.options.css.unshift(await resolvePath('vuetify/styles'))
+      nuxt.options.css.push(await resolvePath('vuetify/styles'))
     }
   }
 
