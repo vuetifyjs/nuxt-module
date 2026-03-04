@@ -23,7 +23,7 @@ export async function configureNuxt (
   const runtimeDir = ctx.resolver.resolve('./runtime')
 
   // Automatically enable rules if not disabled
-  if (ctx.enableRules !== undefined) {
+  if (ctx.enableRules === undefined) {
     ctx.enableRules = ctx.vuetifyGte('3.8.0')
   }
 
@@ -51,7 +51,20 @@ export async function configureNuxt (
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey, runtimeDir)
   if (ctx.enableRules) {
-    nuxt.options.build.transpile.push(`#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs`)
+    const rulesConfigurationFile = `vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs`
+    nuxt.options.build.transpile.push(`#build/${rulesConfigurationFile}`)
+    addTemplate({
+      filename: rulesConfigurationFile,
+      getContents: async () => {
+        if (ctx.rulesConfiguration?.configFile) {
+          const resolvedPath = await resolvePath(ctx.rulesConfiguration.configFile)
+          return `export { default as rulesOptions } from '${resolvedPath}'`
+        }
+
+        return 'export const rulesOptions = {}'
+      },
+      write: true,
+    })
   }
   // transpile vuetify nuxt plugin
   nuxt.options.build.transpile.push(/\/vuetify-nuxt-plugin\.(client|server)\.mjs$/)
@@ -98,12 +111,18 @@ export async function configureNuxt (
       composables.push('useMask')
     }
 
-    addImports(composables.map(name => ({
-      name,
-      from: ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date',
-      as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
-      meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
-    })))
+    addImports(composables.map(name => {
+      let from = ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date'
+      if (name === 'useRules' && ctx.rulesConfiguration?.fromLabs) {
+        from = 'vuetify/labs/rules'
+      }
+      return {
+        name,
+        from,
+        as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
+        meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
+      }
+    }))
   }
 
   if (ctx.ssrClientHints.enabled) {

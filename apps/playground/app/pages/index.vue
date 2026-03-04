@@ -11,6 +11,7 @@
   const { isRtl } = useRtl()
   const { width, height, name: displayName } = useDisplay()
   const theme = useTheme()
+  const rules = useRules()
 
   const isDark = computed({
     get: () => theme.global.name.value === 'dark',
@@ -24,6 +25,7 @@
     email: '',
     select: null,
     date: undefined,
+    ruleValue: '',
   })
 
   watch(isRtl, val => {
@@ -181,6 +183,21 @@
               rounded="lg"
             />
           </div>
+        </v-card>
+      </v-col>
+
+      <!-- Validation Rules -->
+      <v-col cols="12" md="6">
+        <v-card height="100%" prepend-icon="i-mdi:check-circle-outline" title="Validation Rules">
+          <v-card-text>
+            <div class="text-subtitle-2 mb-2">Input Validation (useRules)</div>
+            <v-text-field
+              v-model="formData.ruleValue"
+              label="Type something (min 3 chars)"
+              :rules="[rules.required('Field is required'), rules.minLength(3, 'At least 3 characters')]"
+              variant="outlined"
+            />
+          </v-card-text>
         </v-card>
       </v-col>
 

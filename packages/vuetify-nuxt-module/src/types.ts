@@ -313,7 +313,8 @@ export interface MOptions {
    * @default true
    */
   rulesConfiguration?: {
-    fromLabs: boolean
+    fromLabs?: boolean
+    configFile?: string
   }
   /**
    * Vuetify SSR client hints.
