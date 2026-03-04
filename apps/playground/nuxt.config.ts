@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     // debug: true,
     vueI18n: './config/i18n.config.ts',
   },
+  css: ['~/layers.css', '~/app.css'],
   vuetify: {
     moduleOptions: {
       includeTransformAssetsUrls: {
