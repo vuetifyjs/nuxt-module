@@ -255,6 +255,9 @@ export interface MOptions {
      * Path to the custom Vuetify SASS configuration file.
      */
     configFile: string
+    experimental?: {
+      cache?: boolean
+    }
   } | {
     /**
      * Include the standard colors palette?
