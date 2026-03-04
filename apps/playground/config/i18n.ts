@@ -111,7 +111,7 @@ function buildLocales () {
     return acc
   }, <LocaleObject[]>[])
 
-  return useLocales.sort((a, b) => a.code.localeCompare(b.code))
+  return useLocales.toSorted((a, b) => a.code.localeCompare(b.code))
 }
 
 export const availableLocales = buildLocales()
