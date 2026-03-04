@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module-workspace",
   "private": true,
   "packageManager": "pnpm@10.30.3",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "scripts": {
     "prepack": "pnpm -C packages/vuetify-nuxt-module prepack",
     "dev": "pnpm -C apps/playground dev",
