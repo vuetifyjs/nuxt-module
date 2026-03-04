@@ -25,22 +25,51 @@ import { load, registerWatcher } from './utils/loader'
 
 export * from './types'
 
+/**
+ * Configuration options for the Vuetify Nuxt module.
+ */
 export interface ModuleOptions extends VuetifyModuleOptions {}
 
 export interface ModuleHooks {
+  /**
+   * Hook called when the module is registered.
+   *
+   * @param registerModule - A function to register a Vuetify module with inline options.
+   */
   'vuetify:registerModule': (registerModule: (config: InlineModuleOptions) => void) => HookResult
 }
 
 export interface ModuleRuntimeHooks {
+  /**
+   * Hook called before the Vuetify configuration is resolved.
+   * allowing you to modify the configuration.
+   *
+   * @param options - The configuration options including `isDev` and `vuetifyOptions`.
+   */
   'vuetify:configuration': (options: {
     isDev: boolean
     vuetifyOptions: VuetifyOptions
   }) => HookResult
+  /**
+   * Hook called before the Vuetify instance is created.
+   *
+   * @param options - The options used to create the Vuetify instance.
+   */
   'vuetify:before-create': (options: {
     isDev: boolean
     vuetifyOptions: VuetifyOptions
   }) => HookResult
+  /**
+   * Hook called after the Vuetify instance has been created.
+   *
+   * @param vuetify - The created Vuetify instance.
+   */
   'vuetify:ready': (vuetify: ReturnType<typeof createVuetify>) => HookResult
+  /**
+   * Hook called to configure SSR client hints.
+   *
+   * @param options - The SSR client hints configuration options.
+   */
   'vuetify:ssr-client-hints': (options: {
     vuetifyOptions: VuetifyOptions
     ssrClientHints: SSRClientHints
@@ -60,7 +89,9 @@ export default defineNuxtModule<ModuleOptions>({
     },
     version,
   },
-  // Default configuration options of the Nuxt module
+  /**
+   * Default configuration options of the Nuxt module
+   */
   defaults: () => ({
     vuetifyOptions: {
       labComponents: false,
@@ -76,6 +107,12 @@ export default defineNuxtModule<ModuleOptions>({
       },
     },
   }),
+  /**
+   * Sets up the Vuetify Nuxt module.
+   *
+   * @param options - The module options.
+   * @param nuxt - The Nuxt instance.
+   */
   async setup (options, nuxt) {
     if (isNuxtMajorVersion(2, nuxt)) {
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
