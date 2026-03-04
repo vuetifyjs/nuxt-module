@@ -29,12 +29,20 @@ export async function configureNuxt (
 
   if (styles !== 'none' && (styles as any) !== false) {
     nuxt.options.css ??= []
-    if (typeof styles === 'object' && styles?.configFile) {
+    if (typeof styles === 'object' && 'configFile' in styles) {
       const a = addTemplate({
         filename: 'vuetify.settings.scss',
         getContents: async () => getTemplate('vuetify/styles', await resolvePath(styles.configFile)),
       })
       nuxt.options.css.push(a.dst)
+    } else if (ctx.vuetifyGte('4.0.0')) {
+      nuxt.options.css.push(await resolvePath('vuetify/styles/core'))
+      if (typeof styles === 'object' && styles?.utilities !== false) {
+        nuxt.options.css.push(await resolvePath('vuetify/styles/utilities'))
+      }
+      if (typeof styles === 'object' && styles?.colors !== false) {
+        nuxt.options.css.push(await resolvePath('vuetify/styles/colors'))
+      }
     } else {
       nuxt.options.css.push(await resolvePath('vuetify/styles'))
     }

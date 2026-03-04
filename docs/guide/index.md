@@ -109,10 +109,19 @@ export interface MOptions {
    * Vuetify styles.
    * Specify `none` to disable Vuetify styles.
    *
+   * If you are using Vuetify 3, you can only use the `configFile` option.
+   *
+   * The `colors` and `utilities` options are only available for Vuetify 4.
+   *
+   * @see https://vuetifyjs.com/en/styles/entry-points/#individual-modules
+   *
    * @default true
    */
   styles?: true | 'none' | {
     configFile: string
+  } | {
+    colors?: boolean
+    utilities?: boolean
   }
   /**
    * Disable the modern SASS compiler and API.

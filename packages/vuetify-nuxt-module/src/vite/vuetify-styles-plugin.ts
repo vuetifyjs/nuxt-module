@@ -1,5 +1,5 @@
-import type { Options } from '@vuetify/loader-shared'
 import type { Plugin } from 'vite'
+import type { MOptions } from '../types'
 import type { VuetifyNuxtContext } from '../utils/config'
 import fs from 'node:fs'
 import fsp from 'node:fs/promises'
@@ -11,7 +11,7 @@ import semver from 'semver'
 import path from 'upath'
 
 export function vuetifyStylesPlugin (
-  options: Options,
+  options: Pick<MOptions, 'styles'>,
   viteVersion: VuetifyNuxtContext['viteVersion'],
   _logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
 ) {
@@ -34,7 +34,7 @@ export function vuetifyStylesPlugin (
         throw new Error('Remove vite-plugin-vuetify from your Nuxt config file, this module registers a modified version.')
       }
 
-      if (isObject(options.styles)) {
+      if (isObject(options.styles) && 'configFile' in options.styles) {
         sassVariables = true
         // use file import when vite version > 5.4.2
         // check https://github.com/vitejs/vite/pull/17909
@@ -46,6 +46,9 @@ export function vuetifyStylesPlugin (
       }
     },
     async resolveId (source, importer, { custom, ssr }) {
+      if (!sassVariables) {
+        return
+      }
       if (source.startsWith(PREFIX) || source.startsWith(SSR_PREFIX)) {
         if (/\.s[ca]ss$/.test(source)) {
           return source
@@ -62,7 +65,7 @@ export function vuetifyStylesPlugin (
       ) {
         const resolution = await this.resolve(source, importer, { skipSelf: true, custom })
         if (!resolution) {
-          return undefined
+          return
         }
 
         const target = await resolveCss(resolution.id)
