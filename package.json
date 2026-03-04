@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "bumpp": "catalog:",
-    "eslint": "^10.0.2",
-    "eslint-config-vuetify": "4.3.5-beta.1"
+    "eslint": "catalog:",
+    "eslint-config-vuetify": "catalog:"
   }
 }

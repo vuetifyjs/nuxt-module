@@ -11,18 +11,18 @@
     "generate-pwa-icons": "pwa-assets-generator"
   },
   "dependencies": {
-    "swetrix": "^4.1.0",
-    "vue": "^3.5.29"
+    "swetrix": "catalog:",
+    "vue": "catalog:"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.19",
-    "@types/node": "^25.3.3",
-    "@vite-pwa/assets-generator": "^1.0.2",
-    "@vite-pwa/vitepress": "^1.1.0",
-    "sitemap": "^9.0.1",
-    "unocss": "^66.6.2",
-    "vite-plugin-pwa": "^1.2.0",
-    "vitepress": "^1.6.4",
-    "workbox-window": "^7.4.0"
+    "@iconify-json/carbon": "catalog:",
+    "@types/node": "catalog:",
+    "@vite-pwa/assets-generator": "catalog:",
+    "@vite-pwa/vitepress": "catalog:",
+    "sitemap": "catalog:",
+    "unocss": "catalog:",
+    "vite-plugin-pwa": "catalog:",
+    "vitepress": "catalog:",
+    "workbox-window": "catalog:"
   }
 }
