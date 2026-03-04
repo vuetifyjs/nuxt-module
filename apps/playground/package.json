@@ -10,23 +10,23 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "@date-io/luxon": "^3.2.0",
-    "@fortawesome/fontawesome-svg-core": "^7.2.0",
-    "@fortawesome/free-solid-svg-icons": "^7.2.0",
-    "@fortawesome/vue-fontawesome": "^3.1.3",
-    "@iconify-json/mdi": "^1.2.3",
-    "@mdi/js": "^7.4.47",
-    "luxon": "^3.7.2",
+    "@date-io/luxon": "catalog:",
+    "@fortawesome/fontawesome-svg-core": "catalog:",
+    "@fortawesome/free-solid-svg-icons": "catalog:",
+    "@fortawesome/vue-fontawesome": "catalog:",
+    "@iconify-json/mdi": "catalog:",
+    "@mdi/js": "catalog:",
+    "luxon": "catalog:",
     "vuetify": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@nuxtjs/i18n": "^10.2.3",
-    "@unocss/nuxt": "^66.6.2",
-    "nuxt": "^4.3.1",
-    "sass-embedded": "^1.97.3",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.2.5",
+    "@nuxt/devtools": "catalog:",
+    "@nuxtjs/i18n": "catalog:",
+    "@unocss/nuxt": "catalog:",
+    "nuxt": "catalog:",
+    "sass-embedded": "catalog:",
+    "typescript": "catalog:",
+    "vue-tsc": "catalog:",
     "vuetify-nuxt-module": "workspace:*"
   }
 }
