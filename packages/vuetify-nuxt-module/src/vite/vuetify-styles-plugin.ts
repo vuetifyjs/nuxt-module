@@ -16,9 +16,10 @@ export function vuetifyStylesPlugin (
   _logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
 ) {
   let configFile: string | undefined
-  // let cacheDir: string | undefined
+  let useLoadCache = false
   const vuetifyBase = resolveVuetifyBase()
   const noneFiles = new Set<string>()
+  const loadCache = new Map<string, { code: string, map: { mappings: string } }>()
   let isNone = false
   let sassVariables = false
   let fileImport = false
@@ -36,6 +37,7 @@ export function vuetifyStylesPlugin (
 
       if (isObject(options.styles) && 'configFile' in options.styles) {
         sassVariables = true
+        useLoadCache = !config.isProduction && !!options.styles.experimental?.cache
         // use file import when vite version > 5.4.2
         // check https://github.com/vitejs/vite/pull/17909
         fileImport = semver.gt(viteVersion, '5.4.2')
@@ -88,16 +90,40 @@ export function vuetifyStylesPlugin (
               : undefined)
 
         if (target) {
+          if (useLoadCache) {
+            const cached = loadCache.get(id)
+            if (cached) {
+              return cached
+            }
+          }
           const suffix = /\.scss/.test(target) ? ';\n' : '\n'
-          return {
+          const result = {
             code: `@use "${configFile}"${suffix}@use "${fileImport ? pathToFileURL(target).href : normalizePath(target)}"${suffix}`,
             map: {
               mappings: '',
             },
           }
+          if (useLoadCache) {
+            loadCache.set(id, result)
+          }
+          return result
         }
       }
       return isNone && noneFiles.has(id) ? '' : undefined
+    },
+    handleHotUpdate ({ file }) {
+      if (!useLoadCache) {
+        return
+      }
+
+      const normalizedFile = normalizePath(file)
+      if (
+        normalizedFile === normalizePath(configFile || '')
+        || normalizedFile.endsWith('.sass')
+        || normalizedFile.endsWith('.scss')
+      ) {
+        loadCache.clear()
+      }
     },
   }
 }
