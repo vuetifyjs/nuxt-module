@@ -4,8 +4,11 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, labeled, ready_for_review]
+  workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}
@@ -13,7 +16,7 @@ concurrency:
 
 jobs:
   release:
-    if: ${{ !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (!github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked')) }}
     runs-on: ubuntu-latest
 
     steps:
@@ -21,4 +24,6 @@ jobs:
       - uses: pnpm/action-setup@v4.0.0
       - run: pnpm install
       - run: pnpm prepack
-      - run: pnpx pkg-pr-new publish --compact --no-template --pnpm
+      - run: pnpm dlx pkg-pr-new publish packages/vuetify-nuxt-module --compact --no-template --pnpm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
