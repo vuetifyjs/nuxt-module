@@ -240,13 +240,34 @@ export interface MOptions {
   prefixComposables?: boolean
   /**
    * Vuetify styles.
-   *   *
+   *
+   * If you are using Vuetify 3, you can only use the `configFile` option.
+   *
+   * The `colors` and `utilities` options are only available for Vuetify 4.
+   *
+   * @see https://vuetifyjs.com/en/styles/entry-points/#individual-modules
    * @see https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
    *
    * @default true
    */
   styles?: true | 'none' | {
+    /**
+     * Path to the custom Vuetify SASS configuration file.
+     */
     configFile: string
+  } | {
+    /**
+     * Include the standard colors palette?
+     *
+     * @default true
+     */
+    colors?: boolean
+    /**
+     * Include the standard utilities?
+     *
+     * @default true
+     */
+    utilities?: boolean
   }
   /**
    * Disable the modern SASS compiler and API.
