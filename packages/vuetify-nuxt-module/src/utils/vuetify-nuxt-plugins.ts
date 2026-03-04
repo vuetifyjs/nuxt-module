@@ -47,7 +47,7 @@ function addVuetifyNuxtPlugin (
 
       let rulesImports = ''
       let rulesPlugin = ''
-      if (mode === 'client' && ctx.enableRules) {
+      if (ctx.enableRules) {
         rulesImports = [
           '',
           `import { rulesOptions } from '#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs'`,

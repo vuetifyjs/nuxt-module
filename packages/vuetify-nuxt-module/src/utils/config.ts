@@ -32,7 +32,7 @@ export interface VuetifyNuxtContext {
   vuetifyGte: (version: string) => boolean
   viteVersion: string
   enableRules?: boolean
-  rulesConfiguration?: { fromLabs: boolean }
+  rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions> (
