@@ -1,3 +1,4 @@
 typescript.includeWorkspace=true
 typescript.tsConfig.exclude[]=../../apps/playground
 typescript.tsConfig.exclude[]=../../apps/date-io-playground
+typescript.tsConfig.exclude[]=../../apps/vuetify-locale-playground
