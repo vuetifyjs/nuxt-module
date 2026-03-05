@@ -129,7 +129,8 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
 
   const componentsToImport = new Map<string, string[]>()
   for (const component of config.components) {
-    const { from } = importMapComponents[component]
+    const componentEntry = importMapComponents[component]
+    const from = componentEntry?.from
     if (!from) {
       logger.warn(`Component ${component} not found in Vuetify.`)
       continue
@@ -140,19 +141,24 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
       logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
       continue
     }
-
-    if (!componentsToImport.has(parts[1])) {
-      componentsToImport.set(parts[1], [])
+    const bucket = parts[1]
+    if (!bucket) {
+      continue
     }
 
-    const componentsArray = componentsToImport.get(parts[1])!
+    if (!componentsToImport.has(bucket)) {
+      componentsToImport.set(bucket, [])
+    }
+
+    const componentsArray = componentsToImport.get(bucket)!
     if (!componentsArray.includes(component)) {
       componentsArray.push(component)
     }
   }
 
   for (const [key, component] of Object.entries(config.aliases)) {
-    const { from } = importMapComponents[component]
+    const componentEntry = importMapComponents[component]
+    const from = componentEntry?.from
     if (!from) {
       logger.warn(`Component ${component} not found in Vuetify.`)
       continue
@@ -163,12 +169,16 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
       logger.warn(`Component ${component} not found in Vuetify, please report a new issue.`)
       continue
     }
-
-    if (!componentsToImport.has(parts[1])) {
-      componentsToImport.set(parts[1], [])
+    const bucket = parts[1]
+    if (!bucket) {
+      continue
     }
 
-    const componentsArray = componentsToImport.get(parts[1])!
+    if (!componentsToImport.has(bucket)) {
+      componentsToImport.set(bucket, [])
+    }
+
+    const componentsArray = componentsToImport.get(bucket)!
     if (!componentsArray.includes(component)) {
       componentsArray.push(component)
     }
@@ -203,7 +213,8 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
       componentsToImport.clear()
       const importMapLabComponents = await labComponentsPromise
       for (const component of useLabComponents) {
-        const { from } = importMapLabComponents[component]
+        const componentEntry = importMapLabComponents[component]
+        const from = componentEntry?.from
         if (!from) {
           logger.warn(`Lab Component ${component} not found in Vuetify.`)
           continue
@@ -214,12 +225,16 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
           logger.warn(`Lab Component ${component} not found in Vuetify, please report a new issue.`)
           continue
         }
-
-        if (!componentsToImport.has(parts[1])) {
-          componentsToImport.set(parts[1], [])
+        const bucket = parts[1]
+        if (!bucket) {
+          continue
         }
 
-        const componentsArray = componentsToImport.get(parts[1])!
+        if (!componentsToImport.has(bucket)) {
+          componentsToImport.set(bucket, [])
+        }
+
+        const componentsArray = componentsToImport.get(bucket)!
         if (!componentsArray.includes(component)) {
           componentsArray.push(component)
         }
