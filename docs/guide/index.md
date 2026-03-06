@@ -4,7 +4,7 @@ outline: deep
 
 # Introduction
 
-Welcome to the Vuetify Nuxt Module documentation.
+Get started with Vuetify Nuxt Module, learn how to install and configure the module in your Nuxt project.
 
 ## Compatibility
 
@@ -80,17 +80,21 @@ bun x nuxi@latest module add vuetify-nuxt-module
 `vuetify-nuxt-module` is strongly opinionated and has a built-in default configuration out of the box. You can use it without any configuration, and it will work for most use cases.
 :::
 
-::: warning
-You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
-
-Check out the [Globals](/guide/features/globals/) entry for more info.
-:::
-
 Add `vuetify-nuxt-module` module to `nuxt.config.ts` and configure it:
 
 ::: code-group
 
-```ts [nuxt.config.ts]
+```ts [Minimal Setup]
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: [
+    'vuetify-nuxt-module'
+  ],
+})
+```
+
+```ts [Custom Setup]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -99,10 +103,12 @@ export default defineNuxtConfig({
   ],
   vuetify: {
     moduleOptions: {
-      /* module specific options */
+      styles: {
+        colors: false
+      }
     },
     vuetifyOptions: {
-      /* vuetify options */
+      icons: 'unocss-mdi'
     }
   }
 })
@@ -362,3 +368,7 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
 }
 ```
 </details>
+
+::: warning
+You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
+:::
