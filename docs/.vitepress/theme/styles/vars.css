@@ -16,7 +16,7 @@
   --vp-c-danger-2: #ff1744;
   --vp-c-danger-3: #d50000;
   --vp-c-danger-soft: rgba(255, 82, 82, 0.14);
-  
+
   --vp-c-success-1: #4caf50;
   --vp-c-success-2: #43a047;
   --vp-c-success-3: #388e3c;
@@ -77,4 +77,8 @@
   --vp-button-brand-text: #fff;
   --vp-button-brand-bg: var(--vp-c-brand-1);
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+}
+
+:root {
+  --vp-nav-logo-height: 20px;
 }

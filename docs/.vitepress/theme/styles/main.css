@@ -290,3 +290,7 @@ details > summary:hover {
     font-size: 0.74rem;
   }
 }
+
+.VPNavBarTitle .logo {
+  margin-right: 4px;
+}
