@@ -5,13 +5,16 @@ sidebar: false
 title: Vuetify Nuxt Module
 
 hero:
-  name: Vuetify
-  text: Nuxt Module
-  tagline: Zero-config Nuxt Module for Vuetify
+  name: Vuetify + Nuxt
+  text: Production UI without boilerplate
+  tagline: Build faster with zero-config defaults, SSR-aware setup and fully customizable Vuetify runtime.
   image:
     src: /animated-logo.svg
     alt: Vuetify Nuxt Module
   actions:
+    - theme: alt
+      text: npx nuxi@latest module add vuetify-nuxt-module
+      link: "#"
     - theme: brand
       text: Get Started
       link: /guide/
@@ -20,84 +23,51 @@ hero:
       link: https://github.com/vuetifyjs/nuxt-module/
 
 features:
-  - icon: 👌
-    title: Zero-Config
-    details: Sensible built-in default Vuetify configuration for common use cases
-  - icon: 🔌
-    title: Extensible
-    details: Expose the ability to customize the Vuetify configuration via Nuxt Runtime Hooks
-    link: /guide/nuxt-runtime-hooks
-    linkText: Nuxt Runtime Hooks
   - icon: ⚡
-    title: Fully tree shakable
-    details: By default, only the needed Vuetify components are imported
+    title: Zero-Config
+    details: Sensible defaults for most Nuxt + Vuetify projects, ready in minutes
   - icon: 🛠️
-    title: Versatile
-    details: Custom Vuetify directives, global components and lab components
-  - icon: ✨
-    title: Configurable Styles
-    details: Configure your variables using Vuetify SASS Variables
+    title: Runtime Extensibility
+    details: Customize module behavior with Nuxt runtime and module hooks
+    link: /guide/nuxt-runtime-hooks
+    linkText: Explore Hooks
   - icon: 💥
-    title: SSR
-    details: Automatic SSR detection and configuration including HTTP Client hints
+    title: SSR + Client Hints
+    details: Smart SSR detection and HTTP Client Hints support for better UX
     link: /guide/server-side-rendering
-    linkText: Server Side Rendering
-  - icon: 🔩
-    title: Nuxt Layers and Module Hooks
-    details: Load your Vuetify configuration using Nuxt Layers or using a custom module via custom Nuxt Module Hook
-    link: /guide/nuxt-layers-and-module-hooks
-    linkText: Nuxt Layers and Module Hooks
-  - icon: 📥
-    title: Vuetify Configuration File
-    details: Configure your Vuetify options using a custom <strong>vuetify.config</strong> file, no dev server restart needed
-    link: /guide/vuetify-configuration-file
-    linkText: Vuetify Configuration File
-  - icon: <span class="i-carbon:face-wink hover:i-carbon:face-satisfied"></span>
-    title: Pure CSS Icons
-    details: <span>No more font/js icons, use the new <strong>unocss-mdi</strong> icon set or build your own with UnoCSS Preset Icons</span>
+    linkText: Learn SSR
+  - icon: 🎨
+    title: Flexible Styling
+    details: Configure Vuetify SASS variables and styling pipeline to match your design system
+    link: /guide/sass-variables
+    linkText: Style Guide
+  - icon: 🧩
+    title: Icon Strategy
+    details: Pure CSS icons, icon fonts, SVG icons and multiple icon sets support
     link: /guide/icons/unocss-preset-icons
-    linkText: UnoCSS Preset Icons
-  - icon: 😃
-    title: Icon Fonts
-    details: Configure the icon font you want to use, the module will automatically import it for you using CDN or local dependencies
-    link: /guide/icons/font-icons
-    linkText: Icon Fonts
-  - icon: 🎭
-    title: SVG Icons
-    details: Ready to use @mdi/js and @fortawesome/vue-fontawesome SVG icons packs
-    link: /guide/icons/svg-icons
-    linkText: SVG Icons
-  - icon: 📦
-    title: Multiple Icon Sets
-    details: You can register multiple icon sets
-    link: /guide/icons/#multiple-icon-sets
-    linkText: Multiple Icon Sets
+    linkText: Icons Setup
   - icon: 🌍
-    title: I18n Ready
-    details: Install @nuxtjs/i18n Nuxt module, and you're ready to use Vuetify internationalization features
+    title: i18n + Date Support
+    details: Integrates with @nuxtjs/i18n and @date-io adapters for global-ready apps
     link: /guide/i18n
     linkText: Internationalization
-  - icon: 📆
-    title: Date Components
-    details: Use Vuetify components that require date functionality installing and configuring one of the @date-io adapters
-    link: /guide/date
-    linkText: Date Components
-  - icon: 💬
-    title: Auto-Import Vuetify Locale Messages
-    details: Add the Vuetify Locale Messages adding the locales you want to use, no more imports needed
-    link: /guide/vuetify-locale-messages
-    linkText: Vuetify Locale Messages
-  - icon: ⚙️
-    title: Auto-Import Vuetify Composables
-    details: You don't need to import Vuetify composables manually, they are automatically imported for you
-    link: /guide/vuetify-composables
-    linkText: Vuetify Composables
-  - icon: 🎨
-    title: Vuetify Blueprints
-    details: Use Vuetify Blueprints to quickly scaffold components
-    link: /guide/vuetify-blueprints
-    linkText: Vuetify Blueprints
-  - icon: 👀
-    title: Nuxt DevTools
-    details: Ready to inspect your Vuetify styles with the Nuxt DevTools inspector
 ---
+
+<section class="home-benefits">
+  <div class="home-benefits__head">
+    <p class="home-benefits__kicker">Ship fast, stay in control</p>
+    <h2>Everything you need to run Vuetify on Nuxt at scale.</h2>
+  </div>
+  <div class="home-benefits__grid">
+    <article class="home-benefits__item">
+      <p class="home-benefits__title">Works with Nuxt layers</p>
+      <p>Share design systems and register custom configuration per layer or module.</p>
+      <a href="/guide/nuxt-layers-and-module-hooks">See layer workflow →</a>
+    </article>
+    <article class="home-benefits__item">
+      <p class="home-benefits__title">DX-first defaults</p>
+      <p>Auto-imported composables, optional directives, lab components and icon pipelines.</p>
+      <a href="/guide/features/globals/">Browse feature docs →</a>
+    </article>
+  </div>
+</section>

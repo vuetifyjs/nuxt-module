@@ -1,9 +1,13 @@
 <script setup lang="ts">
-  import { useData } from 'vitepress'
+  import { useData, useRoute } from 'vitepress'
   import DefaultTheme from 'vitepress/theme'
-  import { nextTick, provide } from 'vue'
+  import { createApp, nextTick, onMounted, provide, watch } from 'vue'
+  import HomeHeroCopy from './components/HomeHeroCopy.vue'
 
   const { isDark } = useData()
+  const route = useRoute()
+  const INSTALL_COMMAND = 'npx nuxi@latest module add vuetify-nuxt-module'
+  const HERO_COPY_SELECTOR = '.VPHome .VPHero .actions .action:nth-child(1) a'
 
   function enableTransitions () {
     return 'startViewTransition' in document
@@ -38,6 +42,28 @@
       },
     )
   })
+
+  function mountHeroCopy () {
+    nextTick(() => {
+      const element = document.querySelector(HERO_COPY_SELECTOR)
+      if (element) {
+        const container = document.createElement('div')
+        element.replaceWith(container)
+        createApp(HomeHeroCopy, { command: INSTALL_COMMAND }).mount(container)
+      }
+    })
+  }
+
+  onMounted(() => {
+    mountHeroCopy()
+  })
+
+  watch(
+    () => route.path,
+    () => {
+      mountHeroCopy()
+    },
+  )
 </script>
 
 <template>
