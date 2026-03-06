@@ -34,7 +34,9 @@ If you are using another composables that collide with the Vuetify ones, enable 
 
 You can configure it using `moduleOptions.enableRules` and `moduleOptions.rulesConfiguration`:
 
-```ts
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -47,3 +49,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::

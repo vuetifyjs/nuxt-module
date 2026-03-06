@@ -17,8 +17,9 @@ You can register all the lab components or only the ones you need: check the [la
 ### Registering all the lab components
 
 Example registering all the Vuetify lab components:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -29,11 +30,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Registering single lab component
 
 Example registering a single Vuetify lab component, use singular name or array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -44,11 +48,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Registering multiple lab components
 
 Example registering multiple Vuetify lab components, use array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -58,3 +65,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::

@@ -21,8 +21,9 @@ Fixed in Vuetify version `v3.8.0` (Andromeda).
 
 If your Vuetify styles not being applied when using Nuxt 3.16.0, you can drop this module to your modules folder:
 
-```ts
-// modules/fix-vuetify-theme-composable.ts
+::: code-group
+
+```ts [modules/fix-vuetify-theme-composable.ts]
 import { addVitePlugin, defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
@@ -45,6 +46,8 @@ export default defineNuxtModule({
   }
 })
 ```
+
+:::
 
 or, alternatively, use `unhead` in `legacy` mode; add the following `unhead` configuration to your Nuxt configuration file:
 

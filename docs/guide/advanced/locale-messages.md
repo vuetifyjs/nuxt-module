@@ -7,8 +7,9 @@ When `@nuxtjs/i18n` Nuxt module is present, `vuetifyOptions.localeMessages` modu
 :::
 
 Using the example in [Vuetify I18n](https://vuetifyjs.com/en/features/internationalization/#getting-started) documentation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -31,13 +32,16 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 Previous configuration will load and configure `zhHans` and `pl` Vuetify messages.
 
 If you have more messages than the default ones provided by Vuetify, you can add them to the locale messages entry or add them adding a new Nuxt plugin registering them in the `vuetify:before-create` hook (remember to merge the messages).
 
 Following with the Vuetify example:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -65,11 +69,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 This module will merge the messages for you, so you don't need to worry about it.
 
 If you want to load your custom messages from a Nuxt Plugin:
-```ts
-// Your own translation file
+::: code-group
+
+```ts [plugins/vuetify-i18n.ts]
 import sv from './i18n/vuetify/sv'
 import { defineNuxtPlugin } from '#imports'
 
@@ -79,3 +86,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 })
 ```
+
+:::

@@ -9,7 +9,9 @@ This module will expose only the necessary Nuxt plugins to configure Vuetify usi
 - [date](/guide/features/date): this Nuxt plugin will be only registered when `vuetifyOptions.date` Nuxt configuration option is configured.
 
 If you need to update the Vuetify configuration before calling `createVuetify` and registering the plugin, you can use the `vuetify:before-create` hook in your Nuxt Plugin:
-```ts
+::: code-group
+
+```ts [plugins/vuetify.ts]
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -19,8 +21,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 ```
 
+:::
+
 If you need the Vuetify instance after creating it, you can use the `vuetify:ready` hook in your Nuxt Plugin:
-```ts
+::: code-group
+
+```ts [plugins/vuetify.ts]
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -29,3 +35,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 })
 ```
+
+:::

@@ -33,8 +33,9 @@ In order to use the `unocss-mdi` icon set, you will need to:
 - install the `@unocss/nuxt` package as dev dependency and enable UnoCSS Preset Icons: [UnoCSS Nuxt Integration](https://unocss.dev/integrations/nuxt)
 
 To configure UnoCSS, add `unocss.config.ts` file to your project root folder and register the icons preset:
-```ts
-// unocss.config.ts
+::: code-group
+
+```ts [unocss.config.ts]
 import { defineConfig, presetIcons } from 'unocss'
 
 export default defineConfig({
@@ -46,9 +47,12 @@ export default defineConfig({
 })
 ```
 
+:::
+
 In your Nuxt configuration file, add the UnoCSS Nuxt module and configure the `unocss-mdi` icon set:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -63,9 +67,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 If you're not using the default UnoCSS Preset Icons [prefix](https://unocss.dev/presets/icons#prefix), you can configure it using the `icons.unocssIconPrefix` option in your Nuxt configuration file:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -81,9 +88,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 If you want to change the default `unocss-mdi` icon set icons, you can override any icon using the `icons.unocssIcons` option in your Vuetify options, and so, you don't need to write a custom plugin, don't forget to add the prefix and the collection name to the icon name:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -103,6 +113,8 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::
 
 You can also add additional icons using the `icons.unocssAdditionalIcons` option in your Vuetify options, don't forget to add the prefix and the collection name to the icon name. Additional icons will override the default icons, you should try to avoid overriding them using this option.
 

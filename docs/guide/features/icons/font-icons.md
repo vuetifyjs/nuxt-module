@@ -13,8 +13,9 @@ By default, the module will use the `mdi` font icon library. You can change it b
 - `fa` for [Font Awesome 5](https://fontawesome.com)
 
 To configure a font icon, you only need to specify the default set:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -29,6 +30,8 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 The module will use the CDN version of the font icon. If you want to use the local version, you only need to install the corresponding dependency, the module will auto-detect it and will switch to register the font to use the local version.
 
 The CDN used for each font icon library, you can use the `cdn` option to change it:
@@ -38,8 +41,9 @@ The CDN used for each font icon library, you can use the `cdn` option to change 
 - [CDN for Font Awesome 5 (fa)](https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css)
 
 To change the CDN for a font icon library, you only need to specify the `cdn` option:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -57,3 +61,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::
