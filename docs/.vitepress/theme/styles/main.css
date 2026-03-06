@@ -20,52 +20,124 @@ details > summary:hover {
   user-select: none;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-divider);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3);
+}
+
+/* Selection */
+::selection {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+/* Typography */
+.vp-doc h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.vp-doc h2 {
+  border-bottom: none;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Code Blocks */
+.vp-doc [class*='language-'] {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Custom Blocks (Admonitions) */
+.custom-block {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.custom-block.info {
+  border-color: rgba(24, 103, 192, 0.2);
+  background-color: rgba(24, 103, 192, 0.1);
+}
+.custom-block.info .custom-block-title {
+  color: var(--vp-c-brand-1);
+}
+
+.custom-block.tip {
+  border-color: rgba(76, 175, 80, 0.2);
+  background-color: rgba(76, 175, 80, 0.1);
+}
+.custom-block.tip .custom-block-title {
+  color: var(--vp-c-success-1);
+}
+
+.custom-block.warning {
+  border-color: rgba(251, 140, 0, 0.2);
+  background-color: rgba(251, 140, 0, 0.1);
+}
+.custom-block.warning .custom-block-title {
+  color: var(--vp-c-warning-1);
+}
+
+.custom-block.danger {
+  border-color: rgba(255, 82, 82, 0.2);
+  background-color: rgba(255, 82, 82, 0.1);
+}
+.custom-block.danger .custom-block-title {
+  color: var(--vp-c-danger-1);
+}
+
 .custom-block.tip code,
 .custom-block.info code,
 .custom-block.warning code,
 .custom-block.danger code {
-  font-size: var(--vp-custom-block-code-font-size);
-  font-weight: 700;
+  background-color: rgba(0,0,0,0.1);
+  color: inherit;
+  font-weight: 600;
 }
 
-.info.custom-block > p > code,
-.info.custom-block > p > a:hover {
-  color: var(--vp-c-text-2);
-  opacity: 1;
+/* Dark mode specific tweaks for custom blocks */
+.dark .custom-block.info {
+  background-color: rgba(33, 150, 243, 0.1);
+  border-color: rgba(33, 150, 243, 0.2);
 }
-.tip.custom-block > p > code,
-.tip.custom-block > p > a:hover {
+.dark .custom-block.tip {
+  background-color: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.2);
+}
+.dark .custom-block.warning {
+  background-color: rgba(255, 167, 38, 0.1);
+  border-color: rgba(255, 167, 38, 0.2);
+}
+.dark .custom-block.danger {
+  background-color: rgba(255, 82, 82, 0.1);
+  border-color: rgba(255, 82, 82, 0.2);
+}
+
+/* Sidebar */
+.VPSidebar {
+  border-right: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+}
+
+.VPSidebarItem.level-0.has-active-group > .item-title {
   color: var(--vp-c-brand-1);
-  opacity: 1;
-}
-.warning.custom-block > p > code,
-.warning.custom-block > p > a:hover {
-  color: var(--vp-c-warning-1);
-  opacity: 1;
-}
-.danger.custom-block > p > code,
-.danger.custom-block > p > a:hover {
-  color: var(--vp-c-danger-1);
-  opacity: 1;
 }
 
-/* dark/light radial transition */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root),
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root),
-.dark::view-transition-old(root) {
-  z-index: 9999;
-}
-
+/* Home Page Specifics */
 .VPHome {
   background:
     radial-gradient(1200px 550px at 12% 4%, color-mix(in srgb, var(--vp-c-brand-1) 18%, transparent) 0%, transparent 68%),
@@ -79,6 +151,9 @@ details > summary:hover {
 .VPHome .VPHero .name,
 .VPHome .VPHero .text {
   letter-spacing: -0.03em;
+  background: -webkit-linear-gradient(120deg, var(--vp-c-brand-1) 30%, var(--vp-c-brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .VPHome .VPHero .text {
@@ -121,6 +196,7 @@ details > summary:hover {
   border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 22%, var(--vp-c-divider));
   background: linear-gradient(160deg, color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent), transparent 58%);
   backdrop-filter: blur(8px);
+  border-radius: 12px;
 }
 
 .home-benefits {
@@ -188,6 +264,23 @@ details > summary:hover {
   font-weight: 500;
 }
 
+/* View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
 @media (max-width: 768px) {
   .VPHome .VPHero {
     padding-top: 64px;
@@ -195,14 +288,5 @@ details > summary:hover {
 
   .VPHome .VPHero .actions .action:nth-child(1) .VPButton {
     font-size: 0.74rem;
-  }
-
-  .home-benefits {
-    margin-top: 16px;
-    padding: 16px;
-  }
-
-  .home-benefits__grid {
-    grid-template-columns: 1fr;
   }
 }
