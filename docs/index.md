@@ -29,27 +29,27 @@ features:
   - icon: 🛠️
     title: Runtime Extensibility
     details: Customize module behavior with Nuxt runtime and module hooks
-    link: /guide/nuxt-runtime-hooks
+    link: /guide/advanced/runtime-hooks
     linkText: Explore Hooks
   - icon: 💥
     title: SSR + Client Hints
     details: Smart SSR detection and HTTP Client Hints support for better UX
-    link: /guide/server-side-rendering
+    link: /guide/features/ssr
     linkText: Learn SSR
   - icon: 🎨
     title: Flexible Styling
     details: Configure Vuetify SASS variables and styling pipeline to match your design system
-    link: /guide/sass-variables
+    link: /guide/configuration/sass
     linkText: Style Guide
   - icon: 🧩
     title: Icon Strategy
     details: Pure CSS icons, icon fonts, SVG icons and multiple icon sets support
-    link: /guide/icons/unocss-preset-icons
+    link: /guide/features/icons/unocss-preset-icons
     linkText: Icons Setup
   - icon: 🌍
     title: i18n + Date Support
     details: Integrates with @nuxtjs/i18n and @date-io adapters for global-ready apps
-    link: /guide/i18n
+    link: /guide/features/i18n
     linkText: Internationalization
 ---
 
@@ -62,7 +62,7 @@ features:
     <article class="home-benefits__item">
       <p class="home-benefits__title">Works with Nuxt layers</p>
       <p>Share design systems and register custom configuration per layer or module.</p>
-      <a href="/guide/nuxt-layers-and-module-hooks">See layer workflow →</a>
+      <a href="/guide/advanced/layers-and-hooks">See layer workflow →</a>
     </article>
     <article class="home-benefits__item">
       <p class="home-benefits__title">DX-first defaults</p>
