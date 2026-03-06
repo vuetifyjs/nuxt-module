@@ -15,8 +15,9 @@ You can also use the following packages SVG icons libraries:
 ## Material Design Icons
 
 You only need to add `@mdi/js` dependency to your project and configure the default set:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -31,9 +32,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 You can also add icon aliases:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -55,11 +59,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ## Font Awesome
 
 You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome` and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -74,9 +81,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -98,11 +108,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Font Awesome PRO
 
 To register Font Awesome Icons PRO you need to add `@fortawesome/pro-solid-svg-icons` dependency to your project, configure the default set and add the library to the list of libraries:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -123,6 +136,8 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::
 
 then you can use the icons in your components:
 ```vue

@@ -14,7 +14,9 @@ documentation while using this Nuxt module.
 1)  In your styles directory (for this example, we'll use `${srcDir}/assets/css`), create two files - `${srcDir}/assets/css/globals.scss` and `${srcDir}/assets/css/components.scss`
 
 2)  In the `globals.scss` file, we'll want to add
-```scss
+::: code-group
+
+```scss [globals.scss]
 @use 'vuetify' with (
     // Global Vuetify SASS variable overrides.  For example:
     // $utilities: false,
@@ -24,8 +26,12 @@ documentation while using this Nuxt module.
 )
 ```
 
+:::
+
 3)  In the `components.scss` file, we'll want to add
-```scss
+::: code-group
+
+```scss [components.scss]
 // $button-text-transform-override: capitalize;
 
 @forward 'vuetify/settings' with (
@@ -36,13 +42,19 @@ documentation while using this Nuxt module.
 );
 ```
 
+:::
+
 4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `globals.scss` like so:
-```javascript
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   css: ['@/assets/css/globals.scss']
   // other options
 })
 ```
+
+:::
 
 > [!TIP]
 > The [css](https://nuxt.com/docs/getting-started/styling#the-css-property) property within your `defineNuxtConfig` will import all styles from the file that you specify (in our case, `globals.scss`) into all components for convenience. Any styles appended to the `globals.scss` file in addition to the Vuetify Global Variables override will also be imported into all of your components. If you would like more fine-grained control, consider using a different file for your non-Vuetify global styles, like a separate `main.scss` that you import on a component-by-component basis.

@@ -15,8 +15,9 @@ You can also provide [Aliasing & Virtual Components](https://vuetifyjs.com/en/fe
 ### Register single component
 
 Example registering a Vuetify global component, use singular name or array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -27,11 +28,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Register multiple components
 
 Example registering multiple global components, use array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -42,11 +46,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Aliasing global component
 
 Example registering a Vuetify global component with a different name (aliases):
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -59,9 +66,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 The above example is equivalent to:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -74,3 +84,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::

@@ -18,8 +18,9 @@ If you want to ignore some directives, you can use the `moduleOptions.ignoreDire
 
 Example registering all the Vuetify directives:
 
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -30,11 +31,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Registering one directive
 
 Example registering a single Vuetify directive, use singular name or array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -45,11 +49,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ### Registering multiple directives
 
 Example registering multiple Vuetify directives, use array notation:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   modules: ['vuetify-nuxt-module'],
   vuetify: {
@@ -59,3 +66,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::

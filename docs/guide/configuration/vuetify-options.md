@@ -13,8 +13,9 @@ When using external configuration files with SSR enabled, the module will restar
 :::
 
 For example, you can configure:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -30,10 +31,13 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 and then use `defineVuetifyConfiguration` in your `vuetify.config` file:
 
-```ts
-// vuetify.config.ts
+::: code-group
+
+```ts [vuetify.config.ts]
 import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
 
 export default defineVuetifyConfiguration({
@@ -41,16 +45,21 @@ export default defineVuetifyConfiguration({
 })
 ```
 
+:::
+
 or just using object notation:
 
-```ts
-// vuetify.config.ts
+::: code-group
+
+```ts [vuetify.config.ts]
 import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
 
 export default {
   /* vuetify options */
 } satisfies ExternalVuetifyOptions
 ```
+
+:::
 
 You can omit `vuetifyOptions`, you only need to add one of the following files, the module will load it for you:
 - `vuetify.config.js`
@@ -61,8 +70,9 @@ You can omit `vuetifyOptions`, you only need to add one of the following files, 
 - `vuetify.config.mts`
 
 If you want the module to omit loading your configuration file, add `config: false` to your configuration:
-```ts
-// vuetify.config.ts
+::: code-group
+
+```ts [vuetify.config.ts]
 import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
 
 export default defineVuetifyConfiguration({
@@ -70,10 +80,13 @@ export default defineVuetifyConfiguration({
   /* other vuetify options */
 })
 ```
+
+:::
 or using object notation:
 
-```ts
-// vuetify.config.ts
+::: code-group
+
+```ts [vuetify.config.ts]
 import type { ExternalVuetifyOptions } from 'vuetify-nuxt-module'
 
 export default {
@@ -81,3 +94,5 @@ export default {
   /* vuetify options */
 } satisfies ExternalVuetifyOptions
 ```
+
+:::

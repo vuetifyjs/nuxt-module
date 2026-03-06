@@ -10,8 +10,9 @@ We recommend using Pure CSS Icons, you will use/bundle only the SVG icons used i
 ## Multiple Icon Sets
 
 You can register multiple icons sets adding them to the sets array, don't forget to add the default set, otherwise 'mdi' will be used:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -26,3 +27,5 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::

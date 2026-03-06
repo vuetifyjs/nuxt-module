@@ -13,8 +13,9 @@ If you're **NOT** using Nuxt `^3.8.1+`, you should use `// @ts-expect-error` whe
 ## Nuxt Layers
 
 Follow the [installation instructions](/guide/) for `vuetify-nuxt-module` in your layer. Then extend that layer in your other project:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -22,11 +23,14 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 ## Nuxt Module Hook
 
 You can use a custom module to load your Vuetify configuration:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import MyVuetifyModule from './modules/my-vuetify-module'
 
 export default defineNuxtConfig({
@@ -34,9 +38,12 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
-```ts
-// modules/my-vuetify-module
+::: code-group
+
+```ts [modules/my-vuetify-module.ts]
 export default defineNuxtModule({
   setup(_options, nuxt) {
     // If you're using Nuxt < 3.8.1, you should add a ts-expect-error here
@@ -51,3 +58,5 @@ export default defineNuxtModule({
   },
 })
 ```
+
+:::

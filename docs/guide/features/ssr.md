@@ -20,8 +20,9 @@ The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client
 ## Vuetify SASS Variables
 
 If you are customising Vuetify SASS Variables via [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you might need to disable `features.inlineStyles` (`experimental.inlineSSRStyles` for Nuxt version prior to `3.9.0`) in your Nuxt config file:
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   ssr: true,
   modules: ['vuetify-nuxt-module'],
@@ -46,6 +47,8 @@ export default defineNuxtConfig({
 })
 ```
 
+:::
+
 For a more detailed example, see [Overriding SASS Variables](/guide/configuration/sass#overriding-sass-variables).
 
 ## Vuetify Themes
@@ -57,8 +60,9 @@ This module provides support to restore the theme using `prefers-color-scheme`, 
 Alternatively, you will need to add some logic in the client to restore the theme after hydration.
 
 For example, if you want to use `dark` and `light` Vuetify Themes restoring the initial value using `prefers-color-scheme` and `localStorage`, you can use [useDark](https://vueuse.org/core/useDark/) and [useToogle](https://vueuse.org/shared/useToggle/) composables from VueUse in the following way:
-```ts
-// composables/useCustomTheme.ts
+::: code-group
+
+```ts [composables/useCustomTheme.ts]
 export function useCustomTheme() {
   const { $vuetify } = useNuxtApp()
 
@@ -76,6 +80,8 @@ export function useCustomTheme() {
   return { isDark, toggle }
 }
 ```
+
+:::
 
 then, in your `App.vue` or layout templates, you can use previous composable to restore the theme:
 ```vue
