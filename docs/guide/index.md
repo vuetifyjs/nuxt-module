@@ -6,28 +6,73 @@ outline: deep
 
 Welcome to the Vuetify Nuxt Module documentation.
 
-::: warning Breaking Changes
-From `v0.19.0` version, this module requires `Nuxt v3.15.0+`.
+## Compatibility
 
-From `v0.10.0` version, this module requires `Nuxt v3.9.0+`.
+- **Nuxt**: v3.15.0+
+- **Vuetify**: v3.8+
+- **Builder**: Vite only (Webpack/Rspack are not supported)
 
-From `v0.7.0` version, this module requires `Nuxt v3.6.5+`.
+::: details Version History
+- `v0.19.0`: Requires Nuxt `^3.15.0`
+- `v0.10.0`: Requires Nuxt `^3.9.0`
+- `v0.7.0`: Requires Nuxt `^3.6.5`
 :::
 
-You can open the vuetify-nuxt-module GitHub repo in StackBlitz to start playing with the playground:
+## Installation
+
+### New Project
+
+The easiest way to start is using the official Vuetify creator:
+
+::: code-group
+
+```bash [npm]
+npm create vuetify@latest -- --platform=nuxt
+```
+
+```bash [yarn]
+yarn create vuetify --platform=nuxt
+```
+
+```bash [pnpm]
+pnpm create vuetify --platform=nuxt
+```
+
+```bash [bun]
+bun create vuetify --platform=nuxt
+```
+
+:::
+
+You can also try it online on StackBlitz:
 
 <a href="https://stackblitz.com/github/userquin/vuetify-nuxt-module" target="_blank" rel="noopener noreferrer">
   <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" width="162" height="32">
 </a>
 
-## Installation
+### Existing Project
 
-::: warning
-Requires Vite, will not work with Webpack
-:::
-```bash
+If you already have a Nuxt project, you can add the module via `nuxi`:
+
+::: code-group
+
+```bash [npm]
 npx nuxi@latest module add vuetify-nuxt-module
 ```
+
+```bash [yarn]
+yarn dlx nuxi@latest module add vuetify-nuxt-module
+```
+
+```bash [pnpm]
+pnpm dlx nuxi@latest module add vuetify-nuxt-module
+```
+
+```bash [bun]
+bun x nuxi@latest module add vuetify-nuxt-module
+```
+
+:::
 
 ## Usage
 
@@ -43,8 +88,9 @@ Check out the [Globals](/guide/features/globals/) entry for more info.
 
 Add `vuetify-nuxt-module` module to `nuxt.config.ts` and configure it:
 
-```ts
-// Nuxt config file
+::: code-group
+
+```ts [nuxt.config.ts]
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
@@ -61,6 +107,8 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+:::
 
 ## Module Options
 
