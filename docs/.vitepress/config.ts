@@ -38,6 +38,7 @@ export default withPwa(defineConfig({
     },
   },
   themeConfig: {
+    logo: '/logo_h.svg',
     editLink: {
       pattern: 'https://github.com/vuetifyjs/nuxt-module/edit/main/docs/:path',
       text: 'Suggest changes to this page',
