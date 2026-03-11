@@ -1,0 +1,8 @@
+{
+  "name": "basic-vuetify3",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "vuetify": "^3.7.0"
+  }
+}

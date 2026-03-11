@@ -26,6 +26,7 @@ export function vuetifyStylesPlugin (
   const PREFIX = 'vuetify-styles/'
   const SSR_PREFIX = `/@${PREFIX}`
   const resolveCss = resolveCssFactory()
+  const toPath = (file: string) => fileImport ? pathToFileURL(file).href : normalizePath(file)
 
   return <Plugin>{
     name: 'vuetify:styles:nuxt',
@@ -71,6 +72,10 @@ export function vuetifyStylesPlugin (
         }
 
         const target = await resolveCss(resolution.id)
+        if (target.startsWith(PREFIX) || target.startsWith(SSR_PREFIX)) {
+          return target
+        }
+
         if (isNone) {
           noneFiles.add(target)
           return target
@@ -98,7 +103,7 @@ export function vuetifyStylesPlugin (
           }
           const suffix = /\.scss/.test(target) ? ';\n' : '\n'
           const result = {
-            code: `@use "${configFile}"${suffix}@use "${fileImport ? pathToFileURL(target).href : normalizePath(target)}"${suffix}`,
+            code: `@use "${toPath(configFile!)}"${suffix}@use "${toPath(target)}"${suffix}`,
             map: {
               mappings: '',
             },
