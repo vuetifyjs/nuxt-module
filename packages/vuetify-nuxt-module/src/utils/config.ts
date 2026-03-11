@@ -91,6 +91,15 @@ export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions>
   const result = await loader.load()
   result.config = result.config?.config === false ? Object.assign(defaults, inlineConfig) : Object.assign(defaults, result.config || inlineConfig)
 
+  if (result.config && typeof result.config === 'object' && 'vuetifyOptions' in result.config) {
+    const nestedOptions = (result.config as any).vuetifyOptions
+    if (typeof nestedOptions === 'object' && nestedOptions !== null) {
+      console.warn('[@vuetify/nuxt-module] Detected nested "vuetifyOptions" in your configuration file. This usually happens when using a named export or wrapping options incorrectly. Please export the options directly using "export default".')
+      Object.assign(result.config, nestedOptions)
+      delete (result.config as any).vuetifyOptions
+    }
+  }
+
   delete result.config.config
 
   return result
