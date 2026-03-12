@@ -53,21 +53,31 @@ features:
     linkText: Internationalization
 ---
 
+<div class="home-new-app">
+  <div class="home-new-app__content">
+    <p class="home-new-app__title">New App?</p>
+    <p class="home-new-app__subtitle">Scaffold with a single command.</p>
+  </div>
+  <div class="home-new-app__terminal">
+    <HomeHeroCopy command="pnpm create vuetify --platform=nuxt" />
+  </div>
+</div>
+
 <section class="home-benefits">
   <div class="home-benefits__head">
     <p class="home-benefits__kicker">Ship fast, stay in control</p>
     <h2>Everything you need to run Vuetify on Nuxt at scale.</h2>
   </div>
   <div class="home-benefits__grid">
-    <article class="home-benefits__item">
+    <a href="/guide/advanced/layers-and-hooks" class="home-benefits__item">
       <p class="home-benefits__title">Works with Nuxt layers</p>
       <p>Share design systems and register custom configuration per layer or module.</p>
-      <a href="/guide/advanced/layers-and-hooks">See layer workflow →</a>
-    </article>
-    <article class="home-benefits__item">
+      <span>See layer workflow →</span>
+    </a>
+    <a href="/guide/features/globals/" class="home-benefits__item">
       <p class="home-benefits__title">DX-first defaults</p>
       <p>Auto-imported composables, optional directives, lab components and icon pipelines.</p>
-      <a href="/guide/features/globals/">Browse feature docs →</a>
-    </article>
+      <span>Browse feature docs →</span>
+    </a>
   </div>
 </section>

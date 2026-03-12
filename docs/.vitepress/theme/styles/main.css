@@ -257,11 +257,111 @@ details > summary:hover {
   overflow-x: auto;
 }
 
-.home-benefits__item a {
+a.home-benefits__item {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+a.home-benefits__item:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.home-benefits__item span {
   display: inline-flex;
   margin-top: 10px;
   color: var(--vp-c-brand-1);
   font-weight: 500;
+}
+
+.home-new-app {
+  margin: 20px auto 30px;
+  max-width: 1152px;
+  padding: 40px;
+  border-radius: 20px;
+  background:
+    radial-gradient(1200px 550px at 12% 4%, color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent) 0%, transparent 68%),
+    var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  transition: all 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.home-new-app:hover {
+  background:
+    radial-gradient(1200px 550px at 12% 4%, color-mix(in srgb, var(--vp-c-brand-1) 25%, transparent) 0%, transparent 68%),
+    var(--vp-c-bg);
+  border-color: var(--vp-c-brand-1);
+  transform: scale(1.02);
+  z-index: 100;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 768px) {
+  .home-new-app {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+    padding: 50px 60px;
+  }
+}
+
+.home-new-app__content {
+  flex: 1;
+  max-width: 480px;
+}
+
+.home-new-app__kicker {
+  margin: 0 0 10px;
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.home-new-app__title {
+  margin: 0;
+  font-size: clamp(2.2rem, 5.5vw, 3rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--vp-c-brand-1);
+}
+
+.home-new-app__subtitle {
+  margin: 12px 0 0;
+  font-size: 1.1rem;
+  color: var(--vp-c-text-2);
+}
+
+.home-new-app__terminal {
+  flex: 1;
+  width: 100%;
+  max-width: 500px;
+}
+
+.home-new-app__terminal .hero-copy-btn {
+  height: 64px;
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 0 24px;
+}
+
+.home-new-app__terminal .hero-copy-btn:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.home-new-app__terminal .hero-copy-btn .content {
+  font-size: 1rem;
+  font-family: var(--vp-font-family-mono);
 }
 
 /* View Transitions */
