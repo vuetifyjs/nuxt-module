@@ -6,18 +6,6 @@ outline: deep
 
 Get started with Vuetify Nuxt Module, learn how to install and configure the module in your Nuxt project.
 
-## Compatibility
-
-- **Nuxt**: v3.15.0+
-- **Vuetify**: v3.8+
-- **Builder**: Vite only (Webpack/Rspack are not supported)
-
-::: details Version History
-- `v0.19.0`: Requires Nuxt `^3.15.0`
-- `v0.10.0`: Requires Nuxt `^3.9.0`
-- `v0.7.0`: Requires Nuxt `^3.6.5`
-:::
-
 ## Installation
 
 ### New Project
@@ -371,4 +359,16 @@ export interface VOptions extends Partial<Omit<VuetifyOptions, 'ssr' | 'aliases'
 
 ::: warning
 You don't need to install any [Vuetify Vite Plugin](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin), the module will throw an error if any Vuetify Vite Plugin is installed in your Nuxt configuration.
+:::
+
+## Compatibility
+
+- **Nuxt**: v3.15.0+
+- **Vuetify**: v3.8+
+- **Builder**: Vite only (Webpack/Rspack are not supported)
+
+::: details Version History
+- `v0.19.0`: Requires Nuxt `^3.15.0`
+- `v0.10.0`: Requires Nuxt `^3.9.0`
+- `v0.7.0`: Requires Nuxt `^3.6.5`
 :::
