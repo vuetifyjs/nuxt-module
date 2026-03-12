@@ -1,4 +1,19 @@
 /* Hero Image Shadow */
+.VPHero {
+  position: relative;
+}
+
+.VPHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--vp-c-brand-soft) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+}
+
 .VPHero .image-src {
   filter: drop-shadow(0 0 80px color-mix(in srgb, var(--vp-c-brand-1) 60%, transparent));
   max-height: 250px;
