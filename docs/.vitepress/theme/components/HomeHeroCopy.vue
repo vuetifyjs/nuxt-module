@@ -98,7 +98,8 @@
   position: relative;
   user-select: none;
   max-width: 100%;
-  min-width: 300px;
+  /* min-width: 300px; Remove fixed min-width for mobile */
+  width: 100%;
 }
 
 .hero-copy-btn:hover {
