@@ -11,3 +11,4 @@ You can register the following Vuetify components globally:
 - [Global Components](/guide/features/globals/global-components)
 - [Directives](/guide/features/globals/directives)
 - [Lab Components](/guide/features/globals/lab-components)
+- [Composables](/guide/features/globals/composables)
