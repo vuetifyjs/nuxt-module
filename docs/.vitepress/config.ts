@@ -151,12 +151,6 @@ export default withPwa(defineConfig({
           { text: 'Locale Messages', link: '/guide/advanced/locale-messages' },
         ],
       },
-      {
-        text: 'Help',
-        items: [
-          { text: 'FAQ', link: '/guide/faq' },
-        ],
-      },
     ],
   },
   vite: {
