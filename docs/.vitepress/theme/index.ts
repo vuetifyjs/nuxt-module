@@ -2,6 +2,7 @@ import type { Theme } from 'vitepress'
 import * as Swetrix from 'swetrix'
 import { inBrowser } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import HomeHeroCopy from './components/HomeHeroCopy.vue'
 import VuetifyLayout from './VuetifyLayout.vue'
 
 import './styles/main.css'
@@ -16,7 +17,9 @@ if (inBrowser) {
 export default {
   extends: DefaultTheme,
   Layout: VuetifyLayout,
-  enhanceApp () {
+  enhanceApp ({ app }) {
+    app.component('HomeHeroCopy', HomeHeroCopy)
+
     Swetrix.init('KMc9xOD28UCn', {
       apiURL: 'https://swetrix-api.vuetifyjs.com/log',
     })
