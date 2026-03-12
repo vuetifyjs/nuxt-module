@@ -121,6 +121,7 @@ export default withPwa(defineConfig({
           { text: 'Common Setup', link: '/guide/styling/common-setup' },
           { text: 'SASS Customization', link: '/guide/styling/sass' },
           { text: 'Experimental Cache', link: '/guide/styling/caching' },
+          { text: 'UnoCSS and Tailwind', link: '/guide/styling/other-frameworks' },
         ],
       },
       {
