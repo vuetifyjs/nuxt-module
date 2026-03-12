@@ -39,7 +39,7 @@ features:
   - icon: 🎨
     title: Flexible Styling
     details: Configure Vuetify SASS variables and styling pipeline to match your design system
-    link: /guide/configuration/sass
+    link: /guide/styling/sass
     linkText: Style Guide
   - icon: 🧩
     title: Icon Strategy
