@@ -130,6 +130,7 @@ export default withPwa(defineConfig({
               { text: 'Global Components', link: '/guide/features/globals/global-components' },
               { text: 'Directives', link: '/guide/features/globals/directives' },
               { text: 'Lab Components', link: '/guide/features/globals/lab-components' },
+              { text: 'Composables', link: '/guide/features/globals/composables' },
             ],
           },
           {
@@ -146,7 +147,6 @@ export default withPwa(defineConfig({
           { text: 'Internationalization', link: '/guide/features/i18n' },
           { text: 'Date Support', link: '/guide/features/date' },
           { text: 'SSR', link: '/guide/features/ssr' },
-          { text: 'Composables', link: '/guide/features/composables' },
         ],
       },
       {
