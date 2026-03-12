@@ -1,6 +1,7 @@
 import type { Theme } from 'vitepress'
 import * as Swetrix from 'swetrix'
 import { inBrowser } from 'vitepress'
+import CopyOrDownloadAsMarkdownButtons from 'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue'
 import DefaultTheme from 'vitepress/theme'
 import CompatibilityMatrix from './components/CompatibilityMatrix.vue'
 import HomeHeroCopy from './components/HomeHeroCopy.vue'
@@ -21,6 +22,7 @@ export default {
   enhanceApp ({ app }) {
     app.component('HomeHeroCopy', HomeHeroCopy)
     app.component('CompatibilityMatrix', CompatibilityMatrix)
+    app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)
 
     Swetrix.init('KMc9xOD28UCn', {
       apiURL: 'https://swetrix-api.vuetifyjs.com/log',

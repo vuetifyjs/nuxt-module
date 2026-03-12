@@ -23,6 +23,7 @@
     "unocss": "catalog:",
     "vite-plugin-pwa": "catalog:",
     "vitepress": "catalog:",
+    "vitepress-plugin-llms": "catalog:",
     "workbox-window": "catalog:"
   }
 }

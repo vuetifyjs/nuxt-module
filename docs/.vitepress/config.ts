@@ -1,5 +1,6 @@
 import { withPwa } from '@vite-pwa/vitepress'
 import { defineConfig } from 'vitepress'
+import llmstxt, { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms'
 import { version } from '../../package.json'
 import { ogImage, ogUrl } from './constants'
 import { pwa } from './pwa'
@@ -35,6 +36,9 @@ export default withPwa(defineConfig({
     theme: {
       light: 'github-light',
       dark: 'github-dark',
+    },
+    config (md) {
+      md.use(copyOrDownloadAsMarkdownButtons)
     },
   },
   themeConfig: {
@@ -161,6 +165,7 @@ export default withPwa(defineConfig({
   },
   vite: {
     logLevel: 'info',
+    plugins: [llmstxt()],
   },
   pwa,
   buildEnd,
