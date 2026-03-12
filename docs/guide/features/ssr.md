@@ -49,7 +49,7 @@ export default defineNuxtConfig({
 
 :::
 
-For a more detailed example, see [Overriding SASS Variables](/guide/configuration/sass#overriding-sass-variables).
+For a more detailed example, see [Overriding SASS Variables](/guide/styling/sass#overriding-sass-variables).
 
 ## Vuetify Themes
 
