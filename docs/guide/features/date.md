@@ -1,10 +1,10 @@
 # Date Support
 
-Use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
+To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/), you can install and configure one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters.
 
-To use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/):
-- install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters (optional)
-- configure the date entry in your Vuetify configuration:
+Here are the steps to set up date functionality:
+- Install one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters (optional).
+- Configure the date entry in your Vuetify configuration:
 
 
 ```ts
@@ -15,11 +15,11 @@ vuetifyOptions: {
 }
 ```
 
-If you also have `@nuxtjs/i18n` module installed, `vuetifyOptions.date.locale` and `vuetifyOptions.date.rtl` options will be automatically configured, beware, the configured `locale` entry will be ignored.
+If the `@nuxtjs/i18n` module is installed, the `vuetifyOptions.date.locale` and `vuetifyOptions.date.rtl` options will be automatically configured. Please note that any manually configured `locale` entry will be ignored in this case.
 
-If you want to use a custom date adapter, you can configure it using `vuetifyOptions.date.adapter = 'custom'`, and then:
-- add a Nuxt Plugin and add the `vuetify:configuration` hook to configure your Vuetify options
-- you can import the `virtual:vuetify-date-configuration` module, you will have access to the configuration:
+If you prefer to use a custom date adapter, you can set `vuetifyOptions.date.adapter = 'custom'` and then follow these steps:
+- Add a Nuxt Plugin and use the `vuetify:configuration` hook to configure your Vuetify options.
+- Import the `virtual:vuetify-date-configuration` module to access the configuration:
   
   
 ```ts

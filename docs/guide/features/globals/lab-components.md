@@ -5,18 +5,18 @@ outline: deep
 # Lab Components
 
 ::: info
-The module supports [labs components](https://vuetifyjs.com/en/labs/introduction/) auto-import, you can use them on demand.
+The module supports auto-import for [labs components](https://vuetifyjs.com/en/labs/introduction/), allowing you to use them on demand.
 :::
 
-The module provides support to use Vuetify [labs components](https://vuetifyjs.com/en/labs/introduction/) via `vuetifyOptions.labsComponents` module option, it has been declared properly to have better DX.
+The module supports Vuetify [labs components](https://vuetifyjs.com/en/labs/introduction/) via the `vuetifyOptions.labsComponents` module option, designed for a better developer experience.
 
-You can register all the lab components or only the ones you need: check the [lab component definition](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts#L140-L141).
+You can register all lab components or only the ones you need. Please check the [lab component definition](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts#L140-L141) for more details.
 
 ## Examples
 
 ### Registering all the lab components
 
-Example registering all the Vuetify lab components:
+Here is an example of registering all Vuetify lab components:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -34,7 +34,7 @@ export default defineNuxtConfig({
 
 ### Registering single lab component
 
-Example registering a single Vuetify lab component, use singular name or array notation:
+Here is an example of registering a single Vuetify lab component using either the singular name or array notation:
 ::: code-group
 
 ```ts [nuxt.config.ts]

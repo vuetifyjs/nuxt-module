@@ -6,7 +6,7 @@ outline: deep
 
 Vuetify Nuxt Module supports [SSR](https://nuxt.com/docs/api/configuration/nuxt-config#ssr) out of the box. It will automatically detect if you are using SSR and configure Vuetify accordingly.
 
-The module includes support for the following [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints), check [SSR HTTP Client hints](#ssr-http-client-hints) for more details:
+The module supports the following [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints). Please check [SSR HTTP Client hints](#ssr-http-client-hints) for more details:
 - [Sec-CH-Prefers-Color-Scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Color-Scheme)
 - [Sec-CH-Prefers-Reduced-Motion](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-Prefers-Reduced-Motion)
 - [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width)
@@ -19,7 +19,7 @@ The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client
 
 ## Vuetify SASS Variables
 
-If you are customising Vuetify SASS Variables via [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you might need to disable `features.inlineStyles` (`experimental.inlineSSRStyles` for Nuxt version prior to `3.9.0`) in your Nuxt config file:
+If you are customizing Vuetify SASS Variables via the [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you may need to disable `features.inlineStyles` (or `experimental.inlineSSRStyles` for Nuxt versions prior to `3.9.0`) in your Nuxt config file:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -53,13 +53,13 @@ For a more detailed example, see [Overriding SASS Variables](/guide/configuratio
 
 ## Vuetify Themes
 
-If you're using multiple Vuetify Themes with SSR enabled, Vuetify [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work since there is no way to know which theme to use in the server (the server will use the default theme).
+If you use multiple Vuetify Themes with SSR enabled, please note that Vuetify's [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work as expected, since the server cannot determine which theme to use (it will default to the standard theme).
 
-This module provides support to restore the theme using `prefers-color-scheme`, check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
+This module supports restoring the theme using `prefers-color-scheme`. Please check [Sec-CH-Prefers-Color-Scheme](#sec-ch-prefers-color-scheme) for more details.
 
-Alternatively, you will need to add some logic in the client to restore the theme after hydration.
+Alternatively, you can add client-side logic to restore the theme after hydration.
 
-For example, if you want to use `dark` and `light` Vuetify Themes restoring the initial value using `prefers-color-scheme` and `localStorage`, you can use [useDark](https://vueuse.org/core/useDark/) and [useToogle](https://vueuse.org/shared/useToggle/) composables from VueUse in the following way:
+For example, if you wish to use `dark` and `light` Vuetify Themes and restore the initial value using `prefers-color-scheme` and `localStorage`, you can use the [useDark](https://vueuse.org/core/useDark/) and [useToggle](https://vueuse.org/shared/useToggle/) composables from VueUse as follows:
 ::: code-group
 
 ```ts [composables/useCustomTheme.ts]
@@ -83,7 +83,7 @@ export function useCustomTheme() {
 
 :::
 
-then, in your `App.vue` or layout templates, you can use previous composable to restore the theme:
+then, in your `App.vue` or layout templates, you can use the composable to restore the theme:
 ```vue
 <script setup>
 import { useCustomTheme } from '~/composables/useCustomTheme'

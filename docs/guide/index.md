@@ -4,13 +4,13 @@ outline: deep
 
 # Introduction
 
-Get started with Vuetify Nuxt Module, learn how to install and configure the module in your Nuxt project.
+This guide helps you get started with the Vuetify Nuxt Module, covering installation and configuration for your Nuxt project.
 
 ## Installation
 
 ### New Project
 
-The easiest way to start is using the official Vuetify creator:
+The easiest way to start is by using the official Vuetify creator:
 
 ::: code-group
 
@@ -40,7 +40,7 @@ You can also try it online on StackBlitz:
 
 ### Existing Project
 
-If you already have a Nuxt project, you can add the module via `nuxi`:
+If you already have a Nuxt project, you can add the module using `nuxi`:
 
 ::: code-group
 

@@ -4,11 +4,11 @@ outline: deep
 
 # Nuxt Layers and Module Hooks
 
-You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Module Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
+You can load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or a custom module via the `vuetify:registerModule` [Nuxt Module Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time).
 
 ## Nuxt Layers
 
-Follow the [installation instructions](/guide/) for `vuetify-nuxt-module` in your layer. Then extend that layer in your other project:
+Follow the [installation instructions](/guide/) for `vuetify-nuxt-module` in your layer. Then, you can extend that layer in your other project:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 
 ## Nuxt Module Hook
 
-You can use a custom module to load your Vuetify configuration:
+You can also use a custom module to load your Vuetify configuration:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -36,7 +36,7 @@ export default defineNuxtConfig({
 
 :::
 
-and your module will load your configuration via `vuetify:registerModule` Nuxt hook:
+and your module will load your configuration via the `vuetify:registerModule` Nuxt hook:
 ::: code-group
 
 ```ts [modules/my-vuetify-module.ts]
