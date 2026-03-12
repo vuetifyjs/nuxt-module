@@ -1,9 +1,13 @@
-# Compatibility Matrix
+# Compatibility
 
-| Nuxt Module | Nuxt    | Vuetify | I18n           |
-|-------------|---------|---------|----------------|
-| <=0.7.0     | ^3.0.0  | ^3.4.3  | ^8.0.0-beta-12 |
-| <0.13.0     | ^3.6.5  | ^3.5.1  | ^8.0.0         |
-| >=0.13.0    | ^3.9.0  | ^3.5.1  | ^8.0.0         |
-| >0.15.0     | >=3.9.0 | ^3.6.12 | ^8.0.0         |
-| >=0.17.0    | >=3.9.0 | ^3.7.0  | ^8.0.0         |
+## Version Requirements
+
+This module requires at least **Nuxt** `^3.15.0` (Nuxt 4 is also supported), **Vuetify** `^3.8.0`, and **@nuxtjs/i18n** `^8.0.0`.
+
+::: info Builder Support
+This module only supports **Vite**. Webpack and Rspack are **not** supported.
+:::
+
+## Compatibility Matrix
+
+<CompatibilityMatrix />
