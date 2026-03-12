@@ -66,15 +66,28 @@ export function vuetifyStylesPlugin (
         && source.endsWith('.css')
         && isSubdir(vuetifyBase, path.isAbsolute(source) ? source : importer)
       ) {
-        const resolution = await this.resolve(source, importer, { skipSelf: true, custom })
-        if (!resolution) {
+        let resolutionId: string | undefined
+
+        if (source.startsWith('.')) {
+          resolutionId = path.resolve(path.dirname(importer), source)
+        } else if (path.isAbsolute(source)) {
+          resolutionId = source
+        } else {
+          const resolution = await this.resolve(source, importer, { skipSelf: true, custom })
+          if (resolution) {
+            resolutionId = resolution.id
+          }
+        }
+
+        if (!resolutionId) {
           return
         }
 
-        const target = await resolveCss(resolution.id)
-        if (target.startsWith(PREFIX) || target.startsWith(SSR_PREFIX)) {
-          return target
+        if (resolutionId.startsWith(PREFIX) || resolutionId.startsWith(SSR_PREFIX)) {
+          return resolutionId
         }
+
+        const target = await resolveCss(resolutionId)
 
         if (isNone) {
           noneFiles.add(target)
