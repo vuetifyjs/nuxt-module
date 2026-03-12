@@ -207,6 +207,13 @@ details > summary:hover {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   font-size: 0.82rem;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-align: left;
+  height: auto;
+  padding: 12px 20px;
+  line-height: 1.4;
+  white-space: normal;
+  max-width: calc(100vw - 2 * 24px)
 }
 
 .VPHome .VPFeatures {
@@ -249,8 +256,14 @@ details > summary:hover {
 .home-benefits__grid {
   margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .home-benefits__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .home-benefits__item {
@@ -298,7 +311,7 @@ a.home-benefits__item:hover {
 .home-new-app {
   margin: 20px auto 30px;
   max-width: 1152px;
-  padding: 40px;
+  padding: 24px;
   border-radius: 20px;
   background:
     radial-gradient(1200px 550px at 12% 4%, color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent) 0%, transparent 68%),
@@ -404,11 +417,29 @@ a.home-benefits__item:hover {
 
 @media (max-width: 768px) {
   .VPHome .VPHero {
-    padding-top: 64px;
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+
+  .VPHome .VPHero .image-src {
+    max-height: 192px;
+  }
+
+  .VPHome .VPHero .main {
+    margin-top: -24px;
+  }
+
+  .VPHome .VPHero .tagline {
+    margin-bottom: 12px;
+  }
+
+  .VPHome .VPHero .actions {
+    margin-top: 8px;
   }
 
   .VPHome .VPHero .actions .action:nth-child(1) .VPButton {
     font-size: 0.74rem;
+    padding: 8px 12px;
   }
 }
 
