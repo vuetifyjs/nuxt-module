@@ -59,10 +59,6 @@ export default withPwa(defineConfig({
     },
     nav: [
       {
-        text: 'Getting Started',
-        link: '/guide/',
-      },
-      {
         text: 'Configuration',
         link: '/guide/configuration/vuetify-options',
       },
