@@ -141,6 +141,7 @@ export default defineNuxtModule<ModuleOptions>({
       componentsPromise: undefined!,
       labComponentsPromise: undefined!,
       vuetifyGte,
+      vuetifyVersion: currentVersion || '0.0.0',
       viteVersion,
     }
 

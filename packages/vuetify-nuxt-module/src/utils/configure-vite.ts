@@ -82,7 +82,7 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
     viteInlineConfig.plugins.push(vuetifyImportPlugin({ autoImport }))
     // exclude styles plugin
     if ((ctx.moduleOptions.styles as any) !== false && ctx.moduleOptions.styles !== 'none') {
-      viteInlineConfig.plugins.push(vuetifyStylesPlugin({ styles: ctx.moduleOptions.styles }, ctx.viteVersion, ctx.logger))
+      viteInlineConfig.plugins.push(vuetifyStylesPlugin(ctx))
     }
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx), vuetifyIconsPlugin(ctx), vuetifyDateConfigurationPlugin(ctx))
     if (ctx.ssrClientHints.enabled) {

@@ -131,6 +131,8 @@
       "pathe",
       "perfect-debounce",
       "rollup",
+      "sass",
+      "sass-embedded",
       "upath",
       "ufo",
       "unconfig",

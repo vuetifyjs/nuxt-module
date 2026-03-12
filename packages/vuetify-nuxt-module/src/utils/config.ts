@@ -30,9 +30,11 @@ export interface VuetifyNuxtContext {
    * @example ctx.vuetifyGte('3.4.0') // true if Vuetify version is 3.4.0 or greater
    */
   vuetifyGte: (version: string) => boolean
+  vuetifyVersion: string
   viteVersion: string
   enableRules?: boolean
   rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
+  stylesCachePath?: string
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions> (

@@ -1,5 +1,4 @@
 import type { Plugin } from 'vite'
-import type { MOptions } from '../types'
 import type { VuetifyNuxtContext } from '../utils/config'
 import fs from 'node:fs'
 import fsp from 'node:fs/promises'
@@ -11,15 +10,12 @@ import semver from 'semver'
 import path from 'upath'
 
 export function vuetifyStylesPlugin (
-  options: Pick<MOptions, 'styles'>,
-  viteVersion: VuetifyNuxtContext['viteVersion'],
-  _logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
+  ctx: VuetifyNuxtContext,
 ) {
   let configFile: string | undefined
-  let useLoadCache = false
+  const options = { styles: ctx.moduleOptions.styles }
   const vuetifyBase = resolveVuetifyBase()
   const noneFiles = new Set<string>()
-  const loadCache = new Map<string, { code: string, map: { mappings: string } }>()
   let isNone = false
   let sassVariables = false
   let fileImport = false
@@ -38,11 +34,7 @@ export function vuetifyStylesPlugin (
 
       if (isObject(options.styles) && 'configFile' in options.styles) {
         sassVariables = true
-        useLoadCache = !config.isProduction && !!options.styles.experimental?.cache
-        // use file import when vite version > 5.4.2
-        // check https://github.com/vitejs/vite/pull/17909
-        fileImport = semver.gt(viteVersion, '5.4.2')
-
+        fileImport = semver.gt(ctx.viteVersion, '5.4.2')
         configFile = await resolvePath(options.styles.configFile)
       } else {
         isNone = options.styles === 'none'
@@ -52,6 +44,7 @@ export function vuetifyStylesPlugin (
       if (!sassVariables) {
         return
       }
+
       if (source.startsWith(PREFIX) || source.startsWith(SSR_PREFIX)) {
         if (/\.s[ca]ss$/.test(source)) {
           return source
@@ -83,15 +76,19 @@ export function vuetifyStylesPlugin (
           return
         }
 
-        if (resolutionId.startsWith(PREFIX) || resolutionId.startsWith(SSR_PREFIX)) {
-          return resolutionId
-        }
-
         const target = await resolveCss(resolutionId)
 
         if (isNone) {
           noneFiles.add(target)
           return target
+        }
+
+        if (ctx.stylesCachePath) {
+          const relative = path.relative(vuetifyBase, target)
+          const cacheFile = path.resolve(ctx.stylesCachePath, relative.replace(/\.s[ac]ss$/, '.css'))
+          if (fs.existsSync(cacheFile)) {
+            return cacheFile
+          }
         }
 
         return `${ssr ? SSR_PREFIX : PREFIX}${path.relative(vuetifyBase, target)}`
@@ -108,40 +105,17 @@ export function vuetifyStylesPlugin (
               : undefined)
 
         if (target) {
-          if (useLoadCache) {
-            const cached = loadCache.get(id)
-            if (cached) {
-              return cached
-            }
-          }
           const suffix = /\.scss/.test(target) ? ';\n' : '\n'
-          const result = {
+          return {
             code: `@use "${toPath(configFile!)}"${suffix}@use "${toPath(target)}"${suffix}`,
             map: {
               mappings: '',
             },
           }
-          if (useLoadCache) {
-            loadCache.set(id, result)
-          }
-          return result
         }
       }
-      return isNone && noneFiles.has(id) ? '' : undefined
-    },
-    handleHotUpdate ({ file }) {
-      if (!useLoadCache) {
-        return
-      }
 
-      const normalizedFile = normalizePath(file)
-      if (
-        normalizedFile === normalizePath(configFile || '')
-        || normalizedFile.endsWith('.sass')
-        || normalizedFile.endsWith('.scss')
-      ) {
-        loadCache.clear()
-      }
+      return isNone && noneFiles.has(id) ? '' : undefined
     },
   }
 }
@@ -158,7 +132,13 @@ function resolveCssFactory () {
         if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) {
           throw error
         }
-        mapping = source.replace(/\.css$/, '.scss')
+        try {
+          mapping = source.replace(/\.css$/, '.scss')
+          await fsp.access(mapping, fs.constants.R_OK)
+        } catch {
+          // If neither sass nor scss exists, fallback to css
+          mapping = source
+        }
       }
       mappings.set(source, mapping)
     }
