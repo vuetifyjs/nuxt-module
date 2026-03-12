@@ -108,6 +108,7 @@ export default withPwa(defineConfig({
         items: [
           { text: 'Vuetify Options', link: '/guide/configuration/vuetify-options' },
           { text: 'SASS Customization', link: '/guide/configuration/sass' },
+          { text: 'Experimental Cache', link: '/guide/configuration/experimental-cache' },
           { text: 'Blueprints', link: '/guide/configuration/blueprints' },
           { text: 'Transform Asset URLs', link: '/guide/configuration/transform-assets' },
         ],
