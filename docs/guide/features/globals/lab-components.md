@@ -5,7 +5,7 @@ outline: deep
 # Lab Components
 
 ::: info
-From version `v0.18.6`, the module supports [labs components](https://vuetifyjs.com/en/labs/introduction/) auto-import, you can use them on demand.
+The module supports [labs components](https://vuetifyjs.com/en/labs/introduction/) auto-import, you can use them on demand.
 :::
 
 The module provides support to use Vuetify [labs components](https://vuetifyjs.com/en/labs/introduction/) via `vuetifyOptions.labsComponents` module option, it has been declared properly to have better DX.
