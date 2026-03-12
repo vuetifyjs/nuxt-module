@@ -1,3 +1,9 @@
+/* Hero Image Shadow */
+.VPHero .image-src {
+  filter: drop-shadow(0 0 80px color-mix(in srgb, var(--vp-c-brand-1) 60%, transparent));
+  max-height: 250px;
+}
+
 /* h3 breaks SEO => replaced with h2 with the same size */
 .home-content h2 {
   margin-top: 2rem;
