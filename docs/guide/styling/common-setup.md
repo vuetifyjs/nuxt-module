@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 
 ### Vuetify 4 Features
 
-If you are using Vuetify 4 (or compatible versions), you can configure specific style features like `colors` and `utilities`.
+If you are using Vuetify 4, you can configure specific style features like `colors` and `utilities`.
 
 - `colors`: Enable/disable the standard colors palette. Default: `true`.
 - `utilities`: Enable/disable the standard utilities. Default: `true`.
