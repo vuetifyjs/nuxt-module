@@ -6,10 +6,10 @@ You can also use it in Nuxt Layers, the module will scan for `vuetify.config` fi
 
 This module will watch Vuetify configuration files in development and only configuration files outside `node_modules`.
 
-When any Vuetify configuration file is changed in development, this module will invalidate all virtual configuration modules. The current version of the module will send 2 or 3 full page reloads in a row, not very optimal but much better than restarting the development server, we will try to fix it in future versions.
+::: warning CAVEATS
+Changing Vuetify configuration in development triggers a full page reload (sometimes 2-3) to invalidate virtual modules, avoiding a server restart. We aim to improve this in future versions.
 
-::: warning
-When using external configuration files with SSR enabled, the module will restart the Nuxt dev server since Nuxt doesn't support HMR on the server: Vite 5.1 comes with the new `Vite Runtime API` as an experimental feature but Nuxt still not ready.
+With SSR and external configuration, the Nuxt dev server restarts due to lack of server-side HMR support in Nuxt.
 :::
 
 For example, you can configure:
