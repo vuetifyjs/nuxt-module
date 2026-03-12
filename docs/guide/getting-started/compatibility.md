@@ -2,10 +2,10 @@
 
 ## Version Requirements
 
-This module requires at least **Nuxt** `^3.15.0` (Nuxt 4 is also supported), **Vuetify** `^3.8.0`, and **@nuxtjs/i18n** `^8.0.0`.
+The Vuetify Nuxt Module is designed to work with **Nuxt** `^3.15.0` (including Nuxt 4 support), **Vuetify** `^3.8.0`, and **@nuxtjs/i18n** `^8.0.0`.
 
 ::: info Builder Support
-This module only supports **Vite**. Webpack and Rspack are **not** supported.
+Please note that this module is intended to use with **Vite**. Support for Webpack and Rspack is not available.
 :::
 
 ## Compatibility Matrix

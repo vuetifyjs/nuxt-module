@@ -1,19 +1,18 @@
 # SASS Customization
 
-From version `0.17.0`, this module configures Nuxt to use the SASS modern compiler (`modern-compiler`) by default.
+Starting from version `0.17.0`, this module configures Nuxt to use the SASS modern compiler (`modern-compiler`) by default.
 
-For best compatibility and performance, replace your `sass` dependency with `sass-embedded`.
+For the best compatibility and performance, it is recommended to replace your `sass` dependency with `sass-embedded`.
 
-Check [Build Performance](https://vuetifyjs.com/en/features/sass-variables/#build-performance) in Vuetify docs for more details.
+Please check [Build Performance](https://vuetifyjs.com/en/features/sass-variables/#build-performance) in the Vuetify documentation for more details.
 
 ## Overriding SASS Variables
 
-Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/).  Setting these up requires configuration that is slightly different from the Vuetify
-documentation while using this Nuxt module.
+Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/). When using this Nuxt module, the configuration differs slightly from the standard Vuetify documentation.
 
-1)  In your styles directory (for this example, we'll use `${srcDir}/assets/css`), create two files - `${srcDir}/assets/css/globals.scss` and `${srcDir}/assets/css/components.scss`
+1)  In your styles directory (for this example, we'll use `${srcDir}/assets/css`), create two files: `${srcDir}/assets/css/globals.scss` and `${srcDir}/assets/css/components.scss`.
 
-2)  In the `globals.scss` file, we'll want to add
+2)  In the `globals.scss` file, add the following content:
 ::: code-group
 
 ```scss [globals.scss]
@@ -28,7 +27,7 @@ documentation while using this Nuxt module.
 
 :::
 
-3)  In the `components.scss` file, we'll want to add
+3)  In the `components.scss` file, add the following content:
 ::: code-group
 
 ```scss [components.scss]
@@ -44,7 +43,7 @@ documentation while using this Nuxt module.
 
 :::
 
-4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `globals.scss` like so:
+4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `globals.scss`, as shown below:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -60,4 +59,4 @@ export default defineNuxtConfig({
 > The [css](https://nuxt.com/docs/getting-started/styling#the-css-property) property within your `defineNuxtConfig` will import all styles from the file that you specify (in our case, `globals.scss`) into all components for convenience. Any styles appended to the `globals.scss` file in addition to the Vuetify Global Variables override will also be imported into all of your components. If you would like more fine-grained control, consider using a different file for your non-Vuetify global styles, like a separate `main.scss` that you import on a component-by-component basis.
 
 
-You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api).  For a full list of variables, check out [all of the imports in the index](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_index.sass).
+You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api). For a full list of variables, please check [all of the imports in the index](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_index.sass).

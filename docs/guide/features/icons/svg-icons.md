@@ -14,7 +14,7 @@ You can also use the following packages SVG icons libraries:
 
 ## Material Design Icons
 
-You only need to add `@mdi/js` dependency to your project and configure the default set:
+Add the `@mdi/js` dependency to your project and configure the default set:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -63,7 +63,7 @@ export default defineNuxtConfig({
 
 ## Font Awesome
 
-You only need to add `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome` and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
+Add the `@fortawesome/fontawesome-svg-core`, `@fortawesome/vue-fontawesome`, and `@fortawesome/free-solid-svg-icons` dependencies to your project and configure the default set:
 ::: code-group
 
 ```ts [nuxt.config.ts]
@@ -83,7 +83,7 @@ export default defineNuxtConfig({
 
 :::
 
-You can also add more libraries and install them in your project, the module will register them for you (this is the default configuration using the above configuration):
+You can also add more libraries and install them in your project; the module will register them automatically (this is the default behavior with the above configuration):
 ::: code-group
 
 ```ts [nuxt.config.ts]

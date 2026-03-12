@@ -1,6 +1,6 @@
 # Vuetify Composables
 
-No more Vuetify composables manual imports, auto-import is enabled by default:
+Manual imports of Vuetify composables are no longer required; auto-import is enabled by default for:
 - [useDate](https://vuetifyjs.com/en/api/use-date/)
 - [useDefaults](https://vuetifyjs.com/en/api/use-defaults/)
 - [useDisplay](https://vuetifyjs.com/en/api/use-display/)
@@ -13,9 +13,9 @@ No more Vuetify composables manual imports, auto-import is enabled by default:
 - [useRules](https://vuetifyjs.com/en/features/rules/): from Vuetify `v3.8.0+` and Vuetify Nuxt Module `v0.19.0+`
 - [useMask](https://vuetifyjs.com/en/api/use-mask/): from Vuetify `v3.10.0+` and Vuetify Nuxt Module `v0.19.0+`
 
-You can disable auto-import using `moduleOptions.importComposables: false`.
+You can disable auto-import by setting `moduleOptions.importComposables: false`.
 
-If you are using another composables that collide with the Vuetify ones, enable `moduleOptions.prefixComposables: true` to prefix them with `V`:
+If you are using other composables that conflict with Vuetify's, you can enable `moduleOptions.prefixComposables: true` to prefix the Vuetify composables with `V`:
 - `useDate` => `useVDate`
 - `useDefaults` => `useVDefaults`
 - `useLayout` => `useVLayout`
@@ -30,7 +30,7 @@ If you are using another composables that collide with the Vuetify ones, enable 
 
 ### useRules
 
-`useRules` composable is available from Vuetify `v3.8.0+`. It is enabled by default if you are using Vuetify `v3.8.0+`.
+The `useRules` composable is available in Vuetify `v3.8.0+` and is enabled by default for that version.
 
 You can configure it using `moduleOptions.enableRules` and `moduleOptions.rulesConfiguration`:
 

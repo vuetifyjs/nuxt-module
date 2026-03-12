@@ -1,12 +1,12 @@
 # Experimental Cache
 
-When using custom SASS configuration (`configFile`), Vuetify needs to compile SASS variables for every component. This process can be slow during development startup and HMR.
+When using a custom SASS configuration (`configFile`), Vuetify compiles SASS variables for every component. This process can sometimes slow down development startup and Hot Module Replacement (HMR).
 
-To improve performance, this module provides an experimental caching mechanism.
+To help improve performance, this module offers an experimental caching mechanism.
 
 ## Enabling Cache
 
-You can enable the experimental cache in your `nuxt.config.ts`:
+You can enable the experimental cache in your `nuxt.config.ts` as follows:
 
 ```ts
 export default defineNuxtConfig({
@@ -25,15 +25,15 @@ export default defineNuxtConfig({
 
 ## How it works
 
-When enabled, the module will:
+When enabled, the module performs the following steps:
 
-1.  Calculate a hash based on your:
+1.  Calculates a hash based on your:
     *   Vuetify version
     *   Vite version
     *   Content of your SASS config file
-2.  Check if a cache exists for this hash in `node_modules/.cache/vuetify-nuxt-module/styles`.
-3.  If not found, it will pre-compile all Vuetify styles with your SASS variables into CSS files and store them in the cache directory.
-4.  Serve these cached CSS files directly during development, bypassing the SASS compilation step.
+2.  Checks if a cache exists for this hash in `node_modules/.cache/vuetify-nuxt-module/styles`.
+3.  If not found, it pre-compiles all Vuetify styles with your SASS variables into CSS files and stores them in the cache directory.
+4.  Serves these cached CSS files directly during development, bypassing the SASS compilation step.
 
 ## Benefits
 

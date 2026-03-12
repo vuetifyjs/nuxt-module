@@ -8,7 +8,7 @@ You can configure the styles using the `styles` property in `moduleOptions`.
 
 ### Basic Usage
 
-By default, styles are enabled (`true`). To disable them, set `styles` to `'none'`.
+By default, styles are enabled (`true`). To disable them, you can set `styles` to `'none'`.
 
 ```ts
 export default defineNuxtConfig({
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 
 ### Vuetify 4 Features
 
-If you are using Vuetify 4, you can configure specific style features like `colors` and `utilities`.
+If you are using Vuetify 4, you can configure specific style features such as `colors` and `utilities`.
 
 - `colors`: Enable/disable the standard colors palette. Default: `true`.
 - `utilities`: Enable/disable the standard utilities. Default: `true`.
@@ -48,7 +48,7 @@ export default defineNuxtConfig({
 
 ### SASS Customization
 
-If you want to customize SASS variables (Vuetify 3+), you can provide a `configFile` path. This allows you to override global and component-level variables.
+If you wish to customize SASS variables (Vuetify 3+), you can provide a `configFile` path. This allows you to override global and component-level variables.
 
 See [SASS Customization](/guide/styling/sass) for a detailed guide.
 
