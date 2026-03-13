@@ -97,8 +97,7 @@
   transition: all 0.25s ease;
   position: relative;
   user-select: none;
-  max-width: 100%;
-  /* min-width: 300px; Remove fixed min-width for mobile */
+  max-width: calc(100vw - 2 * 24px);
   width: 100%;
 }
 
