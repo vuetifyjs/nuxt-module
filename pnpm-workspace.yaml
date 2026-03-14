@@ -39,6 +39,7 @@ catalog:
   '@vite-pwa/assets-generator': ^1.0.2
   '@vite-pwa/vitepress': ^1.1.0
   bumpp: ^10.4.1
+  conventional-github-releaser: ^3.1.5
   date-fns: ^4.1.0
   date-fns-jalali: 2.19.0-2
   dayjs: ^1.11.19
