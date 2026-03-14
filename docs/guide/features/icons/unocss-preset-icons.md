@@ -12,6 +12,10 @@ Vuetify 4 provides pre-configured icon sets that work with UnoCSS Preset Icons. 
 
 To use these built-in icon sets, you need to set the `defaultSet` to `custom` in your Nuxt configuration file and register the icon set in a custom Nuxt plugin.
 
+::: warning
+Don’t change the default prefix `i-` of UnoCSS preset-icons, Vuetify icon sets rely on it.
+:::
+
 For example, to use the Phosphor (`ph`) icon set:
 
 1. Install the required dependencies:
