@@ -6,6 +6,75 @@ Once the UnoCSS Nuxt Module and UnoCSS Preset Icons are installed and configured
 
 UnoCSS Preset Icons use [Iconify](https://iconify.design/) as their icon data source. You need to install the corresponding icon set in `devDependencies` following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all available collections.
 
+## Vuetify 4 built-in UnoCSS icon sets
+
+Vuetify 4 provides pre-configured icon sets that work with UnoCSS Preset Icons. You can find the full list of available icon sets in the [Vuetify documentation](https://vuetifyjs.com/en/features/icon-fonts/#unocss-icon-sets).
+
+To use these built-in icon sets, you need to set the `defaultSet` to `custom` in your Nuxt configuration file and register the icon set in a custom Nuxt plugin.
+
+For example, to use the Phosphor (`ph`) icon set:
+
+1. Install the required dependencies:
+::: code-group
+
+```bash [npm]
+npm i -D @iconify-json/ph @unocss/nuxt
+```
+
+```bash [yarn]
+yarn add -D @iconify-json/ph @unocss/nuxt
+```
+
+```bash [pnpm]
+pnpm add -D @iconify-json/ph @unocss/nuxt
+```
+
+```bash [bun]
+bun add -D @iconify-json/ph @unocss/nuxt
+```
+
+:::
+
+2. Configure the default set in your Nuxt configuration file:
+::: code-group
+
+```ts [nuxt.config.ts]
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  modules: ['@unocss/nuxt', 'vuetify-nuxt-module'],
+  vuetify: {
+    vuetifyOptions: {
+      icons: {
+        defaultSet: 'custom'
+      }
+    }
+  }
+})
+```
+
+:::
+
+3. Create a new Nuxt plugin to register the icon set:
+::: code-group
+
+```ts [plugins/vuetify-icons.ts]
+import { ph, aliases } from 'vuetify/iconsets/ph'
+import { defineNuxtPlugin } from '#imports'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.hook('vuetify:configuration', ({ vuetifyOptions }) => {
+    vuetifyOptions.icons = {
+      defaultSet: 'ph',
+      aliases,
+      sets: { ph },
+    }
+  })
+})
+```
+
+:::
+
 ## Using UnoCSS Preset Icons
 
 UnoCSS Preset Icons allows you to use any icon via `v-icon`. You need to register the `mdi` icon set to allow Vuetify to configure the icon via the `class` attribute:
