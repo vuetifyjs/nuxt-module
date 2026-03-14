@@ -55,7 +55,7 @@ export default withPwa(defineConfig({
     ],
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-PRESENT Joaquín Sánchez',
+      copyright: 'Copyright © 2023-PRESENT Vuetify, LLC',
     },
     nav: [
       {
