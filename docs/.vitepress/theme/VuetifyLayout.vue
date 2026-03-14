@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useData, useRoute } from 'vitepress'
   import DefaultTheme from 'vitepress/theme'
-  import { createApp, nextTick, onMounted, provide, watch } from 'vue'
+  import { createApp, nextTick, onMounted, onUnmounted, provide, watch } from 'vue'
   import HomeHeroCopy from './components/HomeHeroCopy.vue'
 
   const { isDark } = useData()
@@ -54,8 +54,45 @@
     })
   }
 
+  let rafId: number | null = null
+  let mouseX = 0
+  let mouseY = 0
+
+  function updateLogoTilt () {
+    const logo = document.querySelector('.VPHome .image-src') as HTMLElement
+    if (!logo) {
+      rafId = null
+      return
+    }
+
+    const { innerWidth, innerHeight } = window
+    const x = (mouseX / innerWidth - 0.5) * 2
+    const y = (mouseY / innerHeight - 0.5) * 2
+
+    const tiltX = (y * -10).toFixed(2)
+    const tiltY = (x * 10).toFixed(2)
+
+    logo.style.transform = `translate(-50%, -50%) perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`
+    rafId = null
+  }
+
+  function onMouseMove (e: MouseEvent) {
+    mouseX = e.clientX
+    mouseY = e.clientY
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateLogoTilt)
+    }
+  }
+
   onMounted(() => {
     mountHeroCopy()
+    window.addEventListener('mousemove', onMouseMove)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('mousemove', onMouseMove)
+    if (rafId) cancelAnimationFrame(rafId)
   })
 
   watch(
