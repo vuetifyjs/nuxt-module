@@ -92,4 +92,4 @@ The virtual modules can be found in [configuration.d.ts](https://github.com/vuet
 
 ## 📄 License
 
-[MIT](https://github.com/vuetifyjs/nuxt-module/blob/main/LICENSE) License &copy; 2023-PRESENT [Joaquín Sánchez](https://github.com/userquin)
+[MIT](https://github.com/vuetifyjs/nuxt-module/blob/main/LICENSE) License &copy; 2023-PRESENT [Vuetify, LLC](https://github.com/vuetifyjs)
