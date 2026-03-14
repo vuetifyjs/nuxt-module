@@ -52,10 +52,10 @@ export async function configureNuxt (
       nuxt.options.css.push(a.dst)
     } else if (ctx.vuetifyGte('4.0.0')) {
       nuxt.options.css.push(await resolvePath('vuetify/styles/core'))
-      if (typeof styles === 'object' && styles?.utilities !== false) {
+      if (styles === true || (typeof styles === 'object' && styles?.utilities !== false)) {
         nuxt.options.css.push(await resolvePath('vuetify/styles/utilities'))
       }
-      if (typeof styles === 'object' && styles?.colors !== false) {
+      if (styles === true || (typeof styles === 'object' && styles?.colors !== false)) {
         nuxt.options.css.push(await resolvePath('vuetify/styles/colors'))
       }
     } else {
