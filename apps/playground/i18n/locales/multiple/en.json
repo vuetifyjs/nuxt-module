@@ -1,9 +1,20 @@
 {
   "xxx": "Favorite",
   "$vuetify": {
+    "badge": "Badge",
     "open": "Open",
     "close": "Close",
     "datePicker": {
+      "ariaLabel": {
+        "previousMonth": "Previous month",
+        "nextMonth": "Next month",
+        "selectYear": "Select year",
+        "previousYear": "Previous year",
+        "nextYear": "Next year",
+        "selectMonth": "Select month",
+        "selectDate": "{0}",
+        "currentDate": "Today, {0}"
+      },
       "title": "Select date",
       "header": "Enter date",
       "cancel": "Cancel",

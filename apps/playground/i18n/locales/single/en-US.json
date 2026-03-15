@@ -1,6 +1,7 @@
 {
   "xxx": "Favorite",
   "$vuetify": {
+    "badge": "Badge",
     "open": "Open",
     "close": "Close",
     "datePicker": {
@@ -10,6 +11,16 @@
       "ok": "Ok",
       "input": {
         "placeholder": "Enter date"
+      },
+      "ariaLabel": {
+        "previousMonth": "Previous month",
+        "nextMonth": "Next month",
+        "selectYear": "Select year",
+        "previousYear": "Previous year",
+        "nextYear": "Next year",
+        "selectMonth": "Select month",
+        "selectDate": "{0}",
+        "currentDate": "Today, {0}"
       }
     },
     "input": {
