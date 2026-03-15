@@ -79,3 +79,12 @@ catalog:
   workbox-window: ^7.4.0
 
 catalogMode: strict
+supportedArchitectures:
+  cpu:
+    - current
+    - x64
+    - arm64
+  os:
+    - current
+    - linux
+    - darwin
