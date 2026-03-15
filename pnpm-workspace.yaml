@@ -77,14 +77,3 @@ catalog:
   vue-tsc: ^3.2.5
   vuetify: ^4.0.1
   workbox-window: ^7.4.0
-
-catalogMode: strict
-supportedArchitectures:
-  cpu:
-    - current
-    - x64
-    - arm64
-  os:
-    - current
-    - linux
-    - darwin
