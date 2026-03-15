@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const data = [
-    { module: '^1.0.0', nuxt: '>=3.15.0', vuetify: '>=3.8.0', i18n: '>=8.0.0' },
+    { module: '^1.0.0', nuxt: '>=3.15.0', vuetify: '>=3.8.0', i18n: '>=9.0.0' },
     { module: '>= 0.17.0', nuxt: '>= 3.9.0', vuetify: '^3.7.0', i18n: '^8.0.0' },
     { module: '> 0.15.0', nuxt: '>= 3.9.0', vuetify: '^3.6.12', i18n: '^8.0.0' },
     { module: '>= 0.13.0', nuxt: '^3.9.0', vuetify: '^3.5.1', i18n: '^8.0.0' },
