@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "bumpp": "catalog:",
-    "conventional-github-releaser": "catalog:",
     "eslint": "catalog:",
     "eslint-config-vuetify": "catalog:"
   }

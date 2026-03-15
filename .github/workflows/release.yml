@@ -45,6 +45,6 @@ jobs:
         run: pnpm -r publish --tag ${{ env.NPM_TAG }} --access public --no-git-checks
 
       - name: GitHub release
-        run: pnpm dlx conventional-github-releaser -p vuetify
+        run: pnpm dlx changelogithub
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
