@@ -65,7 +65,7 @@
     "dev:prepare:date-io": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare ../../apps/date-io-playground",
     "dev:date-io": "pnpm -C ../../apps/date-io-playground dev",
     "docs:dev": "pnpm -C ../../docs run dev",
-    "docs:build": "nuxt-module-build prepare && pnpm -C ../../docs run build",
+    "docs:build": "pnpm -C ../../docs run build",
     "docs:serve": "pnpm -C ../../docs run serve",
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
