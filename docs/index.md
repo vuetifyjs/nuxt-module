@@ -13,7 +13,7 @@ hero:
     alt: Vuetify Nuxt Module
   actions:
     - theme: alt
-      text: npx nuxi@latest module add vuetify-nuxt-module
+      text: npx nuxt module add vuetify-nuxt-module
       link: "#"
     - theme: brand
       text: Get Started

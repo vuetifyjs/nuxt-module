@@ -52,7 +52,7 @@
 > Requires Vite, will not work with Webpack
 
 ```bash
-npx nuxi@latest module add vuetify-nuxt-module
+npx nuxt module add vuetify-nuxt-module
 ```
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/userquin/vuetify-nuxt-module)

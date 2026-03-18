@@ -40,24 +40,24 @@ You can also try it online on StackBlitz:
 
 ### Existing Project
 
-If you already have a Nuxt project, you can add the module using `nuxi`:
+If you already have a Nuxt project, you can add the module using `nuxt`:
 
 ::: code-group
 
 ```bash [npm]
-npx nuxi@latest module add vuetify-nuxt-module
+npx nuxt module add vuetify-nuxt-module
 ```
 
 ```bash [yarn]
-yarn dlx nuxi@latest module add vuetify-nuxt-module
+yarn dlx nuxt module add vuetify-nuxt-module
 ```
 
 ```bash [pnpm]
-pnpm dlx nuxi@latest module add vuetify-nuxt-module
+pnpm dlx nuxt module add vuetify-nuxt-module
 ```
 
 ```bash [bun]
-bun x nuxi@latest module add vuetify-nuxt-module
+bun x nuxt module add vuetify-nuxt-module
 ```
 
 :::
