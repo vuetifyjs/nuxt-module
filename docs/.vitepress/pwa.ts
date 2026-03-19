@@ -19,23 +19,23 @@ export const pwa = {
     categories: ['development', 'developer tools'],
     icons: [
       {
-        src: 'pwa-64x64.png',
+        src: '/pwa-64x64.png',
         sizes: '64x64',
         type: 'image/png',
       },
       {
-        src: 'pwa-192x192.png',
+        src: '/pwa-192x192.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: 'pwa-512x512.png',
+        src: '/pwa-512x512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: 'maskable-icon.png',
+        src: '/maskable-icon.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
@@ -49,9 +49,16 @@ export const pwa = {
       preferred_width: 480,
     },
     screenshots: [{
-      src: 'og-image.png',
+      src: '/og-image.webp',
       sizes: '1200x600',
-      type: 'image/png',
+      type: 'image/webp',
+      form_factor: 'wide',
+      label: 'Screenshot of the Vuetify Nuxt Module home page in dark mode',
+    }, {
+      src: '/og-image-narrow.webp',
+      sizes: '396x692',
+      type: 'image/webp',
+      form_factor: 'narrow',
       label: 'Screenshot of the Vuetify Nuxt Module home page in dark mode',
     }],
   },
@@ -59,7 +66,7 @@ export const pwa = {
     includeAllowlist: true,
   },
   workbox: {
-    globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2,json}'],
+    globPatterns: ['**/*.{css,js,html,svg,webp,png,ico,txt,woff2,json}'],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
