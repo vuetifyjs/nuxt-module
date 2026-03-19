@@ -89,63 +89,43 @@ details > summary:hover {
   margin: 1.5rem 0;
 }
 
-.custom-block.info {
-  border-color: rgba(24, 103, 192, 0.2);
-  background-color: rgba(24, 103, 192, 0.1);
-}
-.custom-block.info .custom-block-title {
-  color: var(--vp-c-brand-1);
-}
-
-.custom-block.tip {
-  border-color: rgba(76, 175, 80, 0.2);
-  background-color: rgba(76, 175, 80, 0.1);
-}
-.custom-block.tip .custom-block-title {
-  color: var(--vp-c-success-1);
-}
-
-.custom-block.warning {
-  border-color: rgba(251, 140, 0, 0.2);
-  background-color: rgba(251, 140, 0, 0.1);
-}
-.custom-block.warning .custom-block-title {
-  color: var(--vp-c-warning-1);
-}
-
-.custom-block.danger {
-  border-color: rgba(255, 82, 82, 0.2);
-  background-color: rgba(255, 82, 82, 0.1);
-}
-.custom-block.danger .custom-block-title {
-  color: var(--vp-c-danger-1);
-}
-
 .custom-block.tip code,
 .custom-block.info code,
 .custom-block.warning code,
 .custom-block.danger code {
-  background-color: rgba(0,0,0,0.1);
-  color: inherit;
-  font-weight: 600;
+  font-size: var(--vp-custom-block-code-font-size);
+  font-weight: 700;
 }
 
-/* Dark mode specific tweaks for custom blocks */
-.dark .custom-block.info {
-  background-color: rgba(33, 150, 243, 0.1);
-  border-color: rgba(33, 150, 243, 0.2);
+.info.custom-block > p > code,
+.info.custom-block > p > a,
+.info.custom-block > p > a:hover {
+  color: var(--vp-c-text-2);
+  opacity: 1;
 }
-.dark .custom-block.tip {
-  background-color: rgba(76, 175, 80, 0.1);
-  border-color: rgba(76, 175, 80, 0.2);
+.tip.custom-block > p > code,
+.tip.custom-block > p > a,
+.tip.custom-block > p > a:hover {
+  color: var(--vp-c-brand-1);
+  opacity: 1;
 }
-.dark .custom-block.warning {
-  background-color: rgba(255, 167, 38, 0.1);
-  border-color: rgba(255, 167, 38, 0.2);
+.warning.custom-block > p > code,
+.warning.custom-block > p > a,
+.warning.custom-block > p > a:hover {
+  color: var(--vp-c-warning-1);
+  opacity: 1;
 }
-.dark .custom-block.danger {
-  background-color: rgba(255, 82, 82, 0.1);
-  border-color: rgba(255, 82, 82, 0.2);
+.danger.custom-block > p > code,
+.danger.custom-block > p > a,
+.danger.custom-block > p > a:hover {
+  color: var(--vp-c-danger-1);
+  opacity: 1;
+}
+
+.custom-block.warning code,
+.custom-block.danger code {
+  font-size: var(--vp-custom-block-code-font-size);
+  font-weight: 700;
 }
 
 /* Sidebar */
