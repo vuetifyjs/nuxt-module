@@ -7,7 +7,6 @@ import { pwa } from './pwa'
 import { buildEnd, transformHtml } from './sitemap'
 import { transformHead } from './transform-head'
 
-// @ts-ignore
 export default withPwa(defineConfig({
   lang: 'en-US',
   title: 'Vuetify Nuxt Module',
@@ -163,7 +162,7 @@ export default withPwa(defineConfig({
   },
   vite: {
     logLevel: 'info',
-    // @ts-expect-error wrong types?
+    // @ts-ignore wrong types?
     plugins: [llmstxt({
       title: 'Vuetify Nuxt Module documentation',
     })],
