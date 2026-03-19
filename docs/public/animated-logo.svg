@@ -8,17 +8,17 @@
     </mask>
     <clipPath id="vuetify-clip">
       <rect x="76" y="272" width="148" height="127" fill="#FFF">
-        <animate attributeName="y" values="272;144" dur="0.5s" fill="freeze" />
+        <animate attributeName="y" values="272;144" begin="0s"  dur="1.2s" fill="freeze" />
       </rect>
     </clipPath>
   </defs>
 
   <g transform="translate(-146.15, -70.17) scale(2.0048)">
     <path d="M170.5 107L130.5 41L79.5 128H126.5L141 117.5L178 58L219.5 128H157" stroke="#00DC82" stroke-width="20" stroke-dasharray="480" stroke-dashoffset="480" mask="url(#nuxt-mask-1)">
-      <animate attributeName="stroke-dashoffset" values="480;0" begin="0.5s" dur="1.2s" fill="freeze" />
+      <animate attributeName="stroke-dashoffset" values="480;0" begin="0s" dur="1.2s" fill="freeze" />
     </path>
     <path d="M169 -21L130.5 41L79.5 128H126.5L141 117.5L178 58L219.5 128H157" stroke="#00DC82" stroke-width="20" stroke-dasharray="480" stroke-dashoffset="480" mask="url(#nuxt-mask-2)">
-      <animate attributeName="stroke-dashoffset" values="480;0" begin="0.5s" dur="1.2s" fill="freeze" />
+      <animate attributeName="stroke-dashoffset" values="480;0" begin="0s" dur="1.2s" fill="freeze" />
     </path>
   </g>
 
