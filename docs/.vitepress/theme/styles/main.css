@@ -195,11 +195,11 @@ details > summary:hover {
   margin-top: 20px;
 }
 
-.VPHome .VPHero .actions .action:nth-child(1) {
+.VPHome .VPHero .actions .action:first-child {
   flex: 1 0 100%;
 }
 
-.VPHome .VPHero .actions .action:nth-child(1) .VPButton {
+.VPHome .VPHero .actions .action:first-child .VPButton {
   justify-content: flex-start;
   width: 100%;
   border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 36%, var(--vp-c-divider));

@@ -5,6 +5,8 @@
     command: string
   }>()
 
+  console.log('PASO')
+
   const copied = ref(false)
 
   async function copy () {
@@ -99,6 +101,9 @@
   user-select: none;
   max-width: calc(100vw - 2 * 24px);
   width: 100%;
+}
+.hero-copy-btn.home {
+  margin: 6px;
 }
 
 .hero-copy-btn:hover {
