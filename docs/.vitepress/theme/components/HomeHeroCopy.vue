@@ -1,13 +1,11 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { shallowRef } from 'vue'
 
   const props = defineProps<{
     command: string
   }>()
 
-  console.log('PASO')
-
-  const copied = ref(false)
+  const copied = shallowRef(false)
 
   async function copy () {
     try {
