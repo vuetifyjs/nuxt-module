@@ -24,6 +24,7 @@
     "vite-plugin-pwa": "catalog:",
     "vitepress": "catalog:",
     "vitepress-plugin-llms": "catalog:",
+    "workbox-build": "catalog:",
     "workbox-window": "catalog:"
   }
 }

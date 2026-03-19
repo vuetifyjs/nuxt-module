@@ -1,4 +1,4 @@
-import type { SiteConfig, TransformContext } from 'vitepress/dist/node'
+import type { SiteConfig, TransformContext } from 'vitepress'
 import { createWriteStream } from 'node:fs'
 import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'

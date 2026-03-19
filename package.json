@@ -30,5 +30,11 @@
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "eslint-config-vuetify": "catalog:"
+  },
+  "pnpm": {
+    "overrides": {
+      "vitepress": "catalog:",
+      "@vite-pwa/vitepress>vitepress": "catalog:"
+    }
   }
 }

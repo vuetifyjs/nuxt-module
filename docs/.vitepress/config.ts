@@ -162,7 +162,10 @@ export default withPwa(defineConfig({
   },
   vite: {
     logLevel: 'info',
-    plugins: [llmstxt()],
+    // @ts-ignore wrong types?
+    plugins: [llmstxt({
+      title: 'Vuetify Nuxt Module documentation',
+    })],
   },
   pwa,
   buildEnd,
