@@ -1,26 +1,13 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
-import { existsSync } from 'node:fs'
 import { addImports, addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
-import { isAbsolute, resolve } from 'pathe'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { toKebabCase } from './index'
+import { resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 
 export function getTemplate (source: string, settings: string | null): string {
   return [settings ? `@use '${settings}';` : '', `@use '${source}';`].filter(Boolean).join('\n')
-}
-
-function resolveVuetifyConfigFile (configFile: string, nuxt: Nuxt) {
-  if (typeof configFile === 'string' && !isAbsolute(configFile)) {
-    for (const layer of nuxt.options._layers) {
-      const resolved = resolve(layer.config.rootDir, configFile)
-      if (existsSync(resolved)) {
-        return resolved
-      }
-    }
-  }
-  return configFile
 }
 
 export async function configureNuxt (
@@ -45,9 +32,10 @@ export async function configureNuxt (
     nuxt.options.css ??= []
     if (typeof styles === 'object' && 'configFile' in styles) {
       const configFile = resolveVuetifyConfigFile(styles.configFile, nuxt)
+      ctx.stylesConfigFile = await resolvePath(configFile)
       const a = addTemplate({
         filename: 'vuetify.settings.scss',
-        getContents: async () => getTemplate('vuetify/styles', await resolvePath(configFile)),
+        getContents: async () => getTemplate('vuetify/styles', ctx.stylesConfigFile!),
       })
       nuxt.options.css.push(a.dst)
     } else if (ctx.vuetifyGte('4.0.0')) {

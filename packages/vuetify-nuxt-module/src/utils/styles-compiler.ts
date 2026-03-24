@@ -1,12 +1,12 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
-import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join, relative, resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { resolvePath } from '@nuxt/kit'
-
 import { isObject, normalizePath, resolveVuetifyBase } from '@vuetify/loader-shared'
+import { dirname, join, relative, resolve } from 'pathe'
+
+import { cleanupOldStylesCaches, collectVuetifyCssFiles, createStylesCacheHash, resolveStylesCachePaths, resolveVuetifyConfigFile } from './styles'
 
 export async function prepareVuetifyStyles (nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   const stylesConfig = ctx.moduleOptions.styles
@@ -19,12 +19,13 @@ export async function prepareVuetifyStyles (nuxt: Nuxt, ctx: VuetifyNuxtContext)
     return
   }
 
-  const vuetifyBase = resolveVuetifyBase()
+  const vuetifyBase = await resolveVuetifyBase()
   let configFile: string | undefined
   let configContent = ''
 
   if (stylesConfig.configFile) {
-    configFile = await resolvePath(stylesConfig.configFile)
+    configFile = await resolvePath(resolveVuetifyConfigFile(stylesConfig.configFile, nuxt))
+    ctx.stylesConfigFile = configFile
     if (existsSync(configFile)) {
       configContent = readFileSync(configFile, 'utf8')
       // Add to watch list
@@ -39,27 +40,17 @@ export async function prepareVuetifyStyles (nuxt: Nuxt, ctx: VuetifyNuxtContext)
   }
 
   // Calculate hash
-  const hash = createHash('sha256')
-    .update(ctx.vuetifyVersion)
-    .update(ctx.viteVersion)
-    .update(configContent)
-    .update(configFile)
-    .digest('hex')
-    .slice(0, 8)
+  const hash = createStylesCacheHash(
+    ctx.vuetifyVersion,
+    ctx.viteVersion,
+    configContent,
+    configFile,
+  )
 
-  const stylesDir = resolve(nuxt.options.rootDir, 'node_modules/.cache/vuetify-nuxt-module/styles')
-  const cacheDir = join(stylesDir, hash)
+  const { stylesDir, cacheDir } = resolveStylesCachePaths(nuxt.options.rootDir, hash)
   ctx.stylesCachePath = cacheDir
 
-  // Cleanup old caches
-  if (existsSync(stylesDir)) {
-    const dirents = readdirSync(stylesDir, { withFileTypes: true })
-    for (const dirent of dirents) {
-      if (dirent.isDirectory() && dirent.name !== hash) {
-        rmSync(join(stylesDir, dirent.name), { recursive: true, force: true })
-      }
-    }
-  }
+  cleanupOldStylesCaches(stylesDir, hash)
 
   if (existsSync(cacheDir)) {
     return
@@ -81,9 +72,7 @@ export async function prepareVuetifyStyles (nuxt: Nuxt, ctx: VuetifyNuxtContext)
   }
 
   // Generate cache
-  const files: string[] = []
-  findCssFiles(join(vuetifyBase, 'lib/components'), files)
-  findCssFiles(join(vuetifyBase, 'lib/styles'), files)
+  const files = collectVuetifyCssFiles(vuetifyBase)
 
   for (const file of files) {
     const relativePath = relative(vuetifyBase, file)
@@ -135,23 +124,4 @@ export async function prepareVuetifyStyles (nuxt: Nuxt, ctx: VuetifyNuxtContext)
     createdAt: new Date().toISOString(),
   }
   writeFileSync(join(cacheDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8')
-}
-
-function findCssFiles (dir: string, fileList: string[] = []) {
-  if (!existsSync(dir)) {
-    return fileList
-  }
-  const files = readdirSync(dir)
-  for (const file of files) {
-    const filePath = join(dir, file)
-    const stat = statSync(filePath)
-    if (stat.isDirectory()) {
-      findCssFiles(filePath, fileList)
-    } else {
-      if (file.endsWith('.css')) {
-        fileList.push(filePath)
-      }
-    }
-  }
-  return fileList
 }

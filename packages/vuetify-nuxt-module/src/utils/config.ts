@@ -5,8 +5,8 @@ import type { ResolvedIcons } from './icons'
 import type { VuetifyComponentsImportMap } from './module'
 import type { ResolvedClientHints } from './ssr-client-hints'
 import { existsSync, statSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
 import process from 'node:process'
+import { dirname, resolve } from 'pathe'
 import { createConfigLoader as createLoader } from 'unconfig'
 
 export interface VuetifyNuxtContext {
@@ -35,6 +35,7 @@ export interface VuetifyNuxtContext {
   enableRules?: boolean
   rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
   stylesCachePath?: string
+  stylesConfigFile?: string
 }
 
 export async function loadVuetifyConfiguration<U extends ExternalVuetifyOptions> (

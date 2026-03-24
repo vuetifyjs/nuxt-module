@@ -13,8 +13,8 @@ export function vuetifyStylesPlugin (
   ctx: VuetifyNuxtContext,
 ) {
   let configFile: string | undefined
+  let vuetifyBase: string | undefined
   const options = { styles: ctx.moduleOptions.styles }
-  const vuetifyBase = resolveVuetifyBase()
   const noneFiles = new Set<string>()
   let isNone = false
   let sassVariables = false
@@ -35,10 +35,11 @@ export function vuetifyStylesPlugin (
       if (isObject(options.styles) && 'configFile' in options.styles) {
         sassVariables = true
         fileImport = semver.gt(ctx.viteVersion, '5.4.2')
-        configFile = await resolvePath(options.styles.configFile)
+        configFile = ctx.stylesConfigFile ?? await resolvePath(options.styles.configFile)
       } else {
         isNone = options.styles === 'none'
       }
+      vuetifyBase = await resolveVuetifyBase()
     },
     async resolveId (source, importer, { custom, ssr }) {
       if (!sassVariables) {
@@ -55,7 +56,8 @@ export function vuetifyStylesPlugin (
       }
 
       if (
-        importer
+        vuetifyBase
+        && importer
         && source.endsWith('.css')
         && isSubdir(vuetifyBase, path.isAbsolute(source) ? source : importer)
       ) {
@@ -98,6 +100,9 @@ export function vuetifyStylesPlugin (
     },
     load (id) {
       if (sassVariables) {
+        if (!vuetifyBase) {
+          return
+        }
         const target = id.startsWith(PREFIX)
           ? path.resolve(vuetifyBase, id.slice(PREFIX.length))
           : (id.startsWith(SSR_PREFIX)
