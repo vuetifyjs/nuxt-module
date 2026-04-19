@@ -11,7 +11,6 @@ import { prepareIcons } from './icons'
 import { mergeVuetifyModules } from './layers'
 import { cleanupBlueprint, detectDate, resolveVuetifyComponents } from './module'
 import { prepareSSRClientHints } from './ssr-client-hints'
-import { prepareVuetifyStyles } from './styles-compiler'
 
 export async function load (
   options: VuetifyModuleOptions,
@@ -108,8 +107,6 @@ export async function load (
       }
     }
   }
-
-  await prepareVuetifyStyles(nuxt, ctx)
 }
 
 export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
