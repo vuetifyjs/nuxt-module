@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
+    "@vuetify/unplugin-styles": "catalog:",
     "defu": "catalog:",
     "destr": "catalog:",
     "local-pkg": "catalog:",
@@ -122,6 +123,7 @@
   "build": {
     "externals": [
       "@vuetify/loader-shared",
+      "@vuetify/unplugin-styles",
       "node:child_process",
       "node:fs",
       "consola",
