@@ -34,7 +34,6 @@ export interface VuetifyNuxtContext {
   viteVersion: string
   enableRules?: boolean
   rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
-  stylesCachePath?: string
   stylesConfigFile?: string
 }
 
