@@ -7,7 +7,11 @@ vi.mock('@vuetify/unplugin-styles/vite', async (importOriginal) => {
   const Styles = original.default
   const wrapped: typeof Styles = (opts) => {
     const plugin = Styles(opts)
-    Object.defineProperty(plugin, '__options', { value: opts ?? {}, enumerable: false })
+    // Shallow-clone so assertions aren't affected if the real factory mutates
+    // its argument (e.g. normalises a path or fills in defaults).
+    // Non-enumerable so the property doesn't leak into Vite's plugin-shape
+    // introspection or console output.
+    Object.defineProperty(plugin, '__options', { value: { ...opts }, enumerable: false })
     return plugin
   }
   return { ...original, default: wrapped }
@@ -16,10 +20,13 @@ vi.mock('@vuetify/unplugin-styles/vite', async (importOriginal) => {
 // eslint-disable-next-line import/first — import must follow the mock above
 import { configureVite } from '../src/utils/configure-vite'
 
+// Intentionally hard-coded: if @vuetify/unplugin-styles renames its plugin,
+// these tests should break loudly so we re-verify the wiring in configureVite.
 const PLUGIN_NAME = '@vuetify/unplugin-styles'
 
 function createStubNuxt() {
   let extendConfigCb: ((cfg: any) => void) | undefined
+  let lastCfg: any
   const nuxt = {
     hook(event: string, cb: any) {
       if (event === 'vite:extendConfig') {
@@ -29,12 +36,20 @@ function createStubNuxt() {
   } as unknown as Nuxt
   return {
     nuxt,
+    get lastCfg () {
+      return lastCfg
+    },
     runExtendConfig() {
       if (!extendConfigCb) {
         throw new Error('vite:extendConfig was not registered')
       }
       const cfg: any = { plugins: [] }
-      extendConfigCb(cfg)
+      try {
+        extendConfigCb(cfg)
+      } finally {
+        // expose partial state for post-throw inspection
+        lastCfg = cfg
+      }
       return cfg
     },
   }
@@ -52,6 +67,14 @@ function createCtx(overrides: Partial<VuetifyNuxtContext> = {}): VuetifyNuxtCont
 }
 
 function findStylesPlugin(plugins: any[]) {
+  // Sentinel: configureVite is synchronous — plugin entries must not be thenables.
+  // If unplugin ever returns Promise<Plugin>, this surfaces as a clear error
+  // instead of silently making every "plugin present" assertion fail.
+  for (const p of plugins) {
+    if (p && typeof (p as any).then === 'function') {
+      throw new Error('configureVite registered an async plugin entry — unexpected')
+    }
+  }
   return plugins.find(p => p && typeof p === 'object' && p.name === PLUGIN_NAME)
 }
 
@@ -95,19 +118,23 @@ describe('configureVite — @vuetify/unplugin-styles wiring', () => {
     expect((plugin as any).__options).toEqual({ settings: '/abs/path/settings.scss' })
   })
 
-  it('throws when configFile is provided but stylesConfigFile is not resolved', () => {
-    const { nuxt, runExtendConfig } = createStubNuxt()
+  it('throws when configFile is provided but stylesConfigFile is not resolved, without registering the plugin before throwing', () => {
+    const stub = createStubNuxt()
     configureVite(
       'vuetify',
-      nuxt,
+      stub.nuxt,
       createCtx({
         moduleOptions: { styles: { configFile: 'whatever.scss' } },
         // stylesConfigFile intentionally unset
       }),
     )
-    expect(() => runExtendConfig()).toThrow(
+    expect(() => stub.runExtendConfig()).toThrow(
       'vuetify-nuxt-module: styles.configFile could not be resolved',
     )
+    // The partial plugin array collected up to the throw point must not
+    // contain our unplugin — ordering regressions that push then throw
+    // should fail this assertion.
+    expect(findStylesPlugin(stub.lastCfg?.plugins ?? [])).toBeUndefined()
   })
 
   it('does not register the plugin for object styles without configFile', () => {
