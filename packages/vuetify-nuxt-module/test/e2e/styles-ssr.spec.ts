@@ -196,5 +196,37 @@ for (const { mode, runType } of matrix) {
         }
       })
     }
+
+    // Capturing a real regression: in Nuxt dev mode, SSR HTML references
+    // `/_nuxt/vuetify-styles/*` virtual URLs that the Vite dev server does not
+    // serve, producing 404s on the client. Prod builds are clean because assets
+    // become static files. We run the scenario in all four matrix combos so that
+    // when the upstream fix lands the `.fails()`-marked cases flip green and
+    // prompt us to remove the marker.
+    //
+    // TODO: once @vuetify/unplugin-styles serves these URLs in Vite dev, drop
+    // the `it.fails` marker below.
+    const scenario6 = runType === 'dev' ? it.fails : it
+    scenario6(`scenario 6 — no 404 responses for any asset during load`, async () => {
+      const ctx = await browser!.newContext()
+      const p = await ctx.newPage()
+      const notFound: string[] = []
+      p.on('response', res => {
+        if (res.status() === 404) {
+          notFound.push(`${res.status()} ${res.url()}`)
+        }
+      })
+      try {
+        await p.goto(url('/'), { waitUntil: 'load' })
+        // eslint-disable-next-line vitest/no-standalone-expect
+        expect(
+          notFound,
+          `[${mode}/${runType}] unexpected 404 responses:\n${notFound.join('\n')}`,
+        ).toEqual([])
+      } finally {
+        await p.close()
+        await ctx.close()
+      }
+    })
   })
 }
