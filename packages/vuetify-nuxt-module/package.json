@@ -70,8 +70,9 @@
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "publint": "publint",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
+    "test": "vitest run --exclude 'test/e2e/**'",
+    "test:watch": "vitest watch --exclude 'test/e2e/**'",
+    "test:e2e": "vitest run test/e2e",
     "release": "bumpp"
   },
   "dependencies": {
@@ -112,6 +113,7 @@
     "eslint": "catalog:",
     "luxon": "catalog:",
     "nuxt": "catalog:",
+    "playwright-core": "catalog:",
     "publint": "catalog:",
     "rimraf": "catalog:",
     "sass": "catalog:",
