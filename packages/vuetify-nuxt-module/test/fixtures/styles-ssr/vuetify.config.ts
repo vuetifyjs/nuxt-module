@@ -1,4 +1,4 @@
-import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
+import { defineVuetifyConfiguration } from '../../../custom-configuration.mjs'
 
 export default defineVuetifyConfiguration({
   theme: {
