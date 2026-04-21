@@ -70,8 +70,7 @@ for (const { mode, runType } of matrix) {
       setTestContext(undefined)
       if (prevStylesMode === undefined) {
         delete process.env.STYLES_MODE
-      }
-      else {
+      } else {
         process.env.STYLES_MODE = prevStylesMode
       }
     }, hooks.ctx.options.teardownTimeout)
@@ -95,7 +94,7 @@ for (const { mode, runType } of matrix) {
       const pageCtx = await browser!.newContext()
       const p = await pageCtx.newPage()
       const warnings: string[] = []
-      p.on('console', (msg) => {
+      p.on('console', msg => {
         const text = msg.text()
         if (/Hydration|mismatch|\[Vue warn\]/.test(text)) {
           warnings.push(text)
@@ -135,18 +134,17 @@ for (const { mode, runType } of matrix) {
           // computed styles. Vuetify's CSS-layer rules only take effect
           // after the linked stylesheets finish loading.
           await p.waitForFunction(() => {
-            return Array.from(document.styleSheets).some((s) => {
+            return Array.from(document.styleSheets).some(s => {
               try {
                 return s.cssRules.length > 0
-              }
-              catch {
+              } catch {
                 return false
               }
             })
           })
           const font = await p.evaluate(() => {
             return getComputedStyle(
-              document.getElementById('body-font-sample')!,
+              document.querySelector('#body-font-sample') as HTMLElement,
             ).fontFamily
           })
           expect(font, `[${mode}/${runType}] body font`).toContain('Comic Sans MS')
