@@ -50,6 +50,7 @@ for (const { mode, runType } of matrix) {
       env: { STYLES_MODE: mode },
     })
 
+    let prevStylesMode: string | undefined
     beforeAll(async () => {
       // `env` in the setup options only reaches the spawned server process.
       // `loadNuxt` / `buildNuxt` run in-process and read `process.env`
@@ -57,6 +58,7 @@ for (const { mode, runType } of matrix) {
       // in-process build for `configFile` mode silently falls back to
       // `'none'` (the fixture's default), stripping the Vuetify styles
       // from the static bundle while the runtime config claims otherwise.
+      prevStylesMode = process.env.STYLES_MODE
       process.env.STYLES_MODE = mode
       setTestContext(hooks.ctx)
       await hooks.beforeAll()
@@ -66,6 +68,12 @@ for (const { mode, runType } of matrix) {
       setTestContext(hooks.ctx)
       await hooks.afterAll()
       setTestContext(undefined)
+      if (prevStylesMode === undefined) {
+        delete process.env.STYLES_MODE
+      }
+      else {
+        process.env.STYLES_MODE = prevStylesMode
+      }
     }, hooks.ctx.options.teardownTimeout)
 
     let browser: Browser | undefined
@@ -95,7 +103,7 @@ for (const { mode, runType } of matrix) {
       })
       try {
         await p.goto(url('/'), { waitUntil: 'load' })
-        expect(warnings).toEqual([])
+        expect(warnings, `[${mode}/${runType}] hydration warnings:\n${warnings.join('\n')}`).toEqual([])
       } finally {
         await p.close()
         await pageCtx.close()
@@ -141,7 +149,7 @@ for (const { mode, runType } of matrix) {
               document.getElementById('body-font-sample')!,
             ).fontFamily
           })
-          expect(font).toContain('Comic Sans MS')
+          expect(font, `[${mode}/${runType}] body font`).toContain('Comic Sans MS')
         } finally {
           await p.close()
           await pageCtx.close()
@@ -182,8 +190,8 @@ for (const { mode, runType } of matrix) {
               hasLayerDecl: /@layer[^;{}]*\bvuetify-components\b/.test(allCss),
             }
           })
-          expect(result.hasLayerDecl).toBe(true)
-          expect(result.hasLayerBlock).toBe(true)
+          expect(result.hasLayerDecl, `[${mode}/${runType}] @layer vuetify-components declaration`).toBe(true)
+          expect(result.hasLayerBlock, `[${mode}/${runType}] @layer vuetify-components block`).toBe(true)
         } finally {
           await p.close()
           await pageCtx.close()
