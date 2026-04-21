@@ -1,11 +1,11 @@
-import { fileURLToPath } from 'node:url'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import MyModule from '../../../src/module'
 
 const mode = process.env.STYLES_MODE ?? 'none'
 
-const stylesOption =
-  mode === 'configFile'
+const stylesOption
+  = mode === 'configFile'
     ? {
         configFile: fileURLToPath(
           new URL('assets/settings.scss', import.meta.url),
