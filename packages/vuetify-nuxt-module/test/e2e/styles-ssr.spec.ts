@@ -197,17 +197,16 @@ for (const { mode, runType } of matrix) {
       })
     }
 
-    // Capturing a real regression: in Nuxt dev mode, SSR HTML references
-    // `/_nuxt/vuetify-styles/*` virtual URLs that the Vite dev server does not
-    // serve, producing 404s on the client. Prod builds are clean because assets
-    // become static files. We run the scenario in all four matrix combos so that
-    // when the upstream fix lands the `.fails()`-marked cases flip green and
-    // prompt us to remove the marker.
-    //
-    // TODO: once @vuetify/unplugin-styles serves these URLs in Vite dev, drop
-    // the `it.fails` marker below.
-    const scenario6 = runType === 'dev' ? it.fails : it
-    scenario6(`scenario 6 — no 404 responses for any asset during load`, async () => {
+    // This scenario captured a real regression that was fixed upstream in
+    // @vuetify/unplugin-styles: in Nuxt dev mode, SSR HTML references
+    // `/_nuxt/vuetify-styles/*` virtual URLs which Vite's transformMiddleware
+    // serves with the base stripped (e.g. `/vuetify-styles/...`). The upstream
+    // plugin's resolveId/load filters were anchored to a bare `vuetify-styles`
+    // prefix and so missed the leading slash, yielding 404s. Prod builds were
+    // always clean because the virtual CSS is materialised as real static
+    // files. We run the scenario in all four matrix combos to keep the
+    // regression covered going forward.
+    it(`scenario 6 — no 404 responses for any asset during load`, async () => {
       const ctx = await browser!.newContext()
       const p = await ctx.newPage()
       const notFound: string[] = []
@@ -218,7 +217,6 @@ for (const { mode, runType } of matrix) {
       })
       try {
         await p.goto(url('/'), { waitUntil: 'load' })
-        // eslint-disable-next-line vitest/no-standalone-expect
         expect(
           notFound,
           `[${mode}/${runType}] unexpected 404 responses:\n${notFound.join('\n')}`,
