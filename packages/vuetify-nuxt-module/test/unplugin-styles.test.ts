@@ -118,6 +118,38 @@ describe('configureVite — @vuetify/unplugin-styles wiring', () => {
     expect((plugin as any).__options).toEqual({ settings: '/abs/path/settings.scss' })
   })
 
+  it('forwards styles.cache when configFile is provided', () => {
+    const { nuxt, runExtendConfig } = createStubNuxt()
+    configureVite(
+      'vuetify',
+      nuxt,
+      createCtx({
+        moduleOptions: { styles: { configFile: 'whatever.scss', cache: false } as any },
+        stylesConfigFile: '/abs/path/settings.scss',
+      }),
+    )
+    const cfg = runExtendConfig()
+    const plugin = findStylesPlugin(cfg.plugins)
+    expect(plugin).toBeDefined()
+    expect((plugin as any).__options).toEqual({ settings: '/abs/path/settings.scss', cache: false })
+  })
+
+  it('supports legacy styles.experimental.cache as fallback', () => {
+    const { nuxt, runExtendConfig } = createStubNuxt()
+    configureVite(
+      'vuetify',
+      nuxt,
+      createCtx({
+        moduleOptions: { styles: { configFile: 'whatever.scss', experimental: { cache: false } } },
+        stylesConfigFile: '/abs/path/settings.scss',
+      }),
+    )
+    const cfg = runExtendConfig()
+    const plugin = findStylesPlugin(cfg.plugins)
+    expect(plugin).toBeDefined()
+    expect((plugin as any).__options).toEqual({ settings: '/abs/path/settings.scss', cache: false })
+  })
+
   it('throws when configFile is provided but stylesConfigFile is not resolved, without registering the plugin before throwing', () => {
     const stub = createStubNuxt()
     configureVite(
