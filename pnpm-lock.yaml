@@ -195,9 +195,6 @@ catalogs:
     unocss:
       specifier: ^66.6.5
       version: 66.6.5
-    upath:
-      specifier: ^2.0.1
-      version: 2.0.1
     vite:
       specifier: 7.3.1
       version: 7.3.1
@@ -479,9 +476,6 @@ importers:
       unconfig:
         specifier: 'catalog:'
         version: 7.5.0
-      upath:
-        specifier: 'catalog:'
-        version: 2.0.1
       vite-plugin-vuetify:
         specifier: 'catalog:'
         version: 2.1.3(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.29(typescript@5.9.3))(vuetify@4.0.1)
