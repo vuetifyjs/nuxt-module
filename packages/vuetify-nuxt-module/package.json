@@ -86,7 +86,6 @@
     "semver": "catalog:",
     "ufo": "catalog:",
     "unconfig": "catalog:",
-    "upath": "catalog:",
     "vite-plugin-vuetify": "catalog:",
     "vuetify": "catalog:"
   },
@@ -137,7 +136,6 @@
       "rollup",
       "sass",
       "sass-embedded",
-      "upath",
       "ufo",
       "unconfig",
       "vite",
