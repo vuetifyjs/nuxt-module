@@ -11,6 +11,7 @@ import { createConfigLoader as createLoader } from 'unconfig'
 
 export interface VuetifyNuxtContext {
   resolver: Resolver
+  packageResolveFrom: string
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>
   moduleOptions: MOptions
   vuetifyOptions: VOptions

@@ -4,7 +4,6 @@ import type { VuetifyNuxtContext } from './config'
 import { isObject } from '@vuetify/loader-shared'
 import Styles from '@vuetify/unplugin-styles/vite'
 import defu from 'defu'
-import { isPackageExists } from 'local-pkg'
 import semver from 'semver'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configuration-plugin'
@@ -13,6 +12,7 @@ import { vuetifyImportPlugin } from '../vite/vuetify-import-plugin'
 import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-plugin'
 import { createTransformAssetUrls } from './index'
 import { checkVuetifyPlugins } from './module'
+import { isPackageExists } from './package'
 
 export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
@@ -24,7 +24,7 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
       // vite version >= 5.4.0 && < 7.0.0
       const enableModernSassCompiler = semver.gte(ctx.viteVersion, '5.4.0') && semver.lt(ctx.viteVersion, '7.0.0-0')
       if (enableModernSassCompiler) {
-        const sassEmbedded = isPackageExists('sass-embedded')
+        const sassEmbedded = isPackageExists('sass-embedded', ctx.packageResolveFrom)
         if (sassEmbedded) {
           viteInlineConfig.css ??= {}
           viteInlineConfig.css.preprocessorOptions ??= {}
