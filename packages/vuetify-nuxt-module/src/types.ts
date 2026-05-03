@@ -255,6 +255,18 @@ export interface MOptions {
      * Path to the custom Vuetify SASS configuration file.
      */
     configFile: string
+    /**
+     * Caching options forwarded to `@vuetify/unplugin-styles`.
+     *
+     * @default true
+     */
+    cache?: boolean | {
+      path?: string
+      sassOptions?: Record<string, unknown>
+    }
+    /**
+     * @deprecated Use `styles.cache` instead.
+     */
     experimental?: {
       cache?: boolean
     }

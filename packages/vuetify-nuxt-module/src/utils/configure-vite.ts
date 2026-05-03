@@ -14,6 +14,10 @@ import { createTransformAssetUrls } from './index'
 import { checkVuetifyPlugins } from './module'
 import { isPackageExists } from './package'
 
+function resolveStylesCache (stylesOption: { cache?: unknown, experimental?: { cache?: unknown } }) {
+  return stylesOption.cache ?? stylesOption.experimental?.cache
+}
+
 export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
   nuxt.hook('vite:extendConfig', viteInlineConfig => {
@@ -89,7 +93,11 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
       if (!ctx.stylesConfigFile) {
         throw new Error('vuetify-nuxt-module: styles.configFile could not be resolved')
       }
-      viteInlineConfig.plugins.push(Styles({ settings: ctx.stylesConfigFile }))
+      const cache = resolveStylesCache(stylesOption)
+      viteInlineConfig.plugins.push(Styles({
+        settings: ctx.stylesConfigFile,
+        ...(cache === undefined ? {} : { cache: cache as never }),
+      }))
     }
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx), vuetifyIconsPlugin(ctx), vuetifyDateConfigurationPlugin(ctx))
     if (ctx.ssrClientHints.enabled) {
