@@ -132,6 +132,9 @@ catalogs:
     eslint-config-vuetify:
       specifier: 4.3.5-beta.1
       version: 4.3.5-beta.1
+    local-pkg:
+      specifier: ^1.1.2
+      version: 1.1.2
     luxon:
       specifier: ^3.7.2
       version: 3.7.2
@@ -449,6 +452,9 @@ importers:
       destr:
         specifier: 'catalog:'
         version: 2.0.5
+      local-pkg:
+        specifier: 'catalog:'
+        version: 1.1.2
       pathe:
         specifier: 'catalog:'
         version: 2.0.3

@@ -3,14 +3,14 @@ import type { ViteConfig } from '@nuxt/schema'
 import type { DateAdapter, VOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import { resolveVuetifyBase } from '@vuetify/loader-shared'
-import { isPackageExists } from './package'
+import { isPackageExists } from 'local-pkg'
 
 export interface VuetifyImportMap {
   from: string
 }
 export type VuetifyComponentsImportMap = Record<string, VuetifyImportMap>
 
-export function detectDate (packageResolveFrom?: string) {
+export function detectDate () {
   const result: DateAdapter[] = []
 
   for (const adapter of [
@@ -23,7 +23,7 @@ export function detectDate (packageResolveFrom?: string) {
     'jalaali',
     'hijri',
   ]) {
-    if (isPackageExists(`@date-io/${adapter}`, packageResolveFrom)) {
+    if (isPackageExists(`@date-io/${adapter}`)) {
       result.push(adapter as DateAdapter)
     }
   }

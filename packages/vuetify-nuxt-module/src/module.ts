@@ -7,7 +7,6 @@ import type {
   VuetifyModuleOptions,
 } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
-import { pathToFileURL } from 'node:url'
 import {
   createResolver,
   defineNuxtModule,
@@ -16,13 +15,13 @@ import {
   isNuxtMajorVersion,
   useLogger,
 } from '@nuxt/kit'
+import { getPackageInfo } from 'local-pkg'
 import semver from 'semver'
 import { version as VITE_VERSION } from 'vite'
 import { version } from '../package.json'
 import { configureNuxt } from './utils/configure-nuxt'
 import { configureVite } from './utils/configure-vite'
 import { load, registerWatcher } from './utils/loader'
-import { loadPackageJSON } from './utils/package'
 
 export * from './types'
 
@@ -119,9 +118,7 @@ export default defineNuxtModule<ModuleOptions>({
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
     }
 
-    const resolver = createResolver(import.meta.url)
-    const packageResolveFrom = pathToFileURL(resolver.resolve(nuxt.options.rootDir, 'package.json')).href
-    const vuetifyPkg = await loadPackageJSON('vuetify', packageResolveFrom)
+    const vuetifyPkg = await getPackageInfo('vuetify')
     const currentVersion = vuetifyPkg?.version
     const vuetifyGte = (version: string) =>
       !!currentVersion && semver.gte(currentVersion, version)
@@ -130,8 +127,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const ctx: VuetifyNuxtContext = {
       logger,
-      resolver,
-      packageResolveFrom,
+      resolver: createResolver(import.meta.url),
       moduleOptions: undefined!,
       vuetifyOptions: undefined!,
       vuetifyFilesToWatch: [],

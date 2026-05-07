@@ -52,7 +52,7 @@ export async function load (
 
   if (dateOptions) {
     const adapter = dateOptions.adapter
-    const date = detectDate(ctx.packageResolveFrom)
+    const date = detectDate()
     if (!adapter && date.length > 1) {
       throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d[0]}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
     }
@@ -86,7 +86,7 @@ export async function load (
   ctx.enableRules = ctx.moduleOptions.enableRules
   ctx.rulesConfiguration = ctx.moduleOptions.rulesConfiguration
   ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
-  ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions, ctx.packageResolveFrom)
+  ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions)
   ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
 
   if (ctx.icons.enabled) {

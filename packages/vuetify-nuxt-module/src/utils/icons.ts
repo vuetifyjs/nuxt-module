@@ -1,5 +1,5 @@
 import type { FontIconSet, IconFontName, IconSetName, IconsOptions, UnoCCSMdiIconSet, VOptions } from '../types'
-import { isPackageExists } from './package'
+import { isPackageExists } from 'local-pkg'
 
 export interface ResolvedIcons {
   enabled: boolean
@@ -60,7 +60,6 @@ export function prepareIcons (
   unocssPresent: boolean,
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
   vuetifyOptions: VOptions,
-  packageResolveFrom?: string,
 ): ResolvedIcons {
   if (vuetifyOptions.icons === false) {
     return disabledResolvedIcons
@@ -114,7 +113,7 @@ export function prepareIcons (
 
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from 'vuetify/iconsets/${name}'`)
       resolvedIcons.sets.push(name)
-      if (isPackageExists(iconsPackageNames[name].name, packageResolveFrom)) {
+      if (isPackageExists(iconsPackageNames[name].name)) {
         resolvedIcons.local.push(iconsPackageNames[name].css)
       } else {
         resolvedIcons.cdn.push([name, cdn ?? iconsCDN[name]])
@@ -136,23 +135,20 @@ export function prepareIcons (
       faSvg = {}
     }
 
-    let faSvgExists = isPackageExists('@fortawesome/fontawesome-svg-core', packageResolveFrom)
+    let faSvgExists = isPackageExists('@fortawesome/fontawesome-svg-core')
     if (!faSvgExists) {
       logger.warn('Missing @fortawesome/fontawesome-svg-core dependency, install it!')
     }
 
-    faSvgExists = isPackageExists('@fortawesome/vue-fontawesome', packageResolveFrom)
+    faSvgExists = isPackageExists('@fortawesome/vue-fontawesome')
     if (faSvgExists) {
       if (!faSvg.libraries?.length) {
         faSvg.libraries = [[false, 'fas', '@fortawesome/free-solid-svg-icons']]
       }
 
-      for (const libraryEntry of faSvg.libraries) {
-        if (!libraryEntry) {
-          continue
-        }
-        const library = libraryEntry[2]
-        if (!isPackageExists(library, packageResolveFrom)) {
+      for (const p in faSvg.libraries) {
+        const [_defaultExport, _name, library] = faSvg.libraries[p]
+        if (!isPackageExists(library)) {
           faSvgExists = false
           logger.warn(`Missing library ${library} dependency, install it!`)
         }
@@ -165,11 +161,7 @@ export function prepareIcons (
       resolvedIcons.aliasesImportPresent ||= defaultSet === 'fa-svg'
       resolvedIcons.imports.push(`import {${defaultSet === 'fa-svg' ? 'aliases,' : ''}fa} from 'vuetify/iconsets/fa-svg'`, 'import { library } from \'@fortawesome/fontawesome-svg-core\'', 'import { FontAwesomeIcon } from \'@fortawesome/vue-fontawesome\'', 'import { useNuxtApp } from \'#imports\'')
       resolvedIcons.svg.fa = ['useNuxtApp().vueApp.component(\'font-awesome-icon\', FontAwesomeIcon)']
-      for (const libraryEntry of faSvg.libraries ?? []) {
-        if (!libraryEntry) {
-          continue
-        }
-        const [defaultExport, name, library] = libraryEntry
+      for (const [defaultExport, name, library] of faSvg.libraries!) {
         resolvedIcons.imports.push(`import ${defaultExport ? name : `{${name}}`} from '${library}'`)
         resolvedIcons.svg.fa!.push(`library.add(${name})`)
       }
@@ -186,7 +178,7 @@ export function prepareIcons (
       mdiSvg = {}
     }
 
-    const mdiSvgExists = isPackageExists('@mdi/js', packageResolveFrom)
+    const mdiSvgExists = isPackageExists('@mdi/js')
     if (mdiSvgExists) {
       resolvedIcons.svg.mdi = true
       resolvedIcons.aliasesImportPresent ||= defaultSet === 'mdi-svg'

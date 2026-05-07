@@ -89,6 +89,3 @@ onlyBuiltDependencies:
 shamefullyHoist: true
 shellEmulator: true
 strictPeerDependencies: false
-overrides:
-  '@vite-pwa/vitepress>vitepress': 'catalog:'
-  vitepress: 'catalog:'
