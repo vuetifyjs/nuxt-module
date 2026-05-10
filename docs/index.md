@@ -9,12 +9,9 @@ hero:
   text: Production UI without boilerplate
   tagline: Build faster with zero-config defaults, SSR-aware setup and fully customizable Vuetify runtime.
   image:
-    src: /logo.svg
+    src: /animated-logo.svg
     alt: Vuetify Nuxt Module
   actions:
-    - theme: alt
-      text: npx nuxt module add vuetify-nuxt-module
-      link: "#"
     - theme: brand
       text: Get Started
       link: /guide/
