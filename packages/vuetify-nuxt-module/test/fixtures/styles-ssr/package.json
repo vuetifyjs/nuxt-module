@@ -1,0 +1,5 @@
+{
+  "name": "styles-ssr",
+  "type": "module",
+  "private": true
+}

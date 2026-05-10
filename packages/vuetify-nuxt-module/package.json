@@ -70,12 +70,14 @@
     "lint": "eslint .",
     "lint:fix": "nr lint --fix",
     "publint": "publint",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
+    "test": "vitest run --exclude 'test/e2e/**'",
+    "test:watch": "vitest watch --exclude 'test/e2e/**'",
+    "test:e2e": "vitest run test/e2e",
     "release": "bumpp"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
+    "@vuetify/unplugin-styles": "catalog:",
     "defu": "catalog:",
     "destr": "catalog:",
     "local-pkg": "catalog:",
@@ -84,7 +86,6 @@
     "semver": "catalog:",
     "ufo": "catalog:",
     "unconfig": "catalog:",
-    "upath": "catalog:",
     "vite-plugin-vuetify": "catalog:",
     "vuetify": "catalog:"
   },
@@ -111,6 +112,7 @@
     "eslint": "catalog:",
     "luxon": "catalog:",
     "nuxt": "catalog:",
+    "playwright-core": "catalog:",
     "publint": "catalog:",
     "rimraf": "catalog:",
     "sass": "catalog:",
@@ -122,6 +124,7 @@
   "build": {
     "externals": [
       "@vuetify/loader-shared",
+      "@vuetify/unplugin-styles",
       "node:child_process",
       "node:fs",
       "consola",
@@ -133,7 +136,6 @@
       "rollup",
       "sass",
       "sass-embedded",
-      "upath",
       "ufo",
       "unconfig",
       "vite",

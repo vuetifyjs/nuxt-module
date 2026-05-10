@@ -1,6 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { ObjectImportPluginOptions } from '@vuetify/loader-shared'
 import type { VuetifyNuxtContext } from './config'
+import { isObject } from '@vuetify/loader-shared'
+import Styles from '@vuetify/unplugin-styles/vite'
 import defu from 'defu'
 import { isPackageExists } from 'local-pkg'
 import semver from 'semver'
@@ -9,9 +11,12 @@ import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configurati
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
 import { vuetifyImportPlugin } from '../vite/vuetify-import-plugin'
 import { vuetifySSRClientHintsPlugin } from '../vite/vuetify-ssr-client-hints-plugin'
-import { vuetifyStylesPlugin } from '../vite/vuetify-styles-plugin'
 import { createTransformAssetUrls } from './index'
 import { checkVuetifyPlugins } from './module'
+
+function resolveStylesCache (stylesOption: { cache?: unknown, experimental?: { cache?: unknown } }) {
+  return stylesOption.cache ?? stylesOption.experimental?.cache
+}
 
 export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   nuxt.hook('vite:extend', ({ config }) => checkVuetifyPlugins(config))
@@ -80,9 +85,19 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
     }
 
     viteInlineConfig.plugins.push(vuetifyImportPlugin({ autoImport }))
-    // exclude styles plugin
-    if ((ctx.moduleOptions.styles as any) !== false && ctx.moduleOptions.styles !== 'none') {
-      viteInlineConfig.plugins.push(vuetifyStylesPlugin(ctx))
+
+    const stylesOption = ctx.moduleOptions.styles
+    if (stylesOption === 'none') {
+      viteInlineConfig.plugins.push(Styles({ styles: 'none' }))
+    } else if (isObject(stylesOption) && 'configFile' in stylesOption) {
+      if (!ctx.stylesConfigFile) {
+        throw new Error('vuetify-nuxt-module: styles.configFile could not be resolved')
+      }
+      const cache = resolveStylesCache(stylesOption)
+      viteInlineConfig.plugins.push(Styles({
+        settings: ctx.stylesConfigFile,
+        ...(cache === undefined ? {} : { cache: cache as never }),
+      }))
     }
     viteInlineConfig.plugins.push(vuetifyConfigurationPlugin(ctx), vuetifyIconsPlugin(ctx), vuetifyDateConfigurationPlugin(ctx))
     if (ctx.ssrClientHints.enabled) {
