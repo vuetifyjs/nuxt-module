@@ -34,7 +34,11 @@ export async function configureNuxt (
       const configFile = resolveVuetifyConfigFile(styles.configFile, nuxt)
       ctx.stylesConfigFile = await resolvePath(configFile)
       const a = addTemplate({
-        filename: 'vuetify.settings.scss',
+        // Write to disk: without `write` Nuxt serves the template from its
+        // virtual FS, which 404s on Windows/SSR when the browser requests the
+        // real file (#363). Nest under `vuetify/` to match unplugin-styles.
+        write: true,
+        filename: 'vuetify/vuetify.settings.scss',
         getContents: async () => getTemplate('vuetify/styles', ctx.stylesConfigFile!),
       })
       nuxt.options.css.push(a.dst)
