@@ -31,10 +31,10 @@ export async function configureNuxt (
   if (styles !== 'none' && (styles as any) !== false) {
     nuxt.options.css ??= []
     if (typeof styles === 'object' && 'configFile' in styles) {
-      const configFile = resolveVuetifyConfigFile(styles.configFile, nuxt)
-      ctx.stylesConfigFile = await resolvePath(configFile)
+      ctx.stylesConfigFile = resolveVuetifyConfigFile(styles.configFile, nuxt)
       const a = addTemplate({
-        filename: 'vuetify.settings.scss',
+        write: true,
+        filename: 'vuetify/vuetify.settings.scss',
         getContents: async () => getTemplate('vuetify/styles', ctx.stylesConfigFile!),
       })
       nuxt.options.css.push(a.dst)
