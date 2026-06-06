@@ -1,7 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { ObjectImportPluginOptions } from '@vuetify/loader-shared'
 import type { VuetifyNuxtContext } from './config'
-import { isObject } from '@vuetify/loader-shared'
 import Styles from '@vuetify/unplugin-styles/vite'
 import defu from 'defu'
 import { isPackageExists } from 'local-pkg'
@@ -28,7 +27,7 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
       // vite version >= 5.4.0 && < 7.0.0
       const enableModernSassCompiler = semver.gte(ctx.viteVersion, '5.4.0') && semver.lt(ctx.viteVersion, '7.0.0-0')
       if (enableModernSassCompiler) {
-        const sassEmbedded = isPackageExists('sass-embedded')
+        const sassEmbedded = isPackageExists('sass-embedded', { paths: ctx.resolvePaths })
         if (sassEmbedded) {
           viteInlineConfig.css ??= {}
           viteInlineConfig.css.preprocessorOptions ??= {}
@@ -89,7 +88,7 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
     const stylesOption = ctx.moduleOptions.styles
     if (stylesOption === 'none') {
       viteInlineConfig.plugins.push(Styles({ styles: 'none' }))
-    } else if (isObject(stylesOption) && 'configFile' in stylesOption) {
+    } else if (typeof stylesOption === 'object' && stylesOption !== null && 'configFile' in stylesOption) {
       if (!ctx.stylesConfigFile) {
         throw new Error('vuetify-nuxt-module: styles.configFile could not be resolved')
       }

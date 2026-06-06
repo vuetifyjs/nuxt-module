@@ -60,7 +60,9 @@ export function prepareIcons (
   unocssPresent: boolean,
   logger: ReturnType<typeof import('@nuxt/kit')['useLogger']>,
   vuetifyOptions: VOptions,
+  paths: string[],
 ): ResolvedIcons {
+  const iconPackageExists = (name: string) => isPackageExists(name, { paths })
   if (vuetifyOptions.icons === false) {
     return disabledResolvedIcons
   }
@@ -113,7 +115,7 @@ export function prepareIcons (
 
       resolvedIcons.imports.push(`import {${name === defaultSet ? 'aliases,' : ''}${name}} from 'vuetify/iconsets/${name}'`)
       resolvedIcons.sets.push(name)
-      if (isPackageExists(iconsPackageNames[name].name)) {
+      if (iconPackageExists(iconsPackageNames[name].name)) {
         resolvedIcons.local.push(iconsPackageNames[name].css)
       } else {
         resolvedIcons.cdn.push([name, cdn ?? iconsCDN[name]])
@@ -135,12 +137,12 @@ export function prepareIcons (
       faSvg = {}
     }
 
-    let faSvgExists = isPackageExists('@fortawesome/fontawesome-svg-core')
+    let faSvgExists = iconPackageExists('@fortawesome/fontawesome-svg-core')
     if (!faSvgExists) {
       logger.warn('Missing @fortawesome/fontawesome-svg-core dependency, install it!')
     }
 
-    faSvgExists = isPackageExists('@fortawesome/vue-fontawesome')
+    faSvgExists = iconPackageExists('@fortawesome/vue-fontawesome')
     if (faSvgExists) {
       if (!faSvg.libraries?.length) {
         faSvg.libraries = [[false, 'fas', '@fortawesome/free-solid-svg-icons']]
@@ -148,7 +150,7 @@ export function prepareIcons (
 
       for (const p in faSvg.libraries) {
         const [_defaultExport, _name, library] = faSvg.libraries[p]
-        if (!isPackageExists(library)) {
+        if (!iconPackageExists(library)) {
           faSvgExists = false
           logger.warn(`Missing library ${library} dependency, install it!`)
         }
@@ -178,7 +180,7 @@ export function prepareIcons (
       mdiSvg = {}
     }
 
-    const mdiSvgExists = isPackageExists('@mdi/js')
+    const mdiSvgExists = iconPackageExists('@mdi/js')
     if (mdiSvgExists) {
       resolvedIcons.svg.mdi = true
       resolvedIcons.aliasesImportPresent ||= defaultSet === 'mdi-svg'

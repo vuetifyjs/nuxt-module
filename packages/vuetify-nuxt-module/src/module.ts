@@ -7,15 +7,18 @@ import type {
   VuetifyModuleOptions,
 } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import {
   createResolver,
   defineNuxtModule,
+  findPath,
   getNuxtVersion,
   hasNuxtModule,
   isNuxtMajorVersion,
   useLogger,
 } from '@nuxt/kit'
-import { getPackageInfo } from 'local-pkg'
+import { dirname } from 'pathe'
 import semver from 'semver'
 import { version as VITE_VERSION } from 'vite'
 import { version } from '../package.json'
@@ -118,8 +121,26 @@ export default defineNuxtModule<ModuleOptions>({
       logger.error(`Cannot support nuxt version: ${getNuxtVersion(nuxt)}`)
     }
 
-    const vuetifyPkg = await getPackageInfo('vuetify')
-    const currentVersion = vuetifyPkg?.version
+    // Resolve `vuetify` via Nuxt (honours layers/modulesDir), then fall back to the
+    // module's own dependency for pnpm isolated installs and external layers (#277, #306).
+    let vuetifyPkgPath = await findPath('vuetify/package.json')
+    if (!vuetifyPkgPath) {
+      const metaResolve = (import.meta as { resolve?: (id: string) => string }).resolve
+      if (metaResolve) {
+        try {
+          vuetifyPkgPath = fileURLToPath(metaResolve('vuetify/package.json'))
+        } catch {
+          // unresolved: handled by the guard below
+        }
+      }
+    }
+    if (!vuetifyPkgPath) {
+      throw new Error(
+        '[vuetify-nuxt-module] Could not resolve "vuetify". Please add it as a dependency of your project (e.g. `npm add vuetify`).',
+      )
+    }
+    const vuetifyBase = dirname(vuetifyPkgPath)
+    const currentVersion: string | undefined = JSON.parse(readFileSync(vuetifyPkgPath, 'utf8')).version
     const vuetifyGte = (version: string) =>
       !!currentVersion && semver.gte(currentVersion, version)
 
@@ -142,6 +163,8 @@ export default defineNuxtModule<ModuleOptions>({
       labComponentsPromise: undefined!,
       vuetifyGte,
       vuetifyVersion: currentVersion || '0.0.0',
+      vuetifyBase,
+      resolvePaths: [nuxt.options.rootDir, ...nuxt.options.modulesDir],
       viteVersion,
     }
 
