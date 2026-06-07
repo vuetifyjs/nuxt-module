@@ -36,6 +36,7 @@ declare module 'virtual:vuetify-ssr-client-hints-configuration' {
       defaultTheme: string
       themeNames: string[]
       cookieName: string
+      cookieDomain?: string
       darkThemeName: string
       lightThemeName: string
       useBrowserThemeOnly: boolean

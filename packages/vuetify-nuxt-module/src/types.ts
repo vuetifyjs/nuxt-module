@@ -370,6 +370,14 @@ export interface MOptions {
        */
       cookieName?: string
       /**
+       * The domain for the color scheme cookie.
+       *
+       * Useful to share the cookie across subdomains, e.g. `.example.com`.
+       *
+       * @default undefined
+       */
+      cookieDomain?: string
+      /**
        * The name for the dark theme.
        *
        * @default 'dark'
@@ -468,6 +476,7 @@ export interface SSRClientHintsConfiguration {
     defaultTheme: string
     themeNames: string[]
     cookieName: string
+    cookieDomain?: string
     darkThemeName: string
     lightThemeName: string
   }
