@@ -2,7 +2,6 @@ import type { Resolver } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
 import type { DateAdapter, VOptions } from '../types'
 import { readFile } from 'node:fs/promises'
-import { resolveVuetifyBase } from '@vuetify/loader-shared'
 import { isPackageExists } from 'local-pkg'
 
 export interface VuetifyImportMap {
@@ -10,7 +9,7 @@ export interface VuetifyImportMap {
 }
 export type VuetifyComponentsImportMap = Record<string, VuetifyImportMap>
 
-export function detectDate () {
+export function detectDate (paths: string[]) {
   const result: DateAdapter[] = []
 
   for (const adapter of [
@@ -23,7 +22,7 @@ export function detectDate () {
     'jalaali',
     'hijri',
   ]) {
-    if (isPackageExists(`@date-io/${adapter}`)) {
+    if (isPackageExists(`@date-io/${adapter}`, { paths })) {
       result.push(adapter as DateAdapter)
     }
   }
@@ -56,13 +55,11 @@ export function checkVuetifyPlugins (config: ViteConfig) {
   }
 }
 
-export function resolveVuetifyComponents (resolver: Resolver) {
-  const vuetifyBase = resolveVuetifyBase()
+export function resolveVuetifyComponents (resolver: Resolver, vuetifyBase: string) {
   const componentsPromise = importMapResolver()
   const labComponentsPromise = importMapLabResolver()
 
   return {
-    vuetifyBase,
     componentsPromise,
     labComponentsPromise,
   }

@@ -31,6 +31,10 @@ export interface VuetifyNuxtContext {
    */
   vuetifyGte: (version: string) => boolean
   vuetifyVersion: string
+  /** Absolute path to the resolved `vuetify` package root. */
+  vuetifyBase: string
+  /** Project resolution paths (`rootDir` + `modulesDir`) for detecting optional deps under pnpm/layers (#277, #306). */
+  resolvePaths: string[]
   viteVersion: string
   enableRules?: boolean
   rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
