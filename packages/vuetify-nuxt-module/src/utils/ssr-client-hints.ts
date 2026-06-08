@@ -28,6 +28,23 @@ const disabledClientHints: ResolvedClientHints = Object.freeze({
   prefersReducedMotion: false,
 })
 
+type PrefersColorSchemeInput = NonNullable<NonNullable<VuetifyNuxtContext['moduleOptions']['ssrClientHints']>['prefersColorSchemeOptions']>
+
+function resolveColorSchemeCookie (options: PrefersColorSchemeInput, logger: VuetifyNuxtContext['logger']) {
+  if (options.cookieName !== undefined) {
+    logger.warn('[vuetify-nuxt-module] `prefersColorSchemeOptions.cookieName` is deprecated, use `prefersColorSchemeOptions.cookie.name` instead.')
+  }
+
+  const cookieSameSite = options.cookie?.sameSite ?? 'lax'
+
+  return {
+    cookieName: options.cookie?.name ?? options.cookieName ?? 'color-scheme',
+    cookieDomain: options.cookie?.domain,
+    cookieSecure: cookieSameSite === 'none' ? true : options.cookie?.secure,
+    cookieSameSite,
+  }
+}
+
 export function prepareSSRClientHints (baseUrl: string, ctx: VuetifyNuxtContext) {
   if (!ctx.isSSR || ctx.isNuxtGenerate) {
     return disabledClientHints
@@ -80,21 +97,12 @@ export function prepareSSRClientHints (baseUrl: string, ctx: VuetifyNuxtContext)
     }
 
     const pcsOptions = ssrClientHintsConfiguration.prefersColorSchemeOptions
-    if (pcsOptions?.cookieName !== undefined) {
-      ctx.logger.warn('[vuetify-nuxt-module] `prefersColorSchemeOptions.cookieName` is deprecated, use `prefersColorSchemeOptions.cookie.name` instead.')
-    }
-
-    const cookieSameSite = pcsOptions?.cookie?.sameSite ?? 'lax'
-    const cookieSecure = cookieSameSite === 'none' ? true : pcsOptions?.cookie?.secure
 
     clientHints.prefersColorSchemeOptions = {
       baseUrl,
       defaultTheme,
       themeNames: Array.from(Object.keys(themes)),
-      cookieName: pcsOptions?.cookie?.name ?? pcsOptions?.cookieName ?? 'color-scheme',
-      cookieDomain: pcsOptions?.cookie?.domain,
-      cookieSecure,
-      cookieSameSite,
+      ...resolveColorSchemeCookie(pcsOptions, ctx.logger),
       darkThemeName,
       lightThemeName,
       useBrowserThemeOnly: pcsOptions?.useBrowserThemeOnly ?? false,
