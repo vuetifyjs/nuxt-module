@@ -212,11 +212,16 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
     if (useLabComponents.length > 0) {
       componentsToImport.clear()
       const importMapLabComponents = await labComponentsPromise
+      const importMapStableComponents = await componentsPromise
       for (const component of useLabComponents) {
         const componentEntry = importMapLabComponents[component]
         const from = componentEntry?.from
         if (!from) {
-          logger.warn(`Lab Component ${component} not found in Vuetify.`)
+          if (importMapStableComponents[component]) {
+            logger.warn(`Lab component "${component}" has graduated to stable in your Vuetify version and is no longer under vuetify/labs. Remove it from "labComponents" — it is auto-imported on demand like any stable component.`)
+          } else {
+            logger.warn(`Lab Component ${component} not found in Vuetify.`)
+          }
           continue
         }
 
