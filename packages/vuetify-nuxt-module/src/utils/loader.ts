@@ -53,7 +53,7 @@ export async function load (
     const adapter = dateOptions.adapter
     const date = detectDate()
     if (!adapter && date.length > 1) {
-      throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d[0]}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
+      throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
     }
 
     if (adapter) {
