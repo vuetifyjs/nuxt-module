@@ -37,6 +37,8 @@ declare module 'virtual:vuetify-ssr-client-hints-configuration' {
       themeNames: string[]
       cookieName: string
       cookieDomain?: string
+      cookieSecure?: boolean
+      cookieSameSite: 'lax' | 'strict' | 'none'
       darkThemeName: string
       lightThemeName: string
       useBrowserThemeOnly: boolean
