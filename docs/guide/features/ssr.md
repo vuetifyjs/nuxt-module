@@ -98,6 +98,37 @@ const { isDark } = useCustomTheme()
 </template>
 ```
 
+### Vuetify `system` theme and SSR
+
+::: warning
+Vuetify 4 resolves `defaultTheme: 'system'` only in the browser (via `window.matchMedia`), so it is **not** SSR/SSG-safe: the server has no access to the OS color-scheme preference, so the first paint defaults to `light` and may flash on dark systems.
+
+To avoid the flash, set explicit `dark`/`light` themes and enable `ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`) so the browser preference is restored after the first request:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    moduleOptions: {
+      ssrClientHints: {
+        prefersColorScheme: true,
+        prefersColorSchemeOptions: {
+          useBrowserThemeOnly: true,
+        },
+      },
+    },
+    vuetifyOptions: {
+      theme: {
+        defaultTheme: 'light',
+      },
+    },
+  },
+})
+```
+
+Full server-side resolution of the `system` theme is tracked for a future major release.
+:::
+
 ## Vuetify Display
 
 If you're using Vuetify [useDisplay](https://vuetifyjs.com/en/api/use-display/) composable with SSR enabled, there is only one way for the server to get the client's width and height (still in draft): use the [Sec-CH-Viewport-Width](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-width) and [Sec-CH-Viewport-Height](https://wicg.github.io/responsive-image-client-hints/#sec-ch-viewport-height) headers respectively, will not work for the initial request.

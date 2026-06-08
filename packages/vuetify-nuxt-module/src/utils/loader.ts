@@ -88,6 +88,16 @@ export async function load (
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions, ctx.resolvePaths)
   ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)
 
+  if (
+    ctx.isSSR
+    && !ctx.ssrClientHints.prefersColorScheme
+    && ctx.vuetifyOptions.theme
+    && typeof ctx.vuetifyOptions.theme === 'object'
+    && ctx.vuetifyOptions.theme.defaultTheme === 'system'
+  ) {
+    ctx.logger.warn('`theme.defaultTheme: "system"` cannot be resolved during SSR/SSG: the server has no access to the OS color-scheme preference, so the first paint defaults to light and may flash on dark systems. Set explicit dark/light themes and enable `moduleOptions.ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`). See the SSR guide.')
+  }
+
   if (ctx.icons.enabled) {
     if (ctx.icons.local) {
       for (const css of ctx.icons.local) {
