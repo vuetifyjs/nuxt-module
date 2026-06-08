@@ -31,6 +31,10 @@ export function detectDate () {
   return result
 }
 
+export function multipleDateAdaptersError (adapters: DateAdapter[]) {
+  return `Multiple date adapters found: ${adapters.map(adapter => `@date-io/${adapter}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`
+}
+
 export function cleanupBlueprint (vuetifyOptions: VOptions) {
   const blueprint = vuetifyOptions.blueprint
   if (blueprint) {

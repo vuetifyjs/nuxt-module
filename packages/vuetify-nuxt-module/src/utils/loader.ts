@@ -9,7 +9,7 @@ import { debounce } from 'perfect-debounce'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { prepareIcons } from './icons'
 import { mergeVuetifyModules } from './layers'
-import { cleanupBlueprint, detectDate, resolveVuetifyComponents } from './module'
+import { cleanupBlueprint, detectDate, multipleDateAdaptersError, resolveVuetifyComponents } from './module'
 import { prepareSSRClientHints } from './ssr-client-hints'
 
 export async function load (
@@ -53,7 +53,7 @@ export async function load (
     const adapter = dateOptions.adapter
     const date = detectDate()
     if (!adapter && date.length > 1) {
-      throw new Error(`Multiple date adapters found: ${date.map(d => `@date-io/${d}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`)
+      throw new Error(multipleDateAdaptersError(date))
     }
 
     if (adapter) {
