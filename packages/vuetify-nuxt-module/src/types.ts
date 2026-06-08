@@ -366,9 +366,43 @@ export interface MOptions {
       /**
        * The name for the cookie.
        *
+       * @deprecated Use `cookie.name` instead.
        * @default 'color-scheme'
        */
       cookieName?: string
+      /**
+       * Cookie attributes for the color scheme cookie.
+       */
+      cookie?: {
+        /**
+         * The name for the cookie.
+         *
+         * @default 'color-scheme'
+         */
+        name?: string
+        /**
+         * The domain for the color scheme cookie.
+         *
+         * Useful to share the cookie across subdomains, e.g. `.example.com`.
+         *
+         * @default undefined
+         */
+        domain?: string
+        /**
+         * Mark the cookie as `Secure`.
+         *
+         * Forced to `true` when `sameSite` is `'none'`.
+         *
+         * @default undefined
+         */
+        secure?: boolean
+        /**
+         * The `SameSite` attribute for the cookie.
+         *
+         * @default 'lax'
+         */
+        sameSite?: 'lax' | 'strict' | 'none'
+      }
       /**
        * The name for the dark theme.
        *
@@ -468,6 +502,9 @@ export interface SSRClientHintsConfiguration {
     defaultTheme: string
     themeNames: string[]
     cookieName: string
+    cookieDomain?: string
+    cookieSecure?: boolean
+    cookieSameSite: 'lax' | 'strict' | 'none'
     darkThemeName: string
     lightThemeName: string
   }

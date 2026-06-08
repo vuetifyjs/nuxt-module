@@ -153,13 +153,22 @@ function useSSRClientHints () {
   const {
     baseUrl,
     cookieName,
+    cookieDomain,
+    cookieSecure,
+    cookieSameSite,
     defaultTheme,
   } = ssrClientHintsConfiguration.prefersColorSchemeOptions
   const cookieNamePrefix = `${cookieName}=`
   initial.value.colorSchemeFromCookie = document.cookie?.split(';')?.find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1] ?? defaultTheme
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
-  initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=Lax`
+  initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=${cookieSameSite[0].toUpperCase()}${cookieSameSite.slice(1)}`
+  if (cookieDomain) {
+    initial.value.colorSchemeCookie += `; Domain=${cookieDomain}`
+  }
+  if (cookieSecure) {
+    initial.value.colorSchemeCookie += '; Secure'
+  }
 
   return initial
 }

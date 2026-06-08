@@ -11,6 +11,9 @@ export interface ResolvedClientHints {
     defaultTheme: string
     themeNames: string[]
     cookieName: string
+    cookieDomain?: string
+    cookieSecure?: boolean
+    cookieSameSite: 'lax' | 'strict' | 'none'
     darkThemeName: string
     lightThemeName: string
     useBrowserThemeOnly: boolean
@@ -24,6 +27,23 @@ const disabledClientHints: ResolvedClientHints = Object.freeze({
   prefersColorScheme: false,
   prefersReducedMotion: false,
 })
+
+type PrefersColorSchemeInput = NonNullable<NonNullable<VuetifyNuxtContext['moduleOptions']['ssrClientHints']>['prefersColorSchemeOptions']>
+
+function resolveColorSchemeCookie (options: PrefersColorSchemeInput, logger: VuetifyNuxtContext['logger']) {
+  if (options.cookieName !== undefined) {
+    logger.warn('[vuetify-nuxt-module] `prefersColorSchemeOptions.cookieName` is deprecated, use `prefersColorSchemeOptions.cookie.name` instead.')
+  }
+
+  const cookieSameSite = options.cookie?.sameSite ?? 'lax'
+
+  return {
+    cookieName: options.cookie?.name ?? options.cookieName ?? 'color-scheme',
+    cookieDomain: options.cookie?.domain,
+    cookieSecure: cookieSameSite === 'none' ? true : options.cookie?.secure,
+    cookieSameSite,
+  }
+}
 
 export function prepareSSRClientHints (baseUrl: string, ctx: VuetifyNuxtContext) {
   if (!ctx.isSSR || ctx.isNuxtGenerate) {
@@ -76,14 +96,16 @@ export function prepareSSRClientHints (baseUrl: string, ctx: VuetifyNuxtContext)
       throw new Error('Vuetify dark theme and light theme are the same, change darkThemeName or lightThemeName!')
     }
 
+    const pcsOptions = ssrClientHintsConfiguration.prefersColorSchemeOptions
+
     clientHints.prefersColorSchemeOptions = {
       baseUrl,
       defaultTheme,
       themeNames: Array.from(Object.keys(themes)),
-      cookieName: ssrClientHintsConfiguration.prefersColorSchemeOptions?.cookieName ?? 'color-scheme',
+      ...resolveColorSchemeCookie(pcsOptions, ctx.logger),
       darkThemeName,
       lightThemeName,
-      useBrowserThemeOnly: ssrClientHintsConfiguration.prefersColorSchemeOptions?.useBrowserThemeOnly ?? false,
+      useBrowserThemeOnly: pcsOptions?.useBrowserThemeOnly ?? false,
     }
   }
 

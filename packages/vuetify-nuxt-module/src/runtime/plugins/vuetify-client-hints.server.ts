@@ -364,18 +364,31 @@ function writeThemeCookie (
   const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
   const themeName = clientHintsRequest.colorSchemeFromCookie ?? ssrClientHintsConfiguration.prefersColorSchemeOptions.defaultTheme
   const path = ssrClientHintsConfiguration.prefersColorSchemeOptions.baseUrl
+  const domain = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieDomain
+  const secure = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieSecure
+  const sameSite = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieSameSite
 
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
   if (!clientHintsRequest.firstRequest || !ssrClientHintsConfiguration.reloadOnFirstRequest) {
     useCookie(cookieName, {
       path,
+      domain,
       expires,
-      sameSite: 'lax',
+      sameSite,
+      secure,
     }).value = themeName
   }
 
-  return `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=Lax`
+  let cookie = `${cookieName}=${themeName}; Path=${path}; Expires=${expires.toUTCString()}; SameSite=${sameSite[0].toUpperCase()}${sameSite.slice(1)}`
+  if (domain) {
+    cookie += `; Domain=${domain}`
+  }
+  if (secure) {
+    cookie += '; Secure'
+  }
+
+  return cookie
 }
 
 export default plugin
