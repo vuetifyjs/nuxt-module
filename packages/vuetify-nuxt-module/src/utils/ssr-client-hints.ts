@@ -79,15 +79,25 @@ export function prepareSSRClientHints (baseUrl: string, ctx: VuetifyNuxtContext)
       throw new Error('Vuetify dark theme and light theme are the same, change darkThemeName or lightThemeName!')
     }
 
+    const pcsOptions = ssrClientHintsConfiguration.prefersColorSchemeOptions
+    if (pcsOptions?.cookieName !== undefined) {
+      ctx.logger.warn('[vuetify-nuxt-module] `prefersColorSchemeOptions.cookieName` is deprecated, use `prefersColorSchemeOptions.cookie.name` instead.')
+    }
+
+    const cookieSameSite = pcsOptions?.cookie?.sameSite ?? 'lax'
+    const cookieSecure = cookieSameSite === 'none' ? true : pcsOptions?.cookie?.secure
+
     clientHints.prefersColorSchemeOptions = {
       baseUrl,
       defaultTheme,
       themeNames: Array.from(Object.keys(themes)),
-      cookieName: ssrClientHintsConfiguration.prefersColorSchemeOptions?.cookieName ?? 'color-scheme',
-      cookieDomain: ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieDomain,
+      cookieName: pcsOptions?.cookie?.name ?? pcsOptions?.cookieName ?? 'color-scheme',
+      cookieDomain: pcsOptions?.cookie?.domain,
+      cookieSecure,
+      cookieSameSite,
       darkThemeName,
       lightThemeName,
-      useBrowserThemeOnly: ssrClientHintsConfiguration.prefersColorSchemeOptions?.useBrowserThemeOnly ?? false,
+      useBrowserThemeOnly: pcsOptions?.useBrowserThemeOnly ?? false,
     }
   }
 
