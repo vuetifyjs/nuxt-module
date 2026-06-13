@@ -15,6 +15,7 @@ describe('first-request reload guard', () => {
     expect(c).toContain('Path=/')
     expect(c).toContain('SameSite=Lax')
     expect(c).not.toMatch(/Expires|Max-Age/i)
+    expect(buildReloadGuardCookie('/app')).toContain('Path=/app')
   })
 
   it('reloads only on a first request when configured and not already reloaded', () => {
