@@ -37,11 +37,19 @@ describe('vuetifyDateConfigurationPlugin date-fns locale', () => {
     expect(code).toContain('new Adapter({ locale: zhCN })')
   })
 
+  it('passes through a locale that matches a date-fns export (de)', async () => {
+    const ctx = makeCtx('de')
+    const code = await loadModule(ctx)
+    expect(code).toContain('import { de } from \'date-fns/locale\'')
+    expect(code).toContain('new Adapter({ locale: de })')
+    expect(ctx.logger.warn).not.toHaveBeenCalled()
+  })
+
   it('falls back to enUS and warns for an unset locale', async () => {
     const ctx = makeCtx(undefined)
     const code = await loadModule(ctx)
     expect(code).toContain('import { enUS } from \'date-fns/locale\'')
     expect(code).toContain('new Adapter({ locale: enUS })')
-    expect(ctx.logger.warn).toHaveBeenCalledOnce()
+    expect(ctx.logger.warn).toHaveBeenCalledExactlyOnceWith(expect.stringContaining('(unset)'))
   })
 })

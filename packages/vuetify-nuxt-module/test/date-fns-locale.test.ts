@@ -15,6 +15,9 @@ describe('resolveDateFnsLocaleName', () => {
     expect(resolveDateFnsLocaleName('pt')).toEqual({ name: 'pt', fallback: false })
     expect(resolveDateFnsLocaleName('de')).toEqual({ name: 'de', fallback: false })
     expect(resolveDateFnsLocaleName('srLatn')).toEqual({ name: 'srLatn', fallback: false })
+    expect(resolveDateFnsLocaleName('ar')).toEqual({ name: 'ar', fallback: false })
+    expect(resolveDateFnsLocaleName('da')).toEqual({ name: 'da', fallback: false })
+    expect(resolveDateFnsLocaleName('km')).toEqual({ name: 'km', fallback: false })
   })
 
   it('falls back to enUS for undefined or unknown codes', () => {

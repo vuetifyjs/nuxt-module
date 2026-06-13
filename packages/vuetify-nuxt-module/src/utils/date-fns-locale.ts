@@ -20,10 +20,10 @@ const VUETIFY_TO_DATE_FNS: Record<string, string> = {
  * non-existent export (which would crash the build).
  */
 const DATE_FNS_SUPPORTED = new Set<string>([
-  'af', 'az', 'bg', 'ca', 'ckb', 'cs', 'de', 'el', 'enUS', 'es', 'et', 'faIR',
-  'fi', 'fr', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'ko', 'lt', 'lv', 'nb', 'nl',
-  'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'srLatn', 'sv', 'th', 'tr', 'uk',
-  'vi', 'zhCN', 'zhTW',
+  'af', 'ar', 'az', 'bg', 'ca', 'ckb', 'cs', 'da', 'de', 'el', 'enUS', 'es',
+  'et', 'faIR', 'fi', 'fr', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'km', 'ko',
+  'lt', 'lv', 'nb', 'nl', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'srLatn',
+  'sv', 'th', 'tr', 'uk', 'vi', 'zhCN', 'zhTW',
 ])
 
 export interface ResolvedDateFnsLocale {
@@ -33,7 +33,7 @@ export interface ResolvedDateFnsLocale {
   fallback: boolean
 }
 
-export function resolveDateFnsLocaleName(code: string | undefined): ResolvedDateFnsLocale {
+export function resolveDateFnsLocaleName (code: string | undefined): ResolvedDateFnsLocale {
   if (!code) {
     return { name: 'enUS', fallback: true }
   }
