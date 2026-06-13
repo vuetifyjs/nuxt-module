@@ -4,6 +4,42 @@ import defu from 'defu'
 import { loadVuetifyConfiguration } from './config'
 
 /**
+ * Module defaults — applied as the LOWEST-priority `defu` argument so that
+ * `vuetify:registerModule` hooks and layers can override them, while the app's
+ * explicit `nuxt.config` values (the defu base) still win (#290).
+ */
+export const MODULE_DEFAULTS: InlineModuleOptions = {
+  moduleOptions: {
+    importComposables: true,
+    includeTransformAssetsUrls: true,
+    styles: true,
+    rulesConfiguration: {
+      fromLabs: true,
+    },
+  },
+  vuetifyOptions: {
+    labComponents: false,
+    directives: false,
+  },
+}
+
+/**
+ * Merge collected configuration entries — `[app, ...hooks, ...layers]` — applying
+ * MODULE_DEFAULTS last. `app` is the defu base (#231); ordering is not reversed (#218);
+ * icons `sets` are deduped across entries (#214/#217).
+ */
+export function finalizeConfiguration (moduleOptions: InlineModuleOptions[]): InlineModuleOptions {
+  if (moduleOptions.length > 1) {
+    const [app, ...rest] = moduleOptions
+    const configuration = <InlineModuleOptions>defu(app, ...rest, MODULE_DEFAULTS)
+    // dedupe icons sets: fix #214 and #217 — reverse so the last (app) wins
+    dedupeIcons(configuration, moduleOptions.toReversed())
+    return configuration
+  }
+  return <InlineModuleOptions>defu(moduleOptions[0] ?? {}, MODULE_DEFAULTS)
+}
+
+/**
  * Merges project layer with registered vuetify modules
  */
 export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: Nuxt) {
@@ -65,25 +101,9 @@ export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: 
   //   for example, adding a layer with inlined vuetify options:
   //   nuxt will merge the conf for us (see issue #214 and #217)
   // - if the layer is configured using an external file, then we need to merge the configuration
-  if (moduleOptions.length > 1) {
-    const [app, ...rest] = moduleOptions
-    // we don't need to reverse (defu second arg are the defaults): fix #218
-    const configuration = <InlineModuleOptions>defu(app, ...rest)
-    // dedupe icons sets: fix #214 and #217
-    // we need to reverse the modules to override the icons from bottom to top layer
-    dedupeIcons(configuration, moduleOptions.toReversed())
-    return {
-      configuration,
-      vuetifyConfigurationFilesToWatch,
-    }
-  } else {
-    return {
-      configuration: {
-        moduleOptions: options.moduleOptions,
-        vuetifyOptions: resolvedOptions.config,
-      } satisfies InlineModuleOptions,
-      vuetifyConfigurationFilesToWatch,
-    }
+  return {
+    configuration: finalizeConfiguration(moduleOptions),
+    vuetifyConfigurationFilesToWatch,
   }
 }
 
