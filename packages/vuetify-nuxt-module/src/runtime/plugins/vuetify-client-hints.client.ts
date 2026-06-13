@@ -5,6 +5,7 @@ import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import { reactive, ref, watch } from 'vue'
 import { VuetifyHTTPClientHints } from './client-hints'
+import { buildReloadGuardCookie, hasReloadGuardCookie, shouldReloadOnFirstRequest } from './first-request-reload-guard'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
@@ -31,8 +32,13 @@ const plugin: Plugin<{
       prefersColorSchemeOptions,
     } = ssrClientHintsConfiguration
 
-    // reload the page when it is the first request, explicitly configured, and any feature available
-    if (firstRequest && reloadOnFirstRequest) {
+    // reload the page when it is the first request, explicitly configured, and not already
+    // reloaded this session — the guard cookie prevents an infinite loop when the browser
+    // requests client hints but never delivers them (e.g. Brave Shields strip Sec-CH-*) (#334)
+    if (shouldReloadOnFirstRequest(firstRequest, reloadOnFirstRequest, hasReloadGuardCookie(document.cookie))) {
+      // mark the one-time reload before triggering it (session cookie → one attempt per session)
+      // eslint-disable-next-line unicorn/no-document-cookie
+      document.cookie = buildReloadGuardCookie(prefersColorSchemeOptions?.baseUrl ?? '/')
       if (prefersColorScheme) {
         const themeCookie = state.value.colorSchemeCookie
         // write the cookie and refresh the page if configured
