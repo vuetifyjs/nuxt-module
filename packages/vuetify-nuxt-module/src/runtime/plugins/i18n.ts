@@ -9,6 +9,14 @@ function inferDecimalSeparator (n: ReturnType<typeof useI18n>['n']) {
   return n(0.1).includes(',') ? ',' : '.'
 }
 
+function inferNumericGroupSeparator (n: ReturnType<typeof useI18n>['n']) {
+  // Vuetify's own adapter uses `n(10000, { part: true }).find(...)`, but vue-i18n's
+  // `n` does not honour `part` in every Nuxt i18n setup (it returns a string, not
+  // parts), so derive the separator from the grouped output instead — same string
+  // approach as inferDecimalSeparator above.
+  return n(10_000, { useGrouping: true }).replace(/\p{Nd}/gu, '') || ' '
+}
+
 export function createAdapter (vuetifyOptions: VuetifyOptions) {
   vuetifyOptions.locale = {}
   const nuxtApp = useNuxtApp()
@@ -42,6 +50,7 @@ export function createAdapter (vuetifyOptions: VuetifyOptions) {
     n: i18n.n,
     provide: createProvideFunction({ current: currentLocale, fallback, messages }),
     decimalSeparator: toRef(() => inferDecimalSeparator(i18n.n)),
+    numericGroupSeparator: toRef(() => inferNumericGroupSeparator(i18n.n)),
   }
 }
 
@@ -81,6 +90,7 @@ function createProvideFunction (data: {
       t,
       n,
       decimalSeparator: toRef(() => props.decimalSeparator ?? inferDecimalSeparator(n)),
+      numericGroupSeparator: toRef(() => inferNumericGroupSeparator(n)),
       provide: createProvideFunction({ current: currentLocale, fallback: data.fallback, messages: data.messages }),
     }
   }
