@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite'
 import type { VuetifyNuxtContext } from '../utils/config'
+import { resolveDateFnsLocaleName } from '../utils/date-fns-locale'
 import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION, VIRTUAL_VUETIFY_DATE_CONFIGURATION } from './constants'
 
 export function vuetifyDateConfigurationPlugin (ctx: VuetifyNuxtContext) {
@@ -27,14 +28,23 @@ export function dateConfiguration() {
 
         const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
 
-        return `${buildImports()}
+        let dateFnsLocale: string | undefined
+        if (ctx.dateAdapter === 'date-fns') {
+          const resolved = resolveDateFnsLocaleName(ctx.vuetifyOptions.locale?.locale)
+          dateFnsLocale = resolved.name
+          if (resolved.fallback) {
+            ctx.logger.warn(`[vuetify-nuxt-module] date-fns locale for "${ctx.vuetifyOptions.locale?.locale ?? '(unset)'}" not found, falling back to "enUS". Set "vuetifyOptions.locale.locale" to a supported locale.`)
+          }
+        }
+
+        return `${buildImports(dateFnsLocale)}
 export const enabled = true
 export const isDev = ${ctx.isDev}
 export const i18n = ${ctx.i18n}
 export const adapter = '${ctx.dateAdapter}'
 export function dateConfiguration() {
   const options = JSON.parse('${JSON.stringify(newDateOptions)}')
-  ${buildAdapter()}
+  ${buildAdapter(dateFnsLocale)}
   return options
 }
 `
@@ -42,7 +52,7 @@ export function dateConfiguration() {
     },
   }
 
-  function buildAdapter () {
+  function buildAdapter (dateFnsLocale?: string) {
     if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetifyGte('3.4.0'))) {
       return ''
     }
@@ -51,15 +61,14 @@ export function dateConfiguration() {
       return 'options.adapter = VuetifyDateAdapter'
     }
 
-    const locale = ctx.vuetifyOptions.locale?.locale ?? 'en'
     if (ctx.dateAdapter === 'date-fns') {
-      return `options.adapter = new Adapter({ locale: ${locale} })`
+      return `options.adapter = new Adapter({ locale: ${dateFnsLocale} })`
     }
 
     return 'options.adapter = Adapter'
   }
 
-  function buildImports () {
+  function buildImports (dateFnsLocale?: string) {
     if (ctx.dateAdapter === 'custom' || (ctx.dateAdapter === 'vuetify' && ctx.vuetifyGte('3.4.0'))) {
       return ''
     }
@@ -70,7 +79,7 @@ export function dateConfiguration() {
 
     const imports = [`import Adapter from '@date-io/${ctx.dateAdapter}'`]
     if (ctx.dateAdapter === 'date-fns') {
-      imports.push(`import { ${ctx.vuetifyOptions.locale?.locale ?? 'en'} } from 'date-fns/locale'`)
+      imports.push(`import { ${dateFnsLocale} } from 'date-fns/locale'`)
     }
 
     return imports.join('\n')
