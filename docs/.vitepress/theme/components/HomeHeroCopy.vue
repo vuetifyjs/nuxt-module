@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { shallowRef } from 'vue'
 
   const props = defineProps<{
     command: string
   }>()
 
-  const copied = ref(false)
+  const copied = shallowRef(false)
 
   async function copy () {
     try {
@@ -99,6 +99,9 @@
   user-select: none;
   max-width: calc(100vw - 2 * 24px);
   width: 100%;
+}
+.hero-copy-btn.home {
+  margin: 6px;
 }
 
 .hero-copy-btn:hover {

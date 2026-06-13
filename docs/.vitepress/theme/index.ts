@@ -24,10 +24,12 @@ export default {
     app.component('CompatibilityMatrix', CompatibilityMatrix)
     app.component('CopyOrDownloadAsMarkdownButtons', CopyOrDownloadAsMarkdownButtons)
 
-    Swetrix.init('KMc9xOD28UCn', {
-      apiURL: 'https://swetrix-api.vuetifyjs.com/log',
-    })
-    Swetrix.trackViews()
-    Swetrix.trackErrors()
+    if (inBrowser) {
+      Swetrix.init('KMc9xOD28UCn', {
+        apiURL: 'https://swetrix-api.vuetifyjs.com/log',
+      })
+      Swetrix.trackViews()
+      Swetrix.trackErrors()
+    }
   },
 } satisfies Theme

@@ -12,9 +12,6 @@ hero:
     src: /logo.svg
     alt: Vuetify Nuxt Module
   actions:
-    - theme: alt
-      text: npx nuxt module add vuetify-nuxt-module
-      link: "#"
     - theme: brand
       text: Get Started
       link: /guide/

@@ -1,3 +1,5 @@
+import type { ThemeRegistration } from 'shiki'
+import ghLight from '@shikijs/themes/github-light'
 import { withPwa } from '@vite-pwa/vitepress'
 import { defineConfig } from 'vitepress'
 import llmstxt, { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms'
@@ -6,6 +8,19 @@ import { ogImage, ogUrl } from './constants'
 import { pwa } from './pwa'
 import { buildEnd, transformHtml } from './sitemap'
 import { transformHead } from './transform-head'
+
+function replaceThemeColors (
+  theme: ThemeRegistration,
+  replacements: Record<string, string>,
+): ThemeRegistration {
+  let themeString = JSON.stringify(theme)
+  for (const [oldColor, newColor] of Object.entries(replacements)) {
+    themeString = themeString.replaceAll(oldColor, newColor)
+    themeString = themeString.replaceAll(oldColor.toLowerCase(), newColor)
+    themeString = themeString.replaceAll(oldColor.toUpperCase(), newColor)
+  }
+  return JSON.parse(themeString)
+}
 
 export default withPwa(defineConfig({
   lang: 'en-US',
@@ -34,7 +49,13 @@ export default withPwa(defineConfig({
   lastUpdated: true,
   markdown: {
     theme: {
-      light: 'github-light',
+      light: replaceThemeColors(ghLight, {
+        '#22863A': '#227436', // green
+        '#E36209': '#BA4D02', // orange
+        '#D73A49': '#CD3443', // red
+        '#B31D28': '#AC222F', // red
+        '#6A737D': '#646b75', // gray comments
+      }),
       dark: 'github-dark',
     },
     config (md) {
