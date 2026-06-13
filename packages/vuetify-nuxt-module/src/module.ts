@@ -93,24 +93,6 @@ export default defineNuxtModule<ModuleOptions>({
     version,
   },
   /**
-   * Default configuration options of the Nuxt module
-   */
-  defaults: () => ({
-    vuetifyOptions: {
-      labComponents: false,
-      directives: false,
-    },
-    moduleOptions: {
-      importComposables: true,
-      includeTransformAssetsUrls: true,
-      styles: true,
-      disableVuetifyStyles: false,
-      rulesConfiguration: {
-        fromLabs: true,
-      },
-    },
-  }),
-  /**
    * Sets up the Vuetify Nuxt module.
    *
    * @param options - The module options.
