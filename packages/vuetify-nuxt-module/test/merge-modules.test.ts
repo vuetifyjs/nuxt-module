@@ -58,4 +58,21 @@ describe('finalizeConfiguration', () => {
   it('MODULE_DEFAULTS does not leak icons (dedupe only sees app+rest)', () => {
     expect((MODULE_DEFAULTS.vuetifyOptions as any)?.icons).toBeUndefined()
   })
+
+  it('lets a layer (not just a hook) override a defaulted moduleOptions field (#290)', () => {
+    const c = finalizeConfiguration([
+      app({ moduleOptions: {} }), // app — no explicit styles
+      { moduleOptions: {}, vuetifyOptions: {} }, // hook — no styles
+      { moduleOptions: { styles: 'none' }, vuetifyOptions: {} }, // layer — overrides default
+    ])
+    expect(c.moduleOptions!.styles).toBe('none')
+  })
+
+  it('deep-merges rulesConfiguration: a hook provides configFile, default fills fromLabs (#290)', () => {
+    const c = finalizeConfiguration([
+      app({ moduleOptions: {} }),
+      { moduleOptions: { rulesConfiguration: { configFile: 'my-rules.ts' } }, vuetifyOptions: {} },
+    ])
+    expect(c.moduleOptions!.rulesConfiguration).toEqual({ configFile: 'my-rules.ts', fromLabs: true })
+  })
 })

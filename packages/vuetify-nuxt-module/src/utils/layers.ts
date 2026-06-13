@@ -13,7 +13,6 @@ export const MODULE_DEFAULTS: InlineModuleOptions = {
     importComposables: true,
     includeTransformAssetsUrls: true,
     styles: true,
-    disableVuetifyStyles: false,
     rulesConfiguration: {
       fromLabs: true,
     },
