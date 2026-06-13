@@ -1,7 +1,5 @@
 import { availableLocales, langDir } from './config/i18n'
 
-// import { transformAssetUrls } from "vite-plugin-vuetify";
-
 export default defineNuxtConfig({
   compatibilityDate: '2024-08-15',
   // ssr: false,

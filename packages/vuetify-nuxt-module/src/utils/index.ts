@@ -2,7 +2,7 @@ import type { ViteConfig } from '@nuxt/schema'
 import type { AssetURLOptions, AssetURLTagConfig } from '@vue/compiler-sfc'
 import type { VuetifyNuxtContext } from './config'
 import defu from 'defu'
-import { transformAssetUrls as vuetifyTransformAssetUrls } from 'vite-plugin-vuetify'
+import { transformAssetUrls as vuetifyTransformAssetUrls } from '@vuetify/loader-shared'
 
 /**
  * Convert string to kebap-case

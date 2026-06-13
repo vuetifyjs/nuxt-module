@@ -108,6 +108,9 @@ catalogs:
     '@vite-pwa/vitepress':
       specifier: ^1.1.0
       version: 1.1.0
+    '@vuetify/loader-shared':
+      specifier: ^2.1.2
+      version: 2.1.2
     '@vuetify/unplugin-styles':
       specifier: ^1.0.0-beta.11
       version: 1.0.0-beta.11
@@ -201,9 +204,6 @@ catalogs:
     vite-plugin-pwa:
       specifier: ^1.2.0
       version: 1.2.0
-    vite-plugin-vuetify:
-      specifier: ^2.1.3
-      version: 2.1.3
     vitepress-plugin-llms:
       specifier: ^1.11.0
       version: 1.11.0
@@ -449,6 +449,9 @@ importers:
       '@nuxt/kit':
         specifier: 'catalog:'
         version: 4.4.2(magicast@0.5.2)
+      '@vuetify/loader-shared':
+        specifier: 'catalog:'
+        version: 2.1.2(vue@3.5.29(typescript@5.9.3))(vuetify@4.0.1)
       '@vuetify/unplugin-styles':
         specifier: 'catalog:'
         version: 1.0.0-beta.11(@nuxt/kit@4.4.2(magicast@0.5.2))(@nuxt/schema@4.3.1)(sass-embedded@1.97.3)(sass@1.97.3)(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(webpack@5.88.2(esbuild@0.27.3))
@@ -476,9 +479,6 @@ importers:
       unconfig:
         specifier: 'catalog:'
         version: 7.5.0
-      vite-plugin-vuetify:
-        specifier: 'catalog:'
-        version: 2.1.3(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.29(typescript@5.9.3))(vuetify@4.0.1)
       vuetify:
         specifier: 'catalog:'
         version: 4.0.1(typescript@5.9.3)(vite-plugin-vuetify@2.1.3)(vue@3.5.29(typescript@5.9.3))
@@ -16796,6 +16796,7 @@ snapshots:
       vuetify: 4.0.1(typescript@5.9.3)(vite-plugin-vuetify@2.1.3)(vue@3.5.29(typescript@5.9.3))
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
