@@ -40,7 +40,29 @@ You can also try it online on StackBlitz:
 
 ### Existing Project
 
-If you already have a Nuxt project, you can add the module using `nuxt`:
+If you already have a Nuxt project, first install `vuetify` — it is a peer dependency, so you choose the major version (Vuetify 3 or 4):
+
+::: code-group
+
+```bash [npm]
+npm install -D vuetify
+```
+
+```bash [yarn]
+yarn add -D vuetify
+```
+
+```bash [pnpm]
+pnpm add -D vuetify
+```
+
+```bash [bun]
+bun add -D vuetify
+```
+
+:::
+
+Then add the module using `nuxt`:
 
 ::: code-group
 

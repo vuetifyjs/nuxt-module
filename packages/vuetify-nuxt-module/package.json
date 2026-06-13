@@ -86,8 +86,10 @@
     "perfect-debounce": "catalog:",
     "semver": "catalog:",
     "ufo": "catalog:",
-    "unconfig": "catalog:",
-    "vuetify": "catalog:"
+    "unconfig": "catalog:"
+  },
+  "peerDependencies": {
+    "vuetify": "^3.4.0 || ^4.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -119,7 +121,8 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "vuetify": "catalog:"
   },
   "build": {
     "externals": [

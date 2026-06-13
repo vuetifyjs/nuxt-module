@@ -51,7 +51,10 @@
 
 > Requires Vite, will not work with Webpack
 
+`vuetify` is a peer dependency (Vuetify 3 or 4) — install it alongside the module:
+
 ```bash
+npm install -D vuetify
 npx nuxt module add vuetify-nuxt-module
 ```
 
