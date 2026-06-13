@@ -21,8 +21,13 @@ export interface DateOptions {
   adapter?: DateAdapter
   /**
    * Formats.
+   *
+   * Only serializable `Intl.DateTimeFormatOptions` values are supported here:
+   * the date configuration is statically serialized to a virtual module, so
+   * function-valued formats cannot be expressed (see #313, #331). Use a custom
+   * date adapter if you need function formats.
    */
-  formats?: Record<string, string>
+  formats?: Record<string, Intl.DateTimeFormatOptions>
   /**
    * Locales.
    *
