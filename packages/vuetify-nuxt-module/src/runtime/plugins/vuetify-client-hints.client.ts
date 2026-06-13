@@ -5,6 +5,7 @@ import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import { reactive, ref, watch } from 'vue'
 import { VuetifyHTTPClientHints } from './client-hints'
+import { buildReloadGuardCookie, hasReloadGuardCookie, shouldReloadOnFirstRequest } from './first-request-reload-guard'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>
@@ -31,8 +32,17 @@ const plugin: Plugin<{
       prefersColorSchemeOptions,
     } = ssrClientHintsConfiguration
 
-    // reload the page when it is the first request, explicitly configured, and any feature available
-    if (firstRequest && reloadOnFirstRequest) {
+    // reload the page when it is the first request, explicitly configured, and not already
+    // reloaded this session — the guard cookie prevents an infinite loop when the browser
+    // requests client hints but never delivers them (e.g. Brave Shields strip Sec-CH-*) (#334)
+    if (shouldReloadOnFirstRequest(firstRequest, reloadOnFirstRequest, hasReloadGuardCookie(document.cookie))) {
+      // set the one-shot guard cookie (session cookie) immediately before reloading so a
+      // browser that never delivers client hints (e.g. Brave) reloads at most once (#334)
+      const markAndReload = () => {
+        // eslint-disable-next-line unicorn/no-document-cookie
+        document.cookie = buildReloadGuardCookie(prefersColorSchemeOptions?.baseUrl ?? '/')
+        window.location.reload()
+      }
       if (prefersColorScheme) {
         const themeCookie = state.value.colorSchemeCookie
         // write the cookie and refresh the page if configured
@@ -44,22 +54,22 @@ const plugin: Plugin<{
           const newThemeName = prefersDark ? prefersColorSchemeOptions.darkThemeName : prefersColorSchemeOptions.lightThemeName
           // eslint-disable-next-line unicorn/no-document-cookie
           document.cookie = themeCookie.replace(cookieEntry, `${cookieName}=${newThemeName};`)
-          window.location.reload()
+          markAndReload()
         } else if (prefersColorSchemeAvailable) {
-          window.location.reload()
+          markAndReload()
         }
       }
 
       if (prefersReducedMotion && prefersReducedMotionAvailable) {
-        window.location.reload()
+        markAndReload()
       }
 
       if (viewportSize && viewportHeightAvailable) {
-        window.location.reload()
+        markAndReload()
       }
 
       if (viewportSize && viewportWidthAvailable) {
-        window.location.reload()
+        markAndReload()
       }
     }
 
