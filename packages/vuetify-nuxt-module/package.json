@@ -77,6 +77,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
+    "@vuetify/loader-shared": "catalog:",
     "@vuetify/unplugin-styles": "catalog:",
     "defu": "catalog:",
     "destr": "catalog:",
@@ -86,7 +87,6 @@
     "semver": "catalog:",
     "ufo": "catalog:",
     "unconfig": "catalog:",
-    "vite-plugin-vuetify": "catalog:",
     "vuetify": "catalog:"
   },
   "devDependencies": {
@@ -139,7 +139,6 @@
       "ufo",
       "unconfig",
       "vite",
-      "vite-plugin-vuetify",
       "vuetify"
     ]
   },
