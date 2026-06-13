@@ -2,7 +2,6 @@ import type { Options } from '@vuetify/loader-shared'
 import type { Plugin } from 'vite'
 import { pathToFileURL } from 'node:url'
 import { generateImports } from '@vuetify/loader-shared'
-import destr from 'destr'
 import { isAbsolute } from 'pathe'
 import { parseQuery, parseURL } from 'ufo'
 import { createFilter } from 'vite'
@@ -12,10 +11,26 @@ function parseId2 (id: string) {
   return parseURL(decodeURIComponent(isAbsolute(id) ? pathToFileURL(id).href : id))
 }
 
+function reviver (key: string, value: unknown) {
+  if (key === '__proto__' || key === 'constructor') {
+    return undefined
+  }
+  return value
+}
+
+function parseProps (value: string): Record<string, any> | undefined {
+  try {
+    const parsed = JSON.parse(value, reviver)
+    return parsed && typeof parsed === 'object' ? parsed : undefined
+  } catch {
+    return undefined
+  }
+}
+
 function parseId (id: string) {
   const { search, pathname } = parseId2(id)
   const query = parseQuery(search)
-  const urlProps = query.props ? destr<Record<string, any>>(query.props as string) : undefined
+  const urlProps = query.props ? parseProps(query.props as string) : undefined
 
   return {
     query: urlProps,

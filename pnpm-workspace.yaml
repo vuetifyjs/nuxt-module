@@ -46,7 +46,6 @@ catalog:
   date-fns-jalali: 2.19.0-2
   dayjs: ^1.11.19
   defu: ^6.1.4
-  destr: ^2.0.5
   eslint: ^10.0.2
   eslint-config-vuetify: 4.3.5-beta.1
   local-pkg: ^1.1.2
