@@ -16,6 +16,7 @@ export async function load (
   options: VuetifyModuleOptions,
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
+  reload = false,
 ) {
   const {
     configuration,
@@ -74,9 +75,11 @@ export async function load (
   }
 
   /* handle old stuff */
-  const oldIcons = ctx.icons
-  if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
-    nuxt.options.app.head.link = nuxt.options.app.head.link.filter(link => !link.key || !oldIcons.cdn.some(([key]) => link.key === key))
+  if (!reload) {
+    const oldIcons = ctx.icons
+    if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
+      nuxt.options.app.head.link = nuxt.options.app.head.link.filter(link => !link.key || !oldIcons.cdn.some(([key]) => link.key === key))
+    }
   }
 
   /* handle new stuff */
@@ -98,7 +101,7 @@ export async function load (
     ctx.logger.warn('`theme.defaultTheme: "system"` cannot be resolved during SSR/SSG: the server has no access to the OS color-scheme preference, so the first paint defaults to light and may flash on dark systems. Set explicit dark/light themes and enable `moduleOptions.ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`). See the SSR guide.')
   }
 
-  if (ctx.icons.enabled) {
+  if (!reload && ctx.icons.enabled) {
     if (ctx.icons.local) {
       for (const css of ctx.icons.local) {
         nuxt.options.css.push(css)
@@ -156,7 +159,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
       }
       // reload configuration always: refresh ctx before the SSR runner
       // re-executes the (invalidated) virtual modules on the next render
-      await load(options, nuxt, ctx)
+      await load(options, nuxt, ctx, true)
       // server.reloadModule escalates to a full client reload for our
       // non-accepting virtual modules, which re-requests the SSR page.
       if (modules.length > 0) {
