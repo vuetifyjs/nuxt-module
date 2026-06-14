@@ -9,7 +9,7 @@ During development, the module monitors Vuetify configuration files, focusing on
 ::: warning CAVEATS
 Modifying the Vuetify configuration during development triggers a full client page reload to pick up the new options — including under SSR, where the server-rendered output is refreshed without restarting the dev server (Nuxt `>= 4.3`). On older Nuxt versions, SSR falls back to a full dev-server restart.
 
-Because the reload intentionally skips re-applying `nuxt.options` (to avoid a slower full server reload), changing the **icon CDN/local CSS** in a configuration file needs a manual dev-server restart to update `<head>`. Other options (theme, defaults, components, …) hot-reload as described above.
+Under SSR, hot-reload covers the core options — `theme`, `defaults`, `components`, `aliases`, `directives`, and locale messages. A few changes still need a manual dev-server restart to take effect: the **icon CDN / local CSS** `<head>` links (the reload intentionally skips re-applying `nuxt.options` to avoid a slower full server reload), and **icon-set / date-adapter** changes (their server-rendered modules are not re-evaluated on the fly by the dev SSR runtime).
 :::
 
 For example, you can configure:

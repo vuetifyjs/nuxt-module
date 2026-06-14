@@ -39,6 +39,13 @@ async function fetchWithTimeout (path: string, ms = 4000): Promise<string> {
   }
 }
 
+// SCOPE: this guards the no-restart property (via the boot-count probe) and the
+// watcher wiring end-to-end. It does NOT guard the SSR vite-node runner cache
+// eviction itself: this fixture's SSR graph is small enough that a config edit
+// re-renders SSR even without the dev-SSR import-edge mechanism, so the
+// assertion can't distinguish the two. That mechanism is verified manually
+// against `apps/playground` (see the fix commit). A future maintainer must not
+// treat a green run here as proof the eviction path still works.
 describe('config-hmr-ssr — dev SSR config hot-reload', () => {
   let probeFile = ''
   let originalConfig = ''

@@ -8,7 +8,11 @@ import semver from 'semver'
  * config-file change under SSR cannot reach the SSR runner cache, so we fall
  * back to `nuxt.callHook('restart')`.
  *
- * Validated against Nuxt 4.3.1 by `test/e2e/config-hmr-ssr.spec.ts`.
+ * Validated against Nuxt 4.3.1 (e2e + the `apps/playground` smoke test). The
+ * `4.3.0` floor is a conservative inference, not empirically tested below
+ * 4.3.1; lower it only with verification. Below the floor the safe restart
+ * fallback applies, so an over-tight floor never breaks — it only forgoes the
+ * fast path.
  */
 export const MIN_NUXT_VERSION_FOR_SSR_CONFIG_HMR = '4.3.0'
 
