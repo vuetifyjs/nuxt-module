@@ -142,6 +142,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
   }
 
   let ssrServer: ViteDevServer | undefined
+  let clientServer: ViteDevServer | undefined
 
   nuxt.hook('vite:serverCreated', (server, { isClient }) => {
     // The SSR moduleGraph lives on the server-environment vite server. Capture
@@ -154,6 +155,12 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     if (!server.ws) {
       return
     }
+
+    // Capture the client vite server so a config edit can broadcast a
+    // full-reload over its websocket — that's what makes an already-open
+    // browser tab refresh on its own (the SSR invalidation alone only updates
+    // the output served to the next fresh request).
+    clientServer = server
 
     // Add the config sources to the client vite server's chokidar watcher so
     // Nuxt's vite-node plugin (`clientServer.watcher.on('all')`) adds them to
@@ -172,19 +179,24 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
   // `invalidates` set on the next render — otherwise a request landing between
   // the watcher feeding `invalidates` and this invalidation would lock in the
   // stale transform (the drain clears the set, so no further re-render fires).
-  // We deliberately do NOT call server.reloadModule / send a full-reload: that
-  // suspends SSR for plain (non-browser) requests until a client reconnects.
+  // We deliberately do NOT call server.reloadModule / let vite escalate to its
+  // default full-reload: that suspends SSR for plain (non-browser) requests
+  // until a client reconnects. Instead we invalidate the SSR transforms so the
+  // next request re-renders, then broadcast a full-reload ourselves purely over
+  // the CLIENT websocket so an already-open browser tab refreshes on its own.
+  // That broadcast is just a WS message to connected browsers — it does not
+  // gate server-side rendering, so a bare `curl` still returns promptly.
   async function reloadConfig () {
     await load(options, nuxt, ctx, true)
-    if (!ssrServer) {
-      return
-    }
-    for (const id of RESOLVED_VIRTUAL_MODULES) {
-      const mod = ssrServer.moduleGraph.getModuleById(id)
-      if (mod) {
-        ssrServer.moduleGraph.invalidateModule(mod)
+    if (ssrServer) {
+      for (const id of RESOLVED_VIRTUAL_MODULES) {
+        const mod = ssrServer.moduleGraph.getModuleById(id)
+        if (mod) {
+          ssrServer.moduleGraph.invalidateModule(mod)
+        }
       }
     }
+    clientServer?.ws.send({ type: 'full-reload' })
   }
 
   addVitePlugin({
