@@ -4,7 +4,6 @@ import type { VOptions, VuetifyModuleOptions } from '../types'
 import type { VuetifyNuxtContext } from './config'
 import { addVitePlugin } from '@nuxt/kit'
 import defu from 'defu'
-import { relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { prepareIcons } from './icons'
@@ -21,7 +20,7 @@ export async function load (
   const {
     configuration,
     vuetifyConfigurationFilesToWatch,
-  } = await mergeVuetifyModules(options, nuxt, ctx)
+  } = await mergeVuetifyModules(options, nuxt)
 
   // we only need to load json files once
   if (ctx.componentsPromise === undefined) {
@@ -75,6 +74,10 @@ export async function load (
   }
 
   /* handle old stuff */
+  // On a dev config reload we deliberately leave nuxt.options (css + head links)
+  // untouched: re-mutating them would trigger a full Nitro dev:reload (defeating
+  // the HMR fast-path) and accumulate duplicate entries. Trade-off: changing the
+  // icon CDN/local CSS in a config file needs a manual restart to update <head>.
   if (!reload) {
     const oldIcons = ctx.icons
     if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
@@ -101,6 +104,7 @@ export async function load (
     ctx.logger.warn('`theme.defaultTheme: "system"` cannot be resolved during SSR/SSG: the server has no access to the OS color-scheme preference, so the first paint defaults to light and may flash on dark systems. Set explicit dark/light themes and enable `moduleOptions.ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`). See the SSR guide.')
   }
 
+  // see note above — skipped on reload
   if (!reload && ctx.icons.enabled) {
     if (ctx.icons.local) {
       for (const css of ctx.icons.local) {
@@ -127,22 +131,18 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     return
   }
 
-  // When SSR config HMR is unsupported (older Nuxt), changes to SSR-consumed
-  // virtual modules can't be evicted from the vite-node runner cache, so fall
-  // back to a full dev-server restart.
-  const needsRestart = !ctx.canHmrConfig
+  // Legacy fallback: on Nuxt versions whose vite-node can't evict SSR-consumed
+  // virtual modules from its runner cache (ctx.canHmrConfig === false), hot
+  // reload isn't possible — register the config files with Nuxt so it restarts
+  // the dev server natively when any of them changes.
+  if (!ctx.canHmrConfig) {
+    for (const file of ctx.vuetifyFilesToWatch) {
+      nuxt.options.watch.push(file)
+    }
+    return
+  }
 
   let pageReload: (() => Promise<void>) | undefined
-
-  nuxt.hooks.hook('builder:watch', (_event, path) => {
-    if (!needsRestart) {
-      return
-    }
-    path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
-    if (!pageReload && ctx.vuetifyFilesToWatch.includes(path)) {
-      return nuxt.callHook('restart')
-    }
-  })
 
   nuxt.hook('vite:serverCreated', (server, { isClient }) => {
     if (!server.ws || !isClient) {
@@ -157,8 +157,8 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
           modules.push(module)
         }
       }
-      // reload configuration always: refresh ctx before the SSR runner
-      // re-executes the (invalidated) virtual modules on the next render
+      // refresh ctx (without re-mutating nuxt.options — see load()'s `reload`
+      // flag) before the SSR runner re-executes the invalidated virtual modules
       await load(options, nuxt, ctx, true)
       // server.reloadModule escalates to a full client reload for our
       // non-accepting virtual modules, which re-requests the SSR page.
@@ -172,15 +172,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     name: 'vuetify:configuration:watch',
     enforce: 'pre',
     handleHotUpdate ({ file }) {
-      if (!ctx.vuetifyFilesToWatch.includes(file)) {
-        return
-      }
-      if (needsRestart) {
-        // restart is driven by the builder:watch hook above; suppress the
-        // default client HMR for the (stale-until-restart) virtual module.
-        return []
-      }
-      if (pageReload) {
+      if (pageReload && ctx.vuetifyFilesToWatch.includes(file)) {
         return pageReload()
       }
     },
