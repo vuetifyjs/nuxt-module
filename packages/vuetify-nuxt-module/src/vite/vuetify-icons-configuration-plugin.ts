@@ -16,6 +16,12 @@ export function vuetifyIconsPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
+        // Client-graph only; no dev-SSR edge, so icon-set changes need a restart.
+        if (ctx.isDev && ctx.canHmrConfig) {
+          for (const file of ctx.vuetifyFilesToWatch) {
+            this.addWatchFile(file)
+          }
+        }
         const {
           enabled,
           unocss,

@@ -76,17 +76,10 @@ export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: 
     options.vuetifyOptions,
   )
 
-  // handle vuetify configuraton files changes only in dev mode
+  // handle vuetify configuration files changes only in dev mode
   if (nuxt.options.dev && resolvedOptions.sources.length > 0) {
-    // we need to restart nuxt dev server when SSR is enabled: vite-node doesn't support HMR in server yet
-    if (nuxt.options.ssr) {
-      for (const s of resolvedOptions.sources) {
-        nuxt.options.watch.push(s.replace(/\\/g, '/'))
-      }
-    } else {
-      for (const s of resolvedOptions.sources) {
-        vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/'))
-      }
+    for (const s of resolvedOptions.sources) {
+      vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/'))
     }
   }
 

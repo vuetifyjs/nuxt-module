@@ -1,11 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
-import type { ModuleNode } from 'vite'
+import type { ViteDevServer } from 'vite'
 import type { VOptions, VuetifyModuleOptions } from '../types'
 import type { VuetifyNuxtContext } from './config'
 import { addVitePlugin } from '@nuxt/kit'
 import defu from 'defu'
-import { relative, resolve } from 'pathe'
-import { debounce } from 'perfect-debounce'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { prepareIcons } from './icons'
 import { mergeVuetifyModules } from './layers'
@@ -16,6 +14,7 @@ export async function load (
   options: VuetifyModuleOptions,
   nuxt: Nuxt,
   ctx: VuetifyNuxtContext,
+  reload = false,
 ) {
   const {
     configuration,
@@ -74,9 +73,13 @@ export async function load (
   }
 
   /* handle old stuff */
-  const oldIcons = ctx.icons
-  if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
-    nuxt.options.app.head.link = nuxt.options.app.head.link.filter(link => !link.key || !oldIcons.cdn.some(([key]) => link.key === key))
+  // On reload, skip nuxt.options mutations (they trigger a Nitro dev:reload and
+  // accumulate duplicates); icon CDN/CSS <head> changes then need a restart.
+  if (!reload) {
+    const oldIcons = ctx.icons
+    if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
+      nuxt.options.app.head.link = nuxt.options.app.head.link.filter(link => !link.key || !oldIcons.cdn.some(([key]) => link.key === key))
+    }
   }
 
   /* handle new stuff */
@@ -98,7 +101,7 @@ export async function load (
     ctx.logger.warn('`theme.defaultTheme: "system"` cannot be resolved during SSR/SSG: the server has no access to the OS color-scheme preference, so the first paint defaults to light and may flash on dark systems. Set explicit dark/light themes and enable `moduleOptions.ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`). See the SSR guide.')
   }
 
-  if (ctx.icons.enabled) {
+  if (!reload && ctx.icons.enabled) {
     if (ctx.icons.local) {
       for (const css of ctx.icons.local) {
         nuxt.options.css.push(css)
@@ -119,48 +122,75 @@ export async function load (
   }
 }
 
-export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
-  if (nuxt.options.dev) {
-    let pageReload: (() => Promise<void>) | undefined
-
-    nuxt.hooks.hook('builder:watch', (_event, path) => {
-      path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
-      if (!pageReload && ctx.vuetifyFilesToWatch.includes(path)) {
-        return nuxt.callHook('restart')
+// Returns a fn that invalidates our virtual config modules on the given graph
+// (the legacy ModuleGraph or a Vite Environment's EnvironmentModuleGraph).
+function bindInvalidator<M> (graph: {
+  getModuleById: (id: string) => M | null | undefined
+  invalidateModule: (mod: M) => void
+}) {
+  return () => {
+    for (const id of RESOLVED_VIRTUAL_MODULES) {
+      const mod = graph.getModuleById(id)
+      if (mod) {
+        graph.invalidateModule(mod)
       }
-    })
-
-    nuxt.hook('vite:serverCreated', (server, { isClient }) => {
-      if (!server.ws || !isClient) {
-        return
-      }
-
-      pageReload = debounce(async () => {
-        const modules: ModuleNode[] = []
-        for (const v of RESOLVED_VIRTUAL_MODULES) {
-          const module = server.moduleGraph.getModuleById(v)
-          if (module) {
-            modules.push(module)
-          }
-        }
-        // reload configuration always
-        await load(options, nuxt, ctx)
-        // TODO: try to change the logic here with custom event and using the moduleGraph + client invalidation
-        // server.reloadModule will send at least 2 or 3 full page reloads in a row: it is better than server restart
-        if (modules.length > 0) {
-          await Promise.all(modules.map(m => server.reloadModule(m)))
-        }
-      }, 50, { trailing: false })
-    })
-
-    addVitePlugin({
-      name: 'vuetify:configuration:watch',
-      enforce: 'pre',
-      handleHotUpdate ({ file }) {
-        if (pageReload && ctx.vuetifyFilesToWatch.includes(file)) {
-          return pageReload()
-        }
-      },
-    })
+    }
   }
+}
+
+export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
+  if (!nuxt.options.dev) {
+    return
+  }
+
+  // Older Nuxt (Vite 6) can't evict the SSR runner cache — fall back to restart.
+  if (!ctx.canHmrConfig) {
+    for (const file of ctx.vuetifyFilesToWatch) {
+      nuxt.options.watch.push(file)
+    }
+    return
+  }
+
+  let clientServer: ViteDevServer | undefined
+  let invalidateSsrModules: (() => void) | undefined
+
+  nuxt.hook('vite:serverCreated', (server, { isClient }) => {
+    // Capture the SSR module graph regardless of `experimental.viteEnvironmentApi`:
+    // a dedicated SSR dev server when it's off, else the single server's `ssr`
+    // environment (which only emits an isClient event).
+    if (!isClient) {
+      invalidateSsrModules = bindInvalidator(server.moduleGraph)
+      return
+    }
+    if (!server.ws) {
+      return
+    }
+
+    clientServer = server
+    const ssrEnv = server.environments?.ssr
+    if (ssrEnv) {
+      invalidateSsrModules ??= bindInvalidator(ssrEnv.moduleGraph)
+    }
+    // Feed the config files to vite-node's `invalidates` set on edit.
+    server.watcher.add(ctx.vuetifyFilesToWatch)
+  })
+
+  // Refresh ctx, invalidate the SSR transforms, then full-reload the browser.
+  // Awaited in handleHotUpdate to win the race against the next render's drain.
+  async function reloadConfig () {
+    await load(options, nuxt, ctx, true)
+    invalidateSsrModules?.()
+    clientServer?.ws.send({ type: 'full-reload' })
+  }
+
+  addVitePlugin({
+    name: 'vuetify:configuration:watch',
+    enforce: 'pre',
+    async handleHotUpdate ({ file }) {
+      if (clientServer && ctx.vuetifyFilesToWatch.includes(file)) {
+        await reloadConfig()
+        return [] // handled; skip vite's own full-reload
+      }
+    },
+  })
 }

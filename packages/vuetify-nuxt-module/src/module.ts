@@ -25,6 +25,7 @@ import { version } from '../package.json'
 import { configureNuxt } from './utils/configure-nuxt'
 import { configureVite } from './utils/configure-vite'
 import { load, registerWatcher } from './utils/loader'
+import { supportsSsrConfigHmr } from './utils/ssr-config-hmr'
 
 export * from './types'
 
@@ -134,6 +135,7 @@ export default defineNuxtModule<ModuleOptions>({
       moduleOptions: undefined!,
       vuetifyOptions: undefined!,
       vuetifyFilesToWatch: [],
+      canHmrConfig: !nuxt.options.ssr || supportsSsrConfigHmr(getNuxtVersion(nuxt)),
       isSSR: nuxt.options.ssr,
       isDev: nuxt.options.dev,
       isNuxtGenerate: !!nuxt.options.nitro.static,

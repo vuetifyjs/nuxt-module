@@ -1,0 +1,5 @@
+{
+  "name": "config-hmr-ssr",
+  "type": "module",
+  "private": true
+}

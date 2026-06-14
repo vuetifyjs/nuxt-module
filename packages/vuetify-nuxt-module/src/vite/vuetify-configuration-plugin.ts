@@ -23,6 +23,12 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
+        // Client-graph invalidation (the dev-SSR import edge below handles SSR).
+        if (ctx.isDev && ctx.canHmrConfig) {
+          for (const file of ctx.vuetifyFilesToWatch) {
+            this.addWatchFile(file)
+          }
+        }
         const {
           directives: _directives,
           date: _date,
@@ -47,7 +53,18 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
         const result = await buildConfiguration(ctx)
         const deepCopy = result.messages.length > 0
 
-        return `${result.imports}
+        // Dev SSR only: a side-effect import gives vite-node a config-file ->
+        // module edge so an edit re-evaluates this module (no restart). Gated to
+        // `ssr` so the raw config never reaches the client; the value is unused.
+        let configDepImports = ''
+        if (ctx.isDev && ctx.canHmrConfig && this.environment?.name === 'ssr') {
+          configDepImports = ctx.vuetifyFilesToWatch
+            .map(file => `import ${JSON.stringify(file)}`)
+            .join('\n')
+        }
+
+        return `${configDepImports}
+${result.imports}
 
 export const isDev = ${ctx.isDev}
 export function vuetifyConfiguration() {
