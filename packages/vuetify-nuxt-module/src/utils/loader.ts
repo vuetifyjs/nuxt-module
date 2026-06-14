@@ -20,7 +20,7 @@ export async function load (
   const {
     configuration,
     vuetifyConfigurationFilesToWatch,
-  } = await mergeVuetifyModules(options, nuxt)
+  } = await mergeVuetifyModules(options, nuxt, ctx)
 
   // we only need to load json files once
   if (ctx.componentsPromise === undefined) {

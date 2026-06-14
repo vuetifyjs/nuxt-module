@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { FontIconSet, IconFontName, InlineModuleOptions, VuetifyModuleOptions } from '../types'
+import type { VuetifyNuxtContext } from './config'
 import defu from 'defu'
 import { loadVuetifyConfiguration } from './config'
 
@@ -42,7 +43,7 @@ export function finalizeConfiguration (moduleOptions: InlineModuleOptions[]): In
 /**
  * Merges project layer with registered vuetify modules
  */
-export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: Nuxt) {
+export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   const moduleOptions: InlineModuleOptions[] = []
   const vuetifyConfigurationFilesToWatch = new Set<string>()
 
@@ -76,16 +77,18 @@ export async function mergeVuetifyModules (options: VuetifyModuleOptions, nuxt: 
     options.vuetifyOptions,
   )
 
-  // handle vuetify configuraton files changes only in dev mode
+  // handle vuetify configuration files changes only in dev mode
   if (nuxt.options.dev && resolvedOptions.sources.length > 0) {
-    // we need to restart nuxt dev server when SSR is enabled: vite-node doesn't support HMR in server yet
-    if (nuxt.options.ssr) {
-      for (const s of resolvedOptions.sources) {
-        nuxt.options.watch.push(s.replace(/\\/g, '/'))
-      }
-    } else {
+    if (ctx.canHmrConfig) {
+      // HMR path: watch via the module graph (addWatchFile) + handleHotUpdate.
       for (const s of resolvedOptions.sources) {
         vuetifyConfigurationFilesToWatch.add(s.replace(/\\/g, '/'))
+      }
+    } else {
+      // Legacy fallback (older Nuxt SSR): vite-node can't HMR SSR-consumed
+      // virtual modules, so watch through Nuxt to trigger a full restart.
+      for (const s of resolvedOptions.sources) {
+        nuxt.options.watch.push(s.replace(/\\/g, '/'))
       }
     }
   }
