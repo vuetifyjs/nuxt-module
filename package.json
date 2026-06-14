@@ -24,11 +24,16 @@
     "publint": "pnpm -C packages/vuetify-nuxt-module publint",
     "test": "pnpm -C packages/vuetify-nuxt-module test",
     "test:watch": "pnpm -C packages/vuetify-nuxt-module test:watch",
+    "prepare": "lefthook install",
     "release": "bumpp -r"
   },
   "devDependencies": {
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "@commitlint/types": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
-    "eslint-config-vuetify": "catalog:"
+    "eslint-config-vuetify": "catalog:",
+    "lefthook": "catalog:"
   }
 }
