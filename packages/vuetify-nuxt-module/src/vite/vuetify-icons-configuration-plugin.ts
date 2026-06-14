@@ -16,6 +16,14 @@ export function vuetifyIconsPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
+        // Bind the resolved config sources to this virtual module so an edit
+        // invalidates it (and its SSR importers) on both client and SSR graphs
+        // in dev. Only meaningful when hot-reload is supported; harmless else.
+        if (ctx.isDev && ctx.canHmrConfig) {
+          for (const file of ctx.vuetifyFilesToWatch) {
+            this.addWatchFile(file)
+          }
+        }
         const {
           enabled,
           unocss,
