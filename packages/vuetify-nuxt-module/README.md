@@ -26,25 +26,19 @@
 
 ## 🚀 Features
 
-- 📖 [**Documentation & guides**](https://nuxt.vuetifyjs.com/)
+> 📖 Full [**documentation & guides**](https://nuxt.vuetifyjs.com/)
+
 - 👌 **Zero-Config**: sensible built-in default [Vuetify](https://vuetifyjs.com/) configuration for common use cases
-- 🔌 **Extensible**: expose the ability to customize the Vuetify configuration via [Nuxt Runtime Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins)
-- ⚡ **Fully Tree Shakable**: by default, only the needed Vuetify components are imported
-- 🛠️ **Versatile**: custom Vuetify [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
-- ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/) 
-- 💥 **SSR**: automatic SSR detection and configuration including [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints)
-- 🔩 **Nuxt Layers and Module Hooks**: load your Vuetify configuration using [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers) or using a custom module via `vuetify:registerModule` [Nuxt Module Hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time)
-- 📥 **Vuetify Configuration File**: configure your Vuetify options using a custom `vuetify.config` file, no dev server restart needed
-- 🔥 **Pure CSS Icons**: no more font/js icons, use the new `unocss-mdi` icon set or build your own with UnoCSS Preset Icons
-- 😃 **Icon Fonts**: configure the [icon font](https://vuetifyjs.com/en/features/icon-fonts/) you want to use, the module will automatically import it for you using CDN or local dependencies
-- 🎭 **SVG Icons**: ready to use [@mdi/js](https://www.npmjs.com/package/@mdi/js) and [@fortawesome/vue-fontawesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome) SVG icons packs
-- 📦 **Multiple Icon Sets**: register [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
-- 🌍 **I18n Ready**: install [@nuxtjs/i18n](https://i18n.nuxtjs.org/) Nuxt module, and you're ready to use Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/) features
-- 📆 **Date Components**: use Vuetify components [that require date functionality](https://vuetifyjs.com/en/features/dates/) installing and configuring one of the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
-- 💬 **Auto-Import Vuetify Locale Messages**: add [Vuetify Locale Messages](https://vuetifyjs.com/en/features/internationalization/#getting-started) adding just the locales you want to use, no more imports needed
-- ⚙️ **Auto-Import Vuetify Composables**: you don't need to import Vuetify composables manually, they are automatically imported for you
-- 🎨 **Vuetify Blueprints**: use [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/) to quickly scaffold components
-- 👀 **Nuxt DevTools**: ready to inspect your Vuetify styles with the [Nuxt DevTools](https://github.com/nuxt/devtools) inspector
+- ⚡ **Fully Tree Shakable**: by default, only the Vuetify components you use are imported
+- 🪄 **Auto-Import**: Vuetify components and composables are auto-imported — no manual imports needed
+- 🔌 **Extensible**: customize the Vuetify configuration via [Nuxt Runtime Hooks](https://nuxt.com/docs/guide/going-further/hooks#usage-with-plugins), [Nuxt Layers](https://nuxt.com/docs/getting-started/layers#layers), the `vuetify:registerModule` [module hook](https://nuxt.com/docs/guide/going-further/hooks#nuxt-hooks-build-time), or a dedicated `vuetify.config` file
+- 💥 **SSR**: automatic SSR detection and configuration, including [HTTP Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints)
+- ✨ **Configurable Styles**: configure your variables using [Vuetify SASS Variables](https://vuetifyjs.com/en/features/sass-variables/)
+- 🛠️ **Directives & Labs**: optional [directives](https://vuetifyjs.com/en/getting-started/installation/#manual-steps) and [labs components](https://vuetifyjs.com/en/labs/introduction/) registration
+- 🎭 **Icons**: pure-CSS icons (UnoCSS), [icon fonts](https://vuetifyjs.com/en/features/icon-fonts/) (CDN or local), SVG packs ([@mdi/js](https://www.npmjs.com/package/@mdi/js), [FontAwesome](https://www.npmjs.com/package/@fortawesome/vue-fontawesome)), and [multiple icon sets](https://vuetifyjs.com/en/features/icon-fonts/#multiple-icon-sets)
+- 🌍 **I18n**: integrate [@nuxtjs/i18n](https://i18n.nuxtjs.org/) for Vuetify [internationalization](https://vuetifyjs.com/en/features/internationalization/), with auto-imported Vuetify locale messages
+- 📆 **Date Components**: use Vuetify [date components](https://vuetifyjs.com/en/features/dates/) via the [@date-io](https://github.com/dmtrKovalenko/date-io#projects) adapters
+- 🎨 **Blueprints**: scaffold quickly with [Vuetify Blueprints](https://vuetifyjs.com/en/features/blueprints/)
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 
 ## 📦 Install
