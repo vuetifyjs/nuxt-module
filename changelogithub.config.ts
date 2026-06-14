@@ -1,4 +1,4 @@
-export default {
+const config = {
   types: {
     core: { title: '🔥 Core' },
     feat: { title: '🚀 Features' },
@@ -30,3 +30,5 @@ export default {
     deprecated: { title: '🗑 Deprecated' },
   },
 }
+
+export default config
