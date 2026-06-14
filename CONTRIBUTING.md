@@ -25,6 +25,24 @@ git checkout -b my-new-branch
 
 7. Run `nr dev` in `vuetify-nuxt-module`'s root folder.
 
+## Commit message convention
+
+Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<optional scope>): <description>
+```
+
+A `commit-msg` git hook (lefthook + commitlint) validates every message — the hooks are installed automatically when you run `pnpm install`. The allowed `<type>` values are the keys defined in [`changelogithub.config.ts`](./changelogithub.config.ts) (e.g. `feat`, `fix`, `perf`, `refactor`, `docs`, `test`, `ci`, `build`, `chore`, `i18n`, `a11y`, `deps`, `dx`, …), which keeps committing and release-note generation in sync.
+
+Examples:
+
+```
+feat(date): add js-joda adapter
+fix: avoid SSR memory leak in VDialog
+docs: clarify module options
+```
+
 <!--
 ## Running tests
 
