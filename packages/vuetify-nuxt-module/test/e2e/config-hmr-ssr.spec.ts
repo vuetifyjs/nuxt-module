@@ -24,10 +24,19 @@ const configPath = join(rootDir, 'vuetify.config.ts')
 // request against a timeout so a stalled request rejects and `expect.poll`
 // retries it, instead of stalling the whole test until the suite timeout.
 async function fetchWithTimeout (path: string, ms = 4000): Promise<string> {
-  return await Promise.race([
-    $fetch<string>(path),
-    new Promise<string>((_, reject) => setTimeout(() => reject(new Error('fetch timeout')), ms)),
-  ])
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try {
+    return await Promise.race([
+      $fetch<string>(path),
+      new Promise<string>((_, reject) => {
+        timer = setTimeout(() => reject(new Error('fetch timeout')), ms)
+      }),
+    ])
+  } finally {
+    if (timer) {
+      clearTimeout(timer)
+    }
+  }
 }
 
 describe('config-hmr-ssr — dev SSR config hot-reload', () => {
