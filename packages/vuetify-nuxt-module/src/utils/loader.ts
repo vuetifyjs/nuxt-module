@@ -120,47 +120,66 @@ export async function load (
 }
 
 export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
-  if (nuxt.options.dev) {
-    let pageReload: (() => Promise<void>) | undefined
+  if (!nuxt.options.dev) {
+    return
+  }
 
-    nuxt.hooks.hook('builder:watch', (_event, path) => {
-      path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
-      if (!pageReload && ctx.vuetifyFilesToWatch.includes(path)) {
-        return nuxt.callHook('restart')
+  // When SSR config HMR is unsupported (older Nuxt), changes to SSR-consumed
+  // virtual modules can't be evicted from the vite-node runner cache, so fall
+  // back to a full dev-server restart.
+  const needsRestart = !ctx.canHmrConfig
+
+  let pageReload: (() => Promise<void>) | undefined
+
+  nuxt.hooks.hook('builder:watch', (_event, path) => {
+    if (!needsRestart) {
+      return
+    }
+    path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
+    if (!pageReload && ctx.vuetifyFilesToWatch.includes(path)) {
+      return nuxt.callHook('restart')
+    }
+  })
+
+  nuxt.hook('vite:serverCreated', (server, { isClient }) => {
+    if (!server.ws || !isClient) {
+      return
+    }
+
+    pageReload = debounce(async () => {
+      const modules: ModuleNode[] = []
+      for (const v of RESOLVED_VIRTUAL_MODULES) {
+        const module = server.moduleGraph.getModuleById(v)
+        if (module) {
+          modules.push(module)
+        }
       }
-    })
+      // reload configuration always: refresh ctx before the SSR runner
+      // re-executes the (invalidated) virtual modules on the next render
+      await load(options, nuxt, ctx)
+      // server.reloadModule escalates to a full client reload for our
+      // non-accepting virtual modules, which re-requests the SSR page.
+      if (modules.length > 0) {
+        await Promise.all(modules.map(m => server.reloadModule(m)))
+      }
+    }, 50, { trailing: false })
+  })
 
-    nuxt.hook('vite:serverCreated', (server, { isClient }) => {
-      if (!server.ws || !isClient) {
+  addVitePlugin({
+    name: 'vuetify:configuration:watch',
+    enforce: 'pre',
+    handleHotUpdate ({ file }) {
+      if (!ctx.vuetifyFilesToWatch.includes(file)) {
         return
       }
-
-      pageReload = debounce(async () => {
-        const modules: ModuleNode[] = []
-        for (const v of RESOLVED_VIRTUAL_MODULES) {
-          const module = server.moduleGraph.getModuleById(v)
-          if (module) {
-            modules.push(module)
-          }
-        }
-        // reload configuration always
-        await load(options, nuxt, ctx)
-        // TODO: try to change the logic here with custom event and using the moduleGraph + client invalidation
-        // server.reloadModule will send at least 2 or 3 full page reloads in a row: it is better than server restart
-        if (modules.length > 0) {
-          await Promise.all(modules.map(m => server.reloadModule(m)))
-        }
-      }, 50, { trailing: false })
-    })
-
-    addVitePlugin({
-      name: 'vuetify:configuration:watch',
-      enforce: 'pre',
-      handleHotUpdate ({ file }) {
-        if (pageReload && ctx.vuetifyFilesToWatch.includes(file)) {
-          return pageReload()
-        }
-      },
-    })
-  }
+      if (needsRestart) {
+        // restart is driven by the builder:watch hook above; suppress the
+        // default client HMR for the (stale-until-restart) virtual module.
+        return []
+      }
+      if (pageReload) {
+        return pageReload()
+      }
+    },
+  })
 }
