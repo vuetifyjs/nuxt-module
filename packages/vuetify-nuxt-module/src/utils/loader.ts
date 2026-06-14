@@ -122,6 +122,22 @@ export async function load (
   }
 }
 
+// Returns a fn that invalidates our virtual config modules on the given graph
+// (the legacy ModuleGraph or a Vite Environment's EnvironmentModuleGraph).
+function bindInvalidator<M> (graph: {
+  getModuleById: (id: string) => M | null | undefined
+  invalidateModule: (mod: M) => void
+}) {
+  return () => {
+    for (const id of RESOLVED_VIRTUAL_MODULES) {
+      const mod = graph.getModuleById(id)
+      if (mod) {
+        graph.invalidateModule(mod)
+      }
+    }
+  }
+}
+
 export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx: VuetifyNuxtContext) {
   if (!nuxt.options.dev) {
     return
@@ -135,12 +151,15 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     return
   }
 
-  let ssrServer: ViteDevServer | undefined
   let clientServer: ViteDevServer | undefined
+  let invalidateSsrModules: (() => void) | undefined
 
   nuxt.hook('vite:serverCreated', (server, { isClient }) => {
+    // Capture the SSR module graph regardless of `experimental.viteEnvironmentApi`:
+    // a dedicated SSR dev server when it's off, else the single server's `ssr`
+    // environment (which only emits an isClient event).
     if (!isClient) {
-      ssrServer = server
+      invalidateSsrModules = bindInvalidator(server.moduleGraph)
       return
     }
     if (!server.ws) {
@@ -148,6 +167,10 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     }
 
     clientServer = server
+    const ssrEnv = server.environments?.ssr
+    if (ssrEnv) {
+      invalidateSsrModules ??= bindInvalidator(ssrEnv.moduleGraph)
+    }
     // Feed the config files to vite-node's `invalidates` set on edit.
     server.watcher.add(ctx.vuetifyFilesToWatch)
   })
@@ -156,14 +179,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
   // Awaited in handleHotUpdate to win the race against the next render's drain.
   async function reloadConfig () {
     await load(options, nuxt, ctx, true)
-    if (ssrServer) {
-      for (const id of RESOLVED_VIRTUAL_MODULES) {
-        const mod = ssrServer.moduleGraph.getModuleById(id)
-        if (mod) {
-          ssrServer.moduleGraph.invalidateModule(mod)
-        }
-      }
-    }
+    invalidateSsrModules?.()
     clientServer?.ws.send({ type: 'full-reload' })
   }
 
@@ -171,7 +187,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     name: 'vuetify:configuration:watch',
     enforce: 'pre',
     async handleHotUpdate ({ file }) {
-      if (ssrServer && ctx.vuetifyFilesToWatch.includes(file)) {
+      if (clientServer && ctx.vuetifyFilesToWatch.includes(file)) {
         await reloadConfig()
         return [] // handled; skip vite's own full-reload
       }
