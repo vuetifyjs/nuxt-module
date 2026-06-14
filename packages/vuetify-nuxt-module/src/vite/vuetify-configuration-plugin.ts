@@ -24,8 +24,8 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
         // Bind the resolved config sources to this virtual module so an edit
-        // invalidates it (and its SSR importers) on both client and SSR graphs
-        // in dev. Only meaningful when hot-reload is supported; harmless else.
+        // invalidates it (and its importers) on both client and SSR graphs in
+        // dev. Only meaningful when hot-reload is supported; harmless else.
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)
@@ -55,7 +55,25 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
         const result = await buildConfiguration(ctx)
         const deepCopy = result.messages.length > 0
 
-        return `${result.imports}
+        // In dev SSR, emit a real (side-effect) import of the config sources so
+        // the vite-node SSR runner records a dependency edge from this virtual
+        // module to the config file. On a config edit, Nuxt adds the config file
+        // to its vite-node `invalidates` set; the runner then cascades that file
+        // through its importer tree (config file -> this virtual module -> the
+        // Vuetify plugin -> server entry) and re-renders without a dev-server
+        // restart. Restricted to the `ssr` environment so the raw user config is
+        // never shipped to (or executed in) the client bundle. The imported
+        // value is intentionally unused — the config is serialized below from
+        // the freshly reloaded `ctx`.
+        let configDepImports = ''
+        if (ctx.isDev && ctx.canHmrConfig && this.environment?.name === 'ssr') {
+          configDepImports = ctx.vuetifyFilesToWatch
+            .map(file => `import ${JSON.stringify(file)}`)
+            .join('\n')
+        }
+
+        return `${configDepImports}
+${result.imports}
 
 export const isDev = ${ctx.isDev}
 export function vuetifyConfiguration() {

@@ -1,10 +1,9 @@
 import type { Nuxt } from '@nuxt/schema'
-import type { ModuleNode } from 'vite'
+import type { ViteDevServer } from 'vite'
 import type { VOptions, VuetifyModuleOptions } from '../types'
 import type { VuetifyNuxtContext } from './config'
 import { addVitePlugin } from '@nuxt/kit'
 import defu from 'defu'
-import { debounce } from 'perfect-debounce'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { prepareIcons } from './icons'
 import { mergeVuetifyModules } from './layers'
@@ -142,38 +141,61 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     return
   }
 
-  let pageReload: (() => Promise<void>) | undefined
+  let ssrServer: ViteDevServer | undefined
 
   nuxt.hook('vite:serverCreated', (server, { isClient }) => {
-    if (!server.ws || !isClient) {
+    // The SSR moduleGraph lives on the server-environment vite server. Capture
+    // it so a config edit can invalidate the virtual config module's SSR
+    // transform (forcing its load() to re-run with the freshly reloaded ctx).
+    if (!isClient) {
+      ssrServer = server
+      return
+    }
+    if (!server.ws) {
       return
     }
 
-    pageReload = debounce(async () => {
-      const modules: ModuleNode[] = []
-      for (const v of RESOLVED_VIRTUAL_MODULES) {
-        const module = server.moduleGraph.getModuleById(v)
-        if (module) {
-          modules.push(module)
-        }
-      }
-      // refresh ctx (without re-mutating nuxt.options — see load()'s `reload`
-      // flag) before the SSR runner re-executes the invalidated virtual modules
-      await load(options, nuxt, ctx, true)
-      // server.reloadModule escalates to a full client reload for our
-      // non-accepting virtual modules, which re-requests the SSR page.
-      if (modules.length > 0) {
-        await Promise.all(modules.map(m => server.reloadModule(m)))
-      }
-    }, 50, { trailing: false })
+    // Add the config sources to the client vite server's chokidar watcher so
+    // Nuxt's vite-node plugin (`clientServer.watcher.on('all')`) adds them to
+    // its `invalidates` set on edit. On the next SSR render the vite-node
+    // runner cascades the config file through its importer tree — config file
+    // -> `\0virtual:vuetify-configuration` (via the dev-SSR-only import edge the
+    // configuration plugin emits) -> the Vuetify plugin -> the server entry —
+    // and re-renders, all without a dev-server restart.
+    server.watcher.add(ctx.vuetifyFilesToWatch)
   })
+
+  // Re-read the config into ctx (without re-mutating nuxt.options — see load()'s
+  // `reload` flag) so the virtual modules emit fresh content, then invalidate
+  // their SSR transforms so the runner re-fetches that content. Awaited inside
+  // handleHotUpdate so it completes before Nuxt's vite-node runner drains the
+  // `invalidates` set on the next render — otherwise a request landing between
+  // the watcher feeding `invalidates` and this invalidation would lock in the
+  // stale transform (the drain clears the set, so no further re-render fires).
+  // We deliberately do NOT call server.reloadModule / send a full-reload: that
+  // suspends SSR for plain (non-browser) requests until a client reconnects.
+  async function reloadConfig () {
+    await load(options, nuxt, ctx, true)
+    if (!ssrServer) {
+      return
+    }
+    for (const id of RESOLVED_VIRTUAL_MODULES) {
+      const mod = ssrServer.moduleGraph.getModuleById(id)
+      if (mod) {
+        ssrServer.moduleGraph.invalidateModule(mod)
+      }
+    }
+  }
 
   addVitePlugin({
     name: 'vuetify:configuration:watch',
     enforce: 'pre',
-    handleHotUpdate ({ file }) {
-      if (pageReload && ctx.vuetifyFilesToWatch.includes(file)) {
-        return pageReload()
+    async handleHotUpdate ({ file }) {
+      if (ssrServer && ctx.vuetifyFilesToWatch.includes(file)) {
+        await reloadConfig()
+        // Returning an empty array marks the update handled with no modules to
+        // apply, so vite does not escalate to a client full-reload.
+        return []
       }
     },
   })
