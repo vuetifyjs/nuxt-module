@@ -7,7 +7,7 @@ Support for Nuxt Layers is also available; the module scans for `vuetify.config`
 During development, the module monitors Vuetify configuration files, focusing on those outside `node_modules`.
 
 ::: warning CAVEATS
-Modifying the Vuetify configuration during development triggers a full client page reload to pick up the new options — including under SSR, where the server-rendered output is refreshed without restarting the dev server (Nuxt `>= 4.0`). On Nuxt 3, SSR falls back to a full dev-server restart.
+Modifying the Vuetify configuration during development triggers a full client page reload to pick up the new options — including under SSR, where the server-rendered output is refreshed without restarting the dev server (Nuxt `>= 3.18`, i.e. the Vite 7 line, and all of Nuxt 4). On Nuxt 3.15–3.17 (Vite 6), SSR falls back to a full dev-server restart.
 
 Under SSR, hot-reload covers the core options — `theme`, `defaults`, `components`, `aliases`, `directives`, and locale messages. A few changes still need a manual dev-server restart to take effect: the **icon CDN / local CSS** `<head>` links (the reload intentionally skips re-applying `nuxt.options` to avoid a slower full server reload), and **icon-set / date-adapter** changes (their server-rendered modules are not re-evaluated on the fly by the dev SSR runtime).
 :::
