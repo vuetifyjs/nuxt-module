@@ -48,7 +48,7 @@ catalog:
   date-fns: ^4.1.0
   date-fns-jalali: 2.19.0-2
   dayjs: ^1.11.19
-  defu: ^6.1.4
+  defu: ^6.1.7
   eslint: ^10.0.2
   eslint-config-vuetify: 4.3.5-beta.1
   lefthook: ^2.1.9
@@ -72,7 +72,7 @@ catalog:
   ufo: ^1.6.3
   unconfig: ^7.5.0
   unocss: ^66.6.5
-  vite: 7.3.1
+  vite: 7.3.5
   vite-plugin-pwa: ^1.2.0
   vitepress: 2.0.0-alpha.17
   vitepress-plugin-llms: ^1.11.0
@@ -96,3 +96,25 @@ strictPeerDependencies: false
 overrides:
   '@vite-pwa/vitepress>vitepress': 'catalog:'
   vitepress: 'catalog:'
+  # security: force patched versions of vulnerable transitive deps (same-major, safe)
+  yaml: '^2.8.3'
+  ws: '^8.21.0'
+  tar: '^7.5.11'
+  shell-quote: '^1.8.4'
+  node-forge: '^1.4.0'
+  lodash: '^4.18.0'
+  nitropack: '^2.13.4'
+  unhead: '^2.1.13'
+  fast-uri: '^3.1.2'
+  simple-git: '^3.36.0'
+  flatted: '^3.4.2'
+  postcss: '^8.5.10'
+  '@babel/plugin-transform-modules-systemjs': '^7.29.4'
+  picomatch@2: '^2.3.2'
+  picomatch@4: '^4.0.4'
+  brace-expansion@1: '^1.1.13'
+  brace-expansion@2: '^2.0.3'
+  brace-expansion@5: '^5.0.6'
+  devalue@5: '^5.6.4'
+  h3@1: '^1.15.9'
+  webpack@5: '^5.94.0'
