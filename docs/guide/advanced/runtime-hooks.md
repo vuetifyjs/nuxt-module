@@ -23,6 +23,37 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 :::
 
+## Dynamic CSP nonce
+
+Vuetify can add a `nonce` attribute to the `<style>` tag it injects for the theme via the [`theme.cspNonce`](https://vuetifyjs.com/en/features/theme/) option. Setting it in `vuetifyOptions` at build time only allows a **static** nonce, which doesn't work with modules like [nuxt-security](https://nuxt-security.vercel.app/) that generate a **per-request** nonce for the `Content-Security-Policy` header.
+
+Because `vuetify:before-create` runs on every SSR request, right before `createVuetify`, you can read the per-request nonce and assign it dynamically:
+
+::: code-group
+
+```ts [plugins/vuetify.ts]
+import { defineNuxtPlugin, useRequestEvent } from '#imports'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.hook('vuetify:before-create', ({ vuetifyOptions }) => {
+    if (import.meta.server) {
+      // nuxt-security stores the per-request nonce on the H3 event context
+      const nonce = useRequestEvent()?.context.security?.nonce
+      if (nonce) {
+        vuetifyOptions.theme ||= {}
+        vuetifyOptions.theme.cspNonce = nonce
+      }
+    }
+  })
+})
+```
+
+:::
+
+::: tip
+The accessor for the nonce depends on the module providing it; with nuxt-security it lives at `event.context.security.nonce`. No Nitro hook is required — the runtime `vuetify:before-create` hook already gives you a mutable `vuetifyOptions` per request.
+:::
+
 If you need to access the Vuetify instance after it has been created, you can use the `vuetify:ready` hook in your Nuxt Plugin:
 ::: code-group
 
