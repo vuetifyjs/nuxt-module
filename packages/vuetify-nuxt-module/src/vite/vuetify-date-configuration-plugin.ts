@@ -14,9 +14,7 @@ export function vuetifyDateConfigurationPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION) {
-        // Client-graph invalidation only. No dev-SSR import edge here (unlike
-        // the main config plugin), so date-adapter changes need a manual
-        // restart under SSR.
+        // Client-graph only; no dev-SSR edge, so adapter changes need a restart.
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)

@@ -23,9 +23,7 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
-        // Invalidate this module on the client graph when a config file
-        // changes. NOTE: keep the dev-SSR import edge below too — it (not this)
-        // is what evicts the vite-node SSR runner cache.
+        // Client-graph invalidation (the dev-SSR import edge below handles SSR).
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)
@@ -55,11 +53,9 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
         const result = await buildConfiguration(ctx)
         const deepCopy = result.messages.length > 0
 
-        // Dev SSR only: emit a side-effect import of the config sources so the
-        // vite-node runner records a config-file -> virtual-module edge and
-        // re-evaluates this module (with the reloaded ctx) when the file
-        // changes — no dev-server restart. Gated to `ssr` so the raw config is
-        // never bundled/executed on the client; the imported value is unused.
+        // Dev SSR only: a side-effect import gives vite-node a config-file ->
+        // module edge so an edit re-evaluates this module (no restart). Gated to
+        // `ssr` so the raw config never reaches the client; the value is unused.
         let configDepImports = ''
         if (ctx.isDev && ctx.canHmrConfig && this.environment?.name === 'ssr') {
           configDepImports = ctx.vuetifyFilesToWatch

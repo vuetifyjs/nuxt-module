@@ -16,9 +16,7 @@ export function vuetifyIconsPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
-        // Client-graph invalidation only. No dev-SSR import edge here (unlike
-        // the main config plugin), so icon-set changes need a manual restart
-        // under SSR — consistent with icon <head> links being skipped on reload.
+        // Client-graph only; no dev-SSR edge, so icon-set changes need a restart.
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)

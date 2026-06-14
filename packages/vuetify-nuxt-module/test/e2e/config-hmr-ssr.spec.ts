@@ -39,10 +39,8 @@ async function fetchWithTimeout (path: string, ms = 4000): Promise<string> {
   }
 }
 
-// Guards the no-restart property (boot-count probe) + watcher wiring. It does
-// NOT guard the SSR runner-cache eviction: this fixture's graph is small enough
-// to re-render via full-reload regardless, so a green run here is not proof the
-// eviction path works — that's verified against `apps/playground`.
+// Guards no-restart + watcher wiring, NOT the SSR runner-cache eviction (this
+// small graph re-renders regardless); the eviction is verified on apps/playground.
 describe('config-hmr-ssr — dev SSR config hot-reload', () => {
   let probeFile = ''
   let originalConfig = ''

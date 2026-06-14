@@ -73,9 +73,8 @@ export async function load (
   }
 
   /* handle old stuff */
-  // On reload, leave nuxt.options (css + head links) untouched: re-mutating
-  // them triggers a Nitro dev:reload and accumulates duplicates. Trade-off:
-  // icon CDN/local CSS changes then need a manual restart to update <head>.
+  // On reload, skip nuxt.options mutations (they trigger a Nitro dev:reload and
+  // accumulate duplicates); icon CDN/CSS <head> changes then need a restart.
   if (!reload) {
     const oldIcons = ctx.icons
     if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
@@ -102,7 +101,6 @@ export async function load (
     ctx.logger.warn('`theme.defaultTheme: "system"` cannot be resolved during SSR/SSG: the server has no access to the OS color-scheme preference, so the first paint defaults to light and may flash on dark systems. Set explicit dark/light themes and enable `moduleOptions.ssrClientHints.prefersColorScheme` (optionally `prefersColorSchemeOptions.useBrowserThemeOnly`). See the SSR guide.')
   }
 
-  // see note above — skipped on reload
   if (!reload && ctx.icons.enabled) {
     if (ctx.icons.local) {
       for (const css of ctx.icons.local) {
@@ -129,8 +127,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     return
   }
 
-  // Older Nuxt (Vite 6, !canHmrConfig) can't evict the SSR runner cache, so let
-  // Nuxt restart the dev server natively when a watched config file changes.
+  // Older Nuxt (Vite 6) can't evict the SSR runner cache — fall back to restart.
   if (!ctx.canHmrConfig) {
     for (const file of ctx.vuetifyFilesToWatch) {
       nuxt.options.watch.push(file)
@@ -151,18 +148,12 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     }
 
     clientServer = server
-    // Watch the config sources on the client server so Nuxt's vite-node feeds
-    // its `invalidates` set on edit; the runner then cascades the change to the
-    // virtual module (via the dev-SSR import edge the config plugin emits).
+    // Feed the config files to vite-node's `invalidates` set on edit.
     server.watcher.add(ctx.vuetifyFilesToWatch)
   })
 
-  // Refresh ctx (reload=true skips nuxt.options churn), invalidate the SSR
-  // transforms, then broadcast a full-reload so an open browser refreshes.
-  // Awaited before returning from handleHotUpdate so it wins the race against
-  // the runner draining `invalidates` on the next render. We avoid vite's
-  // default full-reload escalation (returning [] below): the explicit WS
-  // broadcast refreshes browsers without stalling plain (curl/SSR) requests.
+  // Refresh ctx, invalidate the SSR transforms, then full-reload the browser.
+  // Awaited in handleHotUpdate to win the race against the next render's drain.
   async function reloadConfig () {
     await load(options, nuxt, ctx, true)
     if (ssrServer) {
@@ -182,7 +173,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     async handleHotUpdate ({ file }) {
       if (ssrServer && ctx.vuetifyFilesToWatch.includes(file)) {
         await reloadConfig()
-        return [] // handled — don't let vite escalate to its own full-reload
+        return [] // handled; skip vite's own full-reload
       }
     },
   })
