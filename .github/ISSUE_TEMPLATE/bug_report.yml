@@ -1,0 +1,99 @@
+name: 🐞 Bug report
+description: Report a reproducible bug in vuetify-nuxt-module
+labels: [bug, needs reproduction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report! 🙏
+
+        Before submitting, please:
+        - Search [existing issues](https://github.com/vuetifyjs/nuxt-module/issues) to avoid duplicates.
+        - Read the [documentation](https://nuxt.vuetifyjs.com/).
+        - Provide a **minimal reproduction** — issues without one are likely to be closed.
+
+  - type: input
+    id: module-version
+    attributes:
+      label: vuetify-nuxt-module version
+      placeholder: e.g. 1.0.0-beta.9
+    validations:
+      required: true
+
+  - type: input
+    id: nuxt-version
+    attributes:
+      label: Nuxt version
+      placeholder: e.g. 4.3.1
+    validations:
+      required: true
+
+  - type: input
+    id: vuetify-version
+    attributes:
+      label: Vuetify version
+      placeholder: e.g. 3.10.0
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: |
+        A link to a **minimal** reproduction (StackBlitz, a public GitHub repo, etc.).
+        Reports without a reproduction are likely to be closed.
+      placeholder: https://stackblitz.com/edit/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we trigger the bug in your reproduction?
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System info
+      description: Output of `npx nuxi info` (or `npx envinfo --system --binaries --browsers`).
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or anything else that might help.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Validations
+      options:
+        - label: I have searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I have provided a minimal reproduction.
+          required: true
+        - label: I have read the documentation.
+          required: true

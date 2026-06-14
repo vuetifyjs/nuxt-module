@@ -1,0 +1,49 @@
+name: 🚀 Feature request
+description: Suggest an idea or enhancement for vuetify-nuxt-module
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve vuetify-nuxt-module! 🙏
+
+        Before submitting, please search [existing issues](https://github.com/vuetifyjs/nuxt-module/issues)
+        to avoid duplicates.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What problem are you trying to solve? Why is the current behavior not enough?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or change you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any alternative solutions or workarounds you've tried.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Links, references, or anything else that helps explain the request.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Validations
+      options:
+        - label: I have searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I have read the documentation.
+          required: true

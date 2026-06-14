@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://nuxt.vuetifyjs.com/
+    about: Check the docs first — most "how do I…" questions are answered there.
+  - name: 💬 Questions & Help
+    url: https://discord.vuetifyjs.com/
+    about: For usage questions and general help, ask in the Vuetify Discord. The issue tracker is for bugs and feature requests only.
