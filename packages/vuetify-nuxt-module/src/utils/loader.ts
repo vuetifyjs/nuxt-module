@@ -73,10 +73,9 @@ export async function load (
   }
 
   /* handle old stuff */
-  // On a dev config reload we deliberately leave nuxt.options (css + head links)
-  // untouched: re-mutating them would trigger a full Nitro dev:reload (defeating
-  // the HMR fast-path) and accumulate duplicate entries. Trade-off: changing the
-  // icon CDN/local CSS in a config file needs a manual restart to update <head>.
+  // On reload, leave nuxt.options (css + head links) untouched: re-mutating
+  // them triggers a Nitro dev:reload and accumulates duplicates. Trade-off:
+  // icon CDN/local CSS changes then need a manual restart to update <head>.
   if (!reload) {
     const oldIcons = ctx.icons
     if (oldIcons && oldIcons.cdn?.length && nuxt.options.app.head.link) {
@@ -130,10 +129,8 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     return
   }
 
-  // Legacy fallback: on Nuxt versions whose vite-node can't evict SSR-consumed
-  // virtual modules from its runner cache (ctx.canHmrConfig === false), hot
-  // reload isn't possible — register the config files with Nuxt so it restarts
-  // the dev server natively when any of them changes.
+  // Older Nuxt (Vite 6, !canHmrConfig) can't evict the SSR runner cache, so let
+  // Nuxt restart the dev server natively when a watched config file changes.
   if (!ctx.canHmrConfig) {
     for (const file of ctx.vuetifyFilesToWatch) {
       nuxt.options.watch.push(file)
@@ -145,9 +142,6 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
   let clientServer: ViteDevServer | undefined
 
   nuxt.hook('vite:serverCreated', (server, { isClient }) => {
-    // The SSR moduleGraph lives on the server-environment vite server. Capture
-    // it so a config edit can invalidate the virtual config module's SSR
-    // transform (forcing its load() to re-run with the freshly reloaded ctx).
     if (!isClient) {
       ssrServer = server
       return
@@ -156,36 +150,19 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
       return
     }
 
-    // Capture the client vite server so a config edit can broadcast a
-    // full-reload over its websocket — that's what makes an already-open
-    // browser tab refresh on its own (the SSR invalidation alone only updates
-    // the output served to the next fresh request).
     clientServer = server
-
-    // Add the config sources to the client vite server's chokidar watcher so
-    // Nuxt's vite-node plugin (`clientServer.watcher.on('all')`) adds them to
-    // its `invalidates` set on edit. On the next SSR render the vite-node
-    // runner cascades the config file through its importer tree — config file
-    // -> `\0virtual:vuetify-configuration` (via the dev-SSR-only import edge the
-    // configuration plugin emits) -> the Vuetify plugin -> the server entry —
-    // and re-renders, all without a dev-server restart.
+    // Watch the config sources on the client server so Nuxt's vite-node feeds
+    // its `invalidates` set on edit; the runner then cascades the change to the
+    // virtual module (via the dev-SSR import edge the config plugin emits).
     server.watcher.add(ctx.vuetifyFilesToWatch)
   })
 
-  // Re-read the config into ctx (without re-mutating nuxt.options — see load()'s
-  // `reload` flag) so the virtual modules emit fresh content, then invalidate
-  // their SSR transforms so the runner re-fetches that content. Awaited inside
-  // handleHotUpdate so it completes before Nuxt's vite-node runner drains the
-  // `invalidates` set on the next render — otherwise a request landing between
-  // the watcher feeding `invalidates` and this invalidation would lock in the
-  // stale transform (the drain clears the set, so no further re-render fires).
-  // We deliberately do NOT call server.reloadModule / let vite escalate to its
-  // default full-reload: that suspends SSR for plain (non-browser) requests
-  // until a client reconnects. Instead we invalidate the SSR transforms so the
-  // next request re-renders, then broadcast a full-reload ourselves purely over
-  // the CLIENT websocket so an already-open browser tab refreshes on its own.
-  // That broadcast is just a WS message to connected browsers — it does not
-  // gate server-side rendering, so a bare `curl` still returns promptly.
+  // Refresh ctx (reload=true skips nuxt.options churn), invalidate the SSR
+  // transforms, then broadcast a full-reload so an open browser refreshes.
+  // Awaited before returning from handleHotUpdate so it wins the race against
+  // the runner draining `invalidates` on the next render. We avoid vite's
+  // default full-reload escalation (returning [] below): the explicit WS
+  // broadcast refreshes browsers without stalling plain (curl/SSR) requests.
   async function reloadConfig () {
     await load(options, nuxt, ctx, true)
     if (ssrServer) {
@@ -205,9 +182,7 @@ export function registerWatcher (options: VuetifyModuleOptions, nuxt: Nuxt, ctx:
     async handleHotUpdate ({ file }) {
       if (ssrServer && ctx.vuetifyFilesToWatch.includes(file)) {
         await reloadConfig()
-        // Returning an empty array marks the update handled with no modules to
-        // apply, so vite does not escalate to a client full-reload.
-        return []
+        return [] // handled — don't let vite escalate to its own full-reload
       }
     },
   })

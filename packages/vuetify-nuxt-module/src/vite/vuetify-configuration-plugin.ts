@@ -23,10 +23,9 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION) {
-        // Bind the resolved config sources to this virtual module so an edit
-        // invalidates it on the client graph in dev. NOTE: this alone does not
-        // evict the vite-node SSR runner cache — the dev-SSR `import` edge
-        // emitted below is what forces the SSR re-evaluation. Keep both.
+        // Invalidate this module on the client graph when a config file
+        // changes. NOTE: keep the dev-SSR import edge below too — it (not this)
+        // is what evicts the vite-node SSR runner cache.
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)
@@ -56,16 +55,11 @@ export function vuetifyConfigurationPlugin (ctx: VuetifyNuxtContext) {
         const result = await buildConfiguration(ctx)
         const deepCopy = result.messages.length > 0
 
-        // In dev SSR, emit a real (side-effect) import of the config sources so
-        // the vite-node SSR runner records a dependency edge from this virtual
-        // module to the config file. On a config edit, Nuxt adds the config file
-        // to its vite-node `invalidates` set; the runner then cascades that file
-        // through its importer tree (config file -> this virtual module -> the
-        // Vuetify plugin -> server entry) and re-renders without a dev-server
-        // restart. Restricted to the `ssr` environment so the raw user config is
-        // never shipped to (or executed in) the client bundle. The imported
-        // value is intentionally unused — the config is serialized below from
-        // the freshly reloaded `ctx`.
+        // Dev SSR only: emit a side-effect import of the config sources so the
+        // vite-node runner records a config-file -> virtual-module edge and
+        // re-evaluates this module (with the reloaded ctx) when the file
+        // changes — no dev-server restart. Gated to `ssr` so the raw config is
+        // never bundled/executed on the client; the imported value is unused.
         let configDepImports = ''
         if (ctx.isDev && ctx.canHmrConfig && this.environment?.name === 'ssr') {
           configDepImports = ctx.vuetifyFilesToWatch

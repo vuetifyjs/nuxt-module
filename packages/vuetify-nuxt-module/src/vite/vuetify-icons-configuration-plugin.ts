@@ -16,12 +16,9 @@ export function vuetifyIconsPlugin (ctx: VuetifyNuxtContext) {
     },
     async load (id) {
       if (id === RESOLVED_VIRTUAL_VUETIFY_ICONS_CONFIGURATION) {
-        // Bind the resolved config sources to this virtual module so an edit
-        // invalidates it on the client graph in dev. Unlike the main config
-        // plugin, we do NOT emit a dev-SSR import edge here, so a change to the
-        // icon set is not re-evaluated by the SSR runtime on the fly (it needs
-        // a manual restart). Icon `<head>` links are skipped on reload anyway
-        // (see load()'s `reload` flag), so this stays consistent.
+        // Client-graph invalidation only. No dev-SSR import edge here (unlike
+        // the main config plugin), so icon-set changes need a manual restart
+        // under SSR — consistent with icon <head> links being skipped on reload.
         if (ctx.isDev && ctx.canHmrConfig) {
           for (const file of ctx.vuetifyFilesToWatch) {
             this.addWatchFile(file)
