@@ -15,6 +15,13 @@ export interface VuetifyNuxtContext {
   moduleOptions: MOptions
   vuetifyOptions: VOptions
   vuetifyFilesToWatch: string[]
+  /**
+   * Whether config-file changes can be hot-reloaded in dev without a full
+   * `nuxt.callHook('restart')`. True for SPA always, and for SSR on Nuxt
+   * versions whose vite-node evicts SSR-consumed virtual modules from its
+   * runner cache (see {@link supportsSsrConfigHmr}). Set once at module setup.
+   */
+  canHmrConfig: boolean
   isDev: boolean
   i18n: boolean
   isSSR: boolean
