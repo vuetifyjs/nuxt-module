@@ -153,6 +153,9 @@ catalogs:
     luxon:
       specifier: ^3.7.2
       version: 3.7.2
+    markdown-it-task-lists:
+      specifier: ^2.1.1
+      version: 2.1.1
     moment:
       specifier: ^2.30.1
       version: 2.30.1
@@ -405,7 +408,7 @@ importers:
         version: 10.2.3(@vue/compiler-dom@3.5.38)(db0@0.3.4)(eslint@10.0.2(jiti@2.7.0))(ioredis@5.11.1)(magicast@0.5.3)(rollup@4.62.0)(vue@3.5.38(typescript@5.9.3))
       '@unocss/nuxt':
         specifier: 'catalog:'
-        version: 66.6.5(magicast@0.5.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(webpack@5.88.2(postcss@8.5.15))
+        version: 66.6.5(magicast@0.5.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(webpack@5.88.2)
       nuxt:
         specifier: 'catalog:'
         version: 4.3.1(@parcel/watcher@2.5.6)(@types/node@25.9.3)(@vitejs/devtools@0.3.3(db0@0.3.4)(ioredis@5.11.1)(typescript@5.9.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.38)(cac@6.7.14)(db0@0.3.4)(encoding@0.1.13)(eslint@10.0.2(jiti@2.7.0))(ioredis@5.11.1)(magicast@0.5.3)(meow@13.2.0)(optionator@0.9.4)(rollup@4.62.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.2.5(typescript@5.9.3))(yaml@2.9.0)
@@ -464,6 +467,9 @@ importers:
       '@vite-pwa/vitepress':
         specifier: 'catalog:'
         version: 1.1.0(@vite-pwa/assets-generator@1.0.2)(vite-plugin-pwa@1.2.0(@vite-pwa/assets-generator@1.0.2)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(workbox-build@7.4.0)(workbox-window@7.4.0))
+      markdown-it-task-lists:
+        specifier: 'catalog:'
+        version: 2.1.1
       sitemap:
         specifier: 'catalog:'
         version: 9.0.1
@@ -6739,6 +6745,9 @@ packages:
 
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
+
+  markdown-it-task-lists@2.1.1:
+    resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
 
   markdown-it@14.1.1:
     resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
@@ -13023,7 +13032,7 @@ snapshots:
       - vite
       - webpack
 
-  '@unocss/nuxt@66.6.5(magicast@0.5.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(webpack@5.88.2(postcss@8.5.15))':
+  '@unocss/nuxt@66.6.5(magicast@0.5.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(webpack@5.88.2)':
     dependencies:
       '@nuxt/kit': 4.4.2(magicast@0.5.3)
       '@unocss/config': 66.6.4
@@ -13037,8 +13046,8 @@ snapshots:
       '@unocss/preset-wind4': 66.6.5
       '@unocss/reset': 66.6.5
       '@unocss/vite': 66.6.5(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
-      '@unocss/webpack': 66.6.5(webpack@5.88.2(postcss@8.5.15))
-      unocss: 66.6.5(@unocss/webpack@66.6.5(webpack@5.88.2(postcss@8.5.15)))(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
+      '@unocss/webpack': 66.6.5(webpack@5.88.2)
+      unocss: 66.6.5(@unocss/webpack@66.6.5(webpack@5.88.2))(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
     transitivePeerDependencies:
       - '@unocss/astro'
       - '@unocss/postcss'
@@ -13177,6 +13186,20 @@ snapshots:
       unplugin: 2.3.11
       unplugin-utils: 0.3.1
       webpack: 5.88.2(postcss@8.5.15)
+      webpack-sources: 3.5.0
+
+  '@unocss/webpack@66.6.5(webpack@5.88.2)':
+    dependencies:
+      '@jridgewell/remapping': 2.3.5
+      '@unocss/config': 66.6.4
+      '@unocss/core': 66.6.5
+      chokidar: 5.0.0
+      magic-string: 0.30.21
+      pathe: 2.0.3
+      tinyglobby: 0.2.15
+      unplugin: 2.3.11
+      unplugin-utils: 0.3.1
+      webpack: 5.88.2
       webpack-sources: 3.5.0
 
   '@valibot/to-json-schema@1.7.1(valibot@1.4.1(typescript@5.9.3))':
@@ -16306,6 +16329,8 @@ snapshots:
 
   mark.js@8.11.1: {}
 
+  markdown-it-task-lists@2.1.1: {}
+
   markdown-it@14.1.1:
     dependencies:
       argparse: 2.0.1
@@ -18637,6 +18662,14 @@ snapshots:
     optionalDependencies:
       postcss: 8.5.15
 
+  terser-webpack-plugin@5.6.1(webpack@5.88.2):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      jest-worker: 27.5.1
+      schema-utils: 4.3.3
+      terser: 5.48.0
+      webpack: 5.88.2
+
   terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
@@ -19034,6 +19067,30 @@ snapshots:
       '@unocss/vite': 66.6.5(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
     optionalDependencies:
       '@unocss/webpack': 66.6.5(webpack@5.88.2(postcss@8.5.15))
+    transitivePeerDependencies:
+      - vite
+
+  unocss@66.6.5(@unocss/webpack@66.6.5(webpack@5.88.2))(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0)):
+    dependencies:
+      '@unocss/cli': 66.6.5
+      '@unocss/core': 66.6.5
+      '@unocss/preset-attributify': 66.6.5
+      '@unocss/preset-icons': 66.6.5
+      '@unocss/preset-mini': 66.6.5
+      '@unocss/preset-tagify': 66.6.5
+      '@unocss/preset-typography': 66.6.5
+      '@unocss/preset-uno': 66.6.5
+      '@unocss/preset-web-fonts': 66.6.5
+      '@unocss/preset-wind': 66.6.5
+      '@unocss/preset-wind3': 66.6.5
+      '@unocss/preset-wind4': 66.6.5
+      '@unocss/transformer-attributify-jsx': 66.6.5
+      '@unocss/transformer-compile-class': 66.6.5
+      '@unocss/transformer-directives': 66.6.5
+      '@unocss/transformer-variant-group': 66.6.5
+      '@unocss/vite': 66.6.5(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(sass-embedded@1.97.3)(sass@1.97.3)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
+    optionalDependencies:
+      '@unocss/webpack': 66.6.5(webpack@5.88.2)
     transitivePeerDependencies:
       - vite
 
@@ -19660,6 +19717,46 @@ snapshots:
   webpack-sources@3.5.0: {}
 
   webpack-virtual-modules@0.6.2: {}
+
+  webpack@5.88.2:
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.9
+      '@webassemblyjs/ast': 1.14.1
+      '@webassemblyjs/wasm-edit': 1.14.1
+      '@webassemblyjs/wasm-parser': 1.14.1
+      acorn: 8.17.0
+      acorn-import-assertions: 1.9.0(acorn@8.17.0)
+      browserslist: 4.28.2
+      chrome-trace-event: 1.0.4
+      enhanced-resolve: 5.24.0
+      es-module-lexer: 1.7.0
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.2
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.6.1(webpack@5.88.2)
+      watchpack: 2.5.2
+      webpack-sources: 3.5.0
+    transitivePeerDependencies:
+      - '@minify-html/node'
+      - '@swc/core'
+      - '@swc/css'
+      - '@swc/html'
+      - clean-css
+      - cssnano
+      - csso
+      - esbuild
+      - html-minifier-terser
+      - lightningcss
+      - postcss
+      - uglify-js
 
   webpack@5.88.2(esbuild@0.28.1)(postcss@8.5.15):
     dependencies:

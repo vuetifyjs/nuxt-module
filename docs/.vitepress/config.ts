@@ -2,6 +2,7 @@ import type { ThemeRegistration } from 'shiki'
 import ghLight from '@shikijs/themes/github-light'
 import { withPwa } from '@vite-pwa/vitepress'
 import { defineConfig } from 'vitepress'
+import taskLists from 'markdown-it-task-lists'
 import llmstxt, { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms'
 import { version } from '../../package.json'
 import { ogImage, ogUrl } from './constants'
@@ -60,6 +61,7 @@ export default withPwa(defineConfig({
     },
     config (md) {
       md.use(copyOrDownloadAsMarkdownButtons)
+      md.use(taskLists)
     },
   },
   themeConfig: {
@@ -122,6 +124,7 @@ export default withPwa(defineConfig({
         items: [
           { text: 'Introduction', link: '/guide/' },
           { text: 'Compatibility Matrix', link: '/guide/getting-started/compatibility' },
+          { text: 'Migration from 0.19.x', link: '/guide/getting-started/migration' },
         ],
       },
       {

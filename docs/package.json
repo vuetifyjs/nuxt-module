@@ -19,6 +19,7 @@
     "@types/node": "catalog:",
     "@vite-pwa/assets-generator": "catalog:",
     "@vite-pwa/vitepress": "catalog:",
+    "markdown-it-task-lists": "catalog:",
     "sitemap": "catalog:",
     "unocss": "catalog:",
     "vite-plugin-pwa": "catalog:",
