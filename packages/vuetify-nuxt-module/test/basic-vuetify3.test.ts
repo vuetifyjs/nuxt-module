@@ -12,4 +12,9 @@ describe('ssr with vuetify 3', async () => {
     const html = await $fetch('/')
     expect(html).contain('v-application')
   })
+
+  it('does not inline the Vuetify 4 cascade-layer order (#381 — v3 layers differ and are opt-in)', async () => {
+    const html = await $fetch('/')
+    expect(html).not.toContain('@layer vuetify-core')
+  })
 })
