@@ -104,7 +104,7 @@ export async function configureNuxt (
   })
 
   if (importComposables) {
-    const composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
+    let composables = ['useDate', 'useLocale', 'useDefaults', 'useDisplay', 'useLayout', 'useRtl', 'useTheme']
     if (ctx.vuetifyGte('3.5.0')) {
       composables.push('useGoTo')
     }
@@ -118,6 +118,10 @@ export async function configureNuxt (
       composables.push('useMask')
     }
 
+    if (Array.isArray(importComposables)) {
+      composables = composables.filter(name => importComposables.includes(name))
+    }
+
     addImports(composables.map(name => {
       let from = ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date'
       if (name === 'useRules' && ctx.rulesConfiguration?.fromLabs) {
@@ -126,7 +130,7 @@ export async function configureNuxt (
       return {
         name,
         from,
-        as: prefixComposables ? name.replace(/^use/, 'useV') : undefined,
+        as: (Array.isArray(prefixComposables) ? prefixComposables.includes(name) : prefixComposables) ? name.replace(/^use/, 'useV') : undefined,
         meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
       }
     }))

@@ -13,7 +13,18 @@ Manual imports of Vuetify composables are no longer required; auto-import is ena
 - [useRules](https://vuetifyjs.com/en/features/rules/): from Vuetify `v3.8.0+` and Vuetify Nuxt Module `v0.19.0+`
 - [useMask](https://vuetifyjs.com/en/api/use-mask/): from Vuetify `v3.10.0+` and Vuetify Nuxt Module `v0.19.0+`
 
-You can disable auto-import by setting `moduleOptions.importComposables: false`.
+You can disable auto-import by setting `moduleOptions.importComposables: false`, or pass an array of composable names to import only those:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    moduleOptions: {
+      importComposables: ['useDisplay', 'useTheme']
+    }
+  }
+})
+```
 
 If you are using other composables that conflict with Vuetify's, you can enable `moduleOptions.prefixComposables: true` to prefix the Vuetify composables with `V`:
 - `useDate` => `useVDate`
@@ -27,6 +38,19 @@ If you are using other composables that conflict with Vuetify's, you can enable 
 - `useHotkey` => `useVHotkey`: from Vuetify `v3.8.0+` and Vuetify Nuxt Module `v0.19.0+`
 - `useRules` => `useVRules`: from Vuetify `v3.8.0+` and Vuetify Nuxt Module `v0.19.0+`
 - `useMask` => `useVMask`: from Vuetify `v3.10.0+` and Vuetify Nuxt Module `v0.19.0+`
+
+You can also pass an array of composable names to prefix only those:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    moduleOptions: {
+      prefixComposables: ['useLayout', 'useTheme']
+    }
+  }
+})
+```
 
 ### useRules
 

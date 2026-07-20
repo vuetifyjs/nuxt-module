@@ -155,9 +155,13 @@ export interface ModuleOptions {
 ```ts
 export interface MOptions {
   /**
+   * Auto-import Vuetify composables.
+   *
+   * Pass an array of composable names to import only those, e.g. `['useDisplay', 'useTheme']`.
+   *
    * @default true
    */
-  importComposables?: boolean
+  importComposables?: boolean | string[]
   /**
    * If you are using another composables that collide with the Vuetify ones,
    * enable this flag to prefix them with `V`:
@@ -168,9 +172,11 @@ export interface MOptions {
    * - `useRtl` -> `useVRtl`
    * - `useTheme` -> `useVTheme`
    *
+   * Pass an array of composable names to prefix only those, e.g. `['useLocale', 'useTheme']`.
+   *
    * @default false
    */
-  prefixComposables?: boolean
+  prefixComposables?: boolean | string[]
   /**
    * Vuetify styles.
    * Specify `none` to disable Vuetify styles.
