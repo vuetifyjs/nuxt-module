@@ -19,7 +19,7 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { dirname } from 'pathe'
-import semver from 'semver'
+import { isGreaterOrEqual } from 'verkit'
 import { version as VITE_VERSION } from 'vite'
 import { version } from '../package.json'
 import { configureNuxt } from './utils/configure-nuxt'
@@ -125,7 +125,7 @@ export default defineNuxtModule<ModuleOptions>({
     const vuetifyBase = dirname(vuetifyPkgPath)
     const currentVersion: string | undefined = JSON.parse(readFileSync(vuetifyPkgPath, 'utf8')).version
     const vuetifyGte = (version: string) =>
-      !!currentVersion && semver.gte(currentVersion, version)
+      !!currentVersion && isGreaterOrEqual(currentVersion, version)
 
     const viteVersion = VITE_VERSION
 

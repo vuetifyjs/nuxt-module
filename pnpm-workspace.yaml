@@ -37,7 +37,6 @@ catalog:
   '@types/moment-hijri': ^2.1.4
   '@types/moment-jalaali': ^0.7.9
   '@types/node': ^25.9.3
-  '@types/semver': ^7.7.1
   '@unocss/nuxt': ^66.7.2
   '@vite-pwa/assets-generator': ^1.0.2
   '@vite-pwa/vitepress': ^1.1.0
@@ -66,13 +65,13 @@ catalog:
   rimraf: ^6.1.3
   sass: ^1.101.0
   sass-embedded: ^1.100.0
-  semver: ^7.8.4
   sitemap: ^9.0.1
   swetrix: ^4.4.0
   typescript: ^5.9.3
   ufo: ^1.6.4
   unconfig: ^7.5.0
   unocss: ^66.7.2
+  verkit: ^0.1.2
   vite: 7.3.5
   vite-plugin-pwa: ^1.3.0
   vitepress: 2.0.0-alpha.17

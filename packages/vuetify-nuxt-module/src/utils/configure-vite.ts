@@ -4,7 +4,7 @@ import type { VuetifyNuxtContext } from './config'
 import Styles from '@vuetify/unplugin-styles/vite'
 import defu from 'defu'
 import { isPackageExists } from 'local-pkg'
-import semver from 'semver'
+import { isGreaterOrEqual, isLess } from 'verkit'
 import { vuetifyConfigurationPlugin } from '../vite/vuetify-configuration-plugin'
 import { vuetifyDateConfigurationPlugin } from '../vite/vuetify-date-configuration-plugin'
 import { vuetifyIconsPlugin } from '../vite/vuetify-icons-configuration-plugin'
@@ -25,7 +25,7 @@ export function configureVite (configKey: string, nuxt: Nuxt, ctx: VuetifyNuxtCo
 
     if (!ctx.moduleOptions.disableModernSassCompiler) {
       // vite version >= 5.4.0 && < 7.0.0
-      const enableModernSassCompiler = semver.gte(ctx.viteVersion, '5.4.0') && semver.lt(ctx.viteVersion, '7.0.0-0')
+      const enableModernSassCompiler = isGreaterOrEqual(ctx.viteVersion, '5.4.0') && isLess(ctx.viteVersion, '7.0.0-0')
       if (enableModernSassCompiler) {
         const sassEmbedded = isPackageExists('sass-embedded', { paths: ctx.resolvePaths })
         if (sassEmbedded) {

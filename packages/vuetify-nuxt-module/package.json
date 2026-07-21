@@ -83,9 +83,9 @@
     "local-pkg": "catalog:",
     "pathe": "catalog:",
     "perfect-debounce": "catalog:",
-    "semver": "catalog:",
     "ufo": "catalog:",
-    "unconfig": "catalog:"
+    "unconfig": "catalog:",
+    "verkit": "catalog:"
   },
   "peerDependencies": {
     "vuetify": "^3.4.0 || ^4.0.0"
@@ -107,7 +107,6 @@
     "@nuxtjs/i18n": "catalog:",
     "@parcel/watcher": "catalog:",
     "@types/node": "catalog:",
-    "@types/semver": "catalog:",
     "@unocss/nuxt": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
