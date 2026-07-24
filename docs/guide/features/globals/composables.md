@@ -52,6 +52,22 @@ export default defineNuxtConfig({
 })
 ```
 
+### useLayout collision with Nuxt
+
+Nuxt ships its own [`useLayout`](https://nuxt.com/docs/api/composables/use-layout) composable, which collides with Vuetify's on auto-import. Prefixing (`prefixComposables: ['useLayout']`) renames Vuetify's to `useVLayout`. If you would rather keep Vuetify's `useLayout` untouched and rename Nuxt's instead, use the `imports:extend` hook:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  hooks: {
+    'imports:extend'(imports) {
+      const layout = imports.find(i => i.as === 'useLayout' && i.from === '#app/composables/layout')
+      if (layout)
+        layout.as = 'useNuxtLayout'
+    },
+  },
+})
+```
+
 ### useRules
 
 The `useRules` composable is available in Vuetify `v3.8.0+` and is enabled by default for that version.
