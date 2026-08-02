@@ -1,4 +1,4 @@
-import { isGreaterOrEqual, parse } from 'verkit'
+import { isGreaterOrEqual, tryParse } from 'verkit'
 
 /**
  * Lowest Nuxt with the Vite 7 + vite-node SSR invalidation our HMR relies on
@@ -13,7 +13,8 @@ export const MIN_NUXT_VERSION_FOR_SSR_CONFIG_HMR = '3.18.0'
  */
 export function supportsSsrConfigHmr (nuxtVersion: string): boolean {
   // Prefer an exact parse (keeps prerelease semantics: 4.3.0-rc.1 < 4.3.0).
-  const parsed = parse(nuxtVersion)
+  // `tryParse` returns null on unparseable input; `parse` would throw.
+  const parsed = tryParse(nuxtVersion)
   if (!parsed) {
     return false
   }
