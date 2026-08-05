@@ -146,6 +146,20 @@ export type LabComponentName = keyof typeof import('vuetify/labs/components')
 export type LabComponents = boolean | LabComponentName | LabComponentName[]
 export type VuetifyLocale = keyof typeof import('vuetify/locale')
 
+/**
+ * A CSS cascade-layer name for `cascadeLayers`. Vuetify 4's built-in layer
+ * names are suggested for autocomplete, while any custom layer name is allowed.
+ */
+export type VuetifyCascadeLayer
+  = | 'vuetify-core'
+    | 'vuetify-components'
+    | 'vuetify-overrides'
+    | 'vuetify-utilities'
+    | 'vuetify-final'
+    // `string & {}` keeps the literal suggestions above for autocomplete while
+    // still allowing arbitrary custom layer names.
+    | (string & {})
+
 export interface VOptions extends Partial<Omit<VuetifyOptions, | 'ssr' | 'aliases' | 'components' | 'directives' | 'locale' | 'date' | 'icons'>> {
   /**
    * Configure the SSR options.
@@ -295,6 +309,33 @@ export interface MOptions {
      */
     utilities?: boolean
   }
+  /**
+   * Establishing CSS cascade-layer order, inlined into the SSR'd `<head>`.
+   *
+   * In treeshaking modes Vuetify's per-component styles are injected on demand,
+   * each carrying its own `@layer vuetify-components { … }` block. Their order
+   * is otherwise decided by injection sequence (non-deterministic in dev, chunk
+   * order in prod), which can let `vuetify-core.reset` outrank component rules
+   * (e.g. `<v-btn size="small">` renders at the wrong font-size). Declaring the
+   * layer order once, before any component style is parsed, makes it
+   * deterministic. See https://github.com/vuetifyjs/nuxt-module/issues/381.
+   *
+   * - **omit** (default) — inject Vuetify's order:
+   *   `vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities, vuetify-final`.
+   * - **`string[]`** — inject your own order, e.g. to slot a custom layer
+   *   between Vuetify's (a flat `@layer` statement freezes the named layers
+   *   contiguously, so a later-declared new layer can only append). Your list
+   *   should include Vuetify's layers, or the race it fixes can reappear for
+   *   any omitted layer.
+   * - **`false`** — inject nothing; manage the cascade-layer order yourself.
+   *
+   * Vuetify 4 only — ignored on Vuetify 3 (layers are opt-in there, use
+   * different names, and live under a single top-level `vuetify` layer) and
+   * when `styles` is `'none'`.
+   *
+   * @since v1.0.0
+   */
+  cascadeLayers?: VuetifyCascadeLayer[] | false
   /**
    * Disable the modern SASS compiler and API.
    *
