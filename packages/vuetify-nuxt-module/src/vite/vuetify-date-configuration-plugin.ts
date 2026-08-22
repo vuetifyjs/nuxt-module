@@ -32,6 +32,10 @@ export function dateConfiguration() {
 `
         }
 
+        if (ctx.dateAdapter === 'string' && !ctx.vuetifyGte('3.9.0')) {
+          throw new Error('[vuetify-nuxt-module] The "string" date adapter requires Vuetify 3.9.0 or newer.')
+        }
+
         const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
 
         let dateFnsLocale: string | undefined

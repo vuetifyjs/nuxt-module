@@ -65,4 +65,13 @@ describe('vuetifyDateConfigurationPlugin string adapter', () => {
     expect(code).toContain('import { StringDateAdapter } from \'vuetify/labs/date/adapters/string\'')
     expect(code).toContain('options.adapter = new StringDateAdapter(options)')
   })
+
+  it('rejects Vuetify versions without StringDateAdapter', async () => {
+    const ctx = makeCtx('en')
+    ctx.dateAdapter = 'string'
+    ctx.vuetifyOptions.date.adapter = 'string'
+    ctx.vuetifyGte = (version: string) => version !== '3.9.0'
+
+    await expect(loadModule(ctx)).rejects.toThrow('requires Vuetify 3.9.0 or newer')
+  })
 })
