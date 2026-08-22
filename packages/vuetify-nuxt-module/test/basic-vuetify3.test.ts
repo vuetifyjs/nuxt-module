@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url'
-import { describe, it, expect } from 'vitest'
-import { setup, $fetch } from '@nuxt/test-utils'
+import { $fetch, setup } from '@nuxt/test-utils'
+import { describe, expect, it } from 'vitest'
 
 describe('ssr with vuetify 3', async () => {
   await setup({
-    rootDir: fileURLToPath(new URL('./fixtures/basic-vuetify3', import.meta.url)),
+    rootDir: fileURLToPath(new URL('fixtures/basic-vuetify3', import.meta.url)),
   })
 
   it('renders the index page', async () => {

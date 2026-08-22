@@ -1,5 +1,5 @@
-import type { Nuxt } from '@nuxt/schema'
 import type { FontIconSet, IconFontName, InlineModuleOptions, VuetifyModuleOptions } from '../types'
+import type { Nuxt } from '@nuxt/schema'
 import defu from 'defu'
 import { loadVuetifyConfiguration } from './config'
 

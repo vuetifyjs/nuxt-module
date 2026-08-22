@@ -1,9 +1,9 @@
 import type { Ref } from 'vue'
 import type { Locale } from 'vue-i18n'
 import type { LocaleInstance, LocaleMessages, LocaleOptions, VuetifyOptions } from 'vuetify'
-import { useNuxtApp } from '#imports'
 import { ref, toRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useNuxtApp } from '#imports'
 
 function inferDecimalSeparator (n: ReturnType<typeof useI18n>['n']) {
   return n(0.1).includes(',') ? ',' : '.'

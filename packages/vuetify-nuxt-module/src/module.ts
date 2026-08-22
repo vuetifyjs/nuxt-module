@@ -1,5 +1,3 @@
-import type { HookResult } from '@nuxt/schema'
-import type { createVuetify, VuetifyOptions } from 'vuetify'
 import type {
   InlineModuleOptions,
   SSRClientHints,
@@ -7,6 +5,8 @@ import type {
   VuetifyModuleOptions,
 } from './types'
 import type { VuetifyNuxtContext } from './utils/config'
+import type { HookResult } from '@nuxt/schema'
+import type { createVuetify, VuetifyOptions } from 'vuetify'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import {

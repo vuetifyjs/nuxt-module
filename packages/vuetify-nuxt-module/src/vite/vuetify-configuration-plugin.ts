@@ -1,6 +1,6 @@
-import type { Plugin } from 'vite'
 import type { ComponentName, LabComponentName } from '../types'
 import type { VuetifyNuxtContext } from '../utils/config'
+import type { Plugin } from 'vite'
 import { toKebabCase } from '../utils'
 import { RESOLVED_VIRTUAL_VUETIFY_CONFIGURATION, VIRTUAL_VUETIFY_CONFIGURATION } from './constants'
 

@@ -1,5 +1,5 @@
-import type { Plugin } from 'vite'
 import type { VuetifyNuxtContext } from '../utils/config'
+import type { Plugin } from 'vite'
 import {
   RESOLVED_VIRTUAL_VUETIFY_SSR_CLIENT_HINTS_CONFIGURATION,
   VIRTUAL_VUETIFY_SSR_CLIENT_HINTS_CONFIGURATION,

@@ -1,9 +1,9 @@
 import type { Plugin } from '#app'
-import type { UnwrapNestedRefs } from 'vue'
 import type { SSRClientHints } from './types'
-import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
+import type { UnwrapNestedRefs } from 'vue'
 import { ssrClientHintsConfiguration } from 'virtual:vuetify-ssr-client-hints-configuration'
 import { reactive, ref, watch } from 'vue'
+import { defineNuxtPlugin, useNuxtApp, useState } from '#imports'
 import { VuetifyHTTPClientHints } from './client-hints'
 import { buildReloadGuardCookie, hasReloadGuardCookie, shouldReloadOnFirstRequest } from './first-request-reload-guard'
 
@@ -169,7 +169,7 @@ function useSSRClientHints () {
     defaultTheme,
   } = ssrClientHintsConfiguration.prefersColorSchemeOptions
   const cookieNamePrefix = `${cookieName}=`
-  initial.value.colorSchemeFromCookie = document.cookie?.split(';')?.find(c => c.trim().startsWith(cookieNamePrefix))?.split('=')[1] ?? defaultTheme
+  initial.value.colorSchemeFromCookie = document.cookie?.split(';')?.find(c => c.trim().startsWith(cookieNamePrefix))?.split('=', 2)[1] ?? defaultTheme
   const date = new Date()
   const expires = new Date(date.setDate(date.getDate() + 365))
   initial.value.colorSchemeCookie = `${cookieName}=${initial.value.colorSchemeFromCookie}; Path=${baseUrl}; Expires=${expires.toUTCString()}; SameSite=${cookieSameSite[0].toUpperCase()}${cookieSameSite.slice(1)}`

@@ -57,7 +57,7 @@ export function vuetifyImportPlugin (options: Options) {
       const isVueVirtual = query && 'vue' in query
       const isVueFile = !isVueVirtual
         && filter(path)
-        && !/^import { render as _sfc_render } from ".*"$/m.test(code)
+        && !/^import \{ render as _sfc_render \} from ".*"$/m.test(code)
       const isVueTemplate = isVueVirtual && (
         query.type === 'template'
         || (query.type === 'script' && query.setup === 'true')

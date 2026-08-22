@@ -185,7 +185,7 @@ for (const { mode, runType } of matrix) {
             const allCss = [...texts, ...inlineStyles].join('\n')
             return {
               hasLayerBlock: /@layer\s+vuetify-components\s*\{/.test(allCss),
-              hasLayerDecl: /@layer[^;{}]*\bvuetify-components\b/.test(allCss),
+              hasLayerDecl: /@layer[^;{}]+\bvuetify-components\b/.test(allCss),
             }
           })
           expect(result.hasLayerDecl, `[${mode}/${runType}] @layer vuetify-components declaration`).toBe(true)

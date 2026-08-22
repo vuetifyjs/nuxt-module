@@ -1,6 +1,6 @@
+import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
 import type { ObjectImportPluginOptions } from '@vuetify/loader-shared'
-import type { VuetifyNuxtContext } from './config'
 import Styles from '@vuetify/unplugin-styles/vite'
 import defu from 'defu'
 import { isPackageExists } from 'local-pkg'

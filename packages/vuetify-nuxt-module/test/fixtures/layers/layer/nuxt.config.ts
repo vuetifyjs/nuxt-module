@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       styles: {
-        configFile: new URL('./layer-settings.scss', import.meta.url).pathname,
+        configFile: new URL('layer-settings.scss', import.meta.url).pathname,
       },
     },
   },

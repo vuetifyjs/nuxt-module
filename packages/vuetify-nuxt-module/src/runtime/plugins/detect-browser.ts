@@ -1,4 +1,7 @@
-/* eslint-disable no-useless-escape */
+/* vendored from detect-browser (MIT): keep the upstream regexes and comments verbatim */
+/* eslint-disable no-useless-escape, unicorn/prefer-https, regexp/no-super-linear-backtracking,
+   regexp/no-useless-assertions, regexp/no-useless-escape, regexp/optimal-quantifier-concatenation,
+   regexp/strict */
 /*
 The MIT License (MIT)
 

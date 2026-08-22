@@ -1,6 +1,6 @@
 import type { VuetifyOptions } from 'vuetify'
-import { useNuxtApp } from '#imports'
 import { adapter, dateConfiguration, enabled, i18n } from 'virtual:vuetify-date-configuration'
+import { useNuxtApp } from '#imports'
 
 export function configureDate (vuetifyOptions: VuetifyOptions) {
   if (adapter === 'custom' || !enabled) {

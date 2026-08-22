@@ -1,8 +1,8 @@
 import type { Plugin } from '#app'
-import type { UnwrapNestedRefs } from 'vue'
 import type { SSRClientHints } from './types'
-import { defineNuxtPlugin } from '#imports'
+import type { UnwrapNestedRefs } from 'vue'
 import { reactive } from 'vue'
+import { defineNuxtPlugin } from '#imports'
 
 const plugin: Plugin<{
   ssrClientHints: UnwrapNestedRefs<SSRClientHints>

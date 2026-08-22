@@ -1,6 +1,6 @@
+import type { DateAdapter, VOptions } from '../types'
 import type { Resolver } from '@nuxt/kit'
 import type { ViteConfig } from '@nuxt/schema'
-import type { DateAdapter, VOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import { isPackageExists } from 'local-pkg'
 

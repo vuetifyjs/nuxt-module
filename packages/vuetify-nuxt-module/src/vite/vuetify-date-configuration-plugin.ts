@@ -1,5 +1,5 @@
-import type { Plugin } from 'vite'
 import type { VuetifyNuxtContext } from '../utils/config'
+import type { Plugin } from 'vite'
 import { resolveDateFnsLocaleName } from '../utils/date-fns-locale'
 import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION, VIRTUAL_VUETIFY_DATE_CONFIGURATION } from './constants'
 

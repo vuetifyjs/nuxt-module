@@ -1,6 +1,12 @@
 import type { Plugin } from '#app'
-import type { UnwrapNestedRefs } from 'vue'
 import type { SSRClientHints } from './types'
+import type { UnwrapNestedRefs } from 'vue'
+import { setResponseHeader } from 'h3'
+import {
+  type SSRClientHintsConfiguration,
+  ssrClientHintsConfiguration,
+} from 'virtual:vuetify-ssr-client-hints-configuration'
+import { reactive } from 'vue'
 import {
   defineNuxtPlugin,
   useCookie,
@@ -9,12 +15,6 @@ import {
   useRequestHeaders,
   useState,
 } from '#imports'
-import { setResponseHeader } from 'h3'
-import {
-  type SSRClientHintsConfiguration,
-  ssrClientHintsConfiguration,
-} from 'virtual:vuetify-ssr-client-hints-configuration'
-import { reactive } from 'vue'
 import { VuetifyHTTPClientHints } from './client-hints'
 import { type Browser, parseUserAgent } from './detect-browser'
 
@@ -217,7 +217,7 @@ function collectClientHints (
       const cookieName = ssrClientHintsConfiguration.prefersColorSchemeOptions.cookieName
       const cookieValue = headers.cookie?.split(';').find(c => c.trim().startsWith(`${cookieName}=`))
       if (cookieValue) {
-        const value = cookieValue.split('=')?.[1].trim()
+        const value = cookieValue.split('=', 2)?.[1].trim()
         if (ssrClientHintsConfiguration.prefersColorSchemeOptions.themeNames.includes(value)) {
           hints.colorSchemeFromCookie = value
           hints.firstRequest = false
@@ -228,6 +228,7 @@ function collectClientHints (
       const value = hints.prefersColorSchemeAvailable
         ? headers[AcceptClientHintsRequestHeaders.prefersColorScheme]?.toLowerCase()
         : undefined
+      // eslint-disable-next-line unicorn/prefer-includes-over-repeated-comparisons -- narrows `value` for the assignment below
       if (value === 'dark' || value === 'light' || value === 'no-preference') {
         hints.prefersColorScheme = value
         hints.firstRequest = false

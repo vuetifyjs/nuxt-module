@@ -1,5 +1,5 @@
-import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
+import type { Nuxt } from '@nuxt/schema'
 import { addPluginTemplate } from '@nuxt/kit'
 
 export function addVuetifyNuxtPlugins (

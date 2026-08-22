@@ -1,5 +1,5 @@
-import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from '../src/utils/config'
+import type { Nuxt } from '@nuxt/schema'
 import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('@vuetify/unplugin-styles/vite', async importOriginal => {

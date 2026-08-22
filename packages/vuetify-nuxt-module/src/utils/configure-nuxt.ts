@@ -1,5 +1,5 @@
-import type { Nuxt } from '@nuxt/schema'
 import type { VuetifyNuxtContext } from './config'
+import type { Nuxt } from '@nuxt/schema'
 import { addImports, addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { toKebabCase } from './index'
