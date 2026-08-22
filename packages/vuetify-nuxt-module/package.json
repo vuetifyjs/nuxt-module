@@ -2,7 +2,7 @@
   "name": "vuetify-nuxt-module",
   "type": "module",
   "version": "1.0.0-rc.4",
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@11.7.0",
   "description": "Zero-Config Nuxt Module for Vuetify",
   "author": "userquin <userquin@gmail.com>",
   "license": "MIT",
@@ -91,7 +91,6 @@
     "vuetify": "^3.4.0 || ^4.0.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:",
     "@antfu/ni": "catalog:",
     "@date-io/luxon": "catalog:",
     "@fortawesome/fontawesome-svg-core": "catalog:",
