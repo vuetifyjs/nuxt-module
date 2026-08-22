@@ -53,3 +53,16 @@ describe('vuetifyDateConfigurationPlugin date-fns locale', () => {
     expect(ctx.logger.warn).toHaveBeenCalledExactlyOnceWith(expect.stringContaining('(unset)'))
   })
 })
+
+describe('vuetifyDateConfigurationPlugin string adapter', () => {
+  it('imports and configures Vuetify StringDateAdapter', async () => {
+    const ctx = makeCtx('en')
+    ctx.dateAdapter = 'string'
+    ctx.vuetifyOptions.date.adapter = 'string'
+
+    const code = await loadModule(ctx)
+
+    expect(code).toContain('import { StringDateAdapter } from \'vuetify/labs/date/adapters/string\'')
+    expect(code).toContain('options.adapter = new StringDateAdapter(options)')
+  })
+})

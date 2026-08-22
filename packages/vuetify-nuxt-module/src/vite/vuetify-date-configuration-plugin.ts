@@ -71,6 +71,10 @@ export function dateConfiguration() {
       return `options.adapter = new Adapter({ locale: ${dateFnsLocale} })`
     }
 
+    if (ctx.dateAdapter === 'string') {
+      return 'options.adapter = new StringDateAdapter(options)'
+    }
+
     return 'options.adapter = Adapter'
   }
 
@@ -81,6 +85,10 @@ export function dateConfiguration() {
 
     if (ctx.dateAdapter === 'vuetify') {
       return 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
+    }
+
+    if (ctx.dateAdapter === 'string') {
+      return 'import { StringDateAdapter } from \'vuetify/labs/date/adapters/string\''
     }
 
     const imports = [`import Adapter from '@date-io/${ctx.dateAdapter}'`]
