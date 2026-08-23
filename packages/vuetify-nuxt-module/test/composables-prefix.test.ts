@@ -1,5 +1,6 @@
+import type { Nuxt } from '@nuxt/schema'
 import { describe, expect, it } from 'vitest'
-import { collectPresetNames, resolveComposableImports } from '../src/utils/composables'
+import { collectPresetNames, registerComposableImports, resolveComposableImports } from '../src/utils/composables'
 
 describe('collectPresetNames', () => {
   it('collects names from framework-owned sources', () => {
@@ -117,5 +118,127 @@ describe('resolveComposableImports', () => {
 
   it('handles an empty composable list', () => {
     expect(resolveComposableImports({ composables: [], reserved, prefix: 'auto' })).toEqual([])
+  })
+})
+
+function createStubNuxt () {
+  const handlers = new Map<string, ((payload: any) => void)[]>()
+  const nuxt = {
+    hook (event: string, cb: (payload: any) => void) {
+      const existing = handlers.get(event)
+      if (existing) {
+        existing.push(cb)
+      } else {
+        handlers.set(event, [cb])
+      }
+    },
+  } as unknown as Nuxt
+
+  return {
+    nuxt,
+    emit<T> (event: string, payload: T): T {
+      for (const cb of handlers.get(event) ?? []) {
+        cb(payload)
+      }
+      return payload
+    },
+  }
+}
+
+const NUXT_LAYOUT_PRESETS = [{ from: '#app/composables/layout', imports: ['useLayout'] }]
+
+describe('registerComposableImports', () => {
+  it('prefixes the composable that collides with a Nuxt built-in', () => {
+    const stub = createStubNuxt()
+    registerComposableImports(stub.nuxt, {
+      composables: ['useDate', 'useLayout'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+    })
+
+    stub.emit('imports:sources', NUXT_LAYOUT_PRESETS)
+    expect(stub.emit('imports:extend', [] as any[])).toEqual([
+      { name: 'useDate', as: undefined, from: 'vuetify' },
+      { name: 'useLayout', as: 'useVLayout', from: 'vuetify' },
+    ])
+  })
+
+  it('leaves everything alone when nothing collides', () => {
+    const stub = createStubNuxt()
+    registerComposableImports(stub.nuxt, {
+      composables: ['useDate', 'useLayout'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+    })
+
+    stub.emit('imports:sources', [{ from: '#app/composables/router', imports: ['useRoute'] }])
+    expect(stub.emit('imports:extend', [] as any[])).toEqual([
+      { name: 'useDate', as: undefined, from: 'vuetify' },
+      { name: 'useLayout', as: undefined, from: 'vuetify' },
+    ])
+  })
+
+  it('re-pushes after Nuxt clears the array on regeneration', () => {
+    const stub = createStubNuxt()
+    registerComposableImports(stub.nuxt, {
+      composables: ['useLayout'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+    })
+
+    stub.emit('imports:sources', NUXT_LAYOUT_PRESETS)
+    stub.emit('imports:extend', [] as any[])
+    // Nuxt truncates the array before re-running the hook.
+    expect(stub.emit('imports:extend', [] as any[])).toEqual([
+      { name: 'useLayout', as: 'useVLayout', from: 'vuetify' },
+    ])
+  })
+
+  it('notifies about renames exactly once across regenerations', () => {
+    const stub = createStubNuxt()
+    const calls: { name: string, as: string }[][] = []
+    registerComposableImports(stub.nuxt, {
+      composables: ['useLayout'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+      onPrefixed: renames => calls.push(renames),
+    })
+
+    stub.emit('imports:sources', NUXT_LAYOUT_PRESETS)
+    stub.emit('imports:extend', [] as any[])
+    stub.emit('imports:extend', [] as any[])
+
+    expect(calls).toEqual([[{ name: 'useLayout', as: 'useVLayout' }]])
+  })
+
+  it('does not notify when nothing was renamed', () => {
+    const stub = createStubNuxt()
+    const calls: unknown[] = []
+    registerComposableImports(stub.nuxt, {
+      composables: ['useDate'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+      onPrefixed: renames => calls.push(renames),
+    })
+
+    stub.emit('imports:sources', NUXT_LAYOUT_PRESETS)
+    stub.emit('imports:extend', [] as any[])
+
+    expect(calls).toEqual([])
+  })
+
+  it('appends to imports already present in the array', () => {
+    const stub = createStubNuxt()
+    registerComposableImports(stub.nuxt, {
+      composables: ['useDate'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+    })
+
+    stub.emit('imports:sources', [])
+    expect(stub.emit('imports:extend', [{ name: 'existing', from: 'elsewhere' }] as any[])).toEqual([
+      { name: 'existing', from: 'elsewhere' },
+      { name: 'useDate', as: undefined, from: 'vuetify' },
+    ])
   })
 })

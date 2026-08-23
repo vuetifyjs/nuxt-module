@@ -1,4 +1,4 @@
-import type { NuxtHooks } from '@nuxt/schema'
+import type { Nuxt, NuxtHooks } from '@nuxt/schema'
 
 /**
  * The preset list handed to the `imports:sources` hook. Derived from the hook
@@ -129,4 +129,50 @@ export function resolveComposableImports (options: {
       ? { name, as: prefixName(name) }
       : { name }
   ))
+}
+
+/** One entry of the array handed to the `imports:extend` hook. */
+type ImportEntry = Parameters<NuxtHooks['imports:extend']>[0][number]
+
+export interface RegisterComposableImportsOptions {
+  /** Composable names to auto-import, already filtered by the caller. */
+  composables: string[]
+  prefix: PrefixComposables | undefined
+  /** Turns a resolved entry into the full import descriptor Nuxt expects. */
+  toImport: (entry: ComposableImport) => ImportEntry
+  /** Called once, on the first regeneration that actually renames something. */
+  onPrefixed?: (renames: { name: string, as: string }[]) => void
+}
+
+/**
+ * Register the Vuetify composables as auto-imports, renaming any whose name a
+ * framework source already owns.
+ *
+ * `addImports` cannot be used here: it needs the finished array at module-setup
+ * time, whereas the reserved names only become known once `imports:sources`
+ * fires on `modules:done`. This registers the same underlying hook that
+ * `addImports` does, one step later.
+ */
+export function registerComposableImports (nuxt: Nuxt, options: RegisterComposableImportsOptions): void {
+  const { composables, prefix, toImport, onPrefixed } = options
+  let reserved: ReadonlySet<string> = new Set()
+  let notified = false
+
+  nuxt.hook('imports:sources', presets => {
+    reserved = collectPresetNames(presets)
+  })
+
+  nuxt.hook('imports:extend', imports => {
+    const resolved = resolveComposableImports({ composables, reserved, prefix })
+
+    if (!notified && onPrefixed) {
+      const renames = resolved.filter((entry): entry is Required<ComposableImport> => !!entry.as)
+      if (renames.length > 0) {
+        notified = true
+        onPrefixed(renames.map(({ name, as }) => ({ name, as })))
+      }
+    }
+
+    imports.push(...resolved.map(entry => toImport(entry)))
+  })
 }
