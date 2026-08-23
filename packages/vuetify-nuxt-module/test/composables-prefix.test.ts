@@ -2,6 +2,10 @@ import type { Nuxt } from '@nuxt/schema'
 import { describe, expect, it } from 'vitest'
 import { collectPresetNames, registerComposableImports, resolveComposableImports } from '../src/utils/composables'
 
+// Every other call below goes through `as any`. This one exercises the real,
+// uncast `readonly ImportPreset[]` signature so a bad type breaks the build.
+void collectPresetNames([{ from: '#app/composables/router', imports: ['useRoute'] }])
+
 describe('collectPresetNames', () => {
   it('collects names from framework-owned sources', () => {
     expect(collectPresetNames([
@@ -48,6 +52,20 @@ describe('collectPresetNames', () => {
       { from: '#app/x' },
       { from: '#app/y', imports: [null, undefined, 42] },
     ] as any).size).toBe(0)
+  })
+
+  it('does not let a nested preset inherit the parent source', () => {
+    // unimport resolves a nested preset on its own; it does not inherit `from`.
+    expect(collectPresetNames([
+      { from: '#app/outer', imports: ['outer', { imports: ['orphan'] }] },
+    ] as any)).toEqual(new Set(['outer']))
+  })
+
+  it('falls back to the name when a tuple alias is empty', () => {
+    // unimport uses `_import[1] || _import[0]`, so an empty alias is not a name.
+    expect(collectPresetNames([
+      { from: '#app/x', imports: [['realName', '']] },
+    ] as any)).toEqual(new Set(['realName']))
   })
 })
 
@@ -240,5 +258,29 @@ describe('registerComposableImports', () => {
       { name: 'existing', from: 'elsewhere' },
       { name: 'useDate', as: undefined, from: 'vuetify' },
     ])
+  })
+
+  it('pushes unprefixed when imports:extend runs before imports:sources', () => {
+    const stub = createStubNuxt()
+    const calls: unknown[] = []
+    registerComposableImports(stub.nuxt, {
+      composables: ['useLayout'],
+      prefix: 'auto',
+      toImport: ({ name, as }) => ({ name, as, from: 'vuetify' }),
+      onPrefixed: renames => calls.push(renames),
+    })
+
+    // No presets seen yet: nothing is known to be reserved, so nothing is renamed.
+    expect(stub.emit('imports:extend', [] as any[])).toEqual([
+      { name: 'useLayout', as: undefined, from: 'vuetify' },
+    ])
+    expect(calls).toEqual([])
+
+    // Once sources arrive, the next regeneration corrects the name and notifies.
+    stub.emit('imports:sources', NUXT_LAYOUT_PRESETS)
+    expect(stub.emit('imports:extend', [] as any[])).toEqual([
+      { name: 'useLayout', as: 'useVLayout', from: 'vuetify' },
+    ])
+    expect(calls).toEqual([[{ name: 'useLayout', as: 'useVLayout' }]])
   })
 })

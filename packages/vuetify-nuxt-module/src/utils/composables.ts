@@ -21,7 +21,7 @@ function isFrameworkSource (from: unknown): boolean {
   return typeof from === 'string' && (from.startsWith('#') || FRAMEWORK_SOURCES.has(from))
 }
 
-function collectPreset (preset: unknown, names: Set<string>, inheritedFrom?: unknown): void {
+function collectPreset (preset: unknown, names: Set<string>): void {
   if (!preset || typeof preset !== 'object') {
     return
   }
@@ -32,7 +32,7 @@ function collectPreset (preset: unknown, names: Set<string>, inheritedFrom?: unk
     return
   }
 
-  const source = from ?? inheritedFrom
+  const source = from
 
   for (const entry of imports) {
     if (typeof entry === 'string') {
@@ -44,8 +44,10 @@ function collectPreset (preset: unknown, names: Set<string>, inheritedFrom?: unk
 
     if (Array.isArray(entry)) {
       const [name, as, entryFrom] = entry as [unknown, unknown?, unknown?]
-      const effective = typeof as === 'string' ? as : name
-      if (typeof effective === 'string' && isFrameworkSource(entryFrom ?? source)) {
+      // Mirrors unimport's own `resolvePreset`, which uses `_import[1] || _import[0]`
+      // and `_import[2] || preset.from` — truthy, not nullish, fallbacks.
+      const effective = as || name
+      if (typeof effective === 'string' && isFrameworkSource(entryFrom || source)) {
         names.add(effective)
       }
       continue
@@ -56,12 +58,14 @@ function collectPreset (preset: unknown, names: Set<string>, inheritedFrom?: unk
     }
 
     if (Array.isArray((entry as { imports?: unknown }).imports)) {
-      collectPreset(entry, names, source)
+      // unimport resolves a nested preset entirely on its own — it does not
+      // inherit the parent's `from`.
+      collectPreset(entry, names)
       continue
     }
 
     const { name, as, from: entryFrom } = entry as { name?: unknown, as?: unknown, from?: unknown }
-    const effective = typeof as === 'string' ? as : name
+    const effective = as || name
     if (typeof effective === 'string' && isFrameworkSource(entryFrom ?? source)) {
       names.add(effective)
     }
@@ -107,7 +111,7 @@ function shouldPrefixComposable (
   if (mode === 'auto') {
     return reserved.has(name)
   }
-  return mode
+  return mode === true
 }
 
 /**
@@ -124,11 +128,13 @@ export function resolveComposableImports (options: {
   const { composables, reserved } = options
   const mode = options.prefix ?? 'auto'
 
-  return composables.map(name => (
-    shouldPrefixComposable(name, mode, reserved)
-      ? { name, as: prefixName(name) }
-      : { name }
-  ))
+  return composables.map(name => {
+    if (!shouldPrefixComposable(name, mode, reserved)) {
+      return { name }
+    }
+    const as = prefixName(name)
+    return as === name ? { name } : { name, as }
+  })
 }
 
 /** One entry of the array handed to the `imports:extend` hook. */
@@ -156,6 +162,9 @@ export interface RegisterComposableImportsOptions {
 export function registerComposableImports (nuxt: Nuxt, options: RegisterComposableImportsOptions): void {
   const { composables, prefix, toImport, onPrefixed } = options
   let reserved: ReadonlySet<string> = new Set()
+  // `imports:sources` fires exactly once, on `modules:done`, before any
+  // `imports:extend` regeneration, so this guard cannot miss a rename that
+  // only becomes visible on a later regeneration.
   let notified = false
 
   nuxt.hook('imports:sources', presets => {
@@ -165,6 +174,8 @@ export function registerComposableImports (nuxt: Nuxt, options: RegisterComposab
   nuxt.hook('imports:extend', imports => {
     const resolved = resolveComposableImports({ composables, reserved, prefix })
 
+    imports.push(...resolved.map(entry => toImport(entry)))
+
     if (!notified && onPrefixed) {
       const renames = resolved.filter((entry): entry is Required<ComposableImport> => !!entry.as)
       if (renames.length > 0) {
@@ -172,7 +183,5 @@ export function registerComposableImports (nuxt: Nuxt, options: RegisterComposab
         onPrefixed(renames.map(({ name, as }) => ({ name, as })))
       }
     }
-
-    imports.push(...resolved.map(entry => toImport(entry)))
   })
 }
