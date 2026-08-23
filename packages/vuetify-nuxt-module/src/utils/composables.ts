@@ -83,3 +83,50 @@ export function collectPresetNames (presets: readonly ImportPreset[]): Set<strin
   }
   return names
 }
+
+export interface ComposableImport {
+  name: string
+  /** Set only when the composable is renamed; absent otherwise. */
+  as?: string
+}
+
+export type PrefixComposables = boolean | 'auto' | string[]
+
+function prefixName (name: string): string {
+  return name.replace(/^use/, 'useV')
+}
+
+function shouldPrefixComposable (
+  name: string,
+  mode: PrefixComposables,
+  reserved: ReadonlySet<string>,
+): boolean {
+  if (Array.isArray(mode)) {
+    return mode.includes(name)
+  }
+  if (mode === 'auto') {
+    return reserved.has(name)
+  }
+  return mode
+}
+
+/**
+ * Decide the auto-import name for each composable.
+ *
+ * `undefined` is treated as `'auto'` so the behaviour is identical whether the
+ * default arrives through `MODULE_DEFAULTS` or the option was never set.
+ */
+export function resolveComposableImports (options: {
+  composables: readonly string[]
+  reserved: ReadonlySet<string>
+  prefix: PrefixComposables | undefined
+}): ComposableImport[] {
+  const { composables, reserved } = options
+  const mode = options.prefix ?? 'auto'
+
+  return composables.map(name => (
+    shouldPrefixComposable(name, mode, reserved)
+      ? { name, as: prefixName(name) }
+      : { name }
+  ))
+}

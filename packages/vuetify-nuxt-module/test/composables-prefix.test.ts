@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { collectPresetNames } from '../src/utils/composables'
+import { collectPresetNames, resolveComposableImports } from '../src/utils/composables'
 
 describe('collectPresetNames', () => {
   it('collects names from framework-owned sources', () => {
@@ -47,5 +47,75 @@ describe('collectPresetNames', () => {
       { from: '#app/x' },
       { from: '#app/y', imports: [null, undefined, 42] },
     ] as any).size).toBe(0)
+  })
+})
+
+describe('resolveComposableImports', () => {
+  const composables = ['useDate', 'useLayout', 'useTheme']
+  const reserved = new Set(['useLayout', 'useRoute'])
+
+  it('prefixes only colliding names under \'auto\'', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: 'auto' })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout', as: 'useVLayout' },
+      { name: 'useTheme' },
+    ])
+  })
+
+  it('prefixes nothing under \'auto\' when no name is reserved', () => {
+    expect(resolveComposableImports({ composables, reserved: new Set(), prefix: 'auto' })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout' },
+      { name: 'useTheme' },
+    ])
+  })
+
+  it('treats undefined as \'auto\'', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: undefined })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout', as: 'useVLayout' },
+      { name: 'useTheme' },
+    ])
+  })
+
+  it('prefixes everything when true', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: true })).toEqual([
+      { name: 'useDate', as: 'useVDate' },
+      { name: 'useLayout', as: 'useVLayout' },
+      { name: 'useTheme', as: 'useVTheme' },
+    ])
+  })
+
+  it('prefixes nothing when false', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: false })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout' },
+      { name: 'useTheme' },
+    ])
+  })
+
+  it('prefixes exactly the listed names', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: ['useTheme'] })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout' },
+      { name: 'useTheme', as: 'useVTheme' },
+    ])
+  })
+
+  it('does not merge a list with auto-detected collisions', () => {
+    const resolved = resolveComposableImports({ composables, reserved, prefix: ['useDate'] })
+    expect(resolved.find(i => i.name === 'useLayout')).toEqual({ name: 'useLayout' })
+  })
+
+  it('ignores unknown names in the list', () => {
+    expect(resolveComposableImports({ composables, reserved, prefix: ['useNope'] })).toEqual([
+      { name: 'useDate' },
+      { name: 'useLayout' },
+      { name: 'useTheme' },
+    ])
+  })
+
+  it('handles an empty composable list', () => {
+    expect(resolveComposableImports({ composables: [], reserved, prefix: 'auto' })).toEqual([])
   })
 })
