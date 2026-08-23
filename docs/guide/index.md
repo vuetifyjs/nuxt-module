@@ -163,20 +163,28 @@ export interface MOptions {
    */
   importComposables?: boolean | string[]
   /**
-   * If you are using another composables that collide with the Vuetify ones,
-   * enable this flag to prefix them with `V`:
+   * Prefix Vuetify composables with `V` to avoid auto-import collisions:
    * - `useLocale` -> `useVLocale`
    * - `useDefaults` -> `useVDefaults`
    * - `useDisplay` -> `useVDisplay`
    * - `useLayout` -> `useVLayout`
    * - `useRtl` -> `useVRtl`
    * - `useTheme` -> `useVTheme`
+   * - `useGoTo` -> `useVGoTo`
    *
-   * Pass an array of composable names to prefix only those, e.g. `['useLocale', 'useTheme']`.
+   * - `'auto'` (default): prefix only the composables whose name is already
+   *   registered by a Nuxt or Vue auto-import source. On Nuxt `>=4.5` this is
+   *   `useLayout`, which Nuxt now ships as a built-in; on older versions
+   *   nothing is prefixed. This is exactly the set Nuxt would report as
+   *   `NUXT_B6002`.
+   * - `true`: prefix every composable.
+   * - `false`: prefix none. A remaining collision is reported by Nuxt itself.
+   * - `string[]`: prefix exactly the listed names, e.g. `['useLocale', 'useTheme']`.
+   *   The list is used as given and is not merged with the `'auto'` detection.
    *
-   * @default false
+   * @default 'auto'
    */
-  prefixComposables?: boolean | string[]
+  prefixComposables?: boolean | 'auto' | string[]
   /**
    * Vuetify styles.
    * Specify `none` to disable Vuetify styles.
