@@ -59,3 +59,6 @@ Temporary Items
 docs/vite.config.ts.timestamp-*
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+
+# Agent worktrees
+.claude/worktrees/
