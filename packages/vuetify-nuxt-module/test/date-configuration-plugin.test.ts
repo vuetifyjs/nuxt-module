@@ -62,8 +62,8 @@ describe('vuetifyDateConfigurationPlugin string adapter', () => {
 
     const code = await loadModule(ctx)
 
-    expect(code).toContain('import { StringDateAdapter } from \'vuetify/labs/date/adapters/string\'')
-    expect(code).toContain('options.adapter = new StringDateAdapter(options)')
+    expect(code).toContain('import { StringDateAdapter } from \'vuetify/date/adapters/string\'')
+    expect(code).toContain('options.adapter = StringDateAdapter')
   })
 
   it('rejects Vuetify versions without StringDateAdapter', async () => {
