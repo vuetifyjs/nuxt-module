@@ -333,9 +333,15 @@ export interface MOptions {
    * Rules configuration.
    *
    * @since v0.19.0
-   * @default true
    */
   rulesConfiguration?: {
+    /**
+     * Whether to import rules from `vuetify/labs/rules` instead of the core
+     * `vuetify` entry. Defaults to `true` before Vuetify 4.2.0 and `false`
+     * from 4.2.0 on, where rules were promoted from labs to core.
+     *
+     * @since v0.19.0
+     */
     fromLabs?: boolean
     configFile?: string
   }

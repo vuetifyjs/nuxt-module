@@ -50,8 +50,8 @@ function addVuetifyNuxtPlugin (
       if (ctx.enableRules) {
         rulesImports = [
           '',
-          `import { rulesOptions } from '#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs'`,
-          `import { createRulesPlugin } from 'vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs/' : ''}rules'`,
+          `import { rulesOptions } from '#build/vuetify/${ctx.rulesFromLabs ? 'labs-' : ''}rules-configuration.mjs'`,
+          `import { createRulesPlugin } from '${ctx.rulesFromLabs ? 'vuetify/labs/rules' : 'vuetify'}'`,
         ].join('\n')
         rulesPlugin = [
           '',

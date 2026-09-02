@@ -68,11 +68,11 @@ describe('finalizeConfiguration', () => {
     expect(c.moduleOptions!.styles).toBe('none')
   })
 
-  it('deep-merges rulesConfiguration: a hook provides configFile, default fills fromLabs (#290)', () => {
+  it('deep-merges rulesConfiguration: a hook provides configFile, no fromLabs default (#290)', () => {
     const c = finalizeConfiguration([
       app({ moduleOptions: {} }),
       { moduleOptions: { rulesConfiguration: { configFile: 'my-rules.ts' } }, vuetifyOptions: {} },
     ])
-    expect(c.moduleOptions!.rulesConfiguration).toEqual({ configFile: 'my-rules.ts', fromLabs: true })
+    expect(c.moduleOptions!.rulesConfiguration).toEqual({ configFile: 'my-rules.ts' })
   })
 })

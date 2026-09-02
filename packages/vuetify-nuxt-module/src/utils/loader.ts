@@ -87,6 +87,9 @@ export async function load (
   ctx.vuetifyOptions = configuration.vuetifyOptions!
   ctx.enableRules = ctx.moduleOptions.enableRules
   ctx.rulesConfiguration = ctx.moduleOptions.rulesConfiguration
+  // `rules` was promoted from labs to core in Vuetify 4.2.0: import from the
+  // core `vuetify` entry from that version on, from labs before it.
+  ctx.rulesFromLabs = ctx.rulesConfiguration?.fromLabs ?? !ctx.vuetifyGte('4.2.0')
   ctx.vuetifyFilesToWatch = Array.from(vuetifyConfigurationFilesToWatch)
   ctx.icons = prepareIcons(ctx.unocss, ctx.logger, vuetifyAppOptions, ctx.resolvePaths)
   ctx.ssrClientHints = prepareSSRClientHints(nuxt.options.app.baseURL ?? '/', ctx)

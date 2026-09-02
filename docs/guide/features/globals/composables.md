@@ -1,6 +1,7 @@
 # Vuetify Composables
 
 Manual imports of Vuetify composables are no longer required; auto-import is enabled by default for:
+
 - [useDate](https://vuetifyjs.com/en/api/use-date/)
 - [useDefaults](https://vuetifyjs.com/en/api/use-defaults/)
 - [useDisplay](https://vuetifyjs.com/en/api/use-display/)
@@ -17,16 +18,17 @@ You can disable auto-import by setting `moduleOptions.importComposables: false`,
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
-      importComposables: ['useDisplay', 'useTheme']
-    }
-  }
-})
+      importComposables: ["useDisplay", "useTheme"],
+    },
+  },
+});
 ```
 
 If you are using other composables that conflict with Vuetify's, you can enable `moduleOptions.prefixComposables: true` to prefix the Vuetify composables with `V`:
+
 - `useDate` => `useVDate`
 - `useDefaults` => `useVDefaults`
 - `useLayout` => `useVLayout`
@@ -43,13 +45,13 @@ You can also pass an array of composable names to prefix only those:
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
-      prefixComposables: ['useLayout', 'useTheme']
-    }
-  }
-})
+      prefixComposables: ["useLayout", "useTheme"],
+    },
+  },
+});
 ```
 
 ### useLayout collision with Nuxt
@@ -59,13 +61,14 @@ Nuxt ships its own [`useLayout`](https://nuxt.com/docs/api/composables/use-layou
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   hooks: {
-    'imports:extend'(imports) {
-      const layout = imports.find(i => i.as === 'useLayout' && i.from === '#app/composables/layout')
-      if (layout)
-        layout.as = 'useNuxtLayout'
+    "imports:extend"(imports) {
+      const layout = imports.find(
+        (i) => i.as === "useLayout" && i.from === "#app/composables/layout",
+      );
+      if (layout) layout.as = "useNuxtLayout";
     },
   },
-})
+});
 ```
 
 ### useRules
@@ -78,16 +81,17 @@ You can configure it using `moduleOptions.enableRules` and `moduleOptions.rulesC
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
       enableRules: true, // default true for Vuetify 3.8+
       rulesConfiguration: {
-        fromLabs: true // default true until promotion
-      }
-    }
-  }
-})
+        // `fromLabs` is optional: it defaults to `true` before Vuetify 4.2.0
+        // (rules lived in labs) and `false` from 4.2.0 on (rules are core).
+      },
+    },
+  },
+});
 ```
 
 :::

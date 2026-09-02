@@ -4,45 +4,45 @@ packages:
   - docs
 
 catalog:
-  '@antfu/ni': ^30.5.0
-  '@commitlint/cli': ^21.2.2
-  '@commitlint/config-conventional': ^21.2.2
-  '@commitlint/types': ^21.2.0
-  '@date-io/date-fns': ^3.2.1
-  '@date-io/date-fns-jalali': ^3.2.0
-  '@date-io/dayjs': ^3.2.0
-  '@date-io/hijri': ^3.2.0
-  '@date-io/js-joda': ^3.2.0
-  '@date-io/luxon': ^3.2.0
-  '@date-io/moment': ^3.2.0
-  '@fortawesome/fontawesome-svg-core': ^7.3.1
-  '@fortawesome/free-solid-svg-icons': ^7.3.1
-  '@fortawesome/vue-fontawesome': ^3.3.3
-  '@iconify-json/carbon': ^1.2.25
-  '@iconify-json/mdi': ^1.2.3
-  '@js-joda/core': ^5.7.0
-  '@js-joda/locale_en-us': ^4.15.3
-  '@js-joda/locale_es': ^4.15.3
-  '@mdi/js': ^7.4.47
+  "@antfu/ni": ^30.5.0
+  "@commitlint/cli": ^21.2.2
+  "@commitlint/config-conventional": ^21.2.2
+  "@commitlint/types": ^21.2.0
+  "@date-io/date-fns": ^3.2.1
+  "@date-io/date-fns-jalali": ^3.2.0
+  "@date-io/dayjs": ^3.2.0
+  "@date-io/hijri": ^3.2.0
+  "@date-io/js-joda": ^3.2.0
+  "@date-io/luxon": ^3.2.0
+  "@date-io/moment": ^3.2.0
+  "@fortawesome/fontawesome-svg-core": ^7.3.1
+  "@fortawesome/free-solid-svg-icons": ^7.3.1
+  "@fortawesome/vue-fontawesome": ^3.3.3
+  "@iconify-json/carbon": ^1.2.25
+  "@iconify-json/mdi": ^1.2.3
+  "@js-joda/core": ^5.7.0
+  "@js-joda/locale_en-us": ^4.15.3
+  "@js-joda/locale_es": ^4.15.3
+  "@mdi/js": ^7.4.47
   # do not use `latest`: the dist-tag currently points at 4.0.0-alpha.x
-  '@nuxt/devtools': ^3.4.1
-  '@nuxt/kit': ^4.5.2
-  '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.5.2
-  '@nuxt/test-utils': ^4.1.0
-  '@nuxtjs/i18n': ^10.6.0
-  '@parcel/watcher': ^2.6.0
-  '@types/moment-hijri': ^2.1.4
-  '@types/moment-jalaali': ^0.7.9
-  '@types/node': ^25.9.5
-  '@types/semver': ^7.8.0
-  '@unocss/nuxt': ^66.8.1
+  "@nuxt/devtools": ^3.4.1
+  "@nuxt/kit": ^4.5.2
+  "@nuxt/module-builder": ^1.0.3
+  "@nuxt/schema": ^4.5.2
+  "@nuxt/test-utils": ^4.1.0
+  "@nuxtjs/i18n": ^10.6.0
+  "@parcel/watcher": ^2.6.0
+  "@types/moment-hijri": ^2.1.4
+  "@types/moment-jalaali": ^0.7.9
+  "@types/node": ^25.9.5
+  "@types/semver": ^7.8.0
+  "@unocss/nuxt": ^66.8.1
   # pins sharp@^0.33.5, so `pnpm audit` reports GHSA sharp<0.35.0 here; dev-only
   # (manual `docs generate-pwa-icons`), not in the published package or docs:build
-  '@vite-pwa/assets-generator': ^1.0.2
-  '@vite-pwa/vitepress': ^1.1.0
-  '@vuetify/loader-shared': ^2.1.2
-  '@vuetify/unplugin-styles': ^1.0.0-rc.1
+  "@vite-pwa/assets-generator": ^1.0.2
+  "@vite-pwa/vitepress": ^1.1.0
+  "@vuetify/loader-shared": ^2.1.2
+  "@vuetify/unplugin-styles": ^1.0.0-rc.1
   bumpp: ^12.2.1
   conventional-github-releaser: ^3.1.5
   date-fns: ^4.4.0
@@ -81,12 +81,12 @@ catalog:
   vitest: ^4.1.11
   vue: ^3.5.41
   vue-tsc: ^3.3.11
-  vuetify: ^4.1.11
+  vuetify: ^4.2.0
   workbox-build: ^7.4.1
   workbox-window: ^7.4.1
 
 ignoredBuiltDependencies:
-  - '@parcel/watcher'
+  - "@parcel/watcher"
   - esbuild
 
 onlyBuiltDependencies:
@@ -96,7 +96,10 @@ shamefullyHoist: true
 shellEmulator: true
 strictPeerDependencies: false
 allowBuilds:
-  '@parcel/watcher': true
+  "@parcel/watcher": true
   esbuild: true
   lefthook: true
   sharp: true
+minimumReleaseAgeExclude:
+  - '@vuetify/v0@1.2.1'
+  - vuetify@4.2.0

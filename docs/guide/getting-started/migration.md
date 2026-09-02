@@ -52,24 +52,24 @@ Use `styles: 'none'` instead.
 
 ```ts [Before (0.19.x)]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
       disableVuetifyStyles: true,
     },
   },
-})
+});
 ```
 
 ```ts [After (1.0.0)]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
-      styles: 'none',
+      styles: "none",
     },
   },
-})
+});
 ```
 
 :::
@@ -82,26 +82,26 @@ The `'sass'` shortcut, which loaded Vuetify's raw SASS sources so you could over
 
 ```ts [Before (0.19.x)]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
-      styles: 'sass',
+      styles: "sass",
     },
   },
-})
+});
 ```
 
 ```ts [After (1.0.0)]
 export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
+  modules: ["vuetify-nuxt-module"],
   vuetify: {
     moduleOptions: {
       styles: {
-        configFile: 'assets/settings.scss',
+        configFile: "assets/settings.scss",
       },
     },
   },
-})
+});
 ```
 
 :::
@@ -121,14 +121,14 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       styles: {
-        configFile: 'assets/settings.scss',
+        configFile: "assets/settings.scss",
         experimental: {
           cache: true,
         },
       },
     },
   },
-})
+});
 ```
 
 ```ts [After (1.0.0)]
@@ -136,12 +136,12 @@ export default defineNuxtConfig({
   vuetify: {
     moduleOptions: {
       styles: {
-        configFile: 'assets/settings.scss',
+        configFile: "assets/settings.scss",
         cache: true,
       },
     },
   },
-})
+});
 ```
 
 :::
@@ -173,12 +173,12 @@ export default defineNuxtConfig({
       ssrClientHints: {
         prefersColorScheme: true,
         prefersColorSchemeOptions: {
-          cookieName: 'color-scheme',
+          cookieName: "color-scheme",
         },
       },
     },
   },
-})
+});
 ```
 
 ```ts [After (1.0.0)]
@@ -189,13 +189,13 @@ export default defineNuxtConfig({
         prefersColorScheme: true,
         prefersColorSchemeOptions: {
           cookie: {
-            name: 'color-scheme',
+            name: "color-scheme",
           },
         },
       },
     },
   },
-})
+});
 ```
 
 :::
@@ -211,7 +211,7 @@ export default defineNuxtConfig({
       // disableModernSassCompiler: true, // [!code --] remove
     },
   },
-})
+});
 ```
 
 ## New options
@@ -236,7 +236,7 @@ export default defineNuxtConfig({
       },
     },
   },
-})
+});
 ```
 
 ::: info
@@ -245,7 +245,7 @@ These are only available for **Vuetify 4**. On Vuetify 3, use `configFile` for s
 
 ### `rulesConfiguration.configFile`
 
-The rules configuration gained a `configFile` option, and `fromLabs` is now optional:
+The rules configuration gained a `configFile` option, and `fromLabs` is now optional (it defaults to `true` before Vuetify 4.2.0 and `false` from 4.2.0 on, where rules were promoted from labs to core):
 
 ```ts
 export default defineNuxtConfig({
@@ -253,12 +253,11 @@ export default defineNuxtConfig({
     moduleOptions: {
       enableRules: true,
       rulesConfiguration: {
-        fromLabs: true,
-        configFile: 'rules.config.ts',
+        configFile: "rules.config.ts",
       },
     },
   },
-})
+});
 ```
 
 ### `prefersColorSchemeOptions.cookie` attributes
@@ -273,16 +272,16 @@ export default defineNuxtConfig({
         prefersColorScheme: true,
         prefersColorSchemeOptions: {
           cookie: {
-            name: 'color-scheme',
-            domain: '.example.com',
+            name: "color-scheme",
+            domain: ".example.com",
             secure: true,
-            sameSite: 'lax',
+            sameSite: "lax",
           },
         },
       },
     },
   },
-})
+});
 ```
 
 ## Type-only changes

@@ -45,6 +45,14 @@ export interface VuetifyNuxtContext {
   viteVersion: string
   enableRules?: boolean
   rulesConfiguration?: { fromLabs?: boolean, configFile?: string }
+  /**
+   * Resolved import source for the rules feature: `true` imports from
+   * `vuetify/labs/rules`, `false` from the core `vuetify` entry. Rules were
+   * promoted from labs to core in Vuetify 4.2.0, so this defaults to `false`
+   * from that version on and `true` for older releases (unless `fromLabs`
+   * is set explicitly on `rulesConfiguration`).
+   */
+  rulesFromLabs?: boolean
   stylesConfigFile?: string
 }
 

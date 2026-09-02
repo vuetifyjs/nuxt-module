@@ -46,7 +46,8 @@ export default defineNuxtConfig({
       },
       styles: { configFile: '~/assets/custom-vuetify.scss', experimental: { cache: true } },
       rulesConfiguration: {
-        fromLabs: true,
+        // `fromLabs` is optional: rules are core from Vuetify 4.2.0, so this
+        // defaults to `false` (imports `useRules`/`createRulesPlugin` from `vuetify`).
         configFile: '~/vuetify.rules.ts',
       },
     },

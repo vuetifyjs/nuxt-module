@@ -58,7 +58,7 @@ export async function configureNuxt (
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey, runtimeDir)
   if (ctx.enableRules) {
-    const rulesConfigurationFile = `vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs`
+    const rulesConfigurationFile = `vuetify/${ctx.rulesFromLabs ? 'labs-' : ''}rules-configuration.mjs`
     nuxt.options.build.transpile.push(`#build/${rulesConfigurationFile}`)
     addTemplate({
       filename: rulesConfigurationFile,
@@ -92,13 +92,13 @@ export async function configureNuxt (
   nuxt.hook('prepare:types', ({ references, nodeReferences }) => {
     references.push({ types: 'vuetify' }, { types: 'vuetify-nuxt-module/custom-configuration' }, { types: 'vuetify-nuxt-module/configuration' }, { path: ctx.resolver.resolve(runtimeDir, 'plugins/types') })
     if (ctx.enableRules) {
-      references.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration` })
+      references.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesFromLabs ? 'labs-' : ''}rules-configuration` })
     }
 
     if (v4Available) {
       nodeReferences.push({ types: 'vuetify-nuxt-module/custom-configuration' })
       if (ctx.enableRules) {
-        nodeReferences.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration` })
+        nodeReferences.push({ types: `vuetify-nuxt-module/custom-${ctx.rulesFromLabs ? 'labs-' : ''}rules-configuration` })
       }
     }
   })
@@ -124,7 +124,7 @@ export async function configureNuxt (
 
     addImports(composables.map(name => {
       let from = ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date'
-      if (name === 'useRules' && ctx.rulesConfiguration?.fromLabs) {
+      if (name === 'useRules' && ctx.rulesFromLabs) {
         from = 'vuetify/labs/rules'
       }
       return {

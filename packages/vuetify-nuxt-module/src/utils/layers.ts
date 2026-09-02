@@ -13,9 +13,7 @@ export const MODULE_DEFAULTS: InlineModuleOptions = {
     importComposables: true,
     includeTransformAssetsUrls: true,
     styles: true,
-    rulesConfiguration: {
-      fromLabs: true,
-    },
+    rulesConfiguration: {},
   },
   vuetifyOptions: {
     labComponents: false,
