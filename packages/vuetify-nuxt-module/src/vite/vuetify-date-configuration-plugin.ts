@@ -32,6 +32,8 @@ export function dateConfiguration() {
 `
         }
 
+        // StringDateAdapter was added in Vuetify 3.9.0:
+        // https://github.com/vuetifyjs/vuetify/releases/tag/v3.9.0
         if (ctx.dateAdapter === 'string' && !ctx.vuetifyGte('3.9.0')) {
           throw new Error('[vuetify-nuxt-module] The "string" date adapter requires Vuetify 3.9.0 or newer.')
         }

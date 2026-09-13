@@ -64,6 +64,7 @@ describe('vuetifyDateConfigurationPlugin string adapter', () => {
 
     expect(code).toContain('import { StringDateAdapter } from \'vuetify/date/adapters/string\'')
     expect(code).toContain('options.adapter = StringDateAdapter')
+    await expect(import('vuetify/date/adapters/string')).resolves.toHaveProperty('StringDateAdapter')
   })
 
   it('rejects Vuetify versions without StringDateAdapter', async () => {
