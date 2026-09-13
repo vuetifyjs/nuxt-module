@@ -83,7 +83,7 @@ export default defineNuxtConfig({
     moduleOptions: {
       enableRules: true, // default true for Vuetify 3.8+
       rulesConfiguration: {
-        fromLabs: true // default true until promotion
+        fromLabs: true // default true, ignored on Vuetify 4.2+
       }
     }
   }
