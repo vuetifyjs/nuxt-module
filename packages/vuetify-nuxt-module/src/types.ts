@@ -333,9 +333,13 @@ export interface MOptions {
    * Rules configuration.
    *
    * @since v0.19.0
-   * @default true
    */
   rulesConfiguration?: {
+    /**
+     * Resolves import path for rules composable. Ignored since Vuetify 4.2.0.
+     *
+     * @default true
+     */
     fromLabs?: boolean
     configFile?: string
   }

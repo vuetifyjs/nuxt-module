@@ -51,7 +51,7 @@ function addVuetifyNuxtPlugin (
         rulesImports = [
           '',
           `import { rulesOptions } from '#build/vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs-' : ''}rules-configuration.mjs'`,
-          `import { createRulesPlugin } from 'vuetify/${ctx.rulesConfiguration!.fromLabs ? 'labs/' : ''}rules'`,
+          `import { createRulesPlugin } from '${ctx.rulesConfiguration!.fromLabs ? 'vuetify/labs/rules' : 'vuetify'}'`,
         ].join('\n')
         rulesPlugin = [
           '',
