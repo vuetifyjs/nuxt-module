@@ -12,6 +12,7 @@ export const MODULE_DEFAULTS: InlineModuleOptions = {
   moduleOptions: {
     importComposables: true,
     includeTransformAssetsUrls: true,
+    prefixComposables: 'auto',
     styles: true,
     rulesConfiguration: {
       fromLabs: true,

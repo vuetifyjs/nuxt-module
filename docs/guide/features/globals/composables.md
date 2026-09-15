@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 })
 ```
 
-If you are using other composables that conflict with Vuetify's, you can enable `moduleOptions.prefixComposables: true` to prefix the Vuetify composables with `V`:
+By default (`moduleOptions.prefixComposables: 'auto'`) the module prefixes a Vuetify composable with `V` only when its name is already taken by a Nuxt or Vue auto-import. Set `moduleOptions.prefixComposables: true` to prefix all of them instead:
 - `useDate` => `useVDate`
 - `useDefaults` => `useVDefaults`
 - `useLayout` => `useVLayout`
@@ -54,7 +54,15 @@ export default defineNuxtConfig({
 
 ### useLayout collision with Nuxt
 
-Nuxt ships its own [`useLayout`](https://nuxt.com/docs/api/composables/use-layout) composable, which collides with Vuetify's on auto-import. Prefixing (`prefixComposables: ['useLayout']`) renames Vuetify's to `useVLayout`. If you would rather keep Vuetify's `useLayout` untouched and rename Nuxt's instead, use the `imports:extend` hook:
+Nuxt `4.5+` ships its own [`useLayout`](https://nuxt.com/docs/api/composables/use-layout) composable, which returns the resolved layout name. Vuetify's `useLayout` is unrelated — it exposes `mainRect` and `mainStyles`, and throws outside of `<VApp>`.
+
+The default `prefixComposables: 'auto'` resolves this for you: Nuxt keeps `useLayout`, and Vuetify's is auto-imported as `useVLayout`. Nothing is prefixed on Nuxt versions that have no built-in `useLayout`.
+
+::: warning Upgrading
+If you used Vuetify's `useLayout` before this became the default, rename those call sites to `useVLayout`. TypeScript flags them, because Nuxt's composable returns a different type.
+:::
+
+If you would rather keep Vuetify's `useLayout` under the bare name and rename Nuxt's instead, set `prefixComposables: false` and use the `imports:extend` hook:
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({

@@ -1,7 +1,8 @@
 import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
-import { addImports, addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
+import { addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
+import { registerComposableImports } from './composables'
 import { toKebabCase } from './index'
 import { resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
@@ -122,18 +123,33 @@ export async function configureNuxt (
       composables = composables.filter(name => importComposables.includes(name))
     }
 
-    addImports(composables.map(name => {
-      let from = ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date'
-      if (name === 'useRules' && ctx.rulesConfiguration?.fromLabs) {
-        from = 'vuetify/labs/rules'
-      }
-      return {
-        name,
-        from,
-        as: (Array.isArray(prefixComposables) ? prefixComposables.includes(name) : prefixComposables) ? name.replace(/^use/, 'useV') : undefined,
-        meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
-      }
-    }))
+    registerComposableImports(nuxt, {
+      composables,
+      prefix: prefixComposables,
+      toImport: ({ name, as }) => {
+        let from = ctx.vuetifyGte('3.4.0') || name !== 'useDate' ? 'vuetify' : 'vuetify/labs/date'
+        if (name === 'useRules' && ctx.rulesConfiguration?.fromLabs) {
+          from = 'vuetify/labs/rules'
+        }
+        return {
+          name,
+          from,
+          as,
+          meta: { docsUrl: name === 'useRules' ? 'https://vuetifyjs.com/en/features/rules/' : `https://vuetifyjs.com/en/api/${toKebabCase(name)}/` },
+        }
+      },
+      onPrefixed: renames => {
+        if (!ctx.isDev) {
+          return
+        }
+        for (const { name, as } of renames) {
+          ctx.logger.info(
+            `[vuetify-nuxt-module] Vuetify's \`${name}\` collides with a built-in auto-import and was registered as \`${as}\`. `
+            + 'Set `vuetify.moduleOptions.prefixComposables` to override.',
+          )
+        }
+      },
+    })
   }
 
   if (ctx.ssrClientHints.enabled) {
