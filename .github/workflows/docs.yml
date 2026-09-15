@@ -9,9 +9,9 @@ jobs:
     environment: Production
     if: github.event_name == 'push' && github.repository_owner == 'vuetifyjs' && github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with:
           cache: 'pnpm'
           node-version-file: '.nvmrc'
