@@ -4,7 +4,7 @@ import { addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolv
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { registerComposableImports } from './composables'
 import { toKebabCase } from './index'
-import { resolveVuetifyConfigFile } from './styles'
+import { applyCascadeLayersHeadStyle, resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 
 export function getTemplate (source: string, settings: string | null): string {
@@ -55,6 +55,12 @@ export async function configureNuxt (
       nuxt.options.css.push(await resolvePath('vuetify/styles'))
     }
   }
+
+  // Inline the establishing cascade-layer order into the SSR'd <head> so layer
+  // priority is parsed before any runtime-injected component <style>. Otherwise
+  // injection order decides priority and `vuetify-core.reset` can outrank
+  // component rules (#381). Vuetify 4 only; opt out / customise via cascadeLayers.
+  applyCascadeLayersHeadStyle(nuxt, styles, ctx.moduleOptions.cascadeLayers, ctx.vuetifyGte('4.0.0'))
 
   // transpile always vuetify and runtime folder
   nuxt.options.build.transpile.push(configKey, runtimeDir)

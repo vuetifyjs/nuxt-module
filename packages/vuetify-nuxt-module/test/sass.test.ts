@@ -12,4 +12,11 @@ describe('sass', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Hi')
   })
+
+  it('inlines the Vuetify 4 establishing cascade-layer order in the SSR head (#381)', async () => {
+    // Pins layer priority before any runtime-injected component <style>, so the
+    // `vuetify-core.reset` cannot outrank `.v-btn--size-*`.
+    const html = await $fetch('/')
+    expect(html).toContain('@layer vuetify-core,vuetify-components,vuetify-overrides,vuetify-utilities,vuetify-final;')
+  })
 })
