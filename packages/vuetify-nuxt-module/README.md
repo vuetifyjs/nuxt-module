@@ -1,25 +1,18 @@
 <div align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/vuetifyjs/nuxt-module/raw/main/hero-dark.svg" />
-  <img alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify" src='https://github.com/vuetifyjs/nuxt-module/raw/main/hero.svg' alt="vuetify-nuxt-module - Zero-config Nuxt Module for Vuetify"><br>
-</picture>
-<p>Zero-config Nuxt Module for Vuetify</p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.vuetifyjs.com/docs/images/one/logos/vuetify-logo-dark.png">
+    <img alt="Vuetify Nuxt Module Logo" src="https://cdn.vuetifyjs.com/docs/images/one/logos/vuetify-logo-light.png" height="100">
+  </picture>
+  <h1>Vuetify Nuxt Module</h1>
+  <p>Zero-config Nuxt Module for Vuetify</p>
 </div>
 
-<p align='center'>
-<a href='https://www.npmjs.com/package/vuetify-nuxt-module' target="__blank">
-<img src='https://img.shields.io/npm/v/vuetify-nuxt-module?color=33A6B8&label=' alt="NPM version">
-</a>
-<a href="https://www.npmjs.com/package/vuetify-nuxt-module" target="__blank">
-    <img alt="NPM Downloads" src="https://img.shields.io/npm/dm/vuetify-nuxt-module?color=476582&label=">
-</a>
-<a href="https://nuxt.vuetifyjs.com/" target="__blank">
-    <img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides">
-</a>
-<br>
-<a href="https://github.com/vuetifyjs/nuxt-module" target="__blank">
-<img alt="GitHub stars" src="https://img.shields.io/github/stars/userquin/vuetify-nuxt-module?style=social">
-</a>
+<p align="center">
+  <a href="https://www.npmjs.com/package/vuetify-nuxt-module"><img src="https://img.shields.io/npm/v/vuetify-nuxt-module.svg" alt="npm version"></a>
+  <a href="https://npm.chart.dev/vuetify-nuxt-module"><img src="https://img.shields.io/npm/dm/vuetify-nuxt-module?color=blue" alt="npm downloads"></a>
+  <a href="https://nuxt.vuetifyjs.com/"><img src="https://img.shields.io/static/v1?label=&message=docs%20%26%20guides&color=2e859c" alt="Docs & Guides"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://discord.gg/vuetify"><img src="https://discord.com/api/guilds/1513968811047522396/widget.png" alt="Discord"></a>
 </p>
 
 <br>
