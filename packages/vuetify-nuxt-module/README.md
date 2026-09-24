@@ -76,9 +76,9 @@ Read the [📖 documentation](https://nuxt.vuetifyjs.com/) for a complete guide 
 
 ## 👀 Full config
 
-Check out the [types](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts).
+Check out the [types](https://github.com/vuetifyjs/nuxt-module/blob/main/packages/vuetify-nuxt-module/src/types.ts).
 
-The virtual modules can be found in [configuration.d.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/configuration.d.ts) file.
+The virtual modules can be found in [configuration.d.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/packages/vuetify-nuxt-module/configuration.d.ts) file.
 
 ## 📄 License
 
