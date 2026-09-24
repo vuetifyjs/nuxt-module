@@ -6,7 +6,7 @@ outline: deep
 
 By default, the module does not register any Vuetify directives. If you need to register specific directives, you can use the `vuetifyOptions.directives` module option, which is designed for a better developer experience.
 
-You can register all directives or only the ones you need. Please check the [directives definition](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts#L138-L139) for more details.
+You can register all directives or only the ones you need. Please check the [directives definition](https://github.com/vuetifyjs/nuxt-module/blob/main/packages/vuetify-nuxt-module/src/types.ts#L143-L144) for more details.
 
 ## Ignore directives <Badge type="tip" text="from v0.15.1" />
 

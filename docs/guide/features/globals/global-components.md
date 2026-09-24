@@ -6,7 +6,7 @@ outline: deep
 
 If you need to add global components, you can use the `vuetifyOptions.components` module option, which is designed for a better developer experience.
 
-Please check the [components definition](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts#L136-L137) for more details.
+Please check the [components definition](https://github.com/vuetifyjs/nuxt-module/blob/main/packages/vuetify-nuxt-module/src/types.ts#L141-L142) for more details.
 
 You can also provide [Aliasing & Virtual Components](https://vuetifyjs.com/en/features/aliasing/#virtual-component-defaults) via the `vuetifyOptions.aliases` module option to register components with a different name. Note that this is available only for globally registered components.
 

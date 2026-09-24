@@ -128,7 +128,7 @@ export default defineNuxtConfig({
 
 ## Module Options
 
-Check out the type declaration [src/types.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/src/types.ts).
+Check out the type declaration [src/types.ts](https://github.com/vuetifyjs/nuxt-module/blob/main/packages/vuetify-nuxt-module/src/types.ts).
 
 <details>
 <summary><strong>Vuetify Nuxt Module Options</strong></summary>
