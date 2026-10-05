@@ -1,3 +1,5 @@
+import { isAbsolute } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
 import { addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
@@ -7,8 +9,19 @@ import { toKebabCase } from './index'
 import { applyCascadeLayersHeadStyle, resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 
+/**
+ * Dart Sass resolves `@use` arguments as URLs, so a bare Windows path such as
+ * `C:/foo/bar.scss` is read as the scheme `c:` and never reaches the filesystem
+ * importer (`Can't find stylesheet to import`). On POSIX the resolved path
+ * starts with `/`, which Sass accepts, so only Windows is affected. Emitting a
+ * `file://` URL works on every platform and also handles spaces in the path.
+ */
+function toSassImportUrl (path: string): string {
+  return isAbsolute(path) ? pathToFileURL(path).href : path
+}
+
 export function getTemplate (source: string, settings: string | null): string {
-  return [settings ? `@use '${settings}';` : '', `@use '${source}';`].filter(Boolean).join('\n')
+  return [settings ? `@use '${toSassImportUrl(settings)}';` : '', `@use '${source}';`].filter(Boolean).join('\n')
 }
 
 export async function configureNuxt (
