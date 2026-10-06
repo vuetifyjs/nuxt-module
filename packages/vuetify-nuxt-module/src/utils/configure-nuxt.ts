@@ -15,9 +15,29 @@ import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
  * importer (`Can't find stylesheet to import`). On POSIX the resolved path
  * starts with `/`, which Sass accepts, so only Windows is affected. Emitting a
  * `file://` URL works on every platform and also handles spaces in the path.
+ *
+ * POSIX absolute paths get the same treatment rather than being left bare, which is what upstream
+ * `@vuetify/unplugin-styles` does for both its `sassPath` and its `configFile` — the two halves of
+ * the `@use` list are then written in one vocabulary instead of two.
+ *
+ * Absolute only. A relative path comes back unchanged because there is no directory to resolve it
+ * against here, and the one call site (`resolvePath`) never produces one.
+ *
+ * Known limit: a UNC path (`\\server\share\x.scss`) is absolute and becomes a `file://server/...`
+ * URL with a non-empty host, which Dart Sass's filesystem importer may refuse to map. Left as is
+ * because it could not be reproduced here — a project on a network share is the case to try first.
+ *
+ * The apostrophe is encoded by hand: `pathToFileURL` leaves it alone (RFC 3986 lists `'` as a
+ * sub-delimiter, so it is legal in a URL path), and the call site wraps the result in SINGLE
+ * quotes — a path like `O'Brien/settings.scss` would end the string early and produce a stylesheet
+ * that is a syntax error rather than a stylesheet. A bare path had the same hole, so this closes
+ * one that was already open rather than one this change opened.
+ *
+ * Exported for the unit test. It is a pure string transform, and on a non-Windows CI that test is
+ * the only way the Windows branch can be exercised at all.
  */
-function toSassImportUrl (path: string): string {
-  return isAbsolute(path) ? pathToFileURL(path).href : path
+export function toSassImportUrl (path: string): string {
+  return isAbsolute(path) ? pathToFileURL(path).href.replaceAll("'", '%27') : path
 }
 
 export function getTemplate (source: string, settings: string | null): string {
