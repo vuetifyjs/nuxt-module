@@ -1,4 +1,4 @@
-import { isAbsolute } from 'node:path'
+import { isAbsolute } from 'pathe'
 import { pathToFileURL } from 'node:url'
 import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
@@ -21,23 +21,28 @@ import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
  * the `@use` list are then written in one vocabulary instead of two.
  *
  * Absolute only. A relative path comes back unchanged because there is no directory to resolve it
- * against here, and the one call site (`resolvePath`) never produces one.
+ * against here, and the one call site (`resolvePath`) never produces one. "Absolute" is decided by
+ * `pathe.isAbsolute` rather than `node:path.isAbsolute`: the latter follows the host platform, so a
+ * Windows path would be treated as relative when the module runs on POSIX (and vice versa). The rest
+ * of this module already uses `pathe` for path semantics (`styles.ts`), so this keeps one definition.
  *
  * Known limit: a UNC path (`\\server\share\x.scss`) is absolute and becomes a `file://server/...`
  * URL with a non-empty host, which Dart Sass's filesystem importer may refuse to map. Left as is
  * because it could not be reproduced here — a project on a network share is the case to try first.
  *
- * The apostrophe is encoded by hand: `pathToFileURL` leaves it alone (RFC 3986 lists `'` as a
- * sub-delimiter, so it is legal in a URL path), and the call site wraps the result in SINGLE
- * quotes — a path like `O'Brien/settings.scss` would end the string early and produce a stylesheet
- * that is a syntax error rather than a stylesheet. A bare path had the same hole, so this closes
- * one that was already open rather than one this change opened.
+ * The apostrophe is encoded on BOTH branches, not just the URL one: `pathToFileURL` leaves `'` alone
+ * (RFC 3986 lists it as a sub-delimiter, so it is legal in a URL path) while the call site wraps the
+ * result in SINGLE quotes — a path like `O'Brien/settings.scss` would end the string early and
+ * produce a stylesheet that is a syntax error rather than a stylesheet. A relative path can carry
+ * an apostrophe too, and this is an exported pure transform, so it must not rely on the call site
+ * happening to pass an absolute path.
  *
  * Exported for the unit test. It is a pure string transform, and on a non-Windows CI that test is
  * the only way the Windows branch can be exercised at all.
  */
 export function toSassImportUrl (path: string): string {
-  return isAbsolute(path) ? pathToFileURL(path).href.replaceAll("'", '%27') : path
+  const url = isAbsolute(path) ? pathToFileURL(path).href : path
+  return url.replaceAll("'", '%27')
 }
 
 export function getTemplate (source: string, settings: string | null): string {
