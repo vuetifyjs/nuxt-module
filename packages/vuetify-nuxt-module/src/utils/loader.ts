@@ -56,7 +56,7 @@ export async function load (
     }
 
     if (adapter) {
-      if (adapter === 'vuetify' || adapter === 'custom') {
+      if (['vuetify', 'string', 'custom'].includes(adapter)) {
         ctx.dateAdapter = adapter
       } else {
         if (date.includes(adapter)) {
