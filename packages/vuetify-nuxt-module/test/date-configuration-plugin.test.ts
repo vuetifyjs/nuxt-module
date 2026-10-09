@@ -1,5 +1,7 @@
+import { createServer } from 'vite'
 import { describe, expect, it, vi } from 'vitest'
-import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION } from '../src/vite/constants'
+import { StringDateAdapter } from 'vuetify/date/adapters/string'
+import { RESOLVED_VIRTUAL_VUETIFY_DATE_CONFIGURATION, VIRTUAL_VUETIFY_DATE_CONFIGURATION } from '../src/vite/constants'
 import { vuetifyDateConfigurationPlugin } from '../src/vite/vuetify-date-configuration-plugin'
 
 function makeCtx (localeCode: string | undefined) {
@@ -51,5 +53,36 @@ describe('vuetifyDateConfigurationPlugin date-fns locale', () => {
     expect(code).toContain('import { enUS } from \'date-fns/locale\'')
     expect(code).toContain('new Adapter({ locale: enUS })')
     expect(ctx.logger.warn).toHaveBeenCalledExactlyOnceWith(expect.stringContaining('(unset)'))
+  })
+})
+
+describe('vuetifyDateConfigurationPlugin string adapter', () => {
+  it('loads and configures Vuetify StringDateAdapter', async () => {
+    const ctx = makeCtx('en')
+    ctx.dateAdapter = 'string'
+    ctx.vuetifyOptions.date.adapter = 'string'
+
+    const server = await createServer({
+      logLevel: 'silent',
+      plugins: [vuetifyDateConfigurationPlugin(ctx)],
+    })
+
+    try {
+      const module = await server.ssrLoadModule(VIRTUAL_VUETIFY_DATE_CONFIGURATION)
+
+      expect(module.adapter).toBe('string')
+      expect(module.dateConfiguration().adapter).toBe(StringDateAdapter)
+    } finally {
+      await server.close()
+    }
+  })
+
+  it('rejects Vuetify versions without StringDateAdapter', async () => {
+    const ctx = makeCtx('en')
+    ctx.dateAdapter = 'string'
+    ctx.vuetifyOptions.date.adapter = 'string'
+    ctx.vuetifyGte = (version: string) => version !== '3.9.0'
+
+    await expect(loadModule(ctx)).rejects.toThrow('requires Vuetify 3.9.0 or newer')
   })
 })

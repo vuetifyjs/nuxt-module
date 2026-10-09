@@ -32,6 +32,12 @@ export function dateConfiguration() {
 `
         }
 
+        // StringDateAdapter was added in Vuetify 3.9.0:
+        // https://github.com/vuetifyjs/vuetify/releases/tag/v3.9.0
+        if (ctx.dateAdapter === 'string' && !ctx.vuetifyGte('3.9.0')) {
+          throw new Error('[vuetify-nuxt-module] The "string" date adapter requires Vuetify 3.9.0 or newer.')
+        }
+
         const { adapter: _adapter, ...newDateOptions } = ctx.vuetifyOptions.date ?? {}
 
         let dateFnsLocale: string | undefined
@@ -71,6 +77,10 @@ export function dateConfiguration() {
       return `options.adapter = new Adapter({ locale: ${dateFnsLocale} })`
     }
 
+    if (ctx.dateAdapter === 'string') {
+      return 'options.adapter = StringDateAdapter'
+    }
+
     return 'options.adapter = Adapter'
   }
 
@@ -81,6 +91,10 @@ export function dateConfiguration() {
 
     if (ctx.dateAdapter === 'vuetify') {
       return 'import { VuetifyDateAdapter } from \'vuetify/labs/date/adapters/vuetify\''
+    }
+
+    if (ctx.dateAdapter === 'string') {
+      return 'import { StringDateAdapter } from \'vuetify/date/adapters/string\''
     }
 
     const imports = [`import Adapter from '@date-io/${ctx.dateAdapter}'`]
