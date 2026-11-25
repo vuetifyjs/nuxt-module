@@ -1,6 +1,6 @@
 import type { LocaleOptions, RtlOptions, VuetifyOptions } from 'vuetify'
 
-export type DateAdapter = 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+export type DateAdapter = 'vuetify' | 'string' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
 
 /**
  * Date configuration.
