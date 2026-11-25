@@ -1,8 +1,8 @@
-import { isAbsolute } from 'pathe'
-import { pathToFileURL } from 'node:url'
 import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
+import { pathToFileURL } from 'node:url'
 import { addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
+import { isAbsolute } from 'pathe'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { registerComposableImports } from './composables'
 import { toKebabCase } from './index'
@@ -10,39 +10,13 @@ import { applyCascadeLayersHeadStyle, resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 
 /**
- * Dart Sass resolves `@use` arguments as URLs, so a bare Windows path such as
- * `C:/foo/bar.scss` is read as the scheme `c:` and never reaches the filesystem
- * importer (`Can't find stylesheet to import`). On POSIX the resolved path
- * starts with `/`, which Sass accepts, so only Windows is affected. Emitting a
- * `file://` URL works on every platform and also handles spaces in the path.
- *
- * POSIX absolute paths get the same treatment rather than being left bare, which is what upstream
- * `@vuetify/unplugin-styles` does for both its `sassPath` and its `configFile` — the two halves of
- * the `@use` list are then written in one vocabulary instead of two.
- *
- * Absolute only. A relative path comes back unchanged because there is no directory to resolve it
- * against here, and the one call site (`resolvePath`) never produces one. "Absolute" is decided by
- * `pathe.isAbsolute` rather than `node:path.isAbsolute`: the latter follows the host platform, so a
- * Windows path would be treated as relative when the module runs on POSIX (and vice versa). The rest
- * of this module already uses `pathe` for path semantics (`styles.ts`), so this keeps one definition.
- *
- * Known limit: a UNC path (`\\server\share\x.scss`) is absolute and becomes a `file://server/...`
- * URL with a non-empty host, which Dart Sass's filesystem importer may refuse to map. Left as is
- * because it could not be reproduced here — a project on a network share is the case to try first.
- *
- * The apostrophe is encoded on BOTH branches, not just the URL one: `pathToFileURL` leaves `'` alone
- * (RFC 3986 lists it as a sub-delimiter, so it is legal in a URL path) while the call site wraps the
- * result in SINGLE quotes — a path like `O'Brien/settings.scss` would end the string early and
- * produce a stylesheet that is a syntax error rather than a stylesheet. A relative path can carry
- * an apostrophe too, and this is an exported pure transform, so it must not rely on the call site
- * happening to pass an absolute path.
- *
- * Exported for the unit test. It is a pure string transform, and on a non-Windows CI that test is
- * the only way the Windows branch can be exercised at all.
+ * Dart Sass resolves `@use` targets as URLs, so a bare Windows path (`C:/...`)
+ * is read as the scheme `c:` and never found (#396). Emit a `file://` URL for
+ * absolute paths (also encodes spaces) and escape `'`, since the target is
+ * wrapped in single quotes.
  */
 export function toSassImportUrl (path: string): string {
-  const url = isAbsolute(path) ? pathToFileURL(path).href : path
-  return url.replaceAll("'", '%27')
+  return (isAbsolute(path) ? pathToFileURL(path).href : path).replaceAll('\'', '%27')
 }
 
 export function getTemplate (source: string, settings: string | null): string {
