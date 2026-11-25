@@ -1,14 +1,26 @@
 import type { VuetifyNuxtContext } from './config'
 import type { Nuxt } from '@nuxt/schema'
+import { pathToFileURL } from 'node:url'
 import { addPlugin, addTemplate, extendWebpackConfig, isNuxtMajorVersion, resolvePath } from '@nuxt/kit'
+import { isAbsolute } from 'pathe'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { registerComposableImports } from './composables'
 import { toKebabCase } from './index'
 import { applyCascadeLayersHeadStyle, resolveVuetifyConfigFile } from './styles'
 import { addVuetifyNuxtPlugins } from './vuetify-nuxt-plugins'
 
+/**
+ * Dart Sass resolves `@use` targets as URLs, so a bare Windows path (`C:/...`)
+ * is read as the scheme `c:` and never found (#396). Emit a `file://` URL for
+ * absolute paths (also encodes spaces) and escape `'`, since the target is
+ * wrapped in single quotes.
+ */
+export function toSassImportUrl (path: string): string {
+  return (isAbsolute(path) ? pathToFileURL(path).href : path).replaceAll('\'', '%27')
+}
+
 export function getTemplate (source: string, settings: string | null): string {
-  return [settings ? `@use '${settings}';` : '', `@use '${source}';`].filter(Boolean).join('\n')
+  return [settings ? `@use '${toSassImportUrl(settings)}';` : '', `@use '${source}';`].filter(Boolean).join('\n')
 }
 
 export async function configureNuxt (
