@@ -10,10 +10,12 @@ Here are the steps to set up date functionality:
 ```ts
 vuetifyOptions: {
   date: {
-    adapter: 'vuetify' // 'vuetify' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
+    adapter: 'vuetify' // 'vuetify' | 'string' | 'date-fns' | 'moment' | 'luxon' | 'dayjs' | 'js-joda' | 'date-fns-jalali' | 'jalaali' | 'hijri' | 'custom'
   }
 }
 ```
+
+Set `adapter: 'string'` to use Vuetify's built-in `StringDateAdapter` (Vuetify 3.9.0+), which works with ISO `YYYY-MM-DD` strings instead of `Date` objects.
 
 If the `@nuxtjs/i18n` module is installed, the `vuetifyOptions.date.locale` and `vuetifyOptions.date.rtl` options will be automatically configured. Please note that any manually configured `locale` entry will be ignored in this case.
 

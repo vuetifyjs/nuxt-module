@@ -7,7 +7,7 @@ import defu from 'defu'
 import { RESOLVED_VIRTUAL_MODULES } from '../vite/constants'
 import { prepareIcons } from './icons'
 import { mergeVuetifyModules } from './layers'
-import { cleanupBlueprint, detectDate, multipleDateAdaptersError, resolveVuetifyComponents } from './module'
+import { cleanupBlueprint, detectDate, isBuiltinDateAdapter, multipleDateAdaptersError, resolveVuetifyComponents } from './module'
 import { prepareSSRClientHints } from './ssr-client-hints'
 
 export async function load (
@@ -56,7 +56,7 @@ export async function load (
     }
 
     if (adapter) {
-      if (adapter === 'vuetify' || adapter === 'custom') {
+      if (isBuiltinDateAdapter(adapter)) {
         ctx.dateAdapter = adapter
       } else {
         if (date.includes(adapter)) {

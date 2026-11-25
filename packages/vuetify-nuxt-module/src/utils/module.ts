@@ -30,6 +30,13 @@ export function detectDate (paths: string[]) {
   return result
 }
 
+// Shipped by Vuetify itself (or supplied by the user): no `@date-io/*` package required.
+const builtinDateAdapters = new Set<DateAdapter>(['vuetify', 'string', 'custom'])
+
+export function isBuiltinDateAdapter (adapter: DateAdapter) {
+  return builtinDateAdapters.has(adapter)
+}
+
 export function multipleDateAdaptersError (adapters: DateAdapter[]) {
   return `Multiple date adapters found: ${adapters.map(adapter => `@date-io/${adapter}`).join(', ')}, please specify the adapter to use in the "vuetifyOptions.date.adapter" option.`
 }
