@@ -1,5 +1,5 @@
-import type { Nuxt } from '@nuxt/schema'
 import type { MOptions } from '../types'
+import type { Nuxt } from '@nuxt/schema'
 import { existsSync } from 'node:fs'
 import { isAbsolute, resolve } from 'pathe'
 

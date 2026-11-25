@@ -3,6 +3,6 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "vuetify": "^3.7.0"
+    "vuetify": "catalog:vuetify3"
   }
 }
