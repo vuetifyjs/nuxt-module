@@ -223,8 +223,8 @@ catalogs:
       specifier: ^3.3.11
       version: 3.3.11
     vuetify:
-      specifier: ^4.1.11
-      version: 4.1.11
+      specifier: ^4.3.4
+      version: 4.3.4
     workbox-build:
       specifier: ^7.4.1
       version: 7.4.1
@@ -365,7 +365,7 @@ importers:
         version: 3.7.2
       vuetify:
         specifier: 'catalog:'
-        version: 4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3))
+        version: 4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3))
     devDependencies:
       '@nuxt/devtools':
         specifier: 'catalog:'
@@ -466,7 +466,7 @@ importers:
         version: 4.5.2(magic-string@1.2.2)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.5)(unplugin@3.3.0(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2)(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26)))
       '@vuetify/loader-shared':
         specifier: 'catalog:'
-        version: 2.1.2(vue@3.5.41(typescript@5.9.3))(vuetify@4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3)))
+        version: 2.1.2(vue@3.5.41(typescript@5.9.3))(vuetify@4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3)))
       '@vuetify/unplugin-styles':
         specifier: 'catalog:'
         version: 1.0.0-rc.1(@nuxt/kit@4.5.2(magic-string@1.2.2)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.5)(unplugin@3.3.0(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2)(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26))))(@nuxt/schema@4.5.2)(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(sass-embedded@1.103.1)(sass@1.103.1)(vite@8.2.2)(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26))
@@ -581,7 +581,7 @@ importers:
         version: 3.3.11(typescript@5.9.3)
       vuetify:
         specifier: 'catalog:'
-        version: 4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3))
+        version: 4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3))
 
   packages/vuetify-nuxt-module/test/fixtures/basic-vuetify3:
     dependencies:
@@ -3780,6 +3780,42 @@ packages:
       vite:
         optional: true
       webpack:
+        optional: true
+
+  '@vuetify/v0@1.4.0':
+    resolution: {integrity: sha512-Kwk1RAYkCY7r+30iFi+UtSRLkI75qF1uhmPPA33fcHHbafkXUWb+FV3RkASSAVb8ZusLkk2vY3ZqWPy0iaYADg==}
+    peerDependencies:
+      '@adobe/leonardo-contrast-colors': '>=1.0.0'
+      '@ant-design/colors': '>=7.0.0'
+      '@flagsmith/flagsmith': '>=11.0.0'
+      '@floating-ui/dom': '>=1.8.0'
+      '@js-temporal/polyfill': '>=0.5.0'
+      '@material/material-color-utilities': '>=0.3.0'
+      '@vue/devtools-api': '>=7.0.0'
+      launchdarkly-js-client-sdk: ^3.0.0
+      posthog-js: ^1.0.0
+      vue: '>=3.5.0 || >=3.6.0-0'
+      vue-i18n: '>=10.0.0'
+    peerDependenciesMeta:
+      '@adobe/leonardo-contrast-colors':
+        optional: true
+      '@ant-design/colors':
+        optional: true
+      '@flagsmith/flagsmith':
+        optional: true
+      '@floating-ui/dom':
+        optional: true
+      '@js-temporal/polyfill':
+        optional: true
+      '@material/material-color-utilities':
+        optional: true
+      '@vue/devtools-api':
+        optional: true
+      launchdarkly-js-client-sdk:
+        optional: true
+      posthog-js:
+        optional: true
+      vue-i18n:
         optional: true
 
   '@vueuse/core@14.4.0':
@@ -8263,8 +8299,8 @@ packages:
       webpack-plugin-vuetify:
         optional: true
 
-  vuetify@4.1.11:
-    resolution: {integrity: sha512-pMzGsjha58Lbg9n/icMXCxcQN9rTczcOdMq3wMU1Qe+cfufl28eX4VUUzLwSsDgmLjTtUGsgZIkyYZFQy+SmIw==}
+  vuetify@4.3.4:
+    resolution: {integrity: sha512-7x32y/ZIUuKhcfTxgVaQ/oweISGHeVaZCauut/MsUmOKwG/nLEUiSvZcbQy+9j2D2MK3zprBXstK1QELCRqWsQ==}
     peerDependencies:
       typescript: '>=4.7'
       vite-plugin-vuetify: '>=2.1.0'
@@ -13081,11 +13117,11 @@ snapshots:
 
   '@vue/shared@3.5.41': {}
 
-  '@vuetify/loader-shared@2.1.2(vue@3.5.41(typescript@5.9.3))(vuetify@4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3)))':
+  '@vuetify/loader-shared@2.1.2(vue@3.5.41(typescript@5.9.3))(vuetify@4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3)))':
     dependencies:
       upath: 2.0.1
       vue: 3.5.41(typescript@5.9.3)
-      vuetify: 4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3))
+      vuetify: 4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3))
 
   '@vuetify/unplugin-styles@1.0.0-rc.1(@nuxt/kit@4.5.2(magic-string@1.2.2)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.5)(unplugin@3.3.0(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(vite@8.2.2)(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26))))(@nuxt/schema@4.5.2)(esbuild@0.28.2)(rolldown@1.2.5)(rollup@4.62.5)(sass-embedded@1.103.1)(sass@1.103.1)(vite@8.2.2)(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26))':
     dependencies:
@@ -13106,6 +13142,13 @@ snapshots:
       - rolldown
       - rollup
       - unloader
+
+  '@vuetify/v0@1.4.0(@vue/devtools-api@8.2.1)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.41(typescript@5.9.3)
+    optionalDependencies:
+      '@vue/devtools-api': 8.2.1
+      vue-i18n: 11.4.8(vue@3.5.41(typescript@5.9.3))
 
   '@vueuse/core@14.4.0(vue@3.5.41(typescript@5.9.3))':
     dependencies:
@@ -19015,11 +19058,23 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  vuetify@4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3)):
+  vuetify@4.3.4(@vue/devtools-api@8.2.1)(typescript@5.9.3)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3)):
     dependencies:
+      '@vuetify/v0': 1.4.0(@vue/devtools-api@8.2.1)(vue-i18n@11.4.8(vue@3.5.41(typescript@5.9.3)))(vue@3.5.41(typescript@5.9.3))
       vue: 3.5.41(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
+    transitivePeerDependencies:
+      - '@adobe/leonardo-contrast-colors'
+      - '@ant-design/colors'
+      - '@flagsmith/flagsmith'
+      - '@floating-ui/dom'
+      - '@js-temporal/polyfill'
+      - '@material/material-color-utilities'
+      - '@vue/devtools-api'
+      - launchdarkly-js-client-sdk
+      - posthog-js
+      - vue-i18n
 
   watchpack@2.5.2:
     dependencies:

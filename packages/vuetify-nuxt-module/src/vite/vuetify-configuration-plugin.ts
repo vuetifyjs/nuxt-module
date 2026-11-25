@@ -229,11 +229,23 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
     if (useLabComponents.length > 0) {
       componentsToImport.clear()
       const importMapLabComponents = await labComponentsPromise
+      const promotedToImport = new Map<string, string[]>()
       for (const component of useLabComponents) {
         const componentEntry = importMapLabComponents[component]
         const from = componentEntry?.from
         if (!from) {
-          logger.warn(`Lab Component ${component} not found in Vuetify.`)
+          // Promoted from labs to core (e.g. VAvatarGroup/VHighlight/VProgress in 4.3):
+          // register it from `vuetify/components` instead of dropping it.
+          const bucket = importMapComponents[component]?.from?.split('/', 2)[1]
+          if (bucket) {
+            logger.warn(`Lab Component ${component} has been promoted to Vuetify core, move it from \`labComponents\` to \`components\`.`)
+            if (!config.components.has(component as ComponentName)) {
+              config.components.add(component as ComponentName)
+              promotedToImport.set(bucket, [...(promotedToImport.get(bucket) ?? []), component])
+            }
+          } else {
+            logger.warn(`Lab Component ${component} not found in Vuetify.`)
+          }
           continue
         }
 
@@ -271,6 +283,9 @@ async function buildConfiguration (ctx: VuetifyNuxtContext) {
 
       for (const [from, componentsArray] of componentsToImport.entries()) {
         config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/labs/${from}'`)
+      }
+      for (const [from, componentsArray] of promotedToImport.entries()) {
+        config.imports.push(`import {${Array.from(new Set(componentsArray)).join(',')}} from 'vuetify/components/${from}'`)
       }
     }
   }
