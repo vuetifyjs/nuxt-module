@@ -2,6 +2,8 @@ packages:
   - packages/*
   - apps/*
   - docs
+  # Own vuetify@3 install, so the fixture doesn't silently fall back to the hoisted v4
+  - packages/vuetify-nuxt-module/test/fixtures/basic-vuetify3
 
 catalog:
   '@antfu/ni': ^30.5.0
@@ -100,3 +102,6 @@ allowBuilds:
   esbuild: true
   lefthook: true
   sharp: true
+catalogs:
+  vuetify3:
+    vuetify: ^3.7.0

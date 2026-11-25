@@ -231,6 +231,10 @@ catalogs:
     workbox-window:
       specifier: ^7.4.1
       version: 7.4.1
+  vuetify3:
+    vuetify:
+      specifier: ^3.7.0
+      version: 3.13.8
 
 importers:
 
@@ -578,6 +582,12 @@ importers:
       vuetify:
         specifier: 'catalog:'
         version: 4.1.11(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3))
+
+  packages/vuetify-nuxt-module/test/fixtures/basic-vuetify3:
+    dependencies:
+      vuetify:
+        specifier: catalog:vuetify3
+        version: 3.13.8(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3))
 
 packages:
 
@@ -8236,6 +8246,21 @@ packages:
       typescript: '*'
     peerDependenciesMeta:
       typescript:
+        optional: true
+
+  vuetify@3.13.8:
+    resolution: {integrity: sha512-Q/I4zVmkWBlTmy2oHEPvhfBQP/NQZBuXS1jaVhz0MzDUDNXnZN81EbnLcjJAgNrCb+tERgtozAm61lu4ux/g+w==}
+    peerDependencies:
+      typescript: '>=4.7'
+      vite-plugin-vuetify: '>=2.1.0'
+      vue: ^3.5.0
+      webpack-plugin-vuetify: '>=3.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vite-plugin-vuetify:
+        optional: true
+      webpack-plugin-vuetify:
         optional: true
 
   vuetify@4.1.11:
@@ -18981,6 +19006,12 @@ snapshots:
       '@vue/runtime-dom': 3.5.41
       '@vue/server-renderer': 3.5.41
       '@vue/shared': 3.5.41
+    optionalDependencies:
+      typescript: 5.9.3
+
+  vuetify@3.13.8(typescript@5.9.3)(vue@3.5.41(typescript@5.9.3)):
+    dependencies:
+      vue: 3.5.41(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
 
