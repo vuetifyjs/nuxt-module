@@ -8,55 +8,68 @@ Please check [Build Performance](https://vuetifyjs.com/en/features/sass-variable
 
 ## Overriding SASS Variables
 
-Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/). When using this Nuxt module, the configuration differs slightly from the standard Vuetify documentation.
+Vuetify allows for [overriding global and component-level SASS variables](https://vuetifyjs.com/en/features/sass-variables/). With this module, both kinds of variables live in a single settings file that you pass to the `styles.configFile` module option.
 
-1)  In your styles directory (for this example, we'll use `${srcDir}/assets/css`), create two files: `${srcDir}/assets/css/globals.scss` and `${srcDir}/assets/css/components.scss`.
-
-2)  In the `globals.scss` file, add the following content:
+1)  Create a settings file, for example `${srcDir}/assets/settings.scss`, and configure `vuetify/settings` in it:
 ::: code-group
 
-```scss [globals.scss]
-@use 'vuetify' with (
-    // Global Vuetify SASS variable overrides.  For example:
-    // $utilities: false,
-    // $reset: false,
-    // $color-pack: false,
-    // $body-font-family: sans-serif
-)
-```
+```scss [assets/settings.scss]
+@use 'vuetify/settings' with (
+  // Global variables
+  $body-font-family: ('Work Sans', sans-serif),
+  $heading-font-family: ('Mulish', sans-serif),
+  $font-size-root: 18px,
+  // $utilities: false,
+  // $reset: false,
+  // $color-pack: false,
 
-:::
-
-3)  In the `components.scss` file, add the following content:
-::: code-group
-
-```scss [components.scss]
-// $button-text-transform-override: capitalize;
-
-@forward 'vuetify/settings' with (
-    // Component Vuetify SASS variable overrides.  See https://vuetifyjs.com/en/features/sass-variables/#variable-api
-
-    // For example -- overriding button font capitalization (as seen at the bottom of the v-btn guide here https://vuetifyjs.com/en/api/v-btn/):
-    // $button-text-transform: $button-text-transform-override,
+  // Component variables, see https://vuetifyjs.com/en/features/sass-variables/#variable-api
+  $button-font-weight: 700,
+  $button-text-transform: capitalize,
 );
 ```
 
 :::
 
-4)  In your `nuxt.config.ts`, add a `css` entry to the `defineNuxtConfig` configuration object that points to `globals.scss`, as shown below:
+2)  Point the module at that file in your `nuxt.config.ts`:
 ::: code-group
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  css: ['@/assets/css/globals.scss']
-  // other options
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    moduleOptions: {
+      styles: { configFile: 'assets/settings.scss' }
+    }
+  }
 })
 ```
 
 :::
 
-> [!TIP]
-> The [css](https://nuxt.com/docs/getting-started/styling#the-css-property) property within your `defineNuxtConfig` will import all styles from the file that you specify (in our case, `globals.scss`) into all components for convenience. Any styles appended to the `globals.scss` file in addition to the Vuetify Global Variables override will also be imported into all of your components. If you would like more fine-grained control, consider using a different file for your non-Vuetify global styles, like a separate `main.scss` that you import on a component-by-component basis.
+The module then compiles Vuetify's global styles and the styles of every component with your settings, instead of loading the precompiled CSS. You do not need to add anything to the Nuxt `css` option.
 
+For a full list of variables, check the [global variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) and [all of the imports in the settings index](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_index.sass).
 
-You should now be able to override your [global Vuetify SASS variables](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_variables.scss) as well as your [component-level Vuetify SASS variables](https://vuetifyjs.com/en/features/sass-variables/#variable-api). For a full list of variables, please check [all of the imports in the index](https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_index.sass).
+::: tip
+Use `@forward 'vuetify/settings' with (...)` instead of `@use` if you also want to read the variables in your own components with `@use '~/assets/settings'`.
+:::
+
+### Do not load a second copy of the styles
+
+::: warning
+Do not configure Vuetify with `@use 'vuetify' with (...)` (or `@use 'vuetify/styles' with (...)`) in a file listed in the Nuxt `css` option, and do not add `vuetify/styles` to `css` yourself.
+:::
+
+The Vuetify documentation suggests `@use 'vuetify' with (...)` for projects that set up the styles manually. This module already adds Vuetify's styles for you, so that file becomes a second, differently configured copy:
+
+- without `styles.configFile`, the module adds the precompiled `vuetify/styles/core`, which ignores SASS variables;
+- with `styles.configFile`, the module adds the styles compiled with your settings file.
+
+In both cases the module's copy is loaded after your `css` entries and sits in the same cascade layer, so it wins. The typical symptom is that component variables apply while global ones such as `$body-font-family` or `$font-size-root` fall back to the defaults (`Roboto`, `1rem`). Move those variables to the settings file to fix it.
+
+### Things to know
+
+- **`$typography` is merged.** Vuetify deep-merges your map into its defaults, so you only need to list the text styles and keys you change.
+- **Fonts are not loaded for you.** `$body-font-family` and `$heading-font-family` only set `font-family`; Vuetify does not emit `@font-face`. Load the fonts separately, for example with [`@nuxt/fonts`](https://fonts.nuxt.com/).
+- **Compilation is slower than the precompiled CSS.** See [Experimental Cache](/guide/styling/caching).

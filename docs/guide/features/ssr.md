@@ -17,40 +17,6 @@ The module supports the following [HTTP Client hints](https://developer.mozilla.
 The [HTTP Client hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints) headers listed above are still in draft, and only Chromium based browsers support them: Chrome, Edge, Chromium and Opera.
 :::
 
-## Vuetify SASS Variables
-
-If you are customizing Vuetify SASS Variables via the [configFile](https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#customising-variables) module option with SSR enabled, you may need to disable `features.inlineStyles` (or `experimental.inlineSSRStyles` for Nuxt versions prior to `3.9.0`) in your Nuxt config file:
-::: code-group
-
-```ts [nuxt.config.ts]
-export default defineNuxtConfig({
-  ssr: true,
-  modules: ['vuetify-nuxt-module'],
-  vuetify: {
-    moduleOptions: {
-      /* other module options */
-      styles: { configFile: 'assets/settings.scss' }
-    },
-    vuetifyOptions: {
-      /* vuetify options */
-    }
-  },
-  /* For Nuxt 3.9.0+ */
-  features: {
-    inlineStyles: false
-  },
-  /* For Nuxt prior to 3.9.0
-  experimental: {
-    inlineSSRStyles: false
-  }
-  */
-})
-```
-
-:::
-
-For a more detailed example, see [Overriding SASS Variables](/guide/styling/sass#overriding-sass-variables).
-
 ## Vuetify Themes
 
 If you use multiple Vuetify Themes with SSR enabled, please note that Vuetify's [useTheme](https://vuetifyjs.com/en/api/use-theme/) will not work as expected, since the server cannot determine which theme to use (it will default to the standard theme).
